@@ -1,10 +1,6 @@
 package main.java;
 
-import main.java.codeanalysis.Lexer;
-import main.java.codeanalysis.SyntaxKind;
-import main.java.codeanalysis.SyntaxToken;
-import main.java.codeanalysis.Utilities;
-
+import main.java.codeanalysis.*;
 import java.util.Scanner;
 
 public class Main
@@ -34,19 +30,36 @@ public class Main
                 continue;
             }
 
-            Lexer lexer = new Lexer(input);
-            while(true)
-            {
-                SyntaxToken token = lexer.nextToken();
-                if(token.getKind() == SyntaxKind.EndOfFileToken)
-                    break;
+            Parser parser = new Parser(input);
+            ExpressionSyntax expression = parser.parse();
+            prettyPrint(expression, "");
+        }
+    }
 
-                System.out.print(String.format("%1$s: '%1$s'", token.getKind(), token.getText()));
-                if(token.getValue() != null)
-                    System.out.print(String.format("%s", token.getValue()));
+    private static void prettyPrint(SyntaxNode node, String indent)
+    {
+        //String marker = isLast ? "└──" : "├──";
 
-                System.out.println();
-            }
+        System.out.print(indent);
+        //System.out.print(marker);
+        System.out.print(node.getKind());
+
+        if(node instanceof SyntaxToken && ((SyntaxToken) node).getValue() != null)
+        {
+            System.out.print(" ");
+            System.out.print(((SyntaxToken) node).getValue());
+        }
+
+        System.out.println(" ");
+        indent += "    ";
+
+        //indent += isLast ? "    " : "│   ";
+
+        //SyntaxNode lastChild = node.getChildren().;
+
+        for(SyntaxNode child : node.getChildren())
+        {
+            prettyPrint(child, indent);
         }
     }
 }

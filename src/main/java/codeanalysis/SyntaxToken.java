@@ -1,6 +1,8 @@
 package main.java.codeanalysis;
 
-public class SyntaxToken
+import java.util.Collections;
+
+public class SyntaxToken extends SyntaxNode
 {
     private SyntaxKind kind;
     private int position;
@@ -15,7 +17,10 @@ public class SyntaxToken
         this.value = value;
     }
 
+    @Override
     public SyntaxKind getKind() { return kind; }
+    @Override
+    public Iterable<SyntaxNode> getChildren() { return Collections.emptyList(); }
     public int getPosition() { return position; }
     public String getText() { return text; }
     public Object getValue() { return value; }

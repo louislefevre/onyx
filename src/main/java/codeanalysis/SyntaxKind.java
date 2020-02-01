@@ -11,5 +11,6 @@ public enum SyntaxKind
     CloseParenthesisToken,
     MinusToken,
     BadToken,
-    EndOfFileToken
+    EndOfFileToken,
+    BinaryExpression, NumberExpression
 }
