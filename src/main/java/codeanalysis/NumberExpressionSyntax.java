@@ -17,5 +17,5 @@ public final class NumberExpressionSyntax extends ExpressionSyntax
     public SyntaxKind getKind() { return SyntaxKind.NumberExpression; }
     @Override
     public Iterable<SyntaxNode> getChildren() { return new ArrayList<>(Arrays.asList(this.numberToken)); }
-    public SyntaxToken getNumberToken() { return numberToken; }
+    public SyntaxToken getNumberToken() { return this.numberToken; }
 }

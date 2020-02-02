@@ -1,13 +1,18 @@
 package main.java.codeanalysis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Lexer
 {
     private final String text;
     private int position;
+    private List<String> diagnostics;
 
     public Lexer(String text)
     {
         this.text = text;
+        this.diagnostics = new ArrayList<>();
     }
 
     private char current()
@@ -16,6 +21,8 @@ public class Lexer
             return '\0';
         return this.text.charAt(this.position);
     }
+
+    public List<String> getDiagnostics() { return this.diagnostics; }
 
     private void next()
     {
@@ -35,7 +42,12 @@ public class Lexer
                 this.next();
 
             String text = this.text.substring(start, this.position);
-            int value = Integer.parseInt(text);
+            int value = 0;
+
+            if(Utilities.isParsable(text))
+                value = Integer.parseInt(text);
+            else
+                this.diagnostics.add(String.format("The number '%s' isn't a valid Int32", this.text));
 
             return new SyntaxToken(SyntaxKind.NumberToken, start, text, value);
         }
@@ -67,7 +79,8 @@ public class Lexer
             case ')':
                 return new SyntaxToken(SyntaxKind.CloseParenthesisToken, this.position++, ")", null);
             default:
-                return new SyntaxToken(SyntaxKind.BadToken, this.position++, text.substring(this.position-1, 1), null);
+                this.diagnostics.add(String.format("ERROR: Bad character '%s'", this.current()));
+                return new SyntaxToken(SyntaxKind.BadToken, this.position++, text.substring(this.position-1, this.position), null);
         }
     }
 }
