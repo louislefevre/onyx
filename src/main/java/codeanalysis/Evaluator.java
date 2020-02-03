@@ -14,7 +14,7 @@ public class Evaluator
         if(!errorsPresent())
         {
             try{
-                return EvaluateExpression(this.syntaxTree.getRoot());
+                return evaluateExpression(this.syntaxTree.getExpression());
             } catch(Exception error) {
                 System.out.println(error.getMessage());
             }
@@ -24,7 +24,7 @@ public class Evaluator
 
     private boolean errorsPresent()
     {
-        if(!this.syntaxTree.getDiagnostics().isEmpty())
+        if(!this.syntaxTree.getDiagnosticsLog().isEmpty())
         {
             this.syntaxTree.showDiagnostics();
             return true;
@@ -32,35 +32,48 @@ public class Evaluator
         return false;
     }
 
-    private int EvaluateExpression(ExpressionSyntax node) throws Exception
+    private int evaluateExpression(ExpressionSyntax node) throws Exception
     {
         if(node instanceof NumberExpressionSyntax)
-            return (int) ((NumberExpressionSyntax) node).getNumberToken().getValue();
+            return this.evaluateNumberExpression(node);
 
         if(node instanceof BinaryExpressionSyntax)
-        {
-            int left = EvaluateExpression(((BinaryExpressionSyntax) node).getLeft());
-            int right = EvaluateExpression(((BinaryExpressionSyntax) node).getRight());
-            SyntaxKind tokenKind = ((BinaryExpressionSyntax) node).getOperatorToken().getKind();
-
-            switch(tokenKind)
-            {
-                case PlusToken:
-                    return left + right;
-                case MinusToken:
-                    return left - right;
-                case StarToken:
-                    return left * right;
-                case SlashToken:
-                    return left / right;
-                default:
-                    throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
-            }
-        }
+            return this.evaluateBinaryExpression(node);
 
         if(node instanceof ParenthesizedExpressionSyntax)
-            return EvaluateExpression(((ParenthesizedExpressionSyntax) node).getExpression());
+            return this.evaluateParenthesizedExpression(node);
 
         throw new Exception(String.format("Unexpected node '%s'", node.getKind()));
+    }
+
+    private int evaluateNumberExpression(ExpressionSyntax node)
+    {
+        return (int) ((NumberExpressionSyntax) node).getNumberToken().getValue();
+    }
+
+    private int evaluateBinaryExpression(ExpressionSyntax node) throws Exception
+    {
+        int left = evaluateExpression(((BinaryExpressionSyntax) node).getLeft());
+        int right = evaluateExpression(((BinaryExpressionSyntax) node).getRight());
+        SyntaxKind tokenKind = ((BinaryExpressionSyntax) node).getOperatorToken().getKind();
+
+        switch(tokenKind)
+        {
+            case PlusToken:
+                return left + right;
+            case MinusToken:
+                return left - right;
+            case StarToken:
+                return left * right;
+            case SlashToken:
+                return left / right;
+            default:
+                throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
+        }
+    }
+
+    private int evaluateParenthesizedExpression(ExpressionSyntax node) throws Exception
+    {
+        return evaluateExpression(((ParenthesizedExpressionSyntax) node).getExpression());
     }
 }
