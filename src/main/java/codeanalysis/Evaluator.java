@@ -2,21 +2,34 @@ package main.java.codeanalysis;
 
 public class Evaluator
 {
-    private final ExpressionSyntax root;
+    private SyntaxTree syntaxTree;
 
-    public Evaluator(ExpressionSyntax root)
+    public Evaluator(SyntaxTree syntaxTree)
     {
-        this.root = root;
+        this.syntaxTree = syntaxTree;
     }
 
     public int evaluate()
     {
-        try{
-            return EvaluateExpression(this.root);
-        } catch(Exception error) {
-            System.out.println(error.getMessage());
-            return 0;
+        if(!errorsPresent())
+        {
+            try{
+                return EvaluateExpression(this.syntaxTree.getRoot());
+            } catch(Exception error) {
+                System.out.println(error.getMessage());
+            }
         }
+        return 0;
+    }
+
+    private boolean errorsPresent()
+    {
+        if(!this.syntaxTree.getDiagnostics().isEmpty())
+        {
+            this.syntaxTree.showDiagnostics();
+            return true;
+        }
+        return false;
     }
 
     private int EvaluateExpression(ExpressionSyntax node) throws Exception

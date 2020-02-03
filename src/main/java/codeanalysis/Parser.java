@@ -11,22 +11,22 @@ public class Parser
     private List<String> diagnostics;
     private int position;
 
-    public Parser(String text)
+    public Parser(Lexer lexer)
     {
-        this.lexer = new Lexer(text);
+        this.lexer = lexer;
         this.tokens = new ArrayList<>();
         this.diagnostics = new ArrayList<>();
 
         do
         {
-            this.token = lexer.nextToken();
+            this.token = this.lexer.nextToken();
 
             if(this.token.getKind() != SyntaxKind.WhiteSpace && this.token.getKind() != SyntaxKind.BadToken)
                 this.tokens.add(this.token);
 
         } while(this.token.getKind() != SyntaxKind.EndOfFileToken);
 
-        this.diagnostics.addAll(lexer.getDiagnostics());
+        this.diagnostics.addAll(this.lexer.getDiagnostics());
     }
 
     public List<String> getDiagnostics() { return this.diagnostics; }
@@ -61,12 +61,14 @@ public class Parser
         return parseTerm();
     }
 
-    public SyntaxTree parse()
+    public ExpressionSyntax getExpression()
     {
-        ExpressionSyntax expression = this.parseTerm();
-        SyntaxToken endOfFileToken = this.match(SyntaxKind.EndOfFileToken);
+        return this.parseTerm();
+    }
 
-        return new SyntaxTree(this.diagnostics, expression, endOfFileToken);
+    public SyntaxToken getEndOfFileToken()
+    {
+        return this.match(SyntaxKind.EndOfFileToken);
     }
 
     public ExpressionSyntax parseTerm()

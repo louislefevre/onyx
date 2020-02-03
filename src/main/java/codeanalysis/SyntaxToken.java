@@ -1,6 +1,7 @@
 package main.java.codeanalysis;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SyntaxToken extends SyntaxNode
 {
@@ -20,7 +21,7 @@ public class SyntaxToken extends SyntaxNode
     @Override
     public SyntaxKind getKind() { return kind; }
     @Override
-    public Iterable<SyntaxNode> getChildren() { return Collections.emptyList(); }
+    public List<SyntaxNode> getChildren() { return new ArrayList<>(); } // Collections.emptyList() instead?
     public int getPosition() { return position; }
     public String getText() { return text; }
     public Object getValue() { return value; }
