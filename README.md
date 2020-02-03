@@ -21,7 +21,7 @@ i. All variables must be declared private, and any final variables come first in
 ii. Reference variables should be declared first, and primitive variables second.  
 iii. Setters and getters should be ordered in the same order as they declaration.  
 iv. Scope of methods should limit access as much as possible.  
-v. Other methods should be ordered based on functionality order and/or access modifiers.
+v. Other methods should be ordered based on access modifiers, followed by workflow order.
 
 
 ## Blog Notes
