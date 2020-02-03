@@ -5,66 +5,66 @@ import java.util.List;
 
 public class Lexer
 {
-    private final String text;
+    private final String inputText;
+    private List<String> diagnosticsLog;
     private int position;
-    private List<String> diagnostics;
 
-    public Lexer(String text)
+    public Lexer(String inputText)
     {
-        this.text = text;
-        this.diagnostics = new ArrayList<>();
-    }
-
-    private char current()
-    {
-        if(this.position >= this.text.length())
-            return '\0';
-        return this.text.charAt(this.position);
-    }
-
-    public List<String> getDiagnostics() { return this.diagnostics; }
-
-    private void next()
-    {
-        this.position++;
+        this.inputText = inputText;
+        this.diagnosticsLog = new ArrayList<>();
+        this.position = 0;
     }
 
     public SyntaxToken nextToken()
     {
-        if(this.position >= this.text.length())
-            return new SyntaxToken(SyntaxKind.EndOfFileToken, this.position, "\0", null);
+        if(this.position >= this.inputText.length())
+            return this.endToken();
+        else if(Character.isDigit(this.currentChar()))
+            return this.numberToken();
+        else if(Character.isWhitespace(this.currentChar()))
+            return this.whitespaceToken();
+        return this.symbolToken();
+    }
 
-        if(Character.isDigit(this.current()))
-        {
-            int start = this.position;
+    private SyntaxToken endToken()
+    {
+        return new SyntaxToken(SyntaxKind.EndOfFileToken, this.position, "\0", null);
+    }
 
-            while(Character.isDigit(this.current()))
-                this.next();
+    private SyntaxToken numberToken()
+    {
+        int startPos = this.position;
+        int value = 0;
 
-            String text = this.text.substring(start, this.position);
-            int value = 0;
+        while(Character.isDigit(this.currentChar()))
+            this.nextPosition();
 
-            if(Utilities.isParsable(text))
-                value = Integer.parseInt(text);
-            else
-                this.diagnostics.add(String.format("The number '%s' isn't a valid Int32", this.text));
+        String text = this.inputText.substring(startPos, this.position);
 
-            return new SyntaxToken(SyntaxKind.NumberToken, start, text, value);
-        }
+        if(Utilities.isParsable(text))
+            value = Integer.parseInt(text);
+        else
+            this.diagnosticsLog.add(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
-        if(Character.isWhitespace(this.current()))
-        {
-            int start = this.position;
+        return new SyntaxToken(SyntaxKind.NumberToken, startPos, text, value);
+    }
 
-            while(Character.isWhitespace(this.current()))
-                this.next();
+    private SyntaxToken whitespaceToken()
+    {
+        int startPos = this.position;
 
-            String text = this.text.substring(start, this.position);
+        while(Character.isWhitespace(this.currentChar()))
+            this.nextPosition();
 
-            return new SyntaxToken(SyntaxKind.WhiteSpace, start, text, null);
-        }
+        String text = this.inputText.substring(startPos, this.position);
 
-        switch(this.current())
+        return new SyntaxToken(SyntaxKind.WhiteSpace, startPos, text, null);
+    }
+
+    private SyntaxToken symbolToken()
+    {
+        switch(this.currentChar())
         {
             case '+':
                 return new SyntaxToken(SyntaxKind.PlusToken, this.position++, "+", null);
@@ -79,8 +79,25 @@ public class Lexer
             case ')':
                 return new SyntaxToken(SyntaxKind.CloseParenthesisToken, this.position++, ")", null);
             default:
-                this.diagnostics.add(String.format("ERROR: Bad character '%s'", this.current()));
-                return new SyntaxToken(SyntaxKind.BadToken, this.position++, text.substring(this.position-1, this.position), null);
+                this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
+                return new SyntaxToken(SyntaxKind.BadToken, this.position++, inputText.substring(this.position-1, this.position), null);
         }
+    }
+
+    private char currentChar()
+    {
+        if(this.position >= this.inputText.length())
+            return '\0';
+        return this.inputText.charAt(this.position);
+    }
+
+    private void nextPosition()
+    {
+        this.position++;
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return this.diagnosticsLog;
     }
 }
