@@ -4,30 +4,24 @@ import java.util.List;
 
 public final class SyntaxTree
 {
-    private final List<String> diagnostics;
-    private ExpressionSyntax root;
-    private SyntaxToken endOfFileToken;
+    private final List<String> diagnosticsLog;
+    private ExpressionSyntax expression;
 
     public SyntaxTree(Parser parser)
     {
-        this.diagnostics = parser.getDiagnostics();
-        this.root = parser.getExpression();
-        this.endOfFileToken = parser.getEndOfFileToken();
+        this.diagnosticsLog = parser.getDiagnosticsLog();
+        this.expression = parser.getExpression();
     }
-
-    public List<String> getDiagnostics() { return this.diagnostics; }
-    public ExpressionSyntax getRoot() { return this.root; }
-    public SyntaxToken getEndOfFileToken() { return this.endOfFileToken; }
 
     public void showDiagnostics()
     {
-        for (String diagnostic : this.getDiagnostics())
+        for (String diagnostic : this.getDiagnosticsLog())
             System.out.println(diagnostic);
     }
 
     public void showTree()
     {
-        printTree(this.getRoot(), "", true);
+        printTree(this.getExpression(), "", true);
     }
 
     private void printTree(SyntaxNode node, String indent, boolean isLast)
@@ -48,5 +42,15 @@ public final class SyntaxTree
 
         for(SyntaxNode child : node.getChildren())
             printTree(child, indent, child == lastChild);
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return this.diagnosticsLog;
+    }
+
+    public ExpressionSyntax getExpression()
+    {
+        return this.expression;
     }
 }
