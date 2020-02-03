@@ -4,15 +4,19 @@ public enum SyntaxKind
 {
     NumberToken,
     WhiteSpace,
+
     PlusToken,
+    MinusToken,
     StarToken,
     SlashToken,
+
     OpenParenthesisToken,
     CloseParenthesisToken,
-    MinusToken,
-    BadToken,
-    EndOfFileToken,
+
     BinaryExpression,
     ParenthesizedExpression,
-    NumberExpression
+    NumberExpression,
+
+    BadToken,
+    EndOfFileToken
 }
