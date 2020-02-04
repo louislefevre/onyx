@@ -5,7 +5,7 @@ import java.util.List;
 public final class SyntaxTree
 {
     private final List<String> diagnosticsLog;
-    private ExpressionSyntax expression;
+    private Expression expression;
 
     public SyntaxTree(Parser parser)
     {
@@ -24,23 +24,23 @@ public final class SyntaxTree
         printTree(this.getExpression(), "", true);
     }
 
-    private void printTree(SyntaxNode node, String indent, boolean isLast)
+    private void printTree(Node node, String indent, boolean isLast)
     {
         String marker = isLast ? "└──" : "├──";
 
-        System.out.print(indent + marker + node.getKind());
+        System.out.print(indent + marker + node.getType());
 
-        if(node instanceof SyntaxToken && ((SyntaxToken) node).getValue() != null)
-            System.out.print(" " + ((SyntaxToken) node).getValue());
+        if(node instanceof Token && ((Token) node).getValue() != null)
+            System.out.print(" " + ((Token) node).getValue());
 
         System.out.println();
         indent += isLast ? "    " : "│   ";
 
-        SyntaxNode lastChild = null;
-        for(SyntaxNode child : node.getChildren())
+        Node lastChild = null;
+        for(Node child : node.getChildren())
             lastChild = child;
 
-        for(SyntaxNode child : node.getChildren())
+        for(Node child : node.getChildren())
             printTree(child, indent, child == lastChild);
     }
 
@@ -49,7 +49,7 @@ public final class SyntaxTree
         return this.diagnosticsLog;
     }
 
-    public ExpressionSyntax getExpression()
+    public Expression getExpression()
     {
         return this.expression;
     }

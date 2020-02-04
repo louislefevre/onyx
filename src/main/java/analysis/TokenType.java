@@ -1,9 +1,9 @@
 package main.java.codeanalysis;
 
-public enum SyntaxKind
+public enum TokenType
 {
     NumberToken,
-    WhiteSpace,
+    WhiteSpaceToken,
 
     PlusToken,
     MinusToken,
@@ -13,9 +13,9 @@ public enum SyntaxKind
     OpenParenthesisToken,
     CloseParenthesisToken,
 
-    BinaryExpression,
-    ParenthesizedExpression,
-    NumberExpression,
+    BinaryExpressionToken,
+    ParenthesizedExpressionToken,
+    NumberExpressionToken,
 
     BadToken,
     EndOfFileToken

@@ -16,7 +16,7 @@ public class Lexer
         this.position = 0;
     }
 
-    public SyntaxToken nextToken()
+    public Token nextToken()
     {
         if(this.position >= this.inputText.length())
             return this.endToken();
@@ -27,12 +27,12 @@ public class Lexer
         return this.symbolToken();
     }
 
-    private SyntaxToken endToken()
+    private Token endToken()
     {
-        return new SyntaxToken(SyntaxKind.EndOfFileToken, this.position, "\0", null);
+        return new Token(TokenType.EndOfFileToken, this.position, "\0", null);
     }
 
-    private SyntaxToken numberToken()
+    private Token numberToken()
     {
         int startPos = this.position;
         int value = 0;
@@ -47,10 +47,10 @@ public class Lexer
         else
             this.diagnosticsLog.add(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
-        return new SyntaxToken(SyntaxKind.NumberToken, startPos, text, value);
+        return new Token(TokenType.NumberToken, startPos, text, value);
     }
 
-    private SyntaxToken whitespaceToken()
+    private Token whitespaceToken()
     {
         int startPos = this.position;
 
@@ -59,28 +59,28 @@ public class Lexer
 
         String text = this.inputText.substring(startPos, this.position);
 
-        return new SyntaxToken(SyntaxKind.WhiteSpace, startPos, text, null);
+        return new Token(TokenType.WhiteSpaceToken, startPos, text, null);
     }
 
-    private SyntaxToken symbolToken()
+    private Token symbolToken()
     {
         switch(this.currentChar())
         {
             case '+':
-                return new SyntaxToken(SyntaxKind.PlusToken, this.position++, "+", null);
+                return new Token(TokenType.PlusToken, this.position++, "+", null);
             case '-':
-                return new SyntaxToken(SyntaxKind.MinusToken, this.position++, "-", null);
+                return new Token(TokenType.MinusToken, this.position++, "-", null);
             case '*':
-                return new SyntaxToken(SyntaxKind.StarToken, this.position++, "*", null);
+                return new Token(TokenType.StarToken, this.position++, "*", null);
             case '/':
-                return new SyntaxToken(SyntaxKind.SlashToken, this.position++, "/", null);
+                return new Token(TokenType.SlashToken, this.position++, "/", null);
             case '(':
-                return new SyntaxToken(SyntaxKind.OpenParenthesisToken, this.position++, "(", null);
+                return new Token(TokenType.OpenParenthesisToken, this.position++, "(", null);
             case ')':
-                return new SyntaxToken(SyntaxKind.CloseParenthesisToken, this.position++, ")", null);
+                return new Token(TokenType.CloseParenthesisToken, this.position++, ")", null);
             default:
                 this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new SyntaxToken(SyntaxKind.BadToken, this.position++, inputText.substring(this.position-1, this.position), null);
+                return new Token(TokenType.BadToken, this.position++, inputText.substring(this.position-1, this.position), null);
         }
     }
 

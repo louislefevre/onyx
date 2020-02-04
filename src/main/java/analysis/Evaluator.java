@@ -32,30 +32,30 @@ public class Evaluator
         return false;
     }
 
-    private int evaluateExpression(ExpressionSyntax node) throws Exception
+    private int evaluateExpression(Expression node) throws Exception
     {
-        if(node instanceof NumberExpressionSyntax)
+        if(node instanceof NumberExpression)
             return this.evaluateNumberExpression(node);
 
-        if(node instanceof BinaryExpressionSyntax)
+        if(node instanceof BinaryExpression)
             return this.evaluateBinaryExpression(node);
 
-        if(node instanceof ParenthesizedExpressionSyntax)
+        if(node instanceof ParenthesizedExpression)
             return this.evaluateParenthesizedExpression(node);
 
-        throw new Exception(String.format("Unexpected node '%s'", node.getKind()));
+        throw new Exception(String.format("Unexpected node '%s'", node.getType()));
     }
 
-    private int evaluateNumberExpression(ExpressionSyntax node)
+    private int evaluateNumberExpression(Expression node)
     {
-        return (int) ((NumberExpressionSyntax) node).getNumberToken().getValue();
+        return (int) ((NumberExpression) node).getNumberToken().getValue();
     }
 
-    private int evaluateBinaryExpression(ExpressionSyntax node) throws Exception
+    private int evaluateBinaryExpression(Expression node) throws Exception
     {
-        int left = evaluateExpression(((BinaryExpressionSyntax) node).getLeft());
-        int right = evaluateExpression(((BinaryExpressionSyntax) node).getRight());
-        SyntaxKind tokenKind = ((BinaryExpressionSyntax) node).getOperatorToken().getKind();
+        int left = evaluateExpression(((BinaryExpression) node).getLeftTerm());
+        int right = evaluateExpression(((BinaryExpression) node).getRightTerm());
+        TokenType tokenKind = ((BinaryExpression) node).getOperatorToken().getType();
 
         switch(tokenKind)
         {
@@ -72,8 +72,8 @@ public class Evaluator
         }
     }
 
-    private int evaluateParenthesizedExpression(ExpressionSyntax node) throws Exception
+    private int evaluateParenthesizedExpression(Expression node) throws Exception
     {
-        return evaluateExpression(((ParenthesizedExpressionSyntax) node).getExpression());
+        return evaluateExpression(((ParenthesizedExpression) node).getExpression());
     }
 }

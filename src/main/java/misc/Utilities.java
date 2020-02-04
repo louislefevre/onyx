@@ -1,6 +1,6 @@
-package main.java.codeanalysis;
+package main.java.misc;
 
-public class Utilities
+public final class Utilities
 {
     private Utilities() { }
 
