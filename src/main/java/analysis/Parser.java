@@ -1,4 +1,4 @@
-package main.java.codeanalysis;
+package main.java.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class Parser
         if(this.currentToken().getType() == kind)
             return this.nextToken();
         this.diagnosticsLog.add(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getType(), kind));
-        return new Token(kind, this.currentToken().getPosition(), null, null);
+        return new Token(kind, null, null, this.currentToken().getPosition());
     }
 
     private Expression parseExpression()

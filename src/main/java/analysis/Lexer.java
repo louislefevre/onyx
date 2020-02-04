@@ -1,4 +1,6 @@
-package main.java.codeanalysis;
+package main.java.analysis;
+
+import main.java.misc.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class Lexer
 
     private Token endToken()
     {
-        return new Token(TokenType.EndOfFileToken, this.position, "\0", null);
+        return new Token(TokenType.EndOfFileToken, "\0", null, this.position);
     }
 
     private Token numberToken()
@@ -47,7 +49,7 @@ public class Lexer
         else
             this.diagnosticsLog.add(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
-        return new Token(TokenType.NumberToken, startPos, text, value);
+        return new Token(TokenType.NumberToken, text, value, startPos);
     }
 
     private Token whitespaceToken()
@@ -59,7 +61,7 @@ public class Lexer
 
         String text = this.inputText.substring(startPos, this.position);
 
-        return new Token(TokenType.WhiteSpaceToken, startPos, text, null);
+        return new Token(TokenType.WhiteSpaceToken, text, null, startPos);
     }
 
     private Token symbolToken()
@@ -67,20 +69,20 @@ public class Lexer
         switch(this.currentChar())
         {
             case '+':
-                return new Token(TokenType.PlusToken, this.position++, "+", null);
+                return new Token(TokenType.PlusToken, "+", null, this.position++);
             case '-':
-                return new Token(TokenType.MinusToken, this.position++, "-", null);
+                return new Token(TokenType.MinusToken, "-", null, this.position++);
             case '*':
-                return new Token(TokenType.StarToken, this.position++, "*", null);
+                return new Token(TokenType.StarToken, "*", null, this.position++);
             case '/':
-                return new Token(TokenType.SlashToken, this.position++, "/", null);
+                return new Token(TokenType.SlashToken, "/", null, this.position++);
             case '(':
-                return new Token(TokenType.OpenParenthesisToken, this.position++, "(", null);
+                return new Token(TokenType.OpenParenthesisToken, "(", null, this.position++);
             case ')':
-                return new Token(TokenType.CloseParenthesisToken, this.position++, ")", null);
+                return new Token(TokenType.CloseParenthesisToken, ")", null, this.position++);
             default:
                 this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new Token(TokenType.BadToken, this.position++, inputText.substring(this.position-1, this.position), null);
+                return new Token(TokenType.BadToken, inputText.substring(this.position-1, this.position), null, this.position++);
         }
     }
 

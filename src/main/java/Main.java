@@ -1,6 +1,6 @@
 package main.java;
 
-import main.java.codeanalysis.Compiler;
+import main.java.analysis.Compiler;
 
 import java.util.Scanner;
 

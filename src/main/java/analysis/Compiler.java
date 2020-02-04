@@ -1,4 +1,4 @@
-package main.java.codeanalysis;
+package main.java.analysis;
 
 public class Compiler
 {
