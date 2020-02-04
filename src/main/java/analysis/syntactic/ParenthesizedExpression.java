@@ -1,4 +1,8 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.Node;
+import main.java.analysis.lexical.Token;
+import main.java.analysis.lexical.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,9 +10,9 @@ import java.util.List;
 
 public final class ParenthesizedExpression extends Expression
 {
-    private Token openParenthesisToken;
-    private Expression expression;
-    private Token closeParenthesisToken;
+    private final Token openParenthesisToken;
+    private final Expression expression;
+    private final Token closeParenthesisToken;
 
     public ParenthesizedExpression(Token openParenthesisToken, Expression expression, Token closeParenthesisToken)
     {

@@ -1,4 +1,4 @@
-package main.java.analysis;
+package main.java.analysis.lexical;
 
 import main.java.misc.Utilities;
 
@@ -8,7 +8,7 @@ import java.util.List;
 public class Lexer
 {
     private final String inputText;
-    private List<String> diagnosticsLog;
+    private final List<String> diagnosticsLog;
     private int position;
 
     public Lexer(String inputText)
@@ -31,7 +31,7 @@ public class Lexer
 
     private Token endToken()
     {
-        return new Token(TokenType.EndOfFileToken, "\0", null, this.position);
+        return new Token(TokenType.EOFToken, "\0", null, this.position);
     }
 
     private Token numberToken()

@@ -1,4 +1,8 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.Node;
+import main.java.analysis.lexical.Token;
+import main.java.analysis.lexical.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,9 +10,9 @@ import java.util.List;
 
 public final class BinaryExpression extends Expression
 {
-    private Expression leftTerm;
-    private Token operatorToken;
-    private Expression rightTerm;
+    private final Expression leftTerm;
+    private final Token operatorToken;
+    private final Expression rightTerm;
 
     public BinaryExpression(Expression leftTerm, Token operatorToken, Expression rightTerm)
     {

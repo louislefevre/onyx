@@ -1,8 +1,10 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.TokenType;
 
 public class Evaluator
 {
-    private SyntaxTree syntaxTree;
+    private final SyntaxTree syntaxTree;
 
     public Evaluator(SyntaxTree syntaxTree)
     {

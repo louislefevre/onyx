@@ -1,4 +1,4 @@
-package main.java.analysis;
+package main.java.analysis.lexical;
 
 public enum TokenType
 {
@@ -18,5 +18,5 @@ public enum TokenType
     NumberExpressionToken,
 
     BadToken,
-    EndOfFileToken
+    EOFToken
 }

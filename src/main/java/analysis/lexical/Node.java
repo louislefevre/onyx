@@ -1,4 +1,4 @@
-package main.java.analysis;
+package main.java.analysis.lexical;
 
 import java.util.List;
 

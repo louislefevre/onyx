@@ -1,14 +1,14 @@
-package main.java.analysis;
+package main.java.analysis.lexical;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class Token extends Node
 {
-    private TokenType type;
-    private String text;
-    private Object value;
-    private int position;
+    private final TokenType type;
+    private final String text;
+    private final Object value;
+    private final int position;
 
     public Token(TokenType type, String text, Object value, int position)
     {
@@ -28,11 +28,6 @@ public class Token extends Node
     public List<Node> getChildren()
     {
         return new ArrayList<>(); // Collections.emptyList() instead?
-    }
-
-    public String getText()
-    {
-        return this.text;
     }
 
     public Object getValue()

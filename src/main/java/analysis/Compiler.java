@@ -1,8 +1,13 @@
 package main.java.analysis;
 
+import main.java.analysis.lexical.Lexer;
+import main.java.analysis.syntactic.Evaluator;
+import main.java.analysis.syntactic.Parser;
+import main.java.analysis.syntactic.SyntaxTree;
+
 public class Compiler
 {
-    private String input;
+    private final String input;
 
     public Compiler(String input)
     {

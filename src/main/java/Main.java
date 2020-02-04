@@ -24,7 +24,6 @@ public class Main
     {
         System.out.print("> ");
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-        return input;
+        return scanner.nextLine();
     }
 }

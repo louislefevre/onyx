@@ -1,12 +1,16 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.Node;
+import main.java.analysis.lexical.Token;
+import main.java.analysis.lexical.TokenType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class NumberExpression extends Expression
 {
-    private Token numberToken;
+    private final Token numberToken;
 
     public NumberExpression(Token numberToken)
     {
@@ -22,7 +26,7 @@ public final class NumberExpression extends Expression
     @Override
     public List<Node> getChildren()
     {
-        return new ArrayList<>(Arrays.asList(this.numberToken));
+        return new ArrayList<>(Collections.singletonList(this.numberToken));
     }
 
     public Token getNumberToken()

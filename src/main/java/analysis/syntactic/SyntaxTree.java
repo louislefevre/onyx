@@ -1,11 +1,14 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.Token;
+import main.java.analysis.lexical.Node;
 
 import java.util.List;
 
 public final class SyntaxTree
 {
     private final List<String> diagnosticsLog;
-    private Expression expression;
+    private final Expression expression;
 
     public SyntaxTree(Parser parser)
     {

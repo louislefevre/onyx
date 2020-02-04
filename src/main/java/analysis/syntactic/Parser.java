@@ -1,13 +1,17 @@
-package main.java.analysis;
+package main.java.analysis.syntactic;
+
+import main.java.analysis.lexical.Lexer;
+import main.java.analysis.lexical.Token;
+import main.java.analysis.lexical.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Parser
 {
-    private Lexer lexer;
-    private List<Token> tokens;
-    private List<String> diagnosticsLog;
+    private final Lexer lexer;
+    private final List<Token> tokens;
+    private final List<String> diagnosticsLog;
     private int position;
 
     public Parser(Lexer lexer)
@@ -28,7 +32,7 @@ public class Parser
             token = this.lexer.nextToken();
             if(token.getType() != TokenType.BadToken && token.getType() != TokenType.WhiteSpaceToken)
                 this.tokens.add(token);
-        }while(token.getType() != TokenType.EndOfFileToken);
+        }while(token.getType() != TokenType.EOFToken);
     }
 
     private void addDiagnostics()
