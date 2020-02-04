@@ -1,4 +1,4 @@
-# onyx-compiler
+# Onyx Compiler
 Custom compiler written in Java.
 
 ## Conventions
@@ -24,5 +24,5 @@ iv. Scope of methods should limit access as much as possible.
 v. Other methods should be ordered based on access modifiers, followed by workflow order.
 
 
-## Blog Notes
+## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
