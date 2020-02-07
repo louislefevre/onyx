@@ -1,6 +1,6 @@
-package main.java.analysis.syntactic;
+package analysis.syntactic;
 
-import main.java.analysis.lexical.Node;
+import analysis.lexical.Node;
 
 public abstract class Expression extends Node
 {

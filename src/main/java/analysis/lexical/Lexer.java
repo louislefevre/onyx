@@ -1,4 +1,4 @@
-package main.java.analysis.lexical;
+package analysis.lexical;
 
 import main.java.misc.Utilities;
 

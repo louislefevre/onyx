@@ -1,7 +1,7 @@
-package main.java.analysis.syntactic;
+package analysis.syntactic;
 
-import main.java.analysis.lexical.Token;
-import main.java.analysis.lexical.Node;
+import analysis.lexical.Token;
+import analysis.lexical.Node;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package main.java.analysis.syntactic;
+package analysis.syntactic;
 
-import main.java.analysis.lexical.TokenType;
+import analysis.lexical.TokenType;
 
 public class Evaluator
 {

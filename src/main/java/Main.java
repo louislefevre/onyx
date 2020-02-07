@@ -1,6 +1,4 @@
-package main.java;
-
-import main.java.analysis.Compiler;
+import analysis.Compiler;
 
 import java.util.Scanner;
 

@@ -1,8 +1,8 @@
-package main.java.analysis.syntactic;
+package analysis.syntactic;
 
-import main.java.analysis.lexical.Lexer;
-import main.java.analysis.lexical.Token;
-import main.java.analysis.lexical.TokenType;
+import analysis.lexical.Lexer;
+import analysis.lexical.Token;
+import analysis.lexical.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;

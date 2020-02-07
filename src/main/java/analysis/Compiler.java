@@ -1,9 +1,9 @@
-package main.java.analysis;
+package analysis;
 
-import main.java.analysis.lexical.Lexer;
-import main.java.analysis.syntactic.Evaluator;
-import main.java.analysis.syntactic.Parser;
-import main.java.analysis.syntactic.SyntaxTree;
+import analysis.lexical.Lexer;
+import analysis.syntactic.Parser;
+import analysis.syntactic.SyntaxTree;
+import analysis.syntactic.Evaluator;
 
 public class Compiler
 {
