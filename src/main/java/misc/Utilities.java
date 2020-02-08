@@ -1,4 +1,4 @@
-package main.java.misc;
+package misc;
 
 public final class Utilities
 {
