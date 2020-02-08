@@ -46,7 +46,7 @@ public class Parser
         if(this.currentToken().getType() == kind)
             return this.nextToken();
         this.diagnosticsLog.add(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getType(), kind));
-        return new Token(kind, null, null, this.currentToken().getPosition());
+        return new Token(kind, this.currentToken().getPosition());
     }
 
     private Expression parseExpression()

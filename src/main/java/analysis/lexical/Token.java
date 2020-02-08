@@ -21,4 +21,14 @@ public class Token extends Node
         this.position = position;
         this.children = new ArrayList<>();
     }
+
+    public Token(TokenType type, String text, int position)
+    {
+        this(type, text, null, position);
+    }
+
+    public Token(TokenType type, int position)
+    {
+        this(type, null, position);
+    }
 }

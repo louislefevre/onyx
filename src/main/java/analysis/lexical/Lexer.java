@@ -32,7 +32,7 @@ public class Lexer
 
     private Token endToken()
     {
-        return new Token(TokenType.EOFToken, "\0", null, this.position);
+        return new Token(TokenType.EOFToken, "\0", this.position);
     }
 
     private Token numberToken()
@@ -62,7 +62,7 @@ public class Lexer
 
         String text = this.inputText.substring(startPos, this.position);
 
-        return new Token(TokenType.WhiteSpaceToken, text, null, startPos);
+        return new Token(TokenType.WhiteSpaceToken, text, startPos);
     }
 
     private Token symbolToken()
@@ -70,20 +70,20 @@ public class Lexer
         switch(this.currentChar())
         {
             case '+':
-                return new Token(TokenType.PlusToken, "+", null, this.position++);
+                return new Token(TokenType.PlusToken, "+", this.position++);
             case '-':
-                return new Token(TokenType.MinusToken, "-", null, this.position++);
+                return new Token(TokenType.MinusToken, "-", this.position++);
             case '*':
-                return new Token(TokenType.StarToken, "*", null, this.position++);
+                return new Token(TokenType.StarToken, "*", this.position++);
             case '/':
-                return new Token(TokenType.SlashToken, "/", null, this.position++);
+                return new Token(TokenType.SlashToken, "/", this.position++);
             case '(':
-                return new Token(TokenType.OpenParenthesisToken, "(", null, this.position++);
+                return new Token(TokenType.OpenParenthesisToken, "(", this.position++);
             case ')':
-                return new Token(TokenType.CloseParenthesisToken, ")", null, this.position++);
+                return new Token(TokenType.CloseParenthesisToken, ")", this.position++);
             default:
                 this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new Token(TokenType.BadToken, inputText.substring(this.position-1, this.position), null, this.position++);
+                return new Token(TokenType.BadToken, inputText.substring(this.position-1, this.position), this.position++);
         }
     }
 
