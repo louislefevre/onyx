@@ -3,6 +3,7 @@ package analysis.syntactic;
 import analysis.lexical.Node;
 import analysis.lexical.Token;
 import analysis.lexical.TokenType;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,22 +11,18 @@ import java.util.List;
 
 public final class BinaryExpression extends Expression
 {
-    private final Expression leftTerm;
-    private final Token operatorToken;
-    private final Expression rightTerm;
+    @Getter private final Expression leftTerm;
+    @Getter private final Token operatorToken;
+    @Getter private final Expression rightTerm;
+    @Getter private final TokenType type;
+    @Getter private final List<Node> children;
 
     public BinaryExpression(Expression leftTerm, Token operatorToken, Expression rightTerm)
     {
         this.leftTerm = leftTerm;
         this.operatorToken = operatorToken;
         this.rightTerm = rightTerm;
+        this.type = TokenType.BinaryExpressionToken;
+        this.children = new ArrayList<>(Arrays.asList(this.leftTerm, this.operatorToken, this.rightTerm));
     }
-
-    @Override
-    public TokenType getType() { return TokenType.BinaryExpressionToken; }
-    @Override
-    public List<Node> getChildren() { return new ArrayList<>(Arrays.asList(this.leftTerm, this.operatorToken, this.rightTerm)); }
-    public Expression getLeftTerm() { return this.leftTerm; }
-    public Token getOperatorToken() { return this.operatorToken; }
-    public Expression getRightTerm() { return this.rightTerm; }
 }

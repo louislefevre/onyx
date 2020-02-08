@@ -2,13 +2,14 @@ package analysis.syntactic;
 
 import analysis.lexical.Token;
 import analysis.lexical.Node;
+import lombok.Getter;
 
 import java.util.List;
 
 public final class SyntaxTree
 {
-    private final List<String> diagnosticsLog;
-    private final Expression expression;
+    @Getter private final List<String> diagnosticsLog;
+    @Getter private final Expression expression;
 
     public SyntaxTree(Parser parser)
     {
@@ -45,15 +46,5 @@ public final class SyntaxTree
 
         for(Node child : node.getChildren())
             printTree(child, indent, child == lastChild);
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
-    }
-
-    public Expression getExpression()
-    {
-        return this.expression;
     }
 }

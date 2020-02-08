@@ -3,6 +3,7 @@ package analysis.syntactic;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 import analysis.lexical.TokenType;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public class Parser
 {
     private final Lexer lexer;
     private final List<Token> tokens;
-    private final List<String> diagnosticsLog;
+    @Getter private final List<String> diagnosticsLog;
     private int position;
 
     public Parser(Lexer lexer)
@@ -113,11 +114,6 @@ public class Parser
         if(index >= this.tokens.size())
             return this.tokens.get(this.tokens.size() - 1);
         return this.tokens.get(index);
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
     }
 
     public Expression getExpression()

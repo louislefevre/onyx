@@ -1,14 +1,17 @@
 package analysis.lexical;
 
-import java.util.List;
+import lombok.Getter;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Token extends Node
 {
-    private final TokenType type;
-    private final String text;
-    private final Object value;
-    private final int position;
+    @Getter private final TokenType type;
+    @Getter private final String text;
+    @Getter private final Object value;
+    @Getter private final int position;
+    @Getter private final List<Node> children;
 
     public Token(TokenType type, String text, Object value, int position)
     {
@@ -16,27 +19,6 @@ public class Token extends Node
         this.text = text;
         this.value = value;
         this.position = position;
-    }
-
-    @Override
-    public TokenType getType()
-    {
-        return this.type;
-    }
-
-    @Override
-    public List<Node> getChildren()
-    {
-        return new ArrayList<>(); // Collections.emptyList() instead?
-    }
-
-    public Object getValue()
-    {
-        return this.value;
-    }
-
-    public int getPosition()
-    {
-        return this.position;
+        this.children = new ArrayList<>();
     }
 }

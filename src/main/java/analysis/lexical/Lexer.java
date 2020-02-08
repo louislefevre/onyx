@@ -1,6 +1,7 @@
 package analysis.lexical;
 
-import main.java.misc.Utilities;
+import lombok.Getter;
+import misc.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class Lexer
 {
     private final String inputText;
-    private final List<String> diagnosticsLog;
+    @Getter private final List<String> diagnosticsLog;
     private int position;
 
     public Lexer(String inputText)
@@ -96,10 +97,5 @@ public class Lexer
     private void nextPosition()
     {
         this.position++;
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
     }
 }
