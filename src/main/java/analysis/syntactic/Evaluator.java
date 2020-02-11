@@ -36,7 +36,7 @@ public final class Evaluator
 
     private int evaluateExpression(Expression node) throws Exception
     {
-        if(node instanceof NumberExpression)
+        if(node instanceof LiteralExpression)
             return this.evaluateNumberExpression(node);
 
         if(node instanceof BinaryExpression)
@@ -50,7 +50,7 @@ public final class Evaluator
 
     private int evaluateNumberExpression(Expression node)
     {
-        return (int) ((NumberExpression) node).getNumberToken().getValue();
+        return (int) ((LiteralExpression) node).getLiteralToken().getValue();
     }
 
     private int evaluateBinaryExpression(Expression node) throws Exception

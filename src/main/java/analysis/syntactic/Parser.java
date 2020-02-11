@@ -41,7 +41,7 @@ public final class Parser
         this.diagnosticsLog.addAll(this.lexer.getDiagnosticsLog());
     }
 
-    private Token match(TokenType kind)
+    private Token matchTokens(TokenType kind)
     {
         if(this.currentToken().getType() == kind)
             return this.nextToken();
@@ -88,12 +88,12 @@ public final class Parser
         {
             Token left = this.nextToken();
             Expression expression = this.parseExpression();
-            Token right = this.match(TokenType.CloseParenthesisToken);
+            Token right = this.matchTokens(TokenType.CloseParenthesisToken);
             return new ParenthesizedExpression(left, expression, right);
         }
 
-        Token numberToken = this.match(TokenType.NumberToken);
-        return new NumberExpression(numberToken);
+        Token numberToken = this.matchTokens(TokenType.NumberToken);
+        return new LiteralExpression(numberToken);
     }
 
     private Token nextToken()
