@@ -2,7 +2,7 @@ package analysis.syntactic;
 
 import analysis.lexical.TokenType;
 
-public class Evaluator
+public final class Evaluator
 {
     private final SyntaxTree syntaxTree;
 

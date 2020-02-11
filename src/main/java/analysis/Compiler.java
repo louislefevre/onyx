@@ -5,7 +5,7 @@ import analysis.syntactic.Parser;
 import analysis.syntactic.SyntaxTree;
 import analysis.syntactic.Evaluator;
 
-public class Compiler
+public final class Compiler
 {
     private final String input;
 

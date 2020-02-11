@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser
+public final class Parser
 {
     private final Lexer lexer;
     private final List<Token> tokens;

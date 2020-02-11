@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Token extends Node
+public final class Token extends Node
 {
     @Getter private final TokenType type;
     @Getter private final String text;
