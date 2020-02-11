@@ -60,7 +60,7 @@ public final class Parser
 
         while(true)
         {
-            int precedence = getBinaryOperatorPrecedence(this.currentToken().getType());
+            int precedence = Syntax.getBinaryOperatorPrecedence(this.currentToken().getType());
             if(precedence == 0 || precedence <= parentPrecedence)
                 break;
 
@@ -70,21 +70,6 @@ public final class Parser
         }
 
         return left;
-    }
-
-    private static int getBinaryOperatorPrecedence(TokenType type)
-    {
-        switch(type)
-        {
-            case StarToken:
-            case SlashToken:
-                return 2;
-            case PlusToken:
-            case MinusToken:
-                return 1;
-            default:
-                return 0;
-        }
     }
 
     private Expression parsePrimaryExpression()
