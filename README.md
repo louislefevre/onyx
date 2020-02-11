@@ -27,16 +27,16 @@ The following is a brief overview of the syntax for the language:
   - ==
     - equals
     - "If num equals 5"
-  - +
+  - \+
     - plus
     - "num plus 10"
-  - -
+  - \-
     - minus
     - "num minus 10"
   - /
     - divide
     - "num divide 2"
-  - *
+  - \*
     - multiply
     - "num multiply 5"
 - Functions
@@ -57,6 +57,16 @@ The following is a brief overview of the syntax for the language:
 - Booleans
   - Bool
   - "Bool bool is true"
+  
+Example program written in Onyx:
+<pre>
+Task addNumbers()
+{
+  Number myNum is 0
+  Loop loopNum from 0 to 100:
+    myNum plus loopNum
+}
+</pre>
 
 
 ## Conventions
