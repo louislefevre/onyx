@@ -39,6 +39,12 @@ The following is a brief overview of the syntax for the language:
   - \*
     - multiply
     - "num multiply 5"
+  - >
+    - greater than
+    - "If myNum greater than num"
+  - <
+    - less than
+    - "If myNum less than num"
 - Functions
   - Task
   - "Task addNumbers():"
