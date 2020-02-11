@@ -13,4 +13,11 @@ public final class Utilities
             return false;
         }
     }
+
+    public static int minimumZero(int num)
+    {
+        if(num <= 0)
+            return 0;
+        return num;
+    }
 }

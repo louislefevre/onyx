@@ -83,7 +83,7 @@ public class Lexer
                 return new Token(TokenType.CloseParenthesisToken, ")", this.position++);
             default:
                 this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new Token(TokenType.BadToken, inputText.substring(this.position-1, this.position), this.position++);
+                return new Token(TokenType.BadToken, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
         }
     }
 
