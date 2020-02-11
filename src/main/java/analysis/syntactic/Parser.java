@@ -25,6 +25,11 @@ public final class Parser
         this.addDiagnostics();
     }
 
+    public Expression getExpression()
+    {
+        return this.parseExpression(0);
+    }
+
     private void addTokens()
     {
         Token token;
@@ -49,37 +54,37 @@ public final class Parser
         return new Token(kind, this.currentToken().getPosition());
     }
 
-    private Expression parseExpression()
+    private Expression parseExpression(int parentPrecedence)
     {
-        return this.parseTerm();
-    }
+        Expression left = parsePrimaryExpression();
 
-    private Expression parseTerm()
-    {
-        Expression leftTerm = this.parseFactor();
-
-        while(this.currentToken().getType() == TokenType.PlusToken || this.currentToken().getType() == TokenType.MinusToken)
+        while(true)
         {
+            int precedence = getBinaryOperatorPrecedence(this.currentToken().getType());
+            if(precedence == 0 || precedence <= parentPrecedence)
+                break;
+
             Token operatorToken = this.nextToken();
-            Expression rightTerm = this.parseFactor();
-            leftTerm = new BinaryExpression(leftTerm, operatorToken, rightTerm);
+            Expression right = this.parseExpression(precedence);
+            left = new BinaryExpression(left, operatorToken, right);
         }
 
-        return leftTerm;
+        return left;
     }
 
-    private Expression parseFactor()
+    private static int getBinaryOperatorPrecedence(TokenType type)
     {
-        Expression leftTerm = this.parsePrimaryExpression();
-
-        while(this.currentToken().getType() == TokenType.StarToken || this.currentToken().getType() == TokenType.SlashToken)
+        switch(type)
         {
-            Token operatorToken = this.nextToken();
-            Expression rightTerm = this.parsePrimaryExpression();
-            leftTerm = new BinaryExpression(leftTerm, operatorToken, rightTerm);
+            case StarToken:
+            case SlashToken:
+                return 2;
+            case PlusToken:
+            case MinusToken:
+                return 1;
+            default:
+                return 0;
         }
-
-        return leftTerm;
     }
 
     private Expression parsePrimaryExpression()
@@ -87,7 +92,7 @@ public final class Parser
         if(this.currentToken().getType() == TokenType.OpenParenthesisToken)
         {
             Token left = this.nextToken();
-            Expression expression = this.parseExpression();
+            Expression expression = this.parseExpression(0);
             Token right = this.matchTokens(TokenType.CloseParenthesisToken);
             return new ParenthesizedExpression(left, expression, right);
         }
@@ -114,10 +119,5 @@ public final class Parser
         if(index >= this.tokens.size())
             return this.tokens.get(this.tokens.size() - 1);
         return this.tokens.get(index);
-    }
-
-    public Expression getExpression()
-    {
-        return this.parseExpression();
     }
 }
