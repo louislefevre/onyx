@@ -56,7 +56,19 @@ public final class Parser
 
     private Expression parseExpression(int parentPrecedence)
     {
-        Expression left = parsePrimaryExpression();
+        Expression left;
+        int unaryOperatorPrecedence = Syntax.getUnaryOperatorPrecedence(this.currentToken().getType());
+
+        if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+        {
+            Token operatorToken = this.nextToken();
+            Expression operand = this.parseExpression(unaryOperatorPrecedence);
+            left = new UnaryExpression(operatorToken, operand);
+        }
+        else
+        {
+            left = this.parsePrimaryExpression();
+        }
 
         while(true)
         {

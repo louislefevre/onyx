@@ -39,6 +39,9 @@ public final class Evaluator
         if(node instanceof LiteralExpression)
             return this.evaluateNumberExpression(node);
 
+        if(node instanceof UnaryExpression)
+            return this.evaluateUnaryExpression(node);
+
         if(node instanceof BinaryExpression)
             return this.evaluateBinaryExpression(node);
 
@@ -51,6 +54,19 @@ public final class Evaluator
     private int evaluateNumberExpression(Expression node)
     {
         return (int) ((LiteralExpression) node).getLiteralToken().getValue();
+    }
+
+    private int evaluateUnaryExpression(Expression node) throws Exception
+    {
+        int operand = this.evaluateExpression(((UnaryExpression) node).getOperand());
+        TokenType operatorType = ((UnaryExpression) node).getOperatorToken().getType();
+
+        if(operatorType == TokenType.PlusToken)
+            return operand;
+        else if(operatorType == TokenType.MinusToken)
+            return -operand;
+        else
+            throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
     }
 
     private int evaluateBinaryExpression(Expression node) throws Exception

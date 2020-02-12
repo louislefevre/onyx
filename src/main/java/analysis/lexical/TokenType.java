@@ -15,11 +15,12 @@ public enum TokenType
     CloseParenthesisToken,
 
     // Expression Tokens
+    LiteralExpressionToken,
+    UnaryExpressionToken,
     BinaryExpressionToken,
     ParenthesizedExpressionToken,
-    LiteralExpressionToken,
 
     // Break Tokens
     BadToken,
-    EOFToken
+    EOFToken,
 }
