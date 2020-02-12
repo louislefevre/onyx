@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class NumberExpression extends Expression
+public final class LiteralExpression extends Expression
 {
-    @Getter private final Token numberToken;
+    @Getter private final Token literalToken;
     @Getter private final TokenType type;
     @Getter private final List<Node> children;
 
-    public NumberExpression(Token numberToken)
+    public LiteralExpression(Token literalToken)
     {
-        this.numberToken =  numberToken;
-        this.type = TokenType.NumberExpressionToken;
-        this.children = new ArrayList<>(Collections.singletonList(this.numberToken));
+        this.literalToken =  literalToken;
+        this.type = TokenType.LiteralExpressionToken;
+        this.children = new ArrayList<>(Collections.singletonList(this.literalToken));
     }
 }

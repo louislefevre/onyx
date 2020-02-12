@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser
+public final class Parser
 {
     private final Lexer lexer;
     private final List<Token> tokens;
@@ -23,6 +23,11 @@ public class Parser
         this.position = 0;
         this.addTokens();
         this.addDiagnostics();
+    }
+
+    public Expression getExpression()
+    {
+        return this.parseExpression(0);
     }
 
     private void addTokens()
@@ -41,7 +46,7 @@ public class Parser
         this.diagnosticsLog.addAll(this.lexer.getDiagnosticsLog());
     }
 
-    private Token match(TokenType kind)
+    private Token matchTokens(TokenType kind)
     {
         if(this.currentToken().getType() == kind)
             return this.nextToken();
@@ -49,37 +54,34 @@ public class Parser
         return new Token(kind, this.currentToken().getPosition());
     }
 
-    private Expression parseExpression()
+    private Expression parseExpression(int parentPrecedence)
     {
-        return this.parseTerm();
-    }
+        Expression left;
+        int unaryOperatorPrecedence = Syntax.getUnaryOperatorPrecedence(this.currentToken().getType());
 
-    private Expression parseTerm()
-    {
-        Expression leftTerm = this.parseFactor();
-
-        while(this.currentToken().getType() == TokenType.PlusToken || this.currentToken().getType() == TokenType.MinusToken)
+        if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
             Token operatorToken = this.nextToken();
-            Expression rightTerm = this.parseFactor();
-            leftTerm = new BinaryExpression(leftTerm, operatorToken, rightTerm);
+            Expression operand = this.parseExpression(unaryOperatorPrecedence);
+            left = new UnaryExpression(operatorToken, operand);
         }
-
-        return leftTerm;
-    }
-
-    private Expression parseFactor()
-    {
-        Expression leftTerm = this.parsePrimaryExpression();
-
-        while(this.currentToken().getType() == TokenType.StarToken || this.currentToken().getType() == TokenType.SlashToken)
+        else
         {
-            Token operatorToken = this.nextToken();
-            Expression rightTerm = this.parsePrimaryExpression();
-            leftTerm = new BinaryExpression(leftTerm, operatorToken, rightTerm);
+            left = this.parsePrimaryExpression();
         }
 
-        return leftTerm;
+        while(true)
+        {
+            int precedence = Syntax.getBinaryOperatorPrecedence(this.currentToken().getType());
+            if(precedence == 0 || precedence <= parentPrecedence)
+                break;
+
+            Token operatorToken = this.nextToken();
+            Expression right = this.parseExpression(precedence);
+            left = new BinaryExpression(left, operatorToken, right);
+        }
+
+        return left;
     }
 
     private Expression parsePrimaryExpression()
@@ -87,13 +89,13 @@ public class Parser
         if(this.currentToken().getType() == TokenType.OpenParenthesisToken)
         {
             Token left = this.nextToken();
-            Expression expression = this.parseExpression();
-            Token right = this.match(TokenType.CloseParenthesisToken);
+            Expression expression = this.parseExpression(0);
+            Token right = this.matchTokens(TokenType.CloseParenthesisToken);
             return new ParenthesizedExpression(left, expression, right);
         }
 
-        Token numberToken = this.match(TokenType.NumberToken);
-        return new NumberExpression(numberToken);
+        Token numberToken = this.matchTokens(TokenType.NumberToken);
+        return new LiteralExpression(numberToken);
     }
 
     private Token nextToken()
@@ -114,10 +116,5 @@ public class Parser
         if(index >= this.tokens.size())
             return this.tokens.get(this.tokens.size() - 1);
         return this.tokens.get(index);
-    }
-
-    public Expression getExpression()
-    {
-        return this.parseExpression();
     }
 }

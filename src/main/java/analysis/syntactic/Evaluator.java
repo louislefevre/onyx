@@ -2,7 +2,7 @@ package analysis.syntactic;
 
 import analysis.lexical.TokenType;
 
-public class Evaluator
+public final class Evaluator
 {
     private final SyntaxTree syntaxTree;
 
@@ -36,8 +36,11 @@ public class Evaluator
 
     private int evaluateExpression(Expression node) throws Exception
     {
-        if(node instanceof NumberExpression)
+        if(node instanceof LiteralExpression)
             return this.evaluateNumberExpression(node);
+
+        if(node instanceof UnaryExpression)
+            return this.evaluateUnaryExpression(node);
 
         if(node instanceof BinaryExpression)
             return this.evaluateBinaryExpression(node);
@@ -50,7 +53,20 @@ public class Evaluator
 
     private int evaluateNumberExpression(Expression node)
     {
-        return (int) ((NumberExpression) node).getNumberToken().getValue();
+        return (int) ((LiteralExpression) node).getLiteralToken().getValue();
+    }
+
+    private int evaluateUnaryExpression(Expression node) throws Exception
+    {
+        int operand = this.evaluateExpression(((UnaryExpression) node).getOperand());
+        TokenType operatorType = ((UnaryExpression) node).getOperatorToken().getType();
+
+        if(operatorType == TokenType.PlusToken)
+            return operand;
+        else if(operatorType == TokenType.MinusToken)
+            return -operand;
+        else
+            throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
     }
 
     private int evaluateBinaryExpression(Expression node) throws Exception
