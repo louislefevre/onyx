@@ -1,6 +1,7 @@
-package analysis.syntactic;
+package analysis.compilation;
 
 import analysis.lexical.TokenType;
+import analysis.syntactic.*;
 
 public final class Evaluator
 {

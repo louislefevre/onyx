@@ -1,9 +1,8 @@
-package analysis;
+package analysis.compilation;
 
 import analysis.lexical.Lexer;
 import analysis.syntactic.Parser;
 import analysis.syntactic.SyntaxTree;
-import analysis.syntactic.Evaluator;
 
 public final class Compiler
 {

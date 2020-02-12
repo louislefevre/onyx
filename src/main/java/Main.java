@@ -1,4 +1,4 @@
-import analysis.Compiler;
+import analysis.compilation.Compiler;
 
 import java.util.Scanner;
 
