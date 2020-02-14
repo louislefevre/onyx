@@ -109,13 +109,8 @@ public final class Binder
 
         if(operandType == Boolean.class)
         {
-            switch(type)
-            {
-                case BangToken:
-                    return BoundUnaryOperatorKind.Identity;
-                case MinusToken:
-                    return BoundUnaryOperatorKind.LogicNegation;
-            }
+            if (type == TokenType.BangToken)
+                return BoundUnaryOperatorKind.LogicNegation;
         }
 
         return null;
