@@ -2,7 +2,7 @@ package analysis.binding;
 
 import lombok.Getter;
 
-final class BoundLiteralExpression extends BoundExpression
+public final class BoundLiteralExpression extends BoundExpression
 {
     @Getter
     private Object value;

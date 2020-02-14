@@ -1,5 +1,6 @@
 package analysis.compilation;
 
+import analysis.binding.Binder;
 import analysis.lexical.Lexer;
 import analysis.syntactic.Parser;
 import analysis.syntactic.SyntaxTree;
@@ -18,7 +19,8 @@ public final class Compiler
         Lexer lexer = new Lexer(this.input);
         Parser parser = new Parser(lexer);
         SyntaxTree syntaxTree = new SyntaxTree(parser);
-        Evaluator evaluator = new Evaluator(syntaxTree);
+        Binder binder = new Binder(syntaxTree);
+        Evaluator evaluator = new Evaluator(binder);
 
         syntaxTree.showTree(); // Testing purposes
 

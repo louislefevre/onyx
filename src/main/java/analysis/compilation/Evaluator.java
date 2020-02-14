@@ -1,24 +1,32 @@
 package analysis.compilation;
 
-import analysis.lexical.TokenType;
-import analysis.syntactic.*;
+import analysis.binding.*;
+
+import java.util.List;
 
 public final class Evaluator
 {
-    private final SyntaxTree syntaxTree;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    private final BoundExpression syntaxTree;
+    private final List<String> diagnosticsLog;
 
-    public Evaluator(SyntaxTree syntaxTree)
+    public Evaluator(Binder binder)
     {
-        this.syntaxTree = syntaxTree;
+        this.syntaxTree = binder.getSyntaxTree();
+        this.diagnosticsLog = binder.getDiagnosticsLog();
     }
 
     public int evaluate()
     {
         if(!errorsPresent())
         {
-            try{
-                return evaluateExpression(this.syntaxTree.getExpression());
-            } catch(Exception error) {
+            try
+            {
+                return evaluateExpression(this.syntaxTree);
+            }
+            catch(Exception error)
+            {
                 System.out.println(error.getMessage());
             }
         }
@@ -27,72 +35,73 @@ public final class Evaluator
 
     private boolean errorsPresent()
     {
-        if(!this.syntaxTree.getDiagnosticsLog().isEmpty())
+        if(!this.diagnosticsLog.isEmpty())
         {
-            this.syntaxTree.showDiagnostics();
+            this.showDiagnostics();
             return true;
         }
         return false;
     }
 
-    private int evaluateExpression(Expression node) throws Exception
+    public void showDiagnostics()
     {
-        if(node instanceof LiteralExpression)
+        for (String diagnostic : this.diagnosticsLog)
+            System.out.println(ANSI_RED + diagnostic + ANSI_RESET);
+    }
+
+    private int evaluateExpression(BoundExpression node) throws Exception
+    {
+        if(node instanceof BoundLiteralExpression)
             return this.evaluateNumberExpression(node);
 
-        if(node instanceof UnaryExpression)
+        if(node instanceof BoundUnaryExpression)
             return this.evaluateUnaryExpression(node);
 
-        if(node instanceof BinaryExpression)
+        if(node instanceof BoundBinaryExpression)
             return this.evaluateBinaryExpression(node);
-
-        if(node instanceof ParenthesizedExpression)
-            return this.evaluateParenthesizedExpression(node);
 
         throw new Exception(String.format("Unexpected node '%s'", node.getType()));
     }
 
-    private int evaluateNumberExpression(Expression node)
+    private int evaluateNumberExpression(BoundExpression node)
     {
-        return (int) ((LiteralExpression) node).getLiteralToken().getValue();
+        return (int) ((BoundLiteralExpression) node).getValue();
     }
 
-    private int evaluateUnaryExpression(Expression node) throws Exception
+    private int evaluateUnaryExpression(BoundExpression node) throws Exception
     {
-        int operand = this.evaluateExpression(((UnaryExpression) node).getOperand());
-        TokenType operatorType = ((UnaryExpression) node).getOperatorToken().getType();
+        int operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
+        BoundUnaryOperatorKind operatorType = ((BoundUnaryExpression) node).getOperatorKind();
 
-        if(operatorType == TokenType.PlusToken)
-            return operand;
-        else if(operatorType == TokenType.MinusToken)
-            return -operand;
-        else
-            throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
+        switch(operatorType)
+        {
+            case Identity:
+                return operand;
+            case Negation:
+                return -operand;
+            default:
+                throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
+        }
     }
 
-    private int evaluateBinaryExpression(Expression node) throws Exception
+    private int evaluateBinaryExpression(BoundExpression node) throws Exception
     {
-        int left = evaluateExpression(((BinaryExpression) node).getLeftTerm());
-        int right = evaluateExpression(((BinaryExpression) node).getRightTerm());
-        TokenType tokenKind = ((BinaryExpression) node).getOperatorToken().getType();
+        int left = this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
+        int right = this.evaluateExpression(((BoundBinaryExpression) node).getRight());
+        BoundBinaryOperatorKind tokenKind = ((BoundBinaryExpression) node).getOperatorKind();
 
         switch(tokenKind)
         {
-            case PlusToken:
+            case Addition:
                 return left + right;
-            case MinusToken:
+            case Subtraction:
                 return left - right;
-            case StarToken:
+            case Multiplication:
                 return left * right;
-            case SlashToken:
+            case Division:
                 return left / right;
             default:
                 throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
         }
-    }
-
-    private int evaluateParenthesizedExpression(Expression node) throws Exception
-    {
-        return evaluateExpression(((ParenthesizedExpression) node).getExpression());
     }
 }

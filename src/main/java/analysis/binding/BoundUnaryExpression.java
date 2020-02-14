@@ -2,7 +2,7 @@ package analysis.binding;
 
 import lombok.Getter;
 
-final class BoundUnaryExpression extends BoundExpression
+public final class BoundUnaryExpression extends BoundExpression
 {
     @Getter
     private BoundUnaryOperatorKind operatorKind;

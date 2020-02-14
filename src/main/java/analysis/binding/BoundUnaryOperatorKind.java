@@ -1,6 +1,6 @@
 package analysis.binding;
 
-enum BoundUnaryOperatorKind
+public enum BoundUnaryOperatorKind
 {
     Identity,
     Negation,

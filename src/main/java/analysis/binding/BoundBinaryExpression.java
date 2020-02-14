@@ -2,7 +2,7 @@ package analysis.binding;
 
 import lombok.Getter;
 
-final class BoundBinaryExpression extends BoundExpression
+public final class BoundBinaryExpression extends BoundExpression
 {
     @Getter
     private BoundExpression left;
@@ -17,12 +17,14 @@ final class BoundBinaryExpression extends BoundExpression
     }
 
     @Override
-    public BoundNodeKind getKind() {
+    public BoundNodeKind getKind()
+    {
         return BoundNodeKind.BinaryExpression;
     }
 
     @Override
-    public Class getType() {
+    public Class getType()
+    {
         return this.left.getType();
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 public final class SyntaxTree
 {
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREY = "\u001B[37m";
     @Getter private final List<String> diagnosticsLog;
     @Getter private final Expression expression;
@@ -18,12 +17,6 @@ public final class SyntaxTree
     {
         this.diagnosticsLog = parser.getDiagnosticsLog();
         this.expression = parser.getExpression();
-    }
-
-    public void showDiagnostics()
-    {
-        for (String diagnostic : this.getDiagnosticsLog())
-            System.out.println(ANSI_RED + diagnostic + ANSI_RESET);
     }
 
     public void showTree()

@@ -1,6 +1,6 @@
 package analysis.binding;
 
-enum BoundBinaryOperatorKind
+public enum BoundBinaryOperatorKind
 {
     Addition,
     Subtraction,
