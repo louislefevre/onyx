@@ -106,6 +106,8 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
 - Put all syntax into a single class of constants.
 - Create class for calling error messages (as constants?).
+- Clean up variable names (.e.g change 'type' to 'class').
+- Move around SyntaxTree class (and remove its redundant variables).
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
