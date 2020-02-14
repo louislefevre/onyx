@@ -2,7 +2,11 @@ package misc;
 
 public final class Utilities
 {
-    private Utilities() { }
+    private Utilities()
+    {
+        // Prevents class instantiation
+        throw new UnsupportedOperationException();
+    }
 
     public static boolean isParsable(String str)
     {

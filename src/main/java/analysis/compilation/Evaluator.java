@@ -1,13 +1,12 @@
 package analysis.compilation;
 
 import analysis.binding.*;
+import misc.ANSI;
 
 import java.util.List;
 
 public final class Evaluator
 {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
     private final BoundExpression syntaxTree;
     private final List<String> diagnosticsLog;
 
@@ -46,7 +45,7 @@ public final class Evaluator
     public void showDiagnostics()
     {
         for (String diagnostic : this.diagnosticsLog)
-            System.out.println(ANSI_RED + diagnostic + ANSI_RESET);
+            System.out.println(ANSI.RED + diagnostic + ANSI.RESET);
     }
 
     private int evaluateExpression(BoundExpression node) throws Exception
