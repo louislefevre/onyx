@@ -63,7 +63,7 @@ The following is a brief overview of the syntax for the language:
 - Booleans
   - Bool
   - "Bool bool is true"
-  
+
 Example program written in Onyx:
 <pre>
 Task addNumbers()
@@ -97,6 +97,13 @@ iii. Setters and getters should be ordered in the same order as they declaration
 iv. Scope of methods should limit access as much as possible.  
 v. Other methods should be ordered based on access modifiers, followed by workflow order.
 
+
+## To-Do
+- Move addTokens() from Parser into Lexer.
+- Move diagnostics into own ErrorHandler.class from the Evaluator.class.
+- Move Syntax/Token information into own package.
+- Modularise Parser parsePrimaryExpression() and parseExpression() code.
+- Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
