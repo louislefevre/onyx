@@ -104,6 +104,8 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Move Syntax/Token information into own package.
 - Modularise Parser parsePrimaryExpression() and parseExpression() code.
 - Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
+- Put all syntax into a single class of constants.
+- Create class for calling error messages (as constants?).
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
