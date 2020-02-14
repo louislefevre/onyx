@@ -32,4 +32,17 @@ public final class Syntax
                 return 0;
         }
     }
+
+    public static TokenType getKeywordKind(String text)
+    {
+        switch(text)
+        {
+            case "true":
+                return TokenType.TrueKeywordToken;
+            case "false":
+                return TokenType.FalseKeywordToken;
+            default:
+                return TokenType.IdentifierToken;
+        }
+    }
 }

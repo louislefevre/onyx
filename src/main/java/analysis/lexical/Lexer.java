@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import analysis.syntactic.Syntax;
 import lombok.Getter;
 import misc.Utilities;
 
@@ -25,6 +26,8 @@ public final class Lexer
             return this.endToken();
         else if(Character.isDigit(this.currentChar()))
             return this.numberToken();
+        else if(Character.isLetter(this.currentChar()))
+            return this.letterToken();
         else if(Character.isWhitespace(this.currentChar()))
             return this.whitespaceToken();
         return this.symbolToken();
@@ -51,6 +54,19 @@ public final class Lexer
             this.diagnosticsLog.add(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
         return new Token(TokenType.NumberToken, text, value, startPos);
+    }
+
+    private Token letterToken()
+    {
+        int startPos = this.position;
+
+        while(Character.isLetter(this.currentChar()))
+            this.nextPosition();
+
+        String text = this.inputText.substring(startPos, this.position);
+        TokenType kind = Syntax.getKeywordKind(text);
+
+        return new Token(kind, text, startPos);
     }
 
     private Token whitespaceToken()

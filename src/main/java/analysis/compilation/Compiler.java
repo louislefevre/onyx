@@ -14,7 +14,7 @@ public final class Compiler
         this.input = input;
     }
 
-    public int compile()
+    public Object compile()
     {
         Lexer lexer = new Lexer(this.input);
         Parser parser = new Parser(lexer);

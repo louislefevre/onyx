@@ -93,6 +93,17 @@ public final class Parser
             Token right = this.matchTokens(TokenType.CloseParenthesisToken);
             return new ParenthesizedExpression(left, expression, right);
         }
+        else if(this.currentToken().getType() == TokenType.TrueKeywordToken || this.currentToken().getType() == TokenType.FalseKeywordToken)
+        {
+            boolean value = false;
+
+            if(this.currentToken().getType() == TokenType.TrueKeywordToken)
+                value = true;
+            else if(this.currentToken().getType() == TokenType.FalseKeywordToken)
+                value = false;
+
+            return new LiteralExpression(this.nextToken(), value);
+        }
 
         Token numberToken = this.matchTokens(TokenType.NumberToken);
         return new LiteralExpression(numberToken);

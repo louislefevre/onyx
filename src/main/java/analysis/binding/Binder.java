@@ -55,7 +55,7 @@ public final class Binder
 
     private BoundExpression bindLiteralExpression(LiteralExpression syntax)
     {
-        Object value = syntax.getLiteralToken().getValue();
+        Object value = syntax.getValue();
         if(value == null)
             value = 0;
 

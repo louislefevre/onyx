@@ -14,6 +14,11 @@ public enum TokenType
     OpenParenthesisToken,
     CloseParenthesisToken,
 
+    // Keyword Tokens
+    FalseKeywordToken,
+    TrueKeywordToken,
+    IdentifierToken,
+
     // Expression Tokens
     LiteralExpressionToken,
     UnaryExpressionToken,

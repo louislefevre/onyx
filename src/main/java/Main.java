@@ -13,7 +13,7 @@ public class Main
                 return;
 
             Compiler compiler = new Compiler(input);
-            int output = compiler.compile();
+            Object output = compiler.compile();
             System.out.println(output);
         }
     }

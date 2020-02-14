@@ -16,7 +16,7 @@ public final class Evaluator
         this.diagnosticsLog = binder.getDiagnosticsLog();
     }
 
-    public int evaluate()
+    public Object evaluate()
     {
         if(!errorsPresent())
         {
@@ -48,7 +48,7 @@ public final class Evaluator
             System.out.println(ANSI.RED + diagnostic + ANSI.RESET);
     }
 
-    private int evaluateExpression(BoundExpression node) throws Exception
+    private Object evaluateExpression(BoundExpression node) throws Exception
     {
         if(node instanceof BoundLiteralExpression)
             return this.evaluateNumberExpression(node);
@@ -62,14 +62,14 @@ public final class Evaluator
         throw new Exception(String.format("Unexpected node '%s'", node.getType()));
     }
 
-    private int evaluateNumberExpression(BoundExpression node)
+    private Object evaluateNumberExpression(BoundExpression node)
     {
-        return (int) ((BoundLiteralExpression) node).getValue();
+        return ((BoundLiteralExpression) node).getValue();
     }
 
-    private int evaluateUnaryExpression(BoundExpression node) throws Exception
+    private Object evaluateUnaryExpression(BoundExpression node) throws Exception
     {
-        int operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
+        int operand = (int)this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
         BoundUnaryOperatorKind operatorType = ((BoundUnaryExpression) node).getOperatorKind();
 
         switch(operatorType)
@@ -83,10 +83,10 @@ public final class Evaluator
         }
     }
 
-    private int evaluateBinaryExpression(BoundExpression node) throws Exception
+    private Object evaluateBinaryExpression(BoundExpression node) throws Exception
     {
-        int left = this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
-        int right = this.evaluateExpression(((BoundBinaryExpression) node).getRight());
+        int left = (int)this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
+        int right = (int)this.evaluateExpression(((BoundBinaryExpression) node).getRight());
         BoundBinaryOperatorKind tokenKind = ((BoundBinaryExpression) node).getOperatorKind();
 
         switch(tokenKind)
