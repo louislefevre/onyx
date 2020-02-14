@@ -12,7 +12,8 @@ public final class Syntax
         {
             case PlusToken:
             case MinusToken:
-                return 3;
+            case BangToken:
+                return 5;
             default:
                 return 0;
         }
@@ -24,9 +25,13 @@ public final class Syntax
         {
             case StarToken:
             case SlashToken:
-                return 2;
+                return 4;
             case PlusToken:
             case MinusToken:
+                return 3;
+            case AndToken:
+                return 2;
+            case OrToken:
                 return 1;
             default:
                 return 0;
@@ -38,11 +43,11 @@ public final class Syntax
         switch(text)
         {
             case "true":
-                return TokenType.TrueKeywordToken;
+                return TokenType.TrueKeyword;
             case "false":
-                return TokenType.FalseKeywordToken;
+                return TokenType.FalseKeyword;
             default:
-                return TokenType.IdentifierToken;
+                return TokenType.IdentifierKeyword;
         }
     }
 }

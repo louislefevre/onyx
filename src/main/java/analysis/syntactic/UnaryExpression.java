@@ -20,7 +20,7 @@ public class UnaryExpression extends Expression
     {
         this.operatorToken = operatorToken;
         this.operand = operand;
-        this.type = TokenType.UnaryExpressionToken;
+        this.type = TokenType.UnaryExpression;
         this.children = new ArrayList<>(Arrays.asList(this.operatorToken, this.operand));
     }
 }

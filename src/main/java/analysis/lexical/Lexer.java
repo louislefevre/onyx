@@ -97,6 +97,14 @@ public final class Lexer
                 return new Token(TokenType.OpenParenthesisToken, "(", this.position++);
             case ')':
                 return new Token(TokenType.CloseParenthesisToken, ")", this.position++);
+            case '!':
+                return new Token(TokenType.BangToken, "!", this.position++);
+            case '&':
+                if(this.nextChar() == '&')
+                    return new Token(TokenType.AndToken, "&&", this.position+=2);
+            case '|':
+                if(this.nextChar() == '|')
+                    return new Token(TokenType.OrToken, "||", this.position += 2);
             default:
                 this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
                 return new Token(TokenType.BadToken, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
@@ -105,9 +113,21 @@ public final class Lexer
 
     private char currentChar()
     {
-        if(this.position >= this.inputText.length())
+        return this.peek(0);
+    }
+
+    private char nextChar()
+    {
+        return this.peek(1);
+    }
+
+    private char peek(int offset)
+    {
+        int index = this.position + offset;
+
+        if(index >= this.inputText.length())
             return '\0';
-        return this.inputText.charAt(this.position);
+        return this.inputText.charAt(index);
     }
 
     private void nextPosition()

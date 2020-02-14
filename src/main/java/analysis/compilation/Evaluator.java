@@ -69,15 +69,17 @@ public final class Evaluator
 
     private Object evaluateUnaryExpression(BoundExpression node) throws Exception
     {
-        int operand = (int)this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
+        Object operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
         BoundUnaryOperatorKind operatorType = ((BoundUnaryExpression) node).getOperatorKind();
 
         switch(operatorType)
         {
             case Identity:
-                return operand;
+                return (int)operand;
             case Negation:
-                return -operand;
+                return -(int)operand;
+            case LogicNegation:
+                return !(boolean)operand;
             default:
                 throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
         }
@@ -85,20 +87,24 @@ public final class Evaluator
 
     private Object evaluateBinaryExpression(BoundExpression node) throws Exception
     {
-        int left = (int)this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
-        int right = (int)this.evaluateExpression(((BoundBinaryExpression) node).getRight());
+        Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
+        Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRight());
         BoundBinaryOperatorKind tokenKind = ((BoundBinaryExpression) node).getOperatorKind();
 
         switch(tokenKind)
         {
             case Addition:
-                return left + right;
+                return (int)left + (int)right;
             case Subtraction:
-                return left - right;
+                return (int)left - (int)right;
             case Multiplication:
-                return left * right;
+                return (int)left * (int)right;
             case Division:
-                return left / right;
+                return (int)left / (int)right;
+            case LogicAnd:
+                return (boolean)left && (boolean)right;
+            case LogicOr:
+                return (boolean)left || (boolean)right;
             default:
                 throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
         }

@@ -35,13 +35,13 @@ public final class Binder
     {
         switch(syntax.getType())
         {
-            case ParenthesizedExpressionToken:
+            case ParenthesizedExpression:
                 return this.bindParenthesizedExpression((ParenthesizedExpression)syntax);
-            case LiteralExpressionToken:
+            case LiteralExpression:
                 return this.bindLiteralExpression((LiteralExpression)syntax);
-            case UnaryExpressionToken:
+            case UnaryExpression:
                 return this.bindUnaryExpression((UnaryExpression)syntax);
-            case BinaryExpressionToken:
+            case BinaryExpression:
                 return this.bindBinaryExpression((BinaryExpression)syntax);
             default:
                 throw new Exception(String.format("Unexpected syntax '%s'", syntax.getType()));
@@ -94,38 +94,66 @@ public final class Binder
     @Nullable
     private BoundUnaryOperatorKind bindUnaryOperatorKind(TokenType type, Class operandType) throws Exception
     {
-        if(operandType != Integer.class)
-            return null;
-
-        switch(type)
+        if(operandType == Integer.class)
         {
-            case PlusToken:
-                return BoundUnaryOperatorKind.Identity;
-            case MinusToken:
-                return BoundUnaryOperatorKind.Negation;
-            default:
-                throw new Exception(String.format("Unexpected unary operator '%s'", type));
+            switch(type)
+            {
+                case PlusToken:
+                    return BoundUnaryOperatorKind.Identity;
+                case MinusToken:
+                    return BoundUnaryOperatorKind.Negation;
+                default:
+                    throw new Exception(String.format("Unexpected unary operator '%s'", type));
+            }
         }
+
+        if(operandType == Boolean.class)
+        {
+            switch(type)
+            {
+                case BangToken:
+                    return BoundUnaryOperatorKind.Identity;
+                case MinusToken:
+                    return BoundUnaryOperatorKind.LogicNegation;
+            }
+        }
+
+        return null;
     }
 
     @Nullable
     private BoundBinaryOperatorKind bindBinaryOperatorKind(TokenType type, Class leftType, Class rightType) throws Exception
     {
-        if(leftType != Integer.class || rightType != Integer.class)
-            return null;
-
-        switch(type)
+        if(leftType == Integer.class && rightType == Integer.class)
         {
-            case PlusToken:
-                return BoundBinaryOperatorKind.Addition;
-            case MinusToken:
-                return BoundBinaryOperatorKind.Subtraction;
-            case StarToken:
-                return BoundBinaryOperatorKind.Multiplication;
-            case SlashToken:
-                return BoundBinaryOperatorKind.Division;
-            default:
-                throw new Exception(String.format("Unexpected unary operator '%s'", type));
+            switch(type)
+            {
+                case PlusToken:
+                    return BoundBinaryOperatorKind.Addition;
+                case MinusToken:
+                    return BoundBinaryOperatorKind.Subtraction;
+                case StarToken:
+                    return BoundBinaryOperatorKind.Multiplication;
+                case SlashToken:
+                    return BoundBinaryOperatorKind.Division;
+                default:
+                    throw new Exception(String.format("Unexpected unary operator '%s'", type));
+            }
         }
+
+        if(leftType == Boolean.class && rightType == Boolean.class)
+        {
+            switch(type)
+            {
+                case AndToken:
+                    return BoundBinaryOperatorKind.LogicAnd;
+                case OrToken:
+                    return BoundBinaryOperatorKind.LogicOr;
+                default:
+                    throw new Exception(String.format("Unexpected unary operator '%s'", type));
+            }
+        }
+
+        return null;
     }
 }

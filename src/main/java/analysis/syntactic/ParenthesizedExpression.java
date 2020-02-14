@@ -22,7 +22,7 @@ public final class ParenthesizedExpression extends Expression
         this.openParenthesisToken = openParenthesisToken;
         this.expression = expression;
         this.closeParenthesisToken = closeParenthesisToken;
-        this.type = TokenType.ParenthesizedExpressionToken;
+        this.type = TokenType.ParenthesizedExpression;
         this.children = new ArrayList<>(Arrays.asList(this.openParenthesisToken, this.expression, this.closeParenthesisToken));
     }
 }

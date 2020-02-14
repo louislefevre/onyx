@@ -13,17 +13,20 @@ public enum TokenType
     SlashToken,
     OpenParenthesisToken,
     CloseParenthesisToken,
+    BangToken,
+    AndToken,
+    OrToken,
 
-    // Keyword Tokens
-    FalseKeywordToken,
-    TrueKeywordToken,
-    IdentifierToken,
+    // Keywords
+    FalseKeyword,
+    TrueKeyword,
+    IdentifierKeyword,
 
     // Expression Tokens
-    LiteralExpressionToken,
-    UnaryExpressionToken,
-    BinaryExpressionToken,
-    ParenthesizedExpressionToken,
+    LiteralExpression,
+    UnaryExpression,
+    BinaryExpression,
+    ParenthesizedExpression,
 
     // Break Tokens
     BadToken,

@@ -86,27 +86,24 @@ public final class Parser
 
     private Expression parsePrimaryExpression()
     {
-        if(this.currentToken().getType() == TokenType.OpenParenthesisToken)
+        switch(this.currentToken().getType())
         {
-            Token left = this.nextToken();
-            Expression expression = this.parseExpression(0);
-            Token right = this.matchTokens(TokenType.CloseParenthesisToken);
-            return new ParenthesizedExpression(left, expression, right);
+            case OpenParenthesisToken:
+                Token left = this.nextToken();
+                Expression expression = this.parseExpression(0);
+                Token right = this.matchTokens(TokenType.CloseParenthesisToken);
+                return new ParenthesizedExpression(left, expression, right);
+
+            case FalseKeyword:
+            case TrueKeyword:
+                Token keywordToken = this.nextToken();
+                boolean value = keywordToken.getType() == TokenType.TrueKeyword;
+                return new LiteralExpression(keywordToken, value);
+
+            default:
+                Token numberToken = this.matchTokens(TokenType.NumberToken);
+                return new LiteralExpression(numberToken);
         }
-        else if(this.currentToken().getType() == TokenType.TrueKeywordToken || this.currentToken().getType() == TokenType.FalseKeywordToken)
-        {
-            boolean value = false;
-
-            if(this.currentToken().getType() == TokenType.TrueKeywordToken)
-                value = true;
-            else if(this.currentToken().getType() == TokenType.FalseKeywordToken)
-                value = false;
-
-            return new LiteralExpression(this.nextToken(), value);
-        }
-
-        Token numberToken = this.matchTokens(TokenType.NumberToken);
-        return new LiteralExpression(numberToken);
     }
 
     private Token nextToken()
