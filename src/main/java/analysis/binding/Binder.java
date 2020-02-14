@@ -35,6 +35,8 @@ public final class Binder
     {
         switch(syntax.getType())
         {
+            case ParenthesizedExpressionToken:
+                return this.bindParenthesizedExpression((ParenthesizedExpression)syntax);
             case LiteralExpressionToken:
                 return this.bindLiteralExpression((LiteralExpression)syntax);
             case UnaryExpressionToken:
@@ -46,13 +48,16 @@ public final class Binder
         }
     }
 
+    private BoundExpression bindParenthesizedExpression(ParenthesizedExpression syntax) throws Exception
+    {
+        return this.bindExpression(syntax.getExpression());
+    }
+
     private BoundExpression bindLiteralExpression(LiteralExpression syntax)
     {
         Object value = syntax.getLiteralToken().getValue();
         if(value == null)
-            value = (Integer)0;
-        else
-            value =(Integer)value;
+            value = 0;
 
         return new BoundLiteralExpression(value);
     }
