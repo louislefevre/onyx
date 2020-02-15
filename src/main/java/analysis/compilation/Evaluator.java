@@ -70,12 +70,12 @@ public final class Evaluator
     private Object evaluateUnaryExpression(BoundExpression node) throws Exception
     {
         Object operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
-        BoundUnaryOperatorKind operatorType = ((BoundUnaryExpression) node).getOperatorKind();
+        BoundUnaryOperatorKind operatorType = ((BoundUnaryExpression) node).getOperator().getKind();
 
         switch(operatorType)
         {
             case Identity:
-                return (int)operand;
+                return operand;
             case Negation:
                 return -(int)operand;
             case LogicNegation:
@@ -89,7 +89,7 @@ public final class Evaluator
     {
         Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
         Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRight());
-        BoundBinaryOperatorKind tokenKind = ((BoundBinaryExpression) node).getOperatorKind();
+        BoundBinaryOperatorKind tokenKind = ((BoundBinaryExpression) node).getOperator().getKind();
 
         switch(tokenKind)
         {

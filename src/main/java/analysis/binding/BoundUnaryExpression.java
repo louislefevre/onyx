@@ -4,13 +4,12 @@ import lombok.Getter;
 
 public final class BoundUnaryExpression extends BoundExpression
 {
-    @Getter
-    private BoundUnaryOperatorKind operatorKind;
+    @Getter private BoundUnaryOperator operator;
     @Getter private BoundExpression operand;
 
-    public BoundUnaryExpression(BoundUnaryOperatorKind operatorKind, BoundExpression operand)
+    public BoundUnaryExpression(BoundUnaryOperator operator, BoundExpression operand)
     {
-        this.operatorKind = operatorKind;
+        this.operator = operator;
         this.operand = operand;
     }
 

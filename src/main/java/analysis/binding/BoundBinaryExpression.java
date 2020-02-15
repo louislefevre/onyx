@@ -4,15 +4,14 @@ import lombok.Getter;
 
 public final class BoundBinaryExpression extends BoundExpression
 {
-    @Getter
-    private BoundExpression left;
-    @Getter private BoundBinaryOperatorKind operatorKind;
+    @Getter private BoundExpression left;
+    @Getter private BoundBinaryOperator operator;
     @Getter private BoundExpression right;
 
-    public BoundBinaryExpression(BoundExpression left, BoundBinaryOperatorKind operatorKind, BoundExpression right)
+    public BoundBinaryExpression(BoundExpression left, BoundBinaryOperator operator, BoundExpression right)
     {
         this.left = left;
-        this.operatorKind = operatorKind;
+        this.operator = operator;
         this.right = right;
     }
 
