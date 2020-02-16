@@ -13,7 +13,7 @@ public final class Syntax
             case PlusToken:
             case MinusToken:
             case BangToken:
-                return 5;
+                return 6;
             default:
                 return 0;
         }
@@ -25,9 +25,12 @@ public final class Syntax
         {
             case StarToken:
             case SlashToken:
-                return 4;
+                return 5;
             case PlusToken:
             case MinusToken:
+                return 4;
+            case EqualsToken:
+            case NotEqualsToken:
                 return 3;
             case AndToken:
                 return 2;

@@ -105,6 +105,10 @@ public final class Evaluator
                 return (boolean)left && (boolean)right;
             case LogicOr:
                 return (boolean)left || (boolean)right;
+            case Equals:
+                return left == right;
+            case NotEquals:
+                return left != right;
             default:
                 throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
         }

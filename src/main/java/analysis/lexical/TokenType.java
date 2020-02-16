@@ -16,6 +16,8 @@ public enum TokenType
     BangToken,
     AndToken,
     OrToken,
+    EqualsToken,
+    NotEqualsToken,
 
     // Keywords
     FalseKeyword,

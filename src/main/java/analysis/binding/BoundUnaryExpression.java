@@ -20,6 +20,6 @@ public final class BoundUnaryExpression extends BoundExpression
 
     @Override
     public Class getType() {
-        return this.operand.getType();
+        return this.operator.getResultType();
     }
 }

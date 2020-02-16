@@ -8,4 +8,6 @@ public enum BoundBinaryOperatorKind
     Division,
     LogicAnd,
     LogicOr,
+    Equals,
+    NotEquals
 }

@@ -20,6 +20,11 @@ public class BoundBinaryOperator
         this.resultType = resultType;
     }
 
+    private BoundBinaryOperator(TokenType syntaxKind, BoundBinaryOperatorKind kind, Class operandType, Class resultType)
+    {
+        this(syntaxKind, kind, operandType, operandType, resultType);
+    }
+
     private BoundBinaryOperator(TokenType syntaxKind, BoundBinaryOperatorKind kind, Class type)
     {
         this(syntaxKind, kind, type, type, type);
@@ -31,6 +36,8 @@ public class BoundBinaryOperator
         new BoundBinaryOperator(TokenType.MinusToken, BoundBinaryOperatorKind.Subtraction, Integer.class),
         new BoundBinaryOperator(TokenType.StarToken, BoundBinaryOperatorKind.Multiplication, Integer.class),
         new BoundBinaryOperator(TokenType.SlashToken, BoundBinaryOperatorKind.Division, Integer.class),
+        new BoundBinaryOperator(TokenType.EqualsToken, BoundBinaryOperatorKind.Equals, Integer.class, Boolean.class),
+        new BoundBinaryOperator(TokenType.NotEqualsToken, BoundBinaryOperatorKind.NotEquals, Integer.class, Boolean.class),
         new BoundBinaryOperator(TokenType.AndToken, BoundBinaryOperatorKind.LogicAnd, Boolean.class),
         new BoundBinaryOperator(TokenType.OrToken, BoundBinaryOperatorKind.LogicOr, Boolean.class),
     };
