@@ -18,11 +18,11 @@ public final class Compiler
     {
         Lexer lexer = new Lexer(this.input);
         Parser parser = new Parser(lexer);
-        SyntaxTree syntaxTree = new SyntaxTree(parser);
-        Binder binder = new Binder(syntaxTree);
+        Binder binder = new Binder(parser);
         Evaluator evaluator = new Evaluator(binder);
 
-        syntaxTree.showTree(); // Testing purposes
+        SyntaxTree tree = new SyntaxTree(binder); // Testing
+        tree.showTree();
 
         return evaluator.evaluate();
     }

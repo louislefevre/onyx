@@ -104,7 +104,6 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
 - Put all syntax into a single class of constants.
 - Create class for calling error messages (as constants?).
-- Move around SyntaxTree class (and remove its redundant variables).
 - Try and create individual class for each piece of compiler feature functionality (e.g. class for boolean handling, etc).
 
 ## Notes

@@ -4,14 +4,13 @@ import analysis.identifiers.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 import analysis.syntax.Syntax;
-import lombok.Getter;
 
 import java.util.List;
 
 public final class Parser
 {
     private final List<Token> tokens;
-    @Getter private final List<String> diagnosticsLog;
+    private final List<String> diagnosticsLog;
     private int position;
 
     public Parser(Lexer lexer)
@@ -24,6 +23,11 @@ public final class Parser
     public Expression getExpression()
     {
         return this.parseExpression(0);
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return this.diagnosticsLog;
     }
 
     private Token matchTokens(TokenType kind)

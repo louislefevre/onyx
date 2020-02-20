@@ -2,7 +2,6 @@ package analysis.lexical;
 
 import analysis.identifiers.TokenType;
 import analysis.syntax.Syntax;
-import lombok.Getter;
 import misc.Utilities;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 public final class Lexer
 {
     private final String inputText;
-    @Getter private final List<String> diagnosticsLog;
+    private final List<String> diagnosticsLog;
     private int position;
 
     public Lexer(String inputText)
@@ -24,6 +23,11 @@ public final class Lexer
     public List<Token> getTokens()
     {
         return this.lexTokens();
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return this.diagnosticsLog;
     }
 
     private List<Token> lexTokens()

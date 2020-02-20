@@ -1,26 +1,22 @@
 package analysis.syntactic;
 
-import analysis.lexical.Token;
+import analysis.binding.Binder;
 import analysis.lexical.Node;
-import lombok.Getter;
+import analysis.lexical.Token;
 import misc.ANSI;
-
-import java.util.List;
 
 public final class SyntaxTree
 {
-    @Getter private final List<String> diagnosticsLog;
-    @Getter private final Expression expression;
+    private final Expression expression;
 
-    public SyntaxTree(Parser parser)
+    public SyntaxTree(Binder binder)
     {
-        this.diagnosticsLog = parser.getDiagnosticsLog();
-        this.expression = parser.getExpression();
+        this.expression = binder.getExpression();
     }
 
     public void showTree()
     {
-        printTree(this.getExpression(), "", true);
+        printTree(this.expression, "", true);
     }
 
     private void printTree(Node node, String indent, boolean isLast)

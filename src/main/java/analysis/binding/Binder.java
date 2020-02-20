@@ -7,13 +7,23 @@ import java.util.List;
 
 public final class Binder
 {
-    @Getter private final List<String> diagnosticsLog;
-    @Getter private final BoundExpression syntaxTree;
+    @Getter private final Expression expression;
+    private final List<String> diagnosticsLog;
 
-    public Binder(SyntaxTree syntaxTree)
+    public Binder(Parser parser)
     {
-        this.diagnosticsLog = syntaxTree.getDiagnosticsLog();
-        this.syntaxTree = this.bind(syntaxTree.getExpression());
+        this.expression = parser.getExpression();
+        this.diagnosticsLog = parser.getDiagnosticsLog();
+    }
+
+    public BoundExpression getSyntaxTree()
+    {
+        return this.bind(this.expression);
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return this.diagnosticsLog;
     }
 
     private BoundExpression bind(Expression syntax)
