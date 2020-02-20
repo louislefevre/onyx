@@ -3,7 +3,7 @@ package analysis.compilation;
 import analysis.binding.Binder;
 import analysis.lexical.Lexer;
 import analysis.syntactic.Parser;
-import analysis.syntactic.SyntaxTree;
+import analysis.syntax.SyntaxTree;
 
 public final class Compiler
 {

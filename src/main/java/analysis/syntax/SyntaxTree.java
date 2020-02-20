@@ -1,8 +1,9 @@
-package analysis.syntactic;
+package analysis.syntax;
 
 import analysis.binding.Binder;
 import analysis.lexical.Node;
 import analysis.lexical.Token;
+import analysis.syntactic.Expression;
 import misc.ANSI;
 
 public final class SyntaxTree
