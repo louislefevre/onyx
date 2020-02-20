@@ -21,7 +21,25 @@ public final class Lexer
         this.position = 0;
     }
 
-    public Token nextToken()
+    public List<Token> getTokens()
+    {
+        return this.lexTokens();
+    }
+
+    private List<Token> lexTokens()
+    {
+        List<Token> tokens = new ArrayList<>();
+        Token token;
+        do
+        {
+            token = this.nextToken();
+            if(token.getTokenType() != TokenType.BadToken && token.getTokenType() != TokenType.WhiteSpaceToken)
+                tokens.add(token);
+        }while(token.getTokenType() != TokenType.EOFToken);
+        return tokens;
+    }
+
+    private Token nextToken()
     {
         if(this.position >= this.inputText.length())
             return this.endToken();

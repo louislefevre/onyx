@@ -99,7 +99,6 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 
 
 ## To-Do
-- Move addTokens() from Parser into Lexer.
 - Move diagnostics into own ErrorHandler.class from the Evaluator.class.
 - Move Syntax/Token information into own package.
 - Modularise Parser parsePrimaryExpression() and parseExpression() code.
