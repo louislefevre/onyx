@@ -1,7 +1,7 @@
 package analysis.lexical;
 
 import analysis.identifiers.TokenType;
-import analysis.syntactic.Syntax;
+import analysis.syntax.Syntax;
 import lombok.Getter;
 import misc.Utilities;
 

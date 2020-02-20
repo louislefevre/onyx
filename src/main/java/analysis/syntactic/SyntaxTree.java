@@ -28,7 +28,7 @@ public final class SyntaxTree
         System.out.print(ANSI.GREY);
         String marker = isLast ? "└──" : "├──";
 
-        System.out.print(indent + marker + node.getType());
+        System.out.print(indent + marker + node.getTokenType());
 
         if(node instanceof Token && ((Token) node).getValue() != null)
             System.out.print(" " + ((Token) node).getValue());

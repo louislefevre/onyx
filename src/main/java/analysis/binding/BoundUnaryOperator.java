@@ -6,36 +6,36 @@ import lombok.Getter;
 
 public final class BoundUnaryOperator
 {
-    @Getter private TokenType syntaxKind;
-    @Getter private BoundUnaryOperatorType kind;
-    @Getter private Class operandType;
-    @Getter private Class resultType;
+    @Getter private final TokenType tokenType;
+    @Getter private final BoundUnaryOperatorType kind;
+    @Getter private final Class operandClassType;
+    @Getter private final Class resultClassType;
 
-    private BoundUnaryOperator(TokenType syntaxKind, BoundUnaryOperatorType kind, Class operandType, Class resultType)
+    private BoundUnaryOperator(TokenType tokenType, BoundUnaryOperatorType kind, Class operandClassType, Class resultClassType)
     {
-        this.syntaxKind = syntaxKind;
+        this.tokenType = tokenType;
         this.kind = kind;
-        this.operandType = operandType;
-        this.resultType = resultType;
+        this.operandClassType = operandClassType;
+        this.resultClassType = resultClassType;
     }
 
-    private BoundUnaryOperator(TokenType syntaxKind, BoundUnaryOperatorType kind, Class operandType)
+    private BoundUnaryOperator(TokenType tokenType, BoundUnaryOperatorType kind, Class operandClassType)
     {
-        this(syntaxKind, kind, operandType, operandType);
+        this(tokenType, kind, operandClassType, operandClassType);
     }
 
-    private static BoundUnaryOperator[] operators =
+    private static final BoundUnaryOperator[] operators =
     {
         new BoundUnaryOperator(TokenType.BangToken, BoundUnaryOperatorType.LogicNegation, Boolean.class),
         new BoundUnaryOperator(TokenType.PlusToken, BoundUnaryOperatorType.Identity, Integer.class),
         new BoundUnaryOperator(TokenType.BangToken, BoundUnaryOperatorType.Negation, Integer.class)
     };
 
-    public static BoundUnaryOperator bind(TokenType syntaxKind, Class operandType)
+    public static BoundUnaryOperator bind(TokenType tokenType, Class operandClassType)
     {
         for(BoundUnaryOperator operator : operators)
         {
-            if(operator.getSyntaxKind() == syntaxKind && operator.getOperandType() == operandType)
+            if(operator.getTokenType() == tokenType && operator.getOperandClassType() == operandClassType)
                 return operator;
         }
 

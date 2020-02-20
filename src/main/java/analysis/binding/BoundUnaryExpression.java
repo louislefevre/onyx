@@ -5,8 +5,8 @@ import lombok.Getter;
 
 public final class BoundUnaryExpression extends BoundExpression
 {
-    @Getter private BoundUnaryOperator operator;
-    @Getter private BoundExpression operand;
+    @Getter private final BoundUnaryOperator operator;
+    @Getter private final BoundExpression operand;
 
     public BoundUnaryExpression(BoundUnaryOperator operator, BoundExpression operand)
     {
@@ -15,12 +15,14 @@ public final class BoundUnaryExpression extends BoundExpression
     }
 
     @Override
-    public BoundNodeType getKind() {
+    public BoundNodeType getType()
+    {
         return BoundNodeType.UnaryExpression;
     }
 
     @Override
-    public Class getType() {
-        return this.operator.getResultType();
+    public Class getClassType()
+    {
+        return this.operator.getResultClassType();
     }
 }

@@ -11,18 +11,14 @@ import java.util.List;
 
 public final class ParenthesizedExpression extends Expression
 {
-    private final Token openParenthesisToken;
     @Getter private final Expression expression;
-    private final Token closeParenthesisToken;
-    @Getter private final TokenType type;
+    @Getter private final TokenType tokenType;
     @Getter private final List<Node> children;
 
     public ParenthesizedExpression(Token openParenthesisToken, Expression expression, Token closeParenthesisToken)
     {
-        this.openParenthesisToken = openParenthesisToken;
         this.expression = expression;
-        this.closeParenthesisToken = closeParenthesisToken;
-        this.type = TokenType.ParenthesizedExpression;
-        this.children = new ArrayList<>(Arrays.asList(this.openParenthesisToken, this.expression, this.closeParenthesisToken));
+        this.tokenType = TokenType.ParenthesizedExpression;
+        this.children = new ArrayList<>(Arrays.asList(openParenthesisToken, this.expression, closeParenthesisToken));
     }
 }

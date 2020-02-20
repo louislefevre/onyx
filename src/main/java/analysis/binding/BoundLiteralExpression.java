@@ -5,8 +5,7 @@ import lombok.Getter;
 
 public final class BoundLiteralExpression extends BoundExpression
 {
-    @Getter
-    private Object value;
+    @Getter private final Object value;
 
     public BoundLiteralExpression(Object value)
     {
@@ -14,12 +13,14 @@ public final class BoundLiteralExpression extends BoundExpression
     }
 
     @Override
-    public BoundNodeType getKind() {
+    public BoundNodeType getType()
+    {
         return BoundNodeType.LiteralExpression;
     }
 
     @Override
-    public Class getType() {
+    public Class getClassType()
+    {
         return this.value.getClass();
     }
 }

@@ -4,5 +4,5 @@ import analysis.identifiers.BoundNodeType;
 
 abstract class BoundNode
 {
-    public abstract BoundNodeType getKind();
+    public abstract BoundNodeType getType();
 }

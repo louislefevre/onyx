@@ -5,26 +5,26 @@ import lombok.Getter;
 
 public final class BoundBinaryExpression extends BoundExpression
 {
-    @Getter private BoundExpression left;
-    @Getter private BoundBinaryOperator operator;
-    @Getter private BoundExpression right;
+    @Getter private final BoundExpression leftTerm;
+    @Getter private final BoundBinaryOperator operator;
+    @Getter private final BoundExpression rightTerm;
 
-    public BoundBinaryExpression(BoundExpression left, BoundBinaryOperator operator, BoundExpression right)
+    public BoundBinaryExpression(BoundExpression leftTerm, BoundBinaryOperator operator, BoundExpression rightTerm)
     {
-        this.left = left;
+        this.leftTerm = leftTerm;
         this.operator = operator;
-        this.right = right;
+        this.rightTerm = rightTerm;
     }
 
     @Override
-    public BoundNodeType getKind()
+    public BoundNodeType getType()
     {
         return BoundNodeType.BinaryExpression;
     }
 
     @Override
-    public Class getType()
+    public Class getClassType()
     {
-        return this.operator.getResultType();
+        return this.operator.getResultClassType();
     }
 }

@@ -4,34 +4,34 @@ import analysis.identifiers.BoundBinaryOperatorType;
 import analysis.identifiers.TokenType;
 import lombok.Getter;
 
-public class BoundBinaryOperator
+public final class BoundBinaryOperator
 {
-    @Getter private TokenType syntaxKind;
-    @Getter private BoundBinaryOperatorType kind;
-    @Getter private Class leftType;
-    @Getter private Class rightType;
-    @Getter private Class resultType;
+    @Getter private final TokenType tokenType;
+    @Getter private final BoundBinaryOperatorType kind;
+    @Getter private final Class leftClassType;
+    @Getter private final Class rightClassType;
+    @Getter private final Class resultClassType;
 
-    private BoundBinaryOperator(TokenType syntaxKind, BoundBinaryOperatorType kind, Class leftType, Class rightType, Class resultType)
+    private BoundBinaryOperator(TokenType tokenType, BoundBinaryOperatorType kind, Class leftClassType, Class rightClassType, Class resultClassType)
     {
-        this.syntaxKind = syntaxKind;
+        this.tokenType = tokenType;
         this.kind = kind;
-        this.leftType = leftType;
-        this.rightType = rightType;
-        this.resultType = resultType;
+        this.leftClassType = leftClassType;
+        this.rightClassType = rightClassType;
+        this.resultClassType = resultClassType;
     }
 
-    private BoundBinaryOperator(TokenType syntaxKind, BoundBinaryOperatorType kind, Class operandType, Class resultType)
+    private BoundBinaryOperator(TokenType tokenType, BoundBinaryOperatorType kind, Class operandClassType, Class resultClassType)
     {
-        this(syntaxKind, kind, operandType, operandType, resultType);
+        this(tokenType, kind, operandClassType, operandClassType, resultClassType);
     }
 
-    private BoundBinaryOperator(TokenType syntaxKind, BoundBinaryOperatorType kind, Class type)
+    private BoundBinaryOperator(TokenType tokenType, BoundBinaryOperatorType kind, Class classType)
     {
-        this(syntaxKind, kind, type, type, type);
+        this(tokenType, kind, classType, classType, classType);
     }
 
-    private static BoundBinaryOperator[] operators =
+    private static final BoundBinaryOperator[] operators =
     {
         new BoundBinaryOperator(TokenType.PlusToken, BoundBinaryOperatorType.Addition, Integer.class),
         new BoundBinaryOperator(TokenType.MinusToken, BoundBinaryOperatorType.Subtraction, Integer.class),
@@ -43,11 +43,11 @@ public class BoundBinaryOperator
         new BoundBinaryOperator(TokenType.OrToken, BoundBinaryOperatorType.LogicOr, Boolean.class),
     };
 
-    public static BoundBinaryOperator bind(TokenType syntaxKind, Class leftType, Class rightType)
+    public static BoundBinaryOperator bind(TokenType tokenType, Class leftClassType, Class rightClassType)
     {
         for(BoundBinaryOperator operator : operators)
         {
-            if(operator.getSyntaxKind() == syntaxKind && operator.getLeftType() == leftType && operator.getRightType() == rightType)
+            if(operator.getTokenType() == tokenType && operator.getLeftClassType() == leftClassType && operator.getRightClassType() == rightClassType)
                 return operator;
         }
 

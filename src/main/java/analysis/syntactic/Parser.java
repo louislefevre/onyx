@@ -3,6 +3,7 @@ package analysis.syntactic;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 import analysis.identifiers.TokenType;
+import analysis.syntax.Syntax;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public final class Parser
         do
         {
             token = this.lexer.nextToken();
-            if(token.getType() != TokenType.BadToken && token.getType() != TokenType.WhiteSpaceToken)
+            if(token.getTokenType() != TokenType.BadToken && token.getTokenType() != TokenType.WhiteSpaceToken)
                 this.tokens.add(token);
-        }while(token.getType() != TokenType.EOFToken);
+        }while(token.getTokenType() != TokenType.EOFToken);
     }
 
     private void addDiagnostics()
@@ -48,16 +49,16 @@ public final class Parser
 
     private Token matchTokens(TokenType kind)
     {
-        if(this.currentToken().getType() == kind)
+        if(this.currentToken().getTokenType() == kind)
             return this.nextToken();
-        this.diagnosticsLog.add(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getType(), kind));
+        this.diagnosticsLog.add(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
         return new Token(kind, this.currentToken().getPosition());
     }
 
     private Expression parseExpression(int parentPrecedence)
     {
         Expression left;
-        int unaryOperatorPrecedence = Syntax.getUnaryOperatorPrecedence(this.currentToken().getType());
+        int unaryOperatorPrecedence = Syntax.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
 
         if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
@@ -72,7 +73,7 @@ public final class Parser
 
         while(true)
         {
-            int precedence = Syntax.getBinaryOperatorPrecedence(this.currentToken().getType());
+            int precedence = Syntax.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
             if(precedence == 0 || precedence <= parentPrecedence)
                 break;
 
@@ -86,7 +87,7 @@ public final class Parser
 
     private Expression parsePrimaryExpression()
     {
-        switch(this.currentToken().getType())
+        switch(this.currentToken().getTokenType())
         {
             case OpenParenthesisToken:
                 Token left = this.nextToken();
@@ -97,7 +98,7 @@ public final class Parser
             case FalseKeyword:
             case TrueKeyword:
                 Token keywordToken = this.nextToken();
-                boolean value = keywordToken.getType() == TokenType.TrueKeyword;
+                boolean value = keywordToken.getTokenType() == TokenType.TrueKeyword;
                 return new LiteralExpression(keywordToken, value);
 
             default:

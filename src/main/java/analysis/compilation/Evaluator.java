@@ -61,7 +61,7 @@ public final class Evaluator
         if(node instanceof BoundBinaryExpression)
             return this.evaluateBinaryExpression(node);
 
-        throw new Exception(String.format("Unexpected node '%s'", node.getType()));
+        throw new Exception(String.format("Unexpected node '%s'", node.getClassType()));
     }
 
     private Object evaluateNumberExpression(BoundExpression node)
@@ -89,8 +89,8 @@ public final class Evaluator
 
     private Object evaluateBinaryExpression(BoundExpression node) throws Exception
     {
-        Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeft());
-        Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRight());
+        Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeftTerm());
+        Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRightTerm());
         BoundBinaryOperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getKind();
 
         switch(tokenKind)

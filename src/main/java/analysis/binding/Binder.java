@@ -31,7 +31,7 @@ public final class Binder
 
     private BoundExpression bindExpression(Expression syntax) throws Exception
     {
-        switch(syntax.getType())
+        switch(syntax.getTokenType())
         {
             case ParenthesizedExpression:
                 return this.bindParenthesizedExpression((ParenthesizedExpression)syntax);
@@ -42,7 +42,7 @@ public final class Binder
             case BinaryExpression:
                 return this.bindBinaryExpression((BinaryExpression)syntax);
             default:
-                throw new Exception(String.format("Unexpected syntax '%s'", syntax.getType()));
+                throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));
         }
     }
 
@@ -63,11 +63,11 @@ public final class Binder
     private BoundExpression bindUnaryExpression(UnaryExpression syntax) throws Exception
     {
         BoundExpression boundOperand = this.bindExpression(syntax.getOperand());
-        BoundUnaryOperator boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getType(), boundOperand.getType());
+        BoundUnaryOperator boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundOperand.getClassType());
 
         if(boundOperator == null)
         {
-            this.diagnosticsLog.add(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getType()));
+            this.diagnosticsLog.add(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getClassType()));
             return boundOperand;
         }
 
@@ -78,11 +78,11 @@ public final class Binder
     {
         BoundExpression boundLeft = this.bindExpression(syntax.getLeftTerm());
         BoundExpression boundRight = this.bindExpression(syntax.getRightTerm());
-        BoundBinaryOperator boundOperator = BoundBinaryOperator.bind(syntax.getOperatorToken().getType(), boundLeft.getType(), boundRight.getType());
+        BoundBinaryOperator boundOperator = BoundBinaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundLeft.getClassType(), boundRight.getClassType());
 
         if(boundOperator == null)
         {
-            this.diagnosticsLog.add(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getType(), boundRight.getType()));
+            this.diagnosticsLog.add(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getClassType(), boundRight.getClassType()));
             return boundLeft;
         }
 
