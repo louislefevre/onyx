@@ -100,12 +100,10 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 
 ## To-Do
 - Move diagnostics into own ErrorHandler.class from the Evaluator.class.
-- Move Syntax/Token information into own package.
 - Modularise Parser parsePrimaryExpression() and parseExpression() code.
 - Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
 - Put all syntax into a single class of constants.
 - Create class for calling error messages (as constants?).
-- Clean up variable names (e.g change 'type' to 'class').
 - Move around SyntaxTree class (and remove its redundant variables).
 - Try and create individual class for each piece of compiler feature functionality (e.g. class for boolean handling, etc).
 
