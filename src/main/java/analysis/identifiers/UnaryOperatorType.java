@@ -1,6 +1,6 @@
 package analysis.identifiers;
 
-public enum BoundUnaryOperatorType
+public enum UnaryOperatorType
 {
     Identity,
     Negation,

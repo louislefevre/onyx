@@ -1,6 +1,6 @@
 package analysis.identifiers;
 
-public enum BoundNodeType
+public enum NodeType
 {
     LiteralExpression,
     BinaryExpression,

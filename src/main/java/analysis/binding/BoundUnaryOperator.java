@@ -1,17 +1,17 @@
 package analysis.binding;
 
-import analysis.identifiers.BoundUnaryOperatorType;
+import analysis.identifiers.UnaryOperatorType;
 import analysis.identifiers.TokenType;
 import lombok.Getter;
 
 public final class BoundUnaryOperator
 {
     @Getter private final TokenType tokenType;
-    @Getter private final BoundUnaryOperatorType kind;
+    @Getter private final UnaryOperatorType kind;
     @Getter private final Class operandClassType;
     @Getter private final Class resultClassType;
 
-    private BoundUnaryOperator(TokenType tokenType, BoundUnaryOperatorType kind, Class operandClassType, Class resultClassType)
+    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType kind, Class operandClassType, Class resultClassType)
     {
         this.tokenType = tokenType;
         this.kind = kind;
@@ -19,16 +19,16 @@ public final class BoundUnaryOperator
         this.resultClassType = resultClassType;
     }
 
-    private BoundUnaryOperator(TokenType tokenType, BoundUnaryOperatorType kind, Class operandClassType)
+    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType kind, Class operandClassType)
     {
         this(tokenType, kind, operandClassType, operandClassType);
     }
 
     private static final BoundUnaryOperator[] operators =
     {
-        new BoundUnaryOperator(TokenType.BangToken, BoundUnaryOperatorType.LogicNegation, Boolean.class),
-        new BoundUnaryOperator(TokenType.PlusToken, BoundUnaryOperatorType.Identity, Integer.class),
-        new BoundUnaryOperator(TokenType.BangToken, BoundUnaryOperatorType.Negation, Integer.class)
+        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.LogicNegation, Boolean.class),
+        new BoundUnaryOperator(TokenType.PlusToken, UnaryOperatorType.Identity, Integer.class),
+        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.Negation, Integer.class)
     };
 
     public static BoundUnaryOperator bind(TokenType tokenType, Class operandClassType)

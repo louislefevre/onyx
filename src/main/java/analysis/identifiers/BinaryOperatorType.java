@@ -1,6 +1,6 @@
 package analysis.identifiers;
 
-public enum BoundBinaryOperatorType
+public enum BinaryOperatorType
 {
     Addition,
     Subtraction,

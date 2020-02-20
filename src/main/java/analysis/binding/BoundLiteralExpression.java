@@ -1,6 +1,6 @@
 package analysis.binding;
 
-import analysis.identifiers.BoundNodeType;
+import analysis.identifiers.NodeType;
 import lombok.Getter;
 
 public final class BoundLiteralExpression extends BoundExpression
@@ -13,9 +13,9 @@ public final class BoundLiteralExpression extends BoundExpression
     }
 
     @Override
-    public BoundNodeType getType()
+    public NodeType getType()
     {
-        return BoundNodeType.LiteralExpression;
+        return NodeType.LiteralExpression;
     }
 
     @Override

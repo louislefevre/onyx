@@ -1,8 +1,8 @@
 package analysis.compilation;
 
 import analysis.binding.*;
-import analysis.identifiers.BoundBinaryOperatorType;
-import analysis.identifiers.BoundUnaryOperatorType;
+import analysis.identifiers.BinaryOperatorType;
+import analysis.identifiers.UnaryOperatorType;
 import misc.ANSI;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public final class Evaluator
     private Object evaluateUnaryExpression(BoundExpression node) throws Exception
     {
         Object operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
-        BoundUnaryOperatorType operatorType = ((BoundUnaryExpression) node).getOperator().getKind();
+        UnaryOperatorType operatorType = ((BoundUnaryExpression) node).getOperator().getKind();
 
         switch(operatorType)
         {
@@ -91,7 +91,7 @@ public final class Evaluator
     {
         Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeftTerm());
         Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRightTerm());
-        BoundBinaryOperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getKind();
+        BinaryOperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getKind();
 
         switch(tokenKind)
         {
