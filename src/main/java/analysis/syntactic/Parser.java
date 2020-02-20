@@ -2,7 +2,7 @@ package analysis.syntactic;
 
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
-import analysis.lexical.TokenType;
+import analysis.identifiers.TokenType;
 import lombok.Getter;
 
 import java.util.ArrayList;

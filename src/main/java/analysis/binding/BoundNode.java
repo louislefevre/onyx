@@ -1,6 +1,8 @@
 package analysis.binding;
 
+import analysis.identifiers.BoundNodeType;
+
 abstract class BoundNode
 {
-    public abstract BoundNodeKind getKind();
+    public abstract BoundNodeType getKind();
 }

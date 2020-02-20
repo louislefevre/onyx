@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import analysis.identifiers.TokenType;
 import lombok.Getter;
 
 import java.util.ArrayList;

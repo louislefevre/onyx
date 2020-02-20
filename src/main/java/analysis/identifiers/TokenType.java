@@ -1,4 +1,4 @@
-package analysis.lexical;
+package analysis.identifiers;
 
 public enum TokenType
 {
@@ -32,5 +32,5 @@ public enum TokenType
 
     // Break Tokens
     BadToken,
-    EOFToken,
+    EOFToken
 }

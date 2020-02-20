@@ -1,5 +1,6 @@
 package analysis.binding;
 
+import analysis.identifiers.BoundNodeType;
 import lombok.Getter;
 
 public final class BoundBinaryExpression extends BoundExpression
@@ -16,9 +17,9 @@ public final class BoundBinaryExpression extends BoundExpression
     }
 
     @Override
-    public BoundNodeKind getKind()
+    public BoundNodeType getKind()
     {
-        return BoundNodeKind.BinaryExpression;
+        return BoundNodeType.BinaryExpression;
     }
 
     @Override

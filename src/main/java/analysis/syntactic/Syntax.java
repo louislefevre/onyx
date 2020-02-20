@@ -1,6 +1,6 @@
 package analysis.syntactic;
 
-import analysis.lexical.TokenType;
+import analysis.identifiers.TokenType;
 
 public final class Syntax
 {
