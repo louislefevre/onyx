@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import analysis.symbols.NodeType;
+import symbols.NodeType;
 
 abstract class BoundNode
 {

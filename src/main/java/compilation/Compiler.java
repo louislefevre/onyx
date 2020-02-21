@@ -1,4 +1,4 @@
-package analysis.compilation;
+package compilation;
 
 import analysis.semantic.Binder;
 import analysis.lexical.Lexer;

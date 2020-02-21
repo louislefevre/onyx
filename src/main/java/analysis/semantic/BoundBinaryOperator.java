@@ -1,7 +1,7 @@
 package analysis.semantic;
 
-import analysis.symbols.BinaryOperatorType;
-import analysis.symbols.TokenType;
+import symbols.BinaryOperatorType;
+import symbols.TokenType;
 import lombok.Getter;
 
 public final class BoundBinaryOperator

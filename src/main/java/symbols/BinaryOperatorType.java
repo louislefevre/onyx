@@ -1,4 +1,4 @@
-package analysis.symbols;
+package symbols;
 
 public enum BinaryOperatorType
 {

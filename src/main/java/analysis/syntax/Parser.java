@@ -1,7 +1,7 @@
 package analysis.syntax;
 
-import analysis.symbols.Syntax;
-import analysis.symbols.TokenType;
+import symbols.Syntax;
+import symbols.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 

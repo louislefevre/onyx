@@ -1,8 +1,8 @@
-package analysis.compilation;
+package compilation;
 
 import analysis.semantic.*;
-import analysis.symbols.BinaryOperatorType;
-import analysis.symbols.UnaryOperatorType;
+import symbols.BinaryOperatorType;
+import symbols.UnaryOperatorType;
 import misc.ANSI;
 
 import java.util.List;

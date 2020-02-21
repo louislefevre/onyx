@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import analysis.symbols.NodeType;
+import symbols.NodeType;
 import lombok.Getter;
 
 public final class BoundBinaryExpression extends BoundExpression
