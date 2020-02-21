@@ -2,7 +2,11 @@ package symbols;
 
 public final class Syntax
 {
-    private Syntax() {}
+    private Syntax()
+    {
+        // Prevents class instantiation
+        throw new UnsupportedOperationException();
+    }
 
     public static int getUnaryOperatorPrecedence(TokenType type)
     {
