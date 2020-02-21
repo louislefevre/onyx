@@ -4,11 +4,11 @@ import analysis.lexical.Node;
 import analysis.lexical.Token;
 import misc.ANSI;
 
-public final class SyntaxTree
+public final class ParseTree
 {
     private final Expression expression;
 
-    public SyntaxTree(Parser parser)
+    public ParseTree(Parser parser)
     {
         this.expression = parser.getExpression();
     }

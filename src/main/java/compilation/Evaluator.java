@@ -6,11 +6,11 @@ import symbols.OperatorType;
 
 public final class Evaluator
 {
-    private final BoundExpression syntaxTree;
+    private final BoundExpression parseTree;
 
     public Evaluator(Binder binder)
     {
-        this.syntaxTree = binder.getSyntaxTree();
+        this.parseTree = binder.getParseTree();
     }
 
     public Object evaluate()
@@ -19,7 +19,7 @@ public final class Evaluator
         {
             try
             {
-                return evaluateExpression(this.syntaxTree);
+                return evaluateExpression(this.parseTree);
             }
             catch(Exception error)
             {

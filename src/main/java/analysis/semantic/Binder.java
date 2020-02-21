@@ -7,12 +7,12 @@ public final class Binder
 {
     private final Expression expression;
 
-    public Binder(SyntaxTree syntaxTree)
+    public Binder(ParseTree parseTree)
     {
-        this.expression = syntaxTree.getExpression();
+        this.expression = parseTree.getExpression();
     }
 
-    public BoundExpression getSyntaxTree()
+    public BoundExpression getParseTree()
     {
         return this.bind(this.expression);
     }
