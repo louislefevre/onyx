@@ -41,11 +41,11 @@ public final class Lexer
     {
         if(this.position >= this.inputText.length())
             return this.endToken();
-        else if(Character.isDigit(this.currentChar()))
+        else if(Utilities.isDigit(this.currentChar()))
             return this.numberToken();
-        else if(Character.isLetter(this.currentChar()))
+        else if(Utilities.isLetter(this.currentChar()))
             return this.letterToken();
-        else if(Character.isWhitespace(this.currentChar()))
+        else if(Utilities.isWhitespace(this.currentChar()))
             return this.whitespaceToken();
         return this.symbolToken();
     }
@@ -60,7 +60,7 @@ public final class Lexer
         int startPos = this.position;
         int value = 0;
 
-        while(Character.isDigit(this.currentChar()))
+        while(Utilities.isDigit(this.currentChar()))
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
@@ -77,7 +77,7 @@ public final class Lexer
     {
         int startPos = this.position;
 
-        while(Character.isLetter(this.currentChar()))
+        while(Utilities.isLetter(this.currentChar()))
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
@@ -90,7 +90,7 @@ public final class Lexer
     {
         int startPos = this.position;
 
-        while(Character.isWhitespace(this.currentChar()))
+        while(Utilities.isWhitespace(this.currentChar()))
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
@@ -102,29 +102,29 @@ public final class Lexer
     {
         switch(this.currentChar())
         {
-            case '+':
+            case "+":
                 return new Token(TokenType.PLUS_TOKEN, this.position++);
-            case '-':
+            case "-":
                 return new Token(TokenType.MINUS_TOKEN, this.position++);
-            case '*':
+            case "*":
                 return new Token(TokenType.STAR_TOKEN, this.position++);
-            case '/':
+            case "/":
                 return new Token(TokenType.SLASH_TOKEN, this.position++);
-            case '(':
+            case "(":
                 return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
-            case ')':
+            case ")":
                 return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
-            case '&':
-                if(this.nextChar() == '&')
+            case "&":
+                if(this.nextChar() == "&")
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
-            case '|':
-                if(this.nextChar() == '|')
+            case "|":
+                if(this.nextChar() == "|")
                     return new Token(TokenType.OR_TOKEN, this.position += 2);
-            case '=':
-                if(this.nextChar() == '=')
+            case "=":
+                if(this.nextChar() == "=")
                     return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
-            case '!':
-                if(this.nextChar() == '=')
+            case "!":
+                if(this.nextChar() == "=")
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
                 return new Token(TokenType.BANG_TOKEN, this.position++);
             default:
@@ -133,23 +133,23 @@ public final class Lexer
         }
     }
 
-    private char currentChar()
+    private String currentChar()
     {
         return this.peek(0);
     }
 
-    private char nextChar()
+    private String nextChar()
     {
         return this.peek(1);
     }
 
-    private char peek(int offset)
+    private String peek(int offset)
     {
         int index = this.position + offset;
 
         if(index >= this.inputText.length())
-            return '\0';
-        return this.inputText.charAt(index);
+            return "\0";
+        return Character.toString(this.inputText.charAt(index));
     }
 
     private void nextPosition()
