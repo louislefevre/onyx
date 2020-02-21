@@ -22,7 +22,7 @@ public final class BinaryExpression extends Expression
         this.leftTerm = leftTerm;
         this.operatorToken = operatorToken;
         this.rightTerm = rightTerm;
-        this.tokenType = TokenType.BinaryExpression;
+        this.tokenType = TokenType.BinaryExpressionToken;
         this.children = new ArrayList<>(Arrays.asList(this.leftTerm, this.operatorToken, this.rightTerm));
     }
 }

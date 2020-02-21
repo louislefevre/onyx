@@ -71,10 +71,10 @@ public final class Parser
                 Token right = this.matchTokens(TokenType.CloseParenthesisToken);
                 return new ParenthesizedExpression(left, expression, right);
 
-            case FalseKeyword:
-            case TrueKeyword:
+            case FalseKeywordToken:
+            case TrueKeywordToken:
                 Token keywordToken = this.nextToken();
-                boolean value = keywordToken.getTokenType() == TokenType.TrueKeyword;
+                boolean value = keywordToken.getTokenType() == TokenType.TrueKeywordToken;
                 return new LiteralExpression(keywordToken, value);
 
             default:

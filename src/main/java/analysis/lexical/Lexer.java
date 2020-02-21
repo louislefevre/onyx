@@ -162,11 +162,11 @@ public final class Lexer
         switch(text)
         {
             case "true":
-                return TokenType.TrueKeyword;
+                return TokenType.TrueKeywordToken;
             case "false":
-                return TokenType.FalseKeyword;
+                return TokenType.FalseKeywordToken;
             default:
-                return TokenType.IdentifierKeyword;
+                return TokenType.IdentifierKeywordToken;
         }
     }
 }

@@ -20,7 +20,7 @@ public final class LiteralExpression extends Expression
     {
         this.literalToken =  literalToken;
         this.value = value;
-        this.tokenType = TokenType.LiteralExpression;
+        this.tokenType = TokenType.LiteralExpressionToken;
         this.children = new ArrayList<>(Collections.singletonList(this.literalToken));
     }
 

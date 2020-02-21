@@ -20,15 +20,15 @@ public enum TokenType
     NotEqualsToken,
 
     // Keywords
-    FalseKeyword,
-    TrueKeyword,
-    IdentifierKeyword,
+    FalseKeywordToken,
+    TrueKeywordToken,
+    IdentifierKeywordToken,
 
     // Expression Tokens
-    LiteralExpression,
-    UnaryExpression,
-    BinaryExpression,
-    ParenthesizedExpression,
+    LiteralExpressionToken,
+    UnaryExpressionToken,
+    BinaryExpressionToken,
+    ParenthesizedExpressionToken,
 
     // Break Tokens
     BadToken,
