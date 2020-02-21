@@ -2,7 +2,7 @@ package analysis.syntax;
 
 import analysis.lexical.Node;
 import analysis.lexical.Token;
-import symbols.TokenType;
+import identifiers.TokenType;
 import lombok.Getter;
 
 import java.util.ArrayList;

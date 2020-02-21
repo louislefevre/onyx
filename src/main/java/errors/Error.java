@@ -1,6 +1,6 @@
 package errors;
 
-import symbols.ErrorType;
+import identifiers.ErrorType;
 
 abstract class Error
 {

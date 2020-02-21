@@ -1,8 +1,8 @@
 package analysis.semantic;
 
 import lombok.Getter;
-import symbols.ExpressionType;
-import symbols.ObjectType;
+import identifiers.ExpressionType;
+import identifiers.ObjectType;
 
 public final class BoundBinaryExpression extends BoundExpression
 {

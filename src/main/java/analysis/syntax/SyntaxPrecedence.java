@@ -1,6 +1,6 @@
 package analysis.syntax;
 
-import symbols.TokenType;
+import identifiers.TokenType;
 
 public final class SyntaxPrecedence
 {

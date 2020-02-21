@@ -1,8 +1,8 @@
 package analysis.semantic;
 
-import symbols.OperatorType;
-import symbols.ObjectType;
-import symbols.TokenType;
+import identifiers.OperatorType;
+import identifiers.ObjectType;
+import identifiers.TokenType;
 import lombok.Getter;
 
 public final class BoundBinaryOperator

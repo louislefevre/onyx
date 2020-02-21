@@ -1,7 +1,7 @@
 package analysis.semantic;
 
-import symbols.ExpressionType;
-import symbols.ObjectType;
+import identifiers.ExpressionType;
+import identifiers.ObjectType;
 
 public abstract class BoundExpression
 {

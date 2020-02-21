@@ -1,8 +1,8 @@
 package analysis.semantic;
 
-import symbols.ExpressionType;
+import identifiers.ExpressionType;
 import lombok.Getter;
-import symbols.ObjectType;
+import identifiers.ObjectType;
 
 public final class BoundUnaryExpression extends BoundExpression
 {

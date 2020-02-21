@@ -1,7 +1,7 @@
 package analysis.syntax;
 
 import errors.ErrorHandler;
-import symbols.TokenType;
+import identifiers.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 

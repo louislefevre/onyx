@@ -1,9 +1,9 @@
 package analysis.semantic;
 
 import lombok.Getter;
-import symbols.ObjectType;
-import symbols.OperatorType;
-import symbols.TokenType;
+import identifiers.ObjectType;
+import identifiers.OperatorType;
+import identifiers.TokenType;
 
 public final class BoundUnaryOperator
 {

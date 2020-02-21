@@ -1,4 +1,4 @@
-package symbols;
+package identifiers;
 
 public enum TokenType
 {

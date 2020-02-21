@@ -2,7 +2,7 @@ package compilation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
-import symbols.OperatorType;
+import identifiers.OperatorType;
 
 public final class Evaluator
 {

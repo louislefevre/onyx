@@ -1,7 +1,7 @@
 package errors;
 
 import lombok.Getter;
-import symbols.ErrorType;
+import identifiers.ErrorType;
 
 final class LexicalError extends Error
 {

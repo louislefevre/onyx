@@ -1,6 +1,6 @@
 package analysis.lexical;
 
-import symbols.TokenType;
+import identifiers.TokenType;
 
 import java.util.List;
 
