@@ -1,7 +1,7 @@
 package analysis.semantic;
 
 import lombok.Getter;
-import symbols.NodeType;
+import symbols.ExpressionType;
 import symbols.ObjectType;
 
 public final class BoundBinaryExpression extends BoundExpression
@@ -18,9 +18,9 @@ public final class BoundBinaryExpression extends BoundExpression
     }
 
     @Override
-    public NodeType getNodeType()
+    public ExpressionType getExpressionType()
     {
-        return NodeType.BinaryExpression;
+        return ExpressionType.BinaryExpression;
     }
 
     @Override

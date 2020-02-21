@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import symbols.NodeType;
+import symbols.ExpressionType;
 import lombok.Getter;
 import symbols.ObjectType;
 
@@ -16,9 +16,9 @@ public final class BoundUnaryExpression extends BoundExpression
     }
 
     @Override
-    public NodeType getNodeType()
+    public ExpressionType getExpressionType()
     {
-        return NodeType.UnaryExpression;
+        return ExpressionType.UnaryExpression;
     }
 
     @Override

@@ -3,17 +3,17 @@ package symbols;
 public enum OperatorType
 {
     // Binary Operators
-    Addition,
-    Subtraction,
-    Multiplication,
-    Division,
-    LogicAnd,
-    LogicOr,
-    Equals,
-    NotEquals,
+    AdditionOperator,
+    SubtractionOperator,
+    MultiplicationOperator,
+    DivisionOperator,
+    LogicAndOperator,
+    LogicOrOperator,
+    EqualsOperator,
+    NotEqualsOperator,
 
     // Unary Operators
-    Identity,
-    Negation,
-    LogicNegation
+    IdentityOperator,
+    NegationOperator,
+    LogicNegationOperator
 }

@@ -1,6 +1,6 @@
 package symbols;
 
-public enum NodeType
+public enum ExpressionType
 {
     LiteralExpression,
     BinaryExpression,

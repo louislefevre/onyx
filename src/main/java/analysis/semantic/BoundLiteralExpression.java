@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import symbols.NodeType;
+import symbols.ExpressionType;
 import lombok.Getter;
 import symbols.ObjectType;
 import symbols.Syntax;
@@ -15,9 +15,9 @@ public final class BoundLiteralExpression extends BoundExpression
     }
 
     @Override
-    public NodeType getNodeType()
+    public ExpressionType getExpressionType()
     {
-        return NodeType.LiteralExpression;
+        return ExpressionType.LiteralExpression;
     }
 
     @Override

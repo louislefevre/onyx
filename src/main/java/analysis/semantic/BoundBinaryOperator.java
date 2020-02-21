@@ -34,14 +34,14 @@ public final class BoundBinaryOperator
 
     private static final BoundBinaryOperator[] operators =
     {
-        new BoundBinaryOperator(TokenType.PlusToken, OperatorType.Addition, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.MinusToken, OperatorType.Subtraction, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.StarToken, OperatorType.Multiplication, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.SlashToken, OperatorType.Division, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.EqualsToken, OperatorType.Equals, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.NotEqualsToken, OperatorType.NotEquals, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.AndToken, OperatorType.LogicAnd, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.OrToken, OperatorType.LogicOr, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.PlusToken, OperatorType.AdditionOperator, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.MinusToken, OperatorType.SubtractionOperator, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.StarToken, OperatorType.MultiplicationOperator, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.SlashToken, OperatorType.DivisionOperator, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.EqualsToken, OperatorType.EqualsOperator, ObjectType.IntegerObject, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.NotEqualsToken, OperatorType.NotEqualsOperator, ObjectType.IntegerObject, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.AndToken, OperatorType.LogicAndOperator, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.OrToken, OperatorType.LogicOrOperator, ObjectType.BooleanObject),
     };
 
     public static BoundBinaryOperator bind(TokenType tokenType, ObjectType leftObjectType, ObjectType rightObjectType)
