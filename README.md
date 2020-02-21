@@ -99,12 +99,12 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 
 
 ## To-Do
-- Move diagnostics into own ErrorHandler.class from the Evaluator.class.
 - Modularise Parser parsePrimaryExpression() and parseExpression() code.
 - Declare and initialise necessary class variables simultaneously, rather than initialise in constructor.
-- Put all syntax into a single class of constants.
+- Put all syntax into a single class of constants, including operators.
 - Create class for calling error messages (as constants?).
 - Try and create individual class for each piece of compiler feature functionality (e.g. class for boolean handling, etc).
+- In syntax expressions, instead of using an arraylist to store children, maybe use a class?
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
