@@ -1,4 +1,4 @@
-package analysis.identifiers;
+package analysis.symbols;
 
 public enum NodeType
 {

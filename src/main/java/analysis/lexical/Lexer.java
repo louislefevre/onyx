@@ -1,7 +1,7 @@
 package analysis.lexical;
 
-import analysis.identifiers.TokenType;
-import analysis.syntax.Syntax;
+import analysis.symbols.TokenType;
+import analysis.symbols.Syntax;
 import misc.Utilities;
 
 import java.util.ArrayList;

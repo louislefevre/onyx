@@ -1,4 +1,4 @@
-package analysis.binding;
+package analysis.semantic;
 
 public abstract class BoundExpression extends BoundNode
 {

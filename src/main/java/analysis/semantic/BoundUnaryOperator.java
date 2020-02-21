@@ -1,7 +1,7 @@
-package analysis.binding;
+package analysis.semantic;
 
-import analysis.identifiers.UnaryOperatorType;
-import analysis.identifiers.TokenType;
+import analysis.symbols.UnaryOperatorType;
+import analysis.symbols.TokenType;
 import lombok.Getter;
 
 public final class BoundUnaryOperator

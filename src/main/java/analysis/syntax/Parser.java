@@ -1,9 +1,9 @@
-package analysis.syntactic;
+package analysis.syntax;
 
-import analysis.identifiers.TokenType;
+import analysis.symbols.Syntax;
+import analysis.symbols.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
-import analysis.syntax.Syntax;
 
 import java.util.List;
 

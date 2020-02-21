@@ -1,4 +1,4 @@
-package analysis.syntactic;
+package analysis.syntax;
 
 import analysis.lexical.Node;
 

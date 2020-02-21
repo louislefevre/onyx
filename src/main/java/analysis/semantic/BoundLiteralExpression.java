@@ -1,6 +1,6 @@
-package analysis.binding;
+package analysis.semantic;
 
-import analysis.identifiers.NodeType;
+import analysis.symbols.NodeType;
 import lombok.Getter;
 
 public final class BoundLiteralExpression extends BoundExpression

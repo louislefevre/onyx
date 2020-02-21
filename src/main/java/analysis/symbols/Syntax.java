@@ -1,6 +1,4 @@
-package analysis.syntax;
-
-import analysis.identifiers.TokenType;
+package analysis.symbols;
 
 public final class Syntax
 {

@@ -1,19 +1,18 @@
-package analysis.binding;
+package analysis.semantic;
 
-import analysis.syntactic.*;
-import lombok.Getter;
+import analysis.syntax.*;
 
 import java.util.List;
 
 public final class Binder
 {
-    @Getter private final Expression expression;
+    private final Expression expression;
     private final List<String> diagnosticsLog;
 
-    public Binder(Parser parser)
+    public Binder(SyntaxTree syntaxTree)
     {
-        this.expression = parser.getExpression();
-        this.diagnosticsLog = parser.getDiagnosticsLog();
+        this.expression = syntaxTree.getExpression();
+        this.diagnosticsLog = syntaxTree.getDiagnosticsLog();
     }
 
     public BoundExpression getSyntaxTree()

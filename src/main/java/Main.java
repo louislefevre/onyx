@@ -14,6 +14,7 @@ public class Main
 
             Compiler compiler = new Compiler(input);
             Object output = compiler.compile();
+
             System.out.println(output);
         }
     }

@@ -1,8 +1,8 @@
-package analysis.syntactic;
+package analysis.syntax;
 
 import analysis.lexical.Node;
 import analysis.lexical.Token;
-import analysis.identifiers.TokenType;
+import analysis.symbols.TokenType;
 import lombok.Getter;
 
 import java.util.ArrayList;

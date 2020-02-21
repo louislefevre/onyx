@@ -1,18 +1,30 @@
 package analysis.syntax;
 
-import analysis.binding.Binder;
 import analysis.lexical.Node;
 import analysis.lexical.Token;
-import analysis.syntactic.Expression;
 import misc.ANSI;
+
+import java.util.List;
 
 public final class SyntaxTree
 {
     private final Expression expression;
+    private final List<String> diagnosticsLog;
 
-    public SyntaxTree(Binder binder)
+    public SyntaxTree(Parser parser)
     {
-        this.expression = binder.getExpression();
+        this.expression = parser.getExpression();
+        this.diagnosticsLog = parser.getDiagnosticsLog();
+    }
+
+    public Expression getExpression()
+    {
+        return expression;
+    }
+
+    public List<String> getDiagnosticsLog()
+    {
+        return diagnosticsLog;
     }
 
     public void showTree()
