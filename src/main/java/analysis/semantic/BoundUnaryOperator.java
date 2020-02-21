@@ -29,7 +29,7 @@ public final class BoundUnaryOperator
     {
         new BoundUnaryOperator(TokenType.BangToken, OperatorType.LogicNegation, ObjectType.BooleanObject),
         new BoundUnaryOperator(TokenType.PlusToken, OperatorType.Identity, ObjectType.IntegerObject),
-        new BoundUnaryOperator(TokenType.BangToken, OperatorType.Negation, ObjectType.IntegerObject)
+        new BoundUnaryOperator(TokenType.MinusToken, OperatorType.Negation, ObjectType.IntegerObject)
     };
 
     public static BoundUnaryOperator bind(TokenType tokenType, ObjectType operandObjectType)
