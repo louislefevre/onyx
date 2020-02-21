@@ -1,17 +1,16 @@
 package errors;
 
-public final class SyntaxError extends Error
+import lombok.Getter;
+import symbols.ErrorType;
+
+final class SyntaxError extends Error
 {
-    private final String errorMessage;
+    @Getter private final String errorMessage;
+    @Getter private final ErrorType errorType;
 
     public SyntaxError(String errorMessage)
     {
         this.errorMessage = errorMessage;
-    }
-
-    @Override
-    public String getErrorMessage()
-    {
-        return this.errorMessage;
+        this.errorType = ErrorType.SyntaxError;
     }
 }

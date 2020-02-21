@@ -1,6 +1,9 @@
 package errors;
 
-public abstract class Error
+import symbols.ErrorType;
+
+abstract class Error
 {
+    public abstract ErrorType getErrorType();
     public abstract String getErrorMessage();
 }
