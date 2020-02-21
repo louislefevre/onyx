@@ -1,6 +1,6 @@
 package errors;
 
-import misc.ANSI;
+import util.ANSI;
 
 import java.util.ArrayList;
 import java.util.List;

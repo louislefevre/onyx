@@ -2,7 +2,7 @@ package analysis.syntax;
 
 import analysis.lexical.Node;
 import analysis.lexical.Token;
-import misc.ANSI;
+import util.ANSI;
 
 public final class ParseTree
 {

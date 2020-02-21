@@ -1,7 +1,7 @@
 package analysis.lexical;
 
 import errors.ErrorHandler;
-import misc.Utilities;
+import util.Utilities;
 import symbols.TokenType;
 
 import java.util.ArrayList;

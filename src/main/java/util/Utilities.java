@@ -1,4 +1,4 @@
-package misc;
+package util;
 
 public final class Utilities
 {
