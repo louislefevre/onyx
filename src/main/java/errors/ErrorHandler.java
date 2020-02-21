@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class ErrorHandler
 {
-    private static List<Error> errorsLog = new ArrayList<>();
+    private final static List<Error> errorsLog = new ArrayList<>();
 
     private ErrorHandler()
     {

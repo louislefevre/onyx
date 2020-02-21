@@ -93,12 +93,7 @@ public final class Parser
 
     private Token currentToken()
     {
-        return peekToken(0);
-    }
-
-    private Token peekToken(int peekPos)
-    {
-        int index = this.position + peekPos;
+        int index = this.position;
         if(index >= this.tokens.size())
             return this.tokens.get(this.tokens.size() - 1);
         return this.tokens.get(index);
