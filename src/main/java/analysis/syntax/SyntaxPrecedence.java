@@ -1,8 +1,10 @@
-package symbols;
+package analysis.syntax;
 
-public final class Syntax
+import symbols.TokenType;
+
+public final class SyntaxPrecedence
 {
-    private Syntax()
+    private SyntaxPrecedence()
     {
         // Prevents class instantiation
         throw new UnsupportedOperationException();
@@ -41,28 +43,5 @@ public final class Syntax
             default:
                 return 0;
         }
-    }
-
-    public static TokenType getKeywordKind(String text)
-    {
-        switch(text)
-        {
-            case "true":
-                return TokenType.TrueKeyword;
-            case "false":
-                return TokenType.FalseKeyword;
-            default:
-                return TokenType.IdentifierKeyword;
-        }
-    }
-
-    public static ObjectType getObjectType(Object object)
-    {
-        if(object instanceof Integer)
-            return ObjectType.IntegerObject;
-        else if(object instanceof Boolean)
-            return ObjectType.BooleanObject;
-        else
-            return ObjectType.NullObject;
     }
 }

@@ -1,9 +1,8 @@
 package analysis.lexical;
 
 import errors.ErrorHandler;
-import symbols.TokenType;
-import symbols.Syntax;
 import misc.Utilities;
+import symbols.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +81,7 @@ public final class Lexer
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
-        TokenType kind = Syntax.getKeywordKind(text);
+        TokenType kind = getKeywordKind(text);
 
         return new Token(kind, text, startPos);
     }
@@ -156,5 +155,18 @@ public final class Lexer
     private void nextPosition()
     {
         this.position++;
+    }
+
+    private static TokenType getKeywordKind(String text)
+    {
+        switch(text)
+        {
+            case "true":
+                return TokenType.TrueKeyword;
+            case "false":
+                return TokenType.FalseKeyword;
+            default:
+                return TokenType.IdentifierKeyword;
+        }
     }
 }

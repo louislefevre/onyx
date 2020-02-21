@@ -1,7 +1,6 @@
 package analysis.syntax;
 
 import errors.ErrorHandler;
-import symbols.Syntax;
 import symbols.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
@@ -35,7 +34,7 @@ public final class Parser
     private Expression parseExpression(int parentPrecedence)
     {
         Expression left;
-        int unaryOperatorPrecedence = Syntax.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
+        int unaryOperatorPrecedence = SyntaxPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
 
         if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
@@ -50,7 +49,7 @@ public final class Parser
 
         while(true)
         {
-            int precedence = Syntax.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
+            int precedence = SyntaxPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
             if(precedence == 0 || precedence <= parentPrecedence)
                 break;
 

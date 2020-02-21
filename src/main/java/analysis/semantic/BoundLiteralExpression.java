@@ -1,9 +1,8 @@
 package analysis.semantic;
 
-import symbols.ExpressionType;
 import lombok.Getter;
+import symbols.ExpressionType;
 import symbols.ObjectType;
-import symbols.Syntax;
 
 public final class BoundLiteralExpression extends BoundExpression
 {
@@ -23,6 +22,16 @@ public final class BoundLiteralExpression extends BoundExpression
     @Override
     public ObjectType getObjectType()
     {
-        return Syntax.getObjectType(this.value);
+        return typeOf(this.value);
+    }
+
+    private static ObjectType typeOf(Object object)
+    {
+        if(object instanceof Integer)
+            return ObjectType.IntegerObject;
+        else if(object instanceof Boolean)
+            return ObjectType.BooleanObject;
+        else
+            return ObjectType.NullObject;
     }
 }
