@@ -1,5 +1,6 @@
 package analysis.syntax;
 
+import errors.ErrorHandler;
 import symbols.Syntax;
 import symbols.TokenType;
 import analysis.lexical.Lexer;
@@ -10,13 +11,11 @@ import java.util.List;
 public final class Parser
 {
     private final List<Token> tokens;
-    private final List<String> diagnosticsLog;
     private int position;
 
     public Parser(Lexer lexer)
     {
         this.tokens = lexer.getTokens();
-        this.diagnosticsLog = lexer.getDiagnosticsLog();
         this.position = 0;
     }
 
@@ -25,16 +24,11 @@ public final class Parser
         return this.parseExpression(0);
     }
 
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
-    }
-
     private Token matchTokens(TokenType kind)
     {
         if(this.currentToken().getTokenType() == kind)
             return this.nextToken();
-        this.diagnosticsLog.add(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
+        ErrorHandler.addSyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
         return new Token(kind, this.currentToken().getPosition());
     }
 

@@ -1,28 +1,20 @@
 package analysis.semantic;
 
 import analysis.syntax.*;
-
-import java.util.List;
+import errors.ErrorHandler;
 
 public final class Binder
 {
     private final Expression expression;
-    private final List<String> diagnosticsLog;
 
     public Binder(SyntaxTree syntaxTree)
     {
         this.expression = syntaxTree.getExpression();
-        this.diagnosticsLog = syntaxTree.getDiagnosticsLog();
     }
 
     public BoundExpression getSyntaxTree()
     {
         return this.bind(this.expression);
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
     }
 
     private BoundExpression bind(Expression syntax)
@@ -76,7 +68,7 @@ public final class Binder
 
         if(boundOperator == null)
         {
-            this.diagnosticsLog.add(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getClassType()));
+            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getClassType()));
             return boundOperand;
         }
 
@@ -91,7 +83,7 @@ public final class Binder
 
         if(boundOperator == null)
         {
-            this.diagnosticsLog.add(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getClassType(), boundRight.getClassType()));
+            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getClassType(), boundRight.getClassType()));
             return boundLeft;
         }
 

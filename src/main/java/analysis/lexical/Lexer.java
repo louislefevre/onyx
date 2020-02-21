@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import errors.ErrorHandler;
 import symbols.TokenType;
 import symbols.Syntax;
 import misc.Utilities;
@@ -10,24 +11,18 @@ import java.util.List;
 public final class Lexer
 {
     private final String inputText;
-    private final List<String> diagnosticsLog;
+
     private int position;
 
     public Lexer(String inputText)
     {
         this.inputText = inputText;
-        this.diagnosticsLog = new ArrayList<>();
         this.position = 0;
     }
 
     public List<Token> getTokens()
     {
         return this.lexTokens();
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return this.diagnosticsLog;
     }
 
     private List<Token> lexTokens()
@@ -74,7 +69,7 @@ public final class Lexer
         if(Utilities.isParsable(text))
             value = Integer.parseInt(text);
         else
-            this.diagnosticsLog.add(String.format("The number '%s' isn't a valid Int32", this.inputText));
+            ErrorHandler.addLexicalError(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
         return new Token(TokenType.NumberToken, text, value, startPos);
     }
@@ -134,7 +129,7 @@ public final class Lexer
                     return new Token(TokenType.NotEqualsToken, "!=", this.position += 2);
                 return new Token(TokenType.BangToken, "!", this.position++);
             default:
-                this.diagnosticsLog.add(String.format("ERROR: Bad character '%s'", this.currentChar()));
+                ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
                 return new Token(TokenType.BadToken, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
         }
     }

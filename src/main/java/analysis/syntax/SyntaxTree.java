@@ -4,27 +4,18 @@ import analysis.lexical.Node;
 import analysis.lexical.Token;
 import misc.ANSI;
 
-import java.util.List;
-
 public final class SyntaxTree
 {
     private final Expression expression;
-    private final List<String> diagnosticsLog;
 
     public SyntaxTree(Parser parser)
     {
         this.expression = parser.getExpression();
-        this.diagnosticsLog = parser.getDiagnosticsLog();
     }
 
     public Expression getExpression()
     {
         return expression;
-    }
-
-    public List<String> getDiagnosticsLog()
-    {
-        return diagnosticsLog;
     }
 
     public void showTree()

@@ -1,26 +1,22 @@
 package compilation;
 
 import analysis.semantic.*;
+import errors.ErrorHandler;
 import symbols.BinaryOperatorType;
 import symbols.UnaryOperatorType;
-import misc.ANSI;
-
-import java.util.List;
 
 public final class Evaluator
 {
     private final BoundExpression syntaxTree;
-    private final List<String> diagnosticsLog;
 
     public Evaluator(Binder binder)
     {
         this.syntaxTree = binder.getSyntaxTree();
-        this.diagnosticsLog = binder.getDiagnosticsLog();
     }
 
     public Object evaluate()
     {
-        if(!errorsPresent())
+        if(!ErrorHandler.errorsPresent())
         {
             try
             {
@@ -31,23 +27,7 @@ public final class Evaluator
                 System.out.println(error.getMessage());
             }
         }
-        return 0;
-    }
-
-    private boolean errorsPresent()
-    {
-        if(!this.diagnosticsLog.isEmpty())
-        {
-            this.showDiagnostics();
-            return true;
-        }
-        return false;
-    }
-
-    public void showDiagnostics()
-    {
-        for (String diagnostic : this.diagnosticsLog)
-            System.out.println(ANSI.RED + diagnostic + ANSI.RESET);
+        return null;
     }
 
     private Object evaluateExpression(BoundExpression node) throws Exception
