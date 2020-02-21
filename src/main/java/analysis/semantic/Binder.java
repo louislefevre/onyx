@@ -68,7 +68,7 @@ public final class Binder
 
         if(boundOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getObjectType()));
+            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), boundOperand.getObjectType()));
             return boundOperand;
         }
 
@@ -83,7 +83,7 @@ public final class Binder
 
         if(boundOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getObjectType(), boundRight.getObjectType()));
+            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), boundLeft.getObjectType(), boundRight.getObjectType()));
             return boundLeft;
         }
 

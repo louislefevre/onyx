@@ -1,8 +1,8 @@
 package analysis.lexical;
 
 import errors.ErrorHandler;
-import util.Utilities;
 import identifiers.TokenType;
+import util.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,9 +81,9 @@ public final class Lexer
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
-        TokenType kind = getKeywordKind(text);
+        TokenType tokenType = getKeywordToken(text);
 
-        return new Token(kind, text, startPos);
+        return new Token(tokenType, text, startPos);
     }
 
     private Token whitespaceToken()
@@ -103,30 +103,30 @@ public final class Lexer
         switch(this.currentChar())
         {
             case '+':
-                return new Token(TokenType.PLUS_TOKEN, "+", this.position++);
+                return new Token(TokenType.PLUS_TOKEN, this.position++);
             case '-':
-                return new Token(TokenType.MINUS_TOKEN, "-", this.position++);
+                return new Token(TokenType.MINUS_TOKEN, this.position++);
             case '*':
-                return new Token(TokenType.STAR_TOKEN, "*", this.position++);
+                return new Token(TokenType.STAR_TOKEN, this.position++);
             case '/':
-                return new Token(TokenType.SLASH_TOKEN, "/", this.position++);
+                return new Token(TokenType.SLASH_TOKEN, this.position++);
             case '(':
-                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, "(", this.position++);
+                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
             case ')':
-                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, ")", this.position++);
+                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
             case '&':
                 if(this.nextChar() == '&')
-                    return new Token(TokenType.AND_TOKEN, "&&", this.position+=2);
+                    return new Token(TokenType.AND_TOKEN, this.position+=2);
             case '|':
                 if(this.nextChar() == '|')
-                    return new Token(TokenType.OR_TOKEN, "||", this.position += 2);
+                    return new Token(TokenType.OR_TOKEN, this.position += 2);
             case '=':
                 if(this.nextChar() == '=')
-                    return new Token(TokenType.EQUALS_TOKEN, "==", this.position += 2);
+                    return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
             case '!':
                 if(this.nextChar() == '=')
-                    return new Token(TokenType.NOT_EQUALS_TOKEN, "!=", this.position += 2);
-                return new Token(TokenType.BANG_TOKEN, "!", this.position++);
+                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
+                return new Token(TokenType.BANG_TOKEN, this.position++);
             default:
                 ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
                 return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
@@ -157,7 +157,7 @@ public final class Lexer
         this.position++;
     }
 
-    private static TokenType getKeywordKind(String text)
+    private static TokenType getKeywordToken(String text)
     {
         switch(text)
         {
