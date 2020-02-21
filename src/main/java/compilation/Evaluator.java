@@ -2,8 +2,7 @@ package compilation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
-import symbols.BinaryOperatorType;
-import symbols.UnaryOperatorType;
+import symbols.OperatorType;
 
 public final class Evaluator
 {
@@ -52,7 +51,7 @@ public final class Evaluator
     private Object evaluateUnaryExpression(BoundExpression node) throws Exception
     {
         Object operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
-        UnaryOperatorType operatorType = ((BoundUnaryExpression) node).getOperator().getOperatorType();
+        OperatorType operatorType = ((BoundUnaryExpression) node).getOperator().getOperatorType();
 
         switch(operatorType)
         {
@@ -71,7 +70,7 @@ public final class Evaluator
     {
         Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeftTerm());
         Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRightTerm());
-        BinaryOperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getOperatorType();
+        OperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getOperatorType();
 
         switch(tokenKind)
         {

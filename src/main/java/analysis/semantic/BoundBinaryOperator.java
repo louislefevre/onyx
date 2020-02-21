@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import symbols.BinaryOperatorType;
+import symbols.OperatorType;
 import symbols.ObjectType;
 import symbols.TokenType;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import lombok.Getter;
 public final class BoundBinaryOperator
 {
     @Getter private final TokenType tokenType;
-    @Getter private final BinaryOperatorType operatorType;
+    @Getter private final OperatorType operatorType;
     @Getter private final ObjectType leftObjectType;
     @Getter private final ObjectType rightObjectType;
     @Getter private final ObjectType resultObjectType;
 
-    private BoundBinaryOperator(TokenType tokenType, BinaryOperatorType operatorType, ObjectType leftObjectType, ObjectType rightObjectType, ObjectType resultObjectType)
+    private BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType leftObjectType, ObjectType rightObjectType, ObjectType resultObjectType)
     {
         this.tokenType = tokenType;
         this.operatorType = operatorType;
@@ -22,26 +22,26 @@ public final class BoundBinaryOperator
         this.resultObjectType = resultObjectType;
     }
 
-    private BoundBinaryOperator(TokenType tokenType, BinaryOperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
+    private BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
     {
         this(tokenType, operatorType, operandObjectType, operandObjectType, resultObjectType);
     }
 
-    private BoundBinaryOperator(TokenType tokenType, BinaryOperatorType operatorType, ObjectType objectType)
+    private BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType objectType)
     {
         this(tokenType, operatorType, objectType, objectType, objectType);
     }
 
     private static final BoundBinaryOperator[] operators =
     {
-        new BoundBinaryOperator(TokenType.PlusToken, BinaryOperatorType.Addition, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.MinusToken, BinaryOperatorType.Subtraction, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.StarToken, BinaryOperatorType.Multiplication, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.SlashToken, BinaryOperatorType.Division, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.EqualsToken, BinaryOperatorType.Equals, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.NotEqualsToken, BinaryOperatorType.NotEquals, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.AndToken, BinaryOperatorType.LogicAnd, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.OrToken, BinaryOperatorType.LogicOr, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.PlusToken, OperatorType.Addition, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.MinusToken, OperatorType.Subtraction, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.StarToken, OperatorType.Multiplication, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.SlashToken, OperatorType.Division, ObjectType.IntegerObject),
+        new BoundBinaryOperator(TokenType.EqualsToken, OperatorType.Equals, ObjectType.IntegerObject, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.NotEqualsToken, OperatorType.NotEquals, ObjectType.IntegerObject, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.AndToken, OperatorType.LogicAnd, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.OrToken, OperatorType.LogicOr, ObjectType.BooleanObject),
     };
 
     public static BoundBinaryOperator bind(TokenType tokenType, ObjectType leftObjectType, ObjectType rightObjectType)
