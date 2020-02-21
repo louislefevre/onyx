@@ -13,7 +13,7 @@ public final class BoundLiteralExpression extends BoundExpression
     }
 
     @Override
-    public NodeType getType()
+    public NodeType getNodeType()
     {
         return NodeType.LiteralExpression;
     }

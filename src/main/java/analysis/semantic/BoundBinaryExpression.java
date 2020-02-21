@@ -17,7 +17,7 @@ public final class BoundBinaryExpression extends BoundExpression
     }
 
     @Override
-    public NodeType getType()
+    public NodeType getNodeType()
     {
         return NodeType.BinaryExpression;
     }

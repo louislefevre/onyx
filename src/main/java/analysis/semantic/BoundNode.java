@@ -4,5 +4,5 @@ import symbols.NodeType;
 
 abstract class BoundNode
 {
-    public abstract NodeType getType();
+    public abstract NodeType getNodeType();
 }
