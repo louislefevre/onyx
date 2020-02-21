@@ -16,7 +16,7 @@ public final class BoundLiteralExpression extends BoundExpression
     @Override
     public ExpressionType getExpressionType()
     {
-        return ExpressionType.LiteralExpression;
+        return ExpressionType.LITERAL_EXPRESSION;
     }
 
     @Override
@@ -28,10 +28,10 @@ public final class BoundLiteralExpression extends BoundExpression
     private static ObjectType typeOf(Object object)
     {
         if(object instanceof Integer)
-            return ObjectType.IntegerObject;
+            return ObjectType.INTEGER_OBJECT;
         else if(object instanceof Boolean)
-            return ObjectType.BooleanObject;
+            return ObjectType.BOOLEAN_OBJECT;
         else
-            return ObjectType.NullObject;
+            return ObjectType.NULL_OBJECT;
     }
 }

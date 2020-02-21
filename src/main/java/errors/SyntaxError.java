@@ -11,6 +11,6 @@ final class SyntaxError extends Error
     public SyntaxError(String errorMessage)
     {
         this.errorMessage = errorMessage;
-        this.errorType = ErrorType.SyntaxError;
+        this.errorType = ErrorType.SYNTAX_ERROR;
     }
 }

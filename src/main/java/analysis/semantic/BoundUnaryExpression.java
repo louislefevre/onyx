@@ -18,7 +18,7 @@ public final class BoundUnaryExpression extends BoundExpression
     @Override
     public ExpressionType getExpressionType()
     {
-        return ExpressionType.UnaryExpression;
+        return ExpressionType.UNARY_EXPRESSION;
     }
 
     @Override

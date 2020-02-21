@@ -2,7 +2,7 @@ package identifiers;
 
 public enum ObjectType
 {
-    BooleanObject,
-    IntegerObject,
-    NullObject
+    BOOLEAN_OBJECT,
+    INTEGER_OBJECT,
+    NULL_OBJECT
 }

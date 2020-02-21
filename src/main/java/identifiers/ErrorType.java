@@ -2,7 +2,7 @@ package identifiers;
 
 public enum ErrorType
 {
-    LexicalError,
-    SyntaxError,
-    SemanticError
+    LEXICAL_ERROR,
+    SYNTAX_ERROR,
+    SEMANTIC_ERROR
 }

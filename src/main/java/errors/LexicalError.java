@@ -11,6 +11,6 @@ final class LexicalError extends Error
     public LexicalError(String errorMessage)
     {
         this.errorMessage = errorMessage;
-        this.errorType = ErrorType.LexicalError;
+        this.errorType = ErrorType.LEXICAL_ERROR;
     }
 }

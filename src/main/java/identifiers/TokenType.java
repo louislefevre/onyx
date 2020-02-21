@@ -3,34 +3,34 @@ package identifiers;
 public enum TokenType
 {
     // Primary Tokens
-    NumberToken,
-    WhiteSpaceToken,
+    NUMBER_TOKEN,
+    WHITE_SPACE_TOKEN,
 
     // Operator Tokens
-    PlusToken,
-    MinusToken,
-    StarToken,
-    SlashToken,
-    OpenParenthesisToken,
-    CloseParenthesisToken,
-    BangToken,
-    AndToken,
-    OrToken,
-    EqualsToken,
-    NotEqualsToken,
+    PLUS_TOKEN,
+    MINUS_TOKEN,
+    STAR_TOKEN,
+    SLASH_TOKEN,
+    OPEN_PARENTHESIS_TOKEN,
+    CLOSE_PARENTHESIS_TOKEN,
+    BANG_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
+    EQUALS_TOKEN,
+    NOT_EQUALS_TOKEN,
 
     // Keywords
-    FalseKeywordToken,
-    TrueKeywordToken,
-    IdentifierKeywordToken,
+    FALSE_KEYWORD_TOKEN,
+    TRUE_KEYWORD_TOKEN,
+    IDENTIFIER_KEYWORD_TOKEN,
 
     // Expression Tokens
-    LiteralExpressionToken,
-    UnaryExpressionToken,
-    BinaryExpressionToken,
-    ParenthesizedExpressionToken,
+    LITERAL_EXPRESSION_TOKEN,
+    UNARY_EXPRESSION_TOKEN,
+    BINARY_EXPRESSION_TOKEN,
+    PARENTHESIZED_EXPRESSION_TOKEN,
 
     // Break Tokens
-    BadToken,
-    EOFToken
+    BAD_TOKEN,
+    EOF_TOKEN
 }

@@ -27,9 +27,9 @@ public final class BoundUnaryOperator
 
     private static final BoundUnaryOperator[] operators =
     {
-        new BoundUnaryOperator(TokenType.BangToken, OperatorType.LogicNegationOperator, ObjectType.BooleanObject),
-        new BoundUnaryOperator(TokenType.PlusToken, OperatorType.IdentityOperator, ObjectType.IntegerObject),
-        new BoundUnaryOperator(TokenType.MinusToken, OperatorType.NegationOperator, ObjectType.IntegerObject)
+        new BoundUnaryOperator(TokenType.BANG_TOKEN, OperatorType.LOGIC_NEGATION_OPERATOR, ObjectType.BOOLEAN_OBJECT),
+        new BoundUnaryOperator(TokenType.PLUS_TOKEN, OperatorType.IDENTITY_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundUnaryOperator(TokenType.MINUS_TOKEN, OperatorType.NEGATION_OPERATOR, ObjectType.INTEGER_OBJECT)
     };
 
     public static BoundUnaryOperator bind(TokenType tokenType, ObjectType operandObjectType)

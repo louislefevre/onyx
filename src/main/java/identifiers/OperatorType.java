@@ -3,17 +3,17 @@ package identifiers;
 public enum OperatorType
 {
     // Binary Operators
-    AdditionOperator,
-    SubtractionOperator,
-    MultiplicationOperator,
-    DivisionOperator,
-    LogicAndOperator,
-    LogicOrOperator,
-    EqualsOperator,
-    NotEqualsOperator,
+    ADDITION_OPERATOR,
+    SUBTRACTION_OPERATOR,
+    MULTIPLICATION_OPERATOR,
+    DIVISION_OPERATOR,
+    AND_OPERATOR,
+    OR_OPERATOR,
+    EQUALS_OPERATOR,
+    NOT_EQUALS_OPERATOR,
 
     // Unary Operators
-    IdentityOperator,
-    NegationOperator,
-    LogicNegationOperator
+    IDENTITY_OPERATOR,
+    NEGATION_OPERATOR,
+    LOGIC_NEGATION_OPERATOR
 }

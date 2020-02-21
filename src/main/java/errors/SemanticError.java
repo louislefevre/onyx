@@ -11,6 +11,6 @@ final class SemanticError extends Error
     public SemanticError(String errorMessage)
     {
         this.errorMessage = errorMessage;
-        this.errorType = ErrorType.SemanticError;
+        this.errorType = ErrorType.SEMANTIC_ERROR;
     }
 }

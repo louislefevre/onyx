@@ -31,9 +31,9 @@ public final class Lexer
         do
         {
             token = this.nextToken();
-            if(token.getTokenType() != TokenType.BadToken && token.getTokenType() != TokenType.WhiteSpaceToken)
+            if(token.getTokenType() != TokenType.BAD_TOKEN && token.getTokenType() != TokenType.WHITE_SPACE_TOKEN)
                 tokens.add(token);
-        }while(token.getTokenType() != TokenType.EOFToken);
+        }while(token.getTokenType() != TokenType.EOF_TOKEN);
         return tokens;
     }
 
@@ -52,7 +52,7 @@ public final class Lexer
 
     private Token endToken()
     {
-        return new Token(TokenType.EOFToken, "\0", this.position);
+        return new Token(TokenType.EOF_TOKEN, "\0", this.position);
     }
 
     private Token numberToken()
@@ -70,7 +70,7 @@ public final class Lexer
         else
             ErrorHandler.addLexicalError(String.format("The number '%s' isn't a valid Int32", this.inputText));
 
-        return new Token(TokenType.NumberToken, text, value, startPos);
+        return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
 
     private Token letterToken()
@@ -95,7 +95,7 @@ public final class Lexer
 
         String text = this.inputText.substring(startPos, this.position);
 
-        return new Token(TokenType.WhiteSpaceToken, text, startPos);
+        return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
     private Token symbolToken()
@@ -103,33 +103,33 @@ public final class Lexer
         switch(this.currentChar())
         {
             case '+':
-                return new Token(TokenType.PlusToken, "+", this.position++);
+                return new Token(TokenType.PLUS_TOKEN, "+", this.position++);
             case '-':
-                return new Token(TokenType.MinusToken, "-", this.position++);
+                return new Token(TokenType.MINUS_TOKEN, "-", this.position++);
             case '*':
-                return new Token(TokenType.StarToken, "*", this.position++);
+                return new Token(TokenType.STAR_TOKEN, "*", this.position++);
             case '/':
-                return new Token(TokenType.SlashToken, "/", this.position++);
+                return new Token(TokenType.SLASH_TOKEN, "/", this.position++);
             case '(':
-                return new Token(TokenType.OpenParenthesisToken, "(", this.position++);
+                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, "(", this.position++);
             case ')':
-                return new Token(TokenType.CloseParenthesisToken, ")", this.position++);
+                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, ")", this.position++);
             case '&':
                 if(this.nextChar() == '&')
-                    return new Token(TokenType.AndToken, "&&", this.position+=2);
+                    return new Token(TokenType.AND_TOKEN, "&&", this.position+=2);
             case '|':
                 if(this.nextChar() == '|')
-                    return new Token(TokenType.OrToken, "||", this.position += 2);
+                    return new Token(TokenType.OR_TOKEN, "||", this.position += 2);
             case '=':
                 if(this.nextChar() == '=')
-                    return new Token(TokenType.EqualsToken, "==", this.position += 2);
+                    return new Token(TokenType.EQUALS_TOKEN, "==", this.position += 2);
             case '!':
                 if(this.nextChar() == '=')
-                    return new Token(TokenType.NotEqualsToken, "!=", this.position += 2);
-                return new Token(TokenType.BangToken, "!", this.position++);
+                    return new Token(TokenType.NOT_EQUALS_TOKEN, "!=", this.position += 2);
+                return new Token(TokenType.BANG_TOKEN, "!", this.position++);
             default:
                 ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new Token(TokenType.BadToken, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
+                return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
         }
     }
 
@@ -162,11 +162,11 @@ public final class Lexer
         switch(text)
         {
             case "true":
-                return TokenType.TrueKeywordToken;
+                return TokenType.TRUE_KEYWORD_TOKEN;
             case "false":
-                return TokenType.FalseKeywordToken;
+                return TokenType.FALSE_KEYWORD_TOKEN;
             default:
-                return TokenType.IdentifierKeywordToken;
+                return TokenType.IDENTIFIER_KEYWORD_TOKEN;
         }
     }
 }

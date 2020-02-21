@@ -20,7 +20,7 @@ public final class BoundBinaryExpression extends BoundExpression
     @Override
     public ExpressionType getExpressionType()
     {
-        return ExpressionType.BinaryExpression;
+        return ExpressionType.BINARY_EXPRESSION;
     }
 
     @Override

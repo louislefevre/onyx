@@ -34,14 +34,14 @@ public final class BoundBinaryOperator
 
     private static final BoundBinaryOperator[] operators =
     {
-        new BoundBinaryOperator(TokenType.PlusToken, OperatorType.AdditionOperator, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.MinusToken, OperatorType.SubtractionOperator, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.StarToken, OperatorType.MultiplicationOperator, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.SlashToken, OperatorType.DivisionOperator, ObjectType.IntegerObject),
-        new BoundBinaryOperator(TokenType.EqualsToken, OperatorType.EqualsOperator, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.NotEqualsToken, OperatorType.NotEqualsOperator, ObjectType.IntegerObject, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.AndToken, OperatorType.LogicAndOperator, ObjectType.BooleanObject),
-        new BoundBinaryOperator(TokenType.OrToken, OperatorType.LogicOrOperator, ObjectType.BooleanObject),
+        new BoundBinaryOperator(TokenType.PLUS_TOKEN, OperatorType.ADDITION_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundBinaryOperator(TokenType.MINUS_TOKEN, OperatorType.SUBTRACTION_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundBinaryOperator(TokenType.STAR_TOKEN, OperatorType.MULTIPLICATION_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundBinaryOperator(TokenType.SLASH_TOKEN, OperatorType.DIVISION_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundBinaryOperator(TokenType.EQUALS_TOKEN, OperatorType.EQUALS_OPERATOR, ObjectType.INTEGER_OBJECT, ObjectType.BOOLEAN_OBJECT),
+        new BoundBinaryOperator(TokenType.NOT_EQUALS_TOKEN, OperatorType.NOT_EQUALS_OPERATOR, ObjectType.INTEGER_OBJECT, ObjectType.BOOLEAN_OBJECT),
+        new BoundBinaryOperator(TokenType.AND_TOKEN, OperatorType.AND_OPERATOR, ObjectType.BOOLEAN_OBJECT),
+        new BoundBinaryOperator(TokenType.OR_TOKEN, OperatorType.OR_OPERATOR, ObjectType.BOOLEAN_OBJECT),
     };
 
     public static BoundBinaryOperator bind(TokenType tokenType, ObjectType leftObjectType, ObjectType rightObjectType)

@@ -14,9 +14,9 @@ public final class SyntaxPrecedence
     {
         switch(type)
         {
-            case PlusToken:
-            case MinusToken:
-            case BangToken:
+            case PLUS_TOKEN:
+            case MINUS_TOKEN:
+            case BANG_TOKEN:
                 return 6;
             default:
                 return 0;
@@ -27,18 +27,18 @@ public final class SyntaxPrecedence
     {
         switch(type)
         {
-            case StarToken:
-            case SlashToken:
+            case STAR_TOKEN:
+            case SLASH_TOKEN:
                 return 5;
-            case PlusToken:
-            case MinusToken:
+            case PLUS_TOKEN:
+            case MINUS_TOKEN:
                 return 4;
-            case EqualsToken:
-            case NotEqualsToken:
+            case EQUALS_TOKEN:
+            case NOT_EQUALS_TOKEN:
                 return 3;
-            case AndToken:
+            case AND_TOKEN:
                 return 2;
-            case OrToken:
+            case OR_TOKEN:
                 return 1;
             default:
                 return 0;

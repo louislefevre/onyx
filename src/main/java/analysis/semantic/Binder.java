@@ -34,13 +34,13 @@ public final class Binder
     {
         switch(syntax.getTokenType())
         {
-            case ParenthesizedExpressionToken:
+            case PARENTHESIZED_EXPRESSION_TOKEN:
                 return this.bindParenthesizedExpression((ParenthesizedExpression)syntax);
-            case LiteralExpressionToken:
+            case LITERAL_EXPRESSION_TOKEN:
                 return this.bindLiteralExpression((LiteralExpression)syntax);
-            case UnaryExpressionToken:
+            case UNARY_EXPRESSION_TOKEN:
                 return this.bindUnaryExpression((UnaryExpression)syntax);
-            case BinaryExpressionToken:
+            case BINARY_EXPRESSION_TOKEN:
                 return this.bindBinaryExpression((BinaryExpression)syntax);
             default:
                 throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));

@@ -2,7 +2,7 @@ package identifiers;
 
 public enum ExpressionType
 {
-    LiteralExpression,
-    BinaryExpression,
-    UnaryExpression
+    LITERAL_EXPRESSION,
+    BINARY_EXPRESSION,
+    UNARY_EXPRESSION
 }

@@ -55,11 +55,11 @@ public final class Evaluator
 
         switch(operatorType)
         {
-            case IdentityOperator:
+            case IDENTITY_OPERATOR:
                 return operand;
-            case NegationOperator:
+            case NEGATION_OPERATOR:
                 return -(int)operand;
-            case LogicNegationOperator:
+            case LOGIC_NEGATION_OPERATOR:
                 return !(boolean)operand;
             default:
                 throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
@@ -74,21 +74,21 @@ public final class Evaluator
 
         switch(tokenKind)
         {
-            case AdditionOperator:
+            case ADDITION_OPERATOR:
                 return (int)left + (int)right;
-            case SubtractionOperator:
+            case SUBTRACTION_OPERATOR:
                 return (int)left - (int)right;
-            case MultiplicationOperator:
+            case MULTIPLICATION_OPERATOR:
                 return (int)left * (int)right;
-            case DivisionOperator:
+            case DIVISION_OPERATOR:
                 return (int)left / (int)right;
-            case LogicAndOperator:
+            case AND_OPERATOR:
                 return (boolean)left && (boolean)right;
-            case LogicOrOperator:
+            case OR_OPERATOR:
                 return (boolean)left || (boolean)right;
-            case EqualsOperator:
+            case EQUALS_OPERATOR:
                 return left == right;
-            case NotEqualsOperator:
+            case NOT_EQUALS_OPERATOR:
                 return left != right;
             default:
                 throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
