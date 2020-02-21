@@ -55,4 +55,14 @@ public final class Syntax
                 return TokenType.IdentifierKeyword;
         }
     }
+
+    public static ObjectType getObjectType(Object object)
+    {
+        if(object instanceof Integer)
+            return ObjectType.IntegerObject;
+        else if(object instanceof Boolean)
+            return ObjectType.BooleanObject;
+        else
+            return ObjectType.NullObject;
+    }
 }

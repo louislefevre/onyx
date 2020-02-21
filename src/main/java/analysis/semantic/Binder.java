@@ -64,11 +64,11 @@ public final class Binder
     private BoundExpression bindUnaryExpression(UnaryExpression syntax) throws Exception
     {
         BoundExpression boundOperand = this.bindExpression(syntax.getOperand());
-        BoundUnaryOperator boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundOperand.getClassType());
+        BoundUnaryOperator boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundOperand.getObjectType());
 
         if(boundOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getClassType()));
+            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getText(), boundOperand.getObjectType()));
             return boundOperand;
         }
 
@@ -79,11 +79,11 @@ public final class Binder
     {
         BoundExpression boundLeft = this.bindExpression(syntax.getLeftTerm());
         BoundExpression boundRight = this.bindExpression(syntax.getRightTerm());
-        BoundBinaryOperator boundOperator = BoundBinaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundLeft.getClassType(), boundRight.getClassType());
+        BoundBinaryOperator boundOperator = BoundBinaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundLeft.getObjectType(), boundRight.getObjectType());
 
         if(boundOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getClassType(), boundRight.getClassType()));
+            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getText(), boundLeft.getObjectType(), boundRight.getObjectType()));
             return boundLeft;
         }
 

@@ -2,6 +2,8 @@ package analysis.semantic;
 
 import symbols.NodeType;
 import lombok.Getter;
+import symbols.ObjectType;
+import symbols.Syntax;
 
 public final class BoundLiteralExpression extends BoundExpression
 {
@@ -19,8 +21,8 @@ public final class BoundLiteralExpression extends BoundExpression
     }
 
     @Override
-    public Class getClassType()
+    public ObjectType getObjectType()
     {
-        return this.value.getClass();
+        return Syntax.getObjectType(this.value);
     }
 }

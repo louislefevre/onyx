@@ -1,6 +1,8 @@
 package analysis.semantic;
 
+import symbols.ObjectType;
+
 public abstract class BoundExpression extends BoundNode
 {
-    public abstract Class getClassType();
+    public abstract ObjectType getObjectType();
 }

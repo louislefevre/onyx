@@ -2,6 +2,7 @@ package analysis.semantic;
 
 import symbols.NodeType;
 import lombok.Getter;
+import symbols.ObjectType;
 
 public final class BoundUnaryExpression extends BoundExpression
 {
@@ -21,8 +22,8 @@ public final class BoundUnaryExpression extends BoundExpression
     }
 
     @Override
-    public Class getClassType()
+    public ObjectType getObjectType()
     {
-        return this.operator.getResultClassType();
+        return this.operator.getResultObjectType();
     }
 }

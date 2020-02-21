@@ -1,5 +1,6 @@
 package analysis.semantic;
 
+import symbols.ObjectType;
 import symbols.UnaryOperatorType;
 import symbols.TokenType;
 import lombok.Getter;
@@ -7,35 +8,35 @@ import lombok.Getter;
 public final class BoundUnaryOperator
 {
     @Getter private final TokenType tokenType;
-    @Getter private final UnaryOperatorType kind;
-    @Getter private final Class operandClassType;
-    @Getter private final Class resultClassType;
+    @Getter private final UnaryOperatorType operatorType;
+    @Getter private final ObjectType operandObjectType;
+    @Getter private final ObjectType resultObjectType;
 
-    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType kind, Class operandClassType, Class resultClassType)
+    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
     {
         this.tokenType = tokenType;
-        this.kind = kind;
-        this.operandClassType = operandClassType;
-        this.resultClassType = resultClassType;
+        this.operatorType = operatorType;
+        this.operandObjectType = operandObjectType;
+        this.resultObjectType = resultObjectType;
     }
 
-    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType kind, Class operandClassType)
+    private BoundUnaryOperator(TokenType tokenType, UnaryOperatorType kind, ObjectType operandObjectType)
     {
-        this(tokenType, kind, operandClassType, operandClassType);
+        this(tokenType, kind, operandObjectType, operandObjectType);
     }
 
     private static final BoundUnaryOperator[] operators =
     {
-        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.LogicNegation, Boolean.class),
-        new BoundUnaryOperator(TokenType.PlusToken, UnaryOperatorType.Identity, Integer.class),
-        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.Negation, Integer.class)
+        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.LogicNegation, ObjectType.BooleanObject),
+        new BoundUnaryOperator(TokenType.PlusToken, UnaryOperatorType.Identity, ObjectType.IntegerObject),
+        new BoundUnaryOperator(TokenType.BangToken, UnaryOperatorType.Negation, ObjectType.IntegerObject)
     };
 
-    public static BoundUnaryOperator bind(TokenType tokenType, Class operandClassType)
+    public static BoundUnaryOperator bind(TokenType tokenType, ObjectType operandObjectType)
     {
         for(BoundUnaryOperator operator : operators)
         {
-            if(operator.getTokenType() == tokenType && operator.getOperandClassType() == operandClassType)
+            if(operator.getTokenType() == tokenType && operator.getOperandObjectType() == operandObjectType)
                 return operator;
         }
 
