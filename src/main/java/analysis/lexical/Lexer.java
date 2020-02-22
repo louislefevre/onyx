@@ -77,6 +77,11 @@ public final class Lexer
     {
         int startPos = this.position;
 
+        // Checks if a number token is present before the letter token.
+        int i = -1;
+        while(Utilities.isWhitespace(this.peek(i))) i--;
+        if(Utilities.isDigit(this.peek(i))) return this.badToken();
+
         while(Utilities.isLetter(this.currentChar()))
             this.nextPosition();
 
@@ -123,26 +128,31 @@ public final class Lexer
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
             case Syntax.PIPE:
                 if(this.nextChar().equals(Syntax.PIPE))
-                    return new Token(TokenType.OR_TOKEN, this.position += 2);
+                    return new Token(TokenType.OR_TOKEN, this.position+=2);
             case Syntax.EQUALS:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.position += 2);
+                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.position+=2);
             case Syntax.NOT:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
+                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.position+=2);
                 return new Token(TokenType.NOT_TOKEN, this.position++);
             case Syntax.GREATER:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.position += 2);
+                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.position+=2);
                 return new Token(TokenType.GREATER_TOKEN, this.position++);
             case Syntax.LESS:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.position += 2);
+                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.position+=2);
                 return new Token(TokenType.LESS_TOKEN, this.position++);
             default:
-                ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
-                return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
+                return this.badToken();
         }
+    }
+
+    private Token badToken()
+    {
+        ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
+        return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
     }
 
     private String currentChar()
@@ -159,7 +169,7 @@ public final class Lexer
     {
         int index = this.position + offset;
 
-        if(index >= this.inputText.length())
+        if(index >= this.inputText.length() || index < 0)
             return Syntax.ESCAPE;
         return Character.toString(this.inputText.charAt(index));
     }

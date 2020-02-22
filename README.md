@@ -107,7 +107,6 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Create custom input object.
 - Renamed binder to SemanticParser or TypeChecker? Check video again for functionality purpose.
 - Split up binder based on description in Minsk repo?
-- Fix error checking in cases where invalid character is present when no operator comes first (e.g. 1 d 5 is valid).
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
