@@ -31,6 +31,7 @@ public final class SyntaxPrecedence
                 return 6;
             case STAR_TOKEN:
             case SLASH_TOKEN:
+            case PERCENT_TOKEN:
                 return 5;
             case PLUS_TOKEN:
             case MINUS_TOKEN:

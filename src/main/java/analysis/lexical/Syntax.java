@@ -7,6 +7,7 @@ public final class Syntax
     public static final String STAR = "*";
     public static final String SLASH = "/";
     public static final String CARET = "^";
+    public static final String PERCENT = "%";
 
     public static final String OPEN_PARENTHESIS = "(";
     public static final String CLOSE_PARENTHESIS = ")";

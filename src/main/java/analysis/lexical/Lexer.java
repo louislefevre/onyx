@@ -112,6 +112,8 @@ public final class Lexer
                 return new Token(TokenType.SLASH_TOKEN, this.position++);
             case Syntax.CARET:
                 return new Token(TokenType.CARET_TOKEN, this.position++);
+            case Syntax.PERCENT:
+                return new Token(TokenType.PERCENT_TOKEN, this.position++);
             case Syntax.OPEN_PARENTHESIS:
                 return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
             case Syntax.CLOSE_PARENTHESIS:

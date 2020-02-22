@@ -89,6 +89,8 @@ public final class Evaluator
                 return (int)left / (int)right;
             case POWER_OPERATOR:
                 return (int)Math.pow((int)left, (int)right);
+            case MODULO_OPERATOR:
+                return (int)left % (int)right;
             case AND_OPERATOR:
                 return (boolean)left && (boolean)right;
             case OR_OPERATOR:

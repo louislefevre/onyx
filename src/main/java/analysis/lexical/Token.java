@@ -42,6 +42,8 @@ public final class Token
                 return Syntax.SLASH;
             case CARET_TOKEN:
                 return Syntax.CARET;
+            case PERCENT_TOKEN:
+                return Syntax.PERCENT;
             case OPEN_PARENTHESIS_TOKEN:
                 return Syntax.OPEN_PARENTHESIS;
             case CLOSE_PARENTHESIS_TOKEN:
