@@ -12,7 +12,12 @@ public final class Binder
         this.parseTree = parser.getParseTree();
     }
 
-    public BoundExpression getAnnotatedParseTree()
+    public AnnotatedParseTree getAnnotatedParseTree()
+    {
+        return new AnnotatedParseTree(this.getBoundExpression());
+    }
+
+    private BoundExpression getBoundExpression()
     {
         return this.bind(this.parseTree.getExpression());
     }

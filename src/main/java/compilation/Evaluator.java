@@ -6,7 +6,7 @@ import identifiers.OperatorType;
 
 public final class Evaluator
 {
-    private final BoundExpression annotatedParseTree;
+    private final AnnotatedParseTree annotatedParseTree;
 
     public Evaluator(Binder binder)
     {
@@ -15,11 +15,16 @@ public final class Evaluator
 
     public Object evaluate()
     {
+        return this.evaluateErrors(this.annotatedParseTree.getExpression());
+    }
+
+    private Object evaluateErrors(BoundExpression expression)
+    {
         if(!ErrorHandler.errorsPresent())
         {
             try
             {
-                return evaluateExpression(this.annotatedParseTree);
+                return evaluateExpression(expression);
             }
             catch(Exception error)
             {
