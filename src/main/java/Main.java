@@ -1,4 +1,4 @@
-import compilation.Compiler;
+import synthesis.compilation.Compiler;
 
 import java.util.Scanner;
 

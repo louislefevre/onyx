@@ -1,4 +1,4 @@
-package compilation;
+package synthesis.compilation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
