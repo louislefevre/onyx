@@ -106,11 +106,8 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Try and create individual class for each piece of compiler feature functionality (e.g. class for boolean handling, etc).
 - Create custom input object.
 - Renamed binder to SemanticParser or TypeChecker? Check video again for functionality purpose.
-- Renamed compilation package into generation.
-- Move compiler class somewhere else.
 - Split up binder based on description in Minsk repo?
 - Fix error checking in cases where invalid character is present when no operator comes first (e.g. 1 d 5 is valid).
-- Add power to operator.
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
