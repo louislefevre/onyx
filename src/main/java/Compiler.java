@@ -1,8 +1,7 @@
-package synthesis.compilation;
-
 import analysis.lexical.Lexer;
 import analysis.semantic.Binder;
 import analysis.syntax.Parser;
+import synthesis.generation.Evaluator;
 
 public final class Compiler
 {
