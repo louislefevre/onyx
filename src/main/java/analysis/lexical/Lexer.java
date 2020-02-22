@@ -115,16 +115,16 @@ public final class Lexer
             case ")":
                 return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
             case "&":
-                if(this.nextChar() == "&")
+                if(this.nextChar().equals("&"))
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
             case "|":
-                if(this.nextChar() == "|")
+                if(this.nextChar().equals("|"))
                     return new Token(TokenType.OR_TOKEN, this.position += 2);
             case "=":
-                if(this.nextChar() == "=")
+                if(this.nextChar().equals("="))
                     return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
             case "!":
-                if(this.nextChar() == "=")
+                if(this.nextChar().equals("="))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
                 return new Token(TokenType.BANG_TOKEN, this.position++);
             default:
