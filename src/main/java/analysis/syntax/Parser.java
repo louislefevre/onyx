@@ -23,14 +23,6 @@ public final class Parser
         return new ParseTree(this.parseExpression(0));
     }
 
-    private Token matchTokens(TokenType kind)
-    {
-        if(this.currentToken().getTokenType() == kind)
-            return this.nextToken();
-        ErrorHandler.addSyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
-        return new Token(kind, this.currentToken().getPosition());
-    }
-
     private Expression parseExpression(int parentPrecedence)
     {
         Expression left;
@@ -49,12 +41,12 @@ public final class Parser
 
         while(true)
         {
-            int precedence = SyntaxPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
-            if(precedence == 0 || precedence <= parentPrecedence)
+            int binaryOperatorPrecedence = SyntaxPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
+            if(binaryOperatorPrecedence == 0 || binaryOperatorPrecedence <= parentPrecedence)
                 break;
 
             Token operatorToken = this.nextToken();
-            Expression right = this.parseExpression(precedence);
+            Expression right = this.parseExpression(binaryOperatorPrecedence);
             left = new BinaryExpression(left, operatorToken, right);
         }
 
@@ -66,21 +58,42 @@ public final class Parser
         switch(this.currentToken().getTokenType())
         {
             case OPEN_PARENTHESIS_TOKEN:
-                Token left = this.nextToken();
-                Expression expression = this.parseExpression(0);
-                Token right = this.matchTokens(TokenType.CLOSE_PARENTHESIS_TOKEN);
-                return new ParenthesizedExpression(left, expression, right);
-
+                return this.parseParenthesizedExpression();
             case FALSE_KEYWORD_TOKEN:
             case TRUE_KEYWORD_TOKEN:
-                Token keywordToken = this.nextToken();
-                boolean value = keywordToken.getTokenType() == TokenType.TRUE_KEYWORD_TOKEN;
-                return new LiteralExpression(keywordToken, value);
-
+                return this.parseBooleanExpression();
             default:
-                Token numberToken = this.matchTokens(TokenType.NUMBER_TOKEN);
-                return new LiteralExpression(numberToken);
+                return this.parseNumberExpression();
         }
+    }
+
+    private Expression parseParenthesizedExpression()
+    {
+        Token left = this.nextToken();
+        Expression expression = this.parseExpression(0);
+        Token right = this.matchTokens(TokenType.CLOSE_PARENTHESIS_TOKEN);
+        return new ParenthesizedExpression(left, expression, right);
+    }
+
+    private Expression parseBooleanExpression()
+    {
+        Token keywordToken = this.nextToken();
+        boolean value = keywordToken.getTokenType() == TokenType.TRUE_KEYWORD_TOKEN;
+        return new LiteralExpression(keywordToken, value);
+    }
+
+    private Expression parseNumberExpression()
+    {
+        Token numberToken = this.matchTokens(TokenType.NUMBER_TOKEN);
+        return new LiteralExpression(numberToken);
+    }
+
+    private Token matchTokens(TokenType kind)
+    {
+        if(this.currentToken().getTokenType() == kind)
+            return this.nextToken();
+        ErrorHandler.addSyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
+        return new Token(kind, this.currentToken().getPosition());
     }
 
     private Token nextToken()
