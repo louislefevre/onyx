@@ -1,5 +1,5 @@
 import analysis.lexical.Lexer;
-import analysis.semantic.Binder;
+import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import synthesis.generation.Evaluator;
 
@@ -16,8 +16,8 @@ public final class Compiler
     {
         Lexer lexer = new Lexer(this.input);
         Parser parser = new Parser(lexer);
-        Binder binder = new Binder(parser);
-        Evaluator evaluator = new Evaluator(binder);
+        TypeChecker typeChecker = new TypeChecker(parser);
+        Evaluator evaluator = new Evaluator(typeChecker);
 
         return evaluator.evaluate();
     }

@@ -3,11 +3,11 @@ package analysis.semantic;
 import analysis.syntax.*;
 import errors.ErrorHandler;
 
-public final class Binder
+public final class TypeChecker
 {
     private final ParseTree parseTree;
 
-    public Binder(Parser parser)
+    public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
     }
@@ -69,7 +69,7 @@ public final class Binder
     private BoundExpression bindUnaryExpression(UnaryExpression syntax) throws Exception
     {
         BoundExpression boundOperand = this.bindExpression(syntax.getOperand());
-        BoundUnaryOperator boundOperator = BoundUnaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundOperand.getObjectType());
+        BoundUnaryOperator boundOperator = TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(), boundOperand.getObjectType());
 
         if(boundOperator == null)
         {
@@ -84,7 +84,7 @@ public final class Binder
     {
         BoundExpression boundLeft = this.bindExpression(syntax.getLeftTerm());
         BoundExpression boundRight = this.bindExpression(syntax.getRightTerm());
-        BoundBinaryOperator boundOperator = BoundBinaryOperator.bind(syntax.getOperatorToken().getTokenType(), boundLeft.getObjectType(), boundRight.getObjectType());
+        BoundBinaryOperator boundOperator = TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(), boundLeft.getObjectType(), boundRight.getObjectType());
 
         if(boundOperator == null)
         {

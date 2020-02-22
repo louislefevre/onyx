@@ -8,9 +8,9 @@ public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
 
-    public Evaluator(Binder binder)
+    public Evaluator(TypeChecker typeChecker)
     {
-        this.annotatedParseTree = binder.getAnnotatedParseTree();
+        this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
     }
 
     public Object evaluate()
