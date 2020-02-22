@@ -126,12 +126,15 @@ public final class Lexer
             case Syntax.AMPERSAND:
                 if(this.nextChar().equals(Syntax.AMPERSAND))
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
+                break;
             case Syntax.PIPE:
                 if(this.nextChar().equals(Syntax.PIPE))
                     return new Token(TokenType.OR_TOKEN, this.position+=2);
+                break;
             case Syntax.EQUALS:
                 if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.position+=2);
+                break;
             case Syntax.NOT:
                 if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position+=2);
@@ -144,9 +147,8 @@ public final class Lexer
                 if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.LESS_EQUALS_TOKEN, this.position+=2);
                 return new Token(TokenType.LESS_TOKEN, this.position++);
-            default:
-                return this.badToken();
         }
+        return this.badToken();
     }
 
     private Token badToken()
