@@ -91,10 +91,18 @@ public final class Evaluator
                 return (boolean)left && (boolean)right;
             case OR_OPERATOR:
                 return (boolean)left || (boolean)right;
-            case EQUALS_OPERATOR:
+            case EQUALS_EQUALS_OPERATOR:
                 return left == right;
             case NOT_EQUALS_OPERATOR:
                 return left != right;
+            case GREATER_OPERATOR:
+                return (int)left > (int)right;
+            case LESS_OPERATOR:
+                return (int)left < (int)right;
+            case GREATER_EQUALS_OPERATOR:
+                return (int)left >= (int)right;
+            case LESS_EQUALS_OPERATOR:
+                return (int)left <= (int)right;
             default:
                 throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
         }

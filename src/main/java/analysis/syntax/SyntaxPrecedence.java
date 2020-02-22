@@ -16,7 +16,7 @@ public final class SyntaxPrecedence
         {
             case PLUS_TOKEN:
             case MINUS_TOKEN:
-            case BANG_TOKEN:
+            case NOT_TOKEN:
                 return 6;
             default:
                 return 0;
@@ -33,8 +33,12 @@ public final class SyntaxPrecedence
             case PLUS_TOKEN:
             case MINUS_TOKEN:
                 return 4;
-            case EQUALS_TOKEN:
+            case EQUALS_EQUALS_TOKEN:
             case NOT_EQUALS_TOKEN:
+            case GREATER_TOKEN:
+            case LESS_TOKEN:
+            case GREATER_EQUALS_TOKEN:
+            case LESS_EQUALS_TOKEN:
                 return 3;
             case AND_TOKEN:
                 return 2;

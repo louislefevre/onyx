@@ -120,13 +120,21 @@ public final class Lexer
             case Syntax.PIPE:
                 if(this.nextChar().equals(Syntax.PIPE))
                     return new Token(TokenType.OR_TOKEN, this.position += 2);
-            case Syntax.ASSIGN:
-                if(this.nextChar().equals(Syntax.ASSIGN))
-                    return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
-            case Syntax.BANG:
-                if(this.nextChar().equals(Syntax.ASSIGN))
+            case Syntax.EQUALS:
+                if(this.nextChar().equals(Syntax.EQUALS))
+                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.position += 2);
+            case Syntax.NOT:
+                if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
-                return new Token(TokenType.BANG_TOKEN, this.position++);
+                return new Token(TokenType.NOT_TOKEN, this.position++);
+            case Syntax.GREATER:
+                if(this.nextChar().equals(Syntax.EQUALS))
+                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.position += 2);
+                return new Token(TokenType.GREATER_TOKEN, this.position++);
+            case Syntax.LESS:
+                if(this.nextChar().equals(Syntax.EQUALS))
+                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.position += 2);
+                return new Token(TokenType.LESS_TOKEN, this.position++);
             default:
                 ErrorHandler.addLexicalError(String.format("ERROR: Bad character '%s'", this.currentChar()));
                 return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);

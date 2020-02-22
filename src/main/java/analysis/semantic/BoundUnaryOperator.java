@@ -27,7 +27,7 @@ public final class BoundUnaryOperator extends BoundOperator
 
     private static final BoundUnaryOperator[] operators =
     {
-        new BoundUnaryOperator(TokenType.BANG_TOKEN, OperatorType.LOGIC_NEGATION_OPERATOR, ObjectType.BOOLEAN_OBJECT),
+        new BoundUnaryOperator(TokenType.NOT_TOKEN, OperatorType.LOGIC_NEGATION_OPERATOR, ObjectType.BOOLEAN_OBJECT),
         new BoundUnaryOperator(TokenType.PLUS_TOKEN, OperatorType.IDENTITY_OPERATOR, ObjectType.INTEGER_OBJECT),
         new BoundUnaryOperator(TokenType.MINUS_TOKEN, OperatorType.NEGATION_OPERATOR, ObjectType.INTEGER_OBJECT)
     };

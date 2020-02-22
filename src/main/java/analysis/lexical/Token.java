@@ -48,12 +48,20 @@ public final class Token
                 return Syntax.AND;
             case OR_TOKEN:
                 return Syntax.OR;
-            case EQUALS_TOKEN:
-                return Syntax.EQUALS;
+            case EQUALS_EQUALS_TOKEN:
+                return Syntax.EQUALS_EQUALS;
             case NOT_EQUALS_TOKEN:
                 return Syntax.NOT_EQUALS;
-            case BANG_TOKEN:
-                return Syntax.BANG;
+            case NOT_TOKEN:
+                return Syntax.NOT;
+            case GREATER_TOKEN:
+                return Syntax.GREATER;
+            case LESS_TOKEN:
+                return Syntax.LESS;
+            case GREATER_EQUALS_TOKEN:
+                return Syntax.GREATER_EQUALS;
+            case LESS_EQUALS_TOKEN:
+                return Syntax.LESS_EQUALS;
             default:
                 return null;
         }

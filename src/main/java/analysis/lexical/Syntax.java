@@ -16,10 +16,15 @@ public final class Syntax
     public static final String PIPE = "|";
     public static final String OR = "||";
 
-    public static final String ASSIGN = "=";
-    public static final String EQUALS = "==";
-    public static final String BANG = "!";
+    public static final String EQUALS = "=";
+    public static final String EQUALS_EQUALS = "==";
+    public static final String NOT = "!";
     public static final String NOT_EQUALS = "!=";
+
+    public static final String GREATER = ">";
+    public static final String LESS = "<";
+    public static final String GREATER_EQUALS = ">=";
+    public static final String LESS_EQUALS = "<=";
 
     public static final String TRUE = "true";
     public static final String FALSE = "false";
