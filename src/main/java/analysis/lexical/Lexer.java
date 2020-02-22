@@ -2,6 +2,7 @@ package analysis.lexical;
 
 import errors.ErrorHandler;
 import identifiers.TokenType;
+import symbols.Symbols;
 import util.Utilities;
 
 import java.util.ArrayList;
@@ -102,29 +103,29 @@ public final class Lexer
     {
         switch(this.currentChar())
         {
-            case "+":
+            case Symbols.PLUS:
                 return new Token(TokenType.PLUS_TOKEN, this.position++);
-            case "-":
+            case Symbols.MINUS:
                 return new Token(TokenType.MINUS_TOKEN, this.position++);
-            case "*":
+            case Symbols.STAR:
                 return new Token(TokenType.STAR_TOKEN, this.position++);
-            case "/":
+            case Symbols.SLASH:
                 return new Token(TokenType.SLASH_TOKEN, this.position++);
-            case "(":
+            case Symbols.OPEN_PARENTHESIS:
                 return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
-            case ")":
+            case Symbols.CLOSE_PARENTHESIS:
                 return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
-            case "&":
-                if(this.nextChar().equals("&"))
+            case Symbols.AMPERSAND:
+                if(this.nextChar().equals(Symbols.AMPERSAND))
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
-            case "|":
-                if(this.nextChar().equals("|"))
+            case Symbols.PIPE:
+                if(this.nextChar().equals(Symbols.PIPE))
                     return new Token(TokenType.OR_TOKEN, this.position += 2);
-            case "=":
-                if(this.nextChar().equals("="))
+            case Symbols.ASSIGN:
+                if(this.nextChar().equals(Symbols.ASSIGN))
                     return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
-            case "!":
-                if(this.nextChar().equals("="))
+            case Symbols.BANG:
+                if(this.nextChar().equals(Symbols.ASSIGN))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
                 return new Token(TokenType.BANG_TOKEN, this.position++);
             default:
@@ -148,7 +149,7 @@ public final class Lexer
         int index = this.position + offset;
 
         if(index >= this.inputText.length())
-            return "\0";
+            return Symbols.ESCAPE;
         return Character.toString(this.inputText.charAt(index));
     }
 
@@ -161,9 +162,9 @@ public final class Lexer
     {
         switch(text)
         {
-            case "true":
+            case Symbols.TRUE:
                 return TokenType.TRUE_KEYWORD_TOKEN;
-            case "false":
+            case Symbols.FALSE:
                 return TokenType.FALSE_KEYWORD_TOKEN;
             default:
                 return TokenType.IDENTIFIER_KEYWORD_TOKEN;

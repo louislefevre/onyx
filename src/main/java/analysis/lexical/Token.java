@@ -2,6 +2,7 @@ package analysis.lexical;
 
 import identifiers.TokenType;
 import lombok.Getter;
+import symbols.Symbols;
 
 public final class Token
 {
@@ -33,27 +34,27 @@ public final class Token
         switch(tokenType)
         {
             case PLUS_TOKEN:
-                return "+";
+                return Symbols.PLUS;
             case MINUS_TOKEN:
-                return "-";
+                return Symbols.MINUS;
             case STAR_TOKEN:
-                return "*";
+                return Symbols.STAR;
             case SLASH_TOKEN:
-                return "/";
+                return Symbols.SLASH;
             case OPEN_PARENTHESIS_TOKEN:
-                return "(";
+                return Symbols.OPEN_PARENTHESIS;
             case CLOSE_PARENTHESIS_TOKEN:
-                return ")";
+                return Symbols.CLOSE_PARENTHESIS;
             case AND_TOKEN:
-                return "&&";
+                return Symbols.AND;
             case OR_TOKEN:
-                return "||";
+                return Symbols.OR;
             case EQUALS_TOKEN:
-                return "==";
+                return Symbols.EQUALS;
             case NOT_EQUALS_TOKEN:
-                return "!=";
+                return Symbols.NOT_EQUALS;
             case BANG_TOKEN:
-                return "!";
+                return Symbols.BANG;
             default:
                 return null;
         }
