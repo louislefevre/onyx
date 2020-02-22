@@ -2,7 +2,6 @@ package analysis.lexical;
 
 import errors.ErrorHandler;
 import identifiers.TokenType;
-import symbols.Symbols;
 import util.Utilities;
 
 import java.util.ArrayList;
@@ -103,29 +102,29 @@ public final class Lexer
     {
         switch(this.currentChar())
         {
-            case Symbols.PLUS:
+            case Syntax.PLUS:
                 return new Token(TokenType.PLUS_TOKEN, this.position++);
-            case Symbols.MINUS:
+            case Syntax.MINUS:
                 return new Token(TokenType.MINUS_TOKEN, this.position++);
-            case Symbols.STAR:
+            case Syntax.STAR:
                 return new Token(TokenType.STAR_TOKEN, this.position++);
-            case Symbols.SLASH:
+            case Syntax.SLASH:
                 return new Token(TokenType.SLASH_TOKEN, this.position++);
-            case Symbols.OPEN_PARENTHESIS:
+            case Syntax.OPEN_PARENTHESIS:
                 return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
-            case Symbols.CLOSE_PARENTHESIS:
+            case Syntax.CLOSE_PARENTHESIS:
                 return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
-            case Symbols.AMPERSAND:
-                if(this.nextChar().equals(Symbols.AMPERSAND))
+            case Syntax.AMPERSAND:
+                if(this.nextChar().equals(Syntax.AMPERSAND))
                     return new Token(TokenType.AND_TOKEN, this.position+=2);
-            case Symbols.PIPE:
-                if(this.nextChar().equals(Symbols.PIPE))
+            case Syntax.PIPE:
+                if(this.nextChar().equals(Syntax.PIPE))
                     return new Token(TokenType.OR_TOKEN, this.position += 2);
-            case Symbols.ASSIGN:
-                if(this.nextChar().equals(Symbols.ASSIGN))
+            case Syntax.ASSIGN:
+                if(this.nextChar().equals(Syntax.ASSIGN))
                     return new Token(TokenType.EQUALS_TOKEN, this.position += 2);
-            case Symbols.BANG:
-                if(this.nextChar().equals(Symbols.ASSIGN))
+            case Syntax.BANG:
+                if(this.nextChar().equals(Syntax.ASSIGN))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.position += 2);
                 return new Token(TokenType.BANG_TOKEN, this.position++);
             default:
@@ -149,7 +148,7 @@ public final class Lexer
         int index = this.position + offset;
 
         if(index >= this.inputText.length())
-            return Symbols.ESCAPE;
+            return Syntax.ESCAPE;
         return Character.toString(this.inputText.charAt(index));
     }
 
@@ -162,9 +161,9 @@ public final class Lexer
     {
         switch(text)
         {
-            case Symbols.TRUE:
+            case Syntax.TRUE:
                 return TokenType.TRUE_KEYWORD_TOKEN;
-            case Symbols.FALSE:
+            case Syntax.FALSE:
                 return TokenType.FALSE_KEYWORD_TOKEN;
             default:
                 return TokenType.IDENTIFIER_KEYWORD_TOKEN;

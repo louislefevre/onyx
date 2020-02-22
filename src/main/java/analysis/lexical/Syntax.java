@@ -1,6 +1,6 @@
-package symbols;
+package analysis.lexical;
 
-public final class Symbols
+public final class Syntax
 {
     public static final String PLUS = "+";
     public static final String MINUS = "-";
@@ -26,7 +26,7 @@ public final class Symbols
 
     public static final String ESCAPE = "\0";
 
-    private Symbols()
+    private Syntax()
     {
         // Prevents class instantiation
         throw new UnsupportedOperationException();
