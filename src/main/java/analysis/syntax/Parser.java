@@ -18,9 +18,9 @@ public final class Parser
         this.position = 0;
     }
 
-    public Expression getExpression()
+    public ParseTree getParseTree()
     {
-        return this.parseExpression(0);
+        return new ParseTree(this.parseExpression(0));
     }
 
     private Token matchTokens(TokenType kind)

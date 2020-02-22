@@ -7,17 +7,18 @@ public final class ParseTree
 {
     private final Expression expression;
 
-    public ParseTree(Parser parser)
+    public ParseTree(Expression expression)
     {
-        this.expression = parser.getExpression();
+        this.expression = expression;
     }
 
     public Expression getExpression()
     {
+        this.showTree();
         return expression;
     }
 
-    public void showTree()
+    private void showTree()
     {
         printTree(this.expression, "", true);
     }

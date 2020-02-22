@@ -6,11 +6,11 @@ import identifiers.OperatorType;
 
 public final class Evaluator
 {
-    private final BoundExpression parseTree;
+    private final BoundExpression annotatedParseTree;
 
     public Evaluator(Binder binder)
     {
-        this.parseTree = binder.getParseTree();
+        this.annotatedParseTree = binder.getAnnotatedParseTree();
     }
 
     public Object evaluate()
@@ -19,7 +19,7 @@ public final class Evaluator
         {
             try
             {
-                return evaluateExpression(this.parseTree);
+                return evaluateExpression(this.annotatedParseTree);
             }
             catch(Exception error)
             {

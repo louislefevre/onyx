@@ -5,16 +5,16 @@ import errors.ErrorHandler;
 
 public final class Binder
 {
-    private final Expression expression;
+    private final ParseTree parseTree;
 
-    public Binder(ParseTree parseTree)
+    public Binder(Parser parser)
     {
-        this.expression = parseTree.getExpression();
+        this.parseTree = parser.getParseTree();
     }
 
-    public BoundExpression getParseTree()
+    public BoundExpression getAnnotatedParseTree()
     {
-        return this.bind(this.expression);
+        return this.bind(this.parseTree.getExpression());
     }
 
     private BoundExpression bind(Expression syntax)
