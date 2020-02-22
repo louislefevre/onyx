@@ -7,22 +7,14 @@ import identifiers.ObjectType;
 public final class BoundLiteralExpression extends BoundExpression
 {
     @Getter private final Object value;
+    @Getter private final ExpressionType expressionType;
+    @Getter private final ObjectType objectType;
 
     public BoundLiteralExpression(Object value)
     {
         this.value = value;
-    }
-
-    @Override
-    public ExpressionType getExpressionType()
-    {
-        return ExpressionType.LITERAL_EXPRESSION;
-    }
-
-    @Override
-    public ObjectType getObjectType()
-    {
-        return typeOf(this.value);
+        this.expressionType = ExpressionType.LITERAL_EXPRESSION;
+        this.objectType = typeOf(this.value);
     }
 
     private static ObjectType typeOf(Object object)

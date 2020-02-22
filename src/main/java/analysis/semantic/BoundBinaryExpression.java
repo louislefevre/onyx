@@ -9,23 +9,15 @@ public final class BoundBinaryExpression extends BoundExpression
     @Getter private final BoundExpression leftTerm;
     @Getter private final BoundBinaryOperator operator;
     @Getter private final BoundExpression rightTerm;
+    @Getter private final ExpressionType expressionType;
+    @Getter private final ObjectType objectType;
 
     public BoundBinaryExpression(BoundExpression leftTerm, BoundBinaryOperator operator, BoundExpression rightTerm)
     {
         this.leftTerm = leftTerm;
         this.operator = operator;
         this.rightTerm = rightTerm;
-    }
-
-    @Override
-    public ExpressionType getExpressionType()
-    {
-        return ExpressionType.BINARY_EXPRESSION;
-    }
-
-    @Override
-    public ObjectType getObjectType()
-    {
-        return this.operator.getResultObjectType();
+        this.expressionType = ExpressionType.BINARY_EXPRESSION;
+        this.objectType = this.operator.getResultObjectType();
     }
 }
