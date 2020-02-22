@@ -40,6 +40,8 @@ public final class Token
                 return Syntax.STAR;
             case SLASH_TOKEN:
                 return Syntax.SLASH;
+            case CARET_TOKEN:
+                return Syntax.CARET;
             case OPEN_PARENTHESIS_TOKEN:
                 return Syntax.OPEN_PARENTHESIS;
             case CLOSE_PARENTHESIS_TOKEN:

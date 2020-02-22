@@ -27,6 +27,8 @@ public final class SyntaxPrecedence
     {
         switch(type)
         {
+            case CARET_TOKEN:
+                return 6;
             case STAR_TOKEN:
             case SLASH_TOKEN:
                 return 5;

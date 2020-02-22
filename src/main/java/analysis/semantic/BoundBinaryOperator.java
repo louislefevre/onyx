@@ -38,6 +38,7 @@ public final class BoundBinaryOperator extends BoundOperator
         new BoundBinaryOperator(TokenType.MINUS_TOKEN, OperatorType.SUBTRACTION_OPERATOR, ObjectType.INTEGER_OBJECT),
         new BoundBinaryOperator(TokenType.STAR_TOKEN, OperatorType.MULTIPLICATION_OPERATOR, ObjectType.INTEGER_OBJECT),
         new BoundBinaryOperator(TokenType.SLASH_TOKEN, OperatorType.DIVISION_OPERATOR, ObjectType.INTEGER_OBJECT),
+        new BoundBinaryOperator(TokenType.CARET_TOKEN, OperatorType.POWER_OPERATOR, ObjectType.INTEGER_OBJECT),
 
         new BoundBinaryOperator(TokenType.EQUALS_EQUALS_TOKEN, OperatorType.EQUALS_EQUALS_OPERATOR, ObjectType.BOOLEAN_OBJECT),
         new BoundBinaryOperator(TokenType.NOT_EQUALS_TOKEN, OperatorType.NOT_EQUALS_OPERATOR, ObjectType.BOOLEAN_OBJECT),
