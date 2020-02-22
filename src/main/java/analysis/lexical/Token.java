@@ -3,16 +3,12 @@ package analysis.lexical;
 import identifiers.TokenType;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public final class Token extends Node
+public final class Token
 {
     @Getter private final TokenType tokenType;
     @Getter private final String syntax;
     @Getter private final Object value;
     @Getter private final int position;
-    @Getter private final List<Node> children;
 
     public Token(TokenType tokenType, String syntax, Object value, int position)
     {
@@ -20,7 +16,6 @@ public final class Token extends Node
         this.syntax = syntax;
         this.value = value;
         this.position = position;
-        this.children = new ArrayList<>();
     }
 
     public Token(TokenType tokenType, String syntax, int position)

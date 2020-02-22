@@ -1,6 +1,11 @@
 package analysis.syntax;
 
-import analysis.lexical.Node;
+import identifiers.TokenType;
 
-public abstract class Expression extends Node
-{ }
+import java.util.List;
+
+public abstract class Expression
+{
+    public abstract TokenType getTokenType();
+    public abstract List<Object> getChildren();
+}

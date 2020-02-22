@@ -1,6 +1,5 @@
 package analysis.syntax;
 
-import analysis.lexical.Node;
 import analysis.lexical.Token;
 import identifiers.TokenType;
 import lombok.Getter;
@@ -14,7 +13,7 @@ public final class LiteralExpression extends Expression
     @Getter private final Token literalToken;
     @Getter private final Object value;
     @Getter private final TokenType tokenType;
-    @Getter private final List<Node> children;
+    @Getter private final List<Object> children;
 
     public LiteralExpression(Token literalToken, Object value)
     {

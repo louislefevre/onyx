@@ -1,6 +1,5 @@
 package analysis.syntax;
 
-import analysis.lexical.Node;
 import analysis.lexical.Token;
 import util.ANSI;
 
@@ -23,12 +22,16 @@ public final class ParseTree
         printTree(this.expression, "", true);
     }
 
-    private void printTree(Node node, String indent, boolean isLast)
+    private void printTree(Object node, String indent, boolean isLast)
     {
         System.out.print(ANSI.GREY);
+
         String marker = isLast ? "└──" : "├──";
 
-        System.out.print(indent + marker + node.getTokenType());
+        if(node instanceof Expression)
+            System.out.print(indent + marker + ((Expression) node).getTokenType());
+        else if(node instanceof Token)
+            System.out.print(indent + marker + ((Token) node).getTokenType());
 
         if(node instanceof Token && ((Token) node).getValue() != null)
             System.out.print(" " + ((Token) node).getValue());
@@ -36,12 +39,16 @@ public final class ParseTree
         System.out.println();
         indent += isLast ? "    " : "│   ";
 
-        Node lastChild = null;
-        for(Node child : node.getChildren())
-            lastChild = child;
+        if(node instanceof Expression)
+        {
+            Object lastChild = null;
+            for(Object child : ((Expression) node).getChildren())
+                lastChild = child;
 
-        for(Node child : node.getChildren())
-            printTree(child, indent, child == lastChild);
+            for(Object child : ((Expression) node).getChildren())
+                printTree(child, indent, child == lastChild);
+        }
+
         System.out.print(ANSI.RESET);
     }
 }
