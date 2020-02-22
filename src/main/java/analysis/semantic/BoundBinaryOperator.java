@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import identifiers.TokenType;
 import lombok.Getter;
 
-public final class BoundBinaryOperator
+public final class BoundBinaryOperator extends BoundOperator
 {
     @Getter private final TokenType tokenType;
     @Getter private final OperatorType operatorType;

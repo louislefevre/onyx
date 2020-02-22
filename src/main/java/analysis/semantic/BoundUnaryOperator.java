@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
 
-public final class BoundUnaryOperator
+public final class BoundUnaryOperator extends BoundOperator
 {
     @Getter private final TokenType tokenType;
     @Getter private final OperatorType operatorType;
