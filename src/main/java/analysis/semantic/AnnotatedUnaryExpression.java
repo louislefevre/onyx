@@ -4,14 +4,14 @@ import identifiers.ExpressionType;
 import lombok.Getter;
 import identifiers.ObjectType;
 
-public final class BoundUnaryExpression extends BoundExpression
+public final class AnnotatedUnaryExpression extends AnnotatedExpression
 {
-    @Getter private final BoundUnaryOperator operator;
-    @Getter private final BoundExpression operand;
+    @Getter private final AnnotatedUnaryOperator operator;
+    @Getter private final AnnotatedExpression operand;
     @Getter private final ExpressionType expressionType;
     @Getter private final ObjectType objectType;
 
-    public BoundUnaryExpression(BoundUnaryOperator operator, BoundExpression operand)
+    public AnnotatedUnaryExpression(AnnotatedUnaryOperator operator, AnnotatedExpression operand)
     {
         this.operator = operator;
         this.operand = operand;

@@ -5,14 +5,14 @@ import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
 
-public final class BoundUnaryOperator extends BoundOperator
+public final class AnnotatedUnaryOperator extends AnnotatedOperator
 {
     @Getter private final TokenType tokenType;
     @Getter private final OperatorType operatorType;
     @Getter private final ObjectType operandObjectType;
     @Getter private final ObjectType resultObjectType;
 
-    public BoundUnaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
+    public AnnotatedUnaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
     {
         this.tokenType = tokenType;
         this.operatorType = operatorType;
@@ -20,7 +20,7 @@ public final class BoundUnaryOperator extends BoundOperator
         this.resultObjectType = resultObjectType;
     }
 
-    public BoundUnaryOperator(TokenType tokenType, OperatorType kind, ObjectType operandObjectType)
+    public AnnotatedUnaryOperator(TokenType tokenType, OperatorType kind, ObjectType operandObjectType)
     {
         this(tokenType, kind, operandObjectType, operandObjectType);
     }

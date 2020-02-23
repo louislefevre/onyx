@@ -2,14 +2,14 @@ package analysis.semantic;
 
 public final class AnnotatedParseTree
 {
-    private final BoundExpression expression;
+    private final AnnotatedExpression expression;
 
-    public AnnotatedParseTree(BoundExpression expression)
+    public AnnotatedParseTree(AnnotatedExpression expression)
     {
         this.expression = expression;
     }
 
-    public BoundExpression getExpression()
+    public AnnotatedExpression getExpression()
     {
         return this.expression;
     }

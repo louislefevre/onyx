@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import identifiers.TokenType;
 import lombok.Getter;
 
-public final class BoundBinaryOperator extends BoundOperator
+public final class AnnotatedBinaryOperator extends AnnotatedOperator
 {
     @Getter private final TokenType tokenType;
     @Getter private final OperatorType operatorType;
@@ -13,7 +13,7 @@ public final class BoundBinaryOperator extends BoundOperator
     @Getter private final ObjectType rightObjectType;
     @Getter private final ObjectType resultObjectType;
 
-    public BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType leftObjectType, ObjectType rightObjectType, ObjectType resultObjectType)
+    public AnnotatedBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType leftObjectType, ObjectType rightObjectType, ObjectType resultObjectType)
     {
         this.tokenType = tokenType;
         this.operatorType = operatorType;
@@ -22,12 +22,12 @@ public final class BoundBinaryOperator extends BoundOperator
         this.resultObjectType = resultObjectType;
     }
 
-    public BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
+    public AnnotatedBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
     {
         this(tokenType, operatorType, operandObjectType, operandObjectType, resultObjectType);
     }
 
-    public BoundBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType objectType)
+    public AnnotatedBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType objectType)
     {
         this(tokenType, operatorType, objectType, objectType, objectType);
     }

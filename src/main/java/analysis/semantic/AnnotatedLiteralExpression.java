@@ -4,13 +4,13 @@ import lombok.Getter;
 import identifiers.ExpressionType;
 import identifiers.ObjectType;
 
-public final class BoundLiteralExpression extends BoundExpression
+public final class AnnotatedLiteralExpression extends AnnotatedExpression
 {
     @Getter private final Object value;
     @Getter private final ExpressionType expressionType;
     @Getter private final ObjectType objectType;
 
-    public BoundLiteralExpression(Object value)
+    public AnnotatedLiteralExpression(Object value)
     {
         this.value = value;
         this.expressionType = ExpressionType.LITERAL_EXPRESSION;

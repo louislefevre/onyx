@@ -14,19 +14,19 @@ public final class TypeChecker
 
     public AnnotatedParseTree getAnnotatedParseTree()
     {
-        return new AnnotatedParseTree(this.getBoundExpression());
+        return new AnnotatedParseTree(this.getAnnotatedExpression());
     }
 
-    private BoundExpression getBoundExpression()
+    private AnnotatedExpression getAnnotatedExpression()
     {
-        return this.bind(this.parseTree.getExpression());
+        return this.annotate(this.parseTree.getExpression());
     }
 
-    private BoundExpression bind(Expression syntax)
+    private AnnotatedExpression annotate(Expression syntax)
     {
         try
         {
-            return this.bindExpression(syntax);
+            return this.annotateExpression(syntax);
         }
         catch(Exception error)
         {
@@ -35,63 +35,63 @@ public final class TypeChecker
         }
     }
 
-    private BoundExpression bindExpression(Expression syntax) throws Exception
+    private AnnotatedExpression annotateExpression(Expression syntax) throws Exception
     {
         switch(syntax.getTokenType())
         {
             case PARENTHESIZED_EXPRESSION_TOKEN:
-                return this.bindParenthesizedExpression((ParenthesizedExpression)syntax);
+                return this.annotateParenthesizedExpression((ParenthesizedExpression)syntax);
             case LITERAL_EXPRESSION_TOKEN:
-                return this.bindLiteralExpression((LiteralExpression)syntax);
+                return this.annotateLiteralExpression((LiteralExpression)syntax);
             case UNARY_EXPRESSION_TOKEN:
-                return this.bindUnaryExpression((UnaryExpression)syntax);
+                return this.annotateUnaryExpression((UnaryExpression)syntax);
             case BINARY_EXPRESSION_TOKEN:
-                return this.bindBinaryExpression((BinaryExpression)syntax);
+                return this.annotateBinaryExpression((BinaryExpression)syntax);
             default:
                 throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));
         }
     }
 
-    private BoundExpression bindParenthesizedExpression(ParenthesizedExpression syntax) throws Exception
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression syntax) throws Exception
     {
-        return this.bindExpression(syntax.getExpression());
+        return this.annotateExpression(syntax.getExpression());
     }
 
-    private BoundExpression bindLiteralExpression(LiteralExpression syntax)
+    private AnnotatedExpression annotateLiteralExpression(LiteralExpression syntax)
     {
         Object value = syntax.getValue();
         if(value == null)
             value = 0;
 
-        return new BoundLiteralExpression(value);
+        return new AnnotatedLiteralExpression(value);
     }
 
-    private BoundExpression bindUnaryExpression(UnaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax) throws Exception
     {
-        BoundExpression boundOperand = this.bindExpression(syntax.getOperand());
-        BoundUnaryOperator boundOperator = TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(), boundOperand.getObjectType());
+        AnnotatedExpression annotatedOperand = this.annotateExpression(syntax.getOperand());
+        AnnotatedUnaryOperator annotatedOperator = TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(), annotatedOperand.getObjectType());
 
-        if(boundOperator == null)
+        if(annotatedOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), boundOperand.getObjectType()));
-            return boundOperand;
+            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType()));
+            return annotatedOperand;
         }
 
-        return new BoundUnaryExpression(boundOperator, boundOperand);
+        return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    private BoundExpression bindBinaryExpression(BinaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression syntax) throws Exception
     {
-        BoundExpression boundLeft = this.bindExpression(syntax.getLeftTerm());
-        BoundExpression boundRight = this.bindExpression(syntax.getRightTerm());
-        BoundBinaryOperator boundOperator = TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(), boundLeft.getObjectType(), boundRight.getObjectType());
+        AnnotatedExpression annotatedLeft = this.annotateExpression(syntax.getLeftTerm());
+        AnnotatedExpression annotatedRight = this.annotateExpression(syntax.getRightTerm());
+        AnnotatedBinaryOperator annotatedOperator = TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(), annotatedLeft.getObjectType(), annotatedRight.getObjectType());
 
-        if(boundOperator == null)
+        if(annotatedOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), boundLeft.getObjectType(), boundRight.getObjectType()));
-            return boundLeft;
+            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType()));
+            return annotatedLeft;
         }
 
-        return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
+        return new AnnotatedBinaryExpression(annotatedLeft, annotatedOperator, annotatedRight);
     }
 }

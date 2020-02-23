@@ -4,15 +4,15 @@ import lombok.Getter;
 import identifiers.ExpressionType;
 import identifiers.ObjectType;
 
-public final class BoundBinaryExpression extends BoundExpression
+public final class AnnotatedBinaryExpression extends AnnotatedExpression
 {
-    @Getter private final BoundExpression leftTerm;
-    @Getter private final BoundBinaryOperator operator;
-    @Getter private final BoundExpression rightTerm;
+    @Getter private final AnnotatedExpression leftTerm;
+    @Getter private final AnnotatedBinaryOperator operator;
+    @Getter private final AnnotatedExpression rightTerm;
     @Getter private final ExpressionType expressionType;
     @Getter private final ObjectType objectType;
 
-    public BoundBinaryExpression(BoundExpression leftTerm, BoundBinaryOperator operator, BoundExpression rightTerm)
+    public AnnotatedBinaryExpression(AnnotatedExpression leftTerm, AnnotatedBinaryOperator operator, AnnotatedExpression rightTerm)
     {
         this.leftTerm = leftTerm;
         this.operator = operator;

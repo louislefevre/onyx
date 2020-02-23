@@ -18,7 +18,7 @@ public final class Evaluator
         return this.evaluateErrors(this.annotatedParseTree.getExpression());
     }
 
-    private Object evaluateErrors(BoundExpression expression)
+    private Object evaluateErrors(AnnotatedExpression expression)
     {
         if(!ErrorHandler.errorsPresent())
         {
@@ -34,29 +34,29 @@ public final class Evaluator
         return null;
     }
 
-    private Object evaluateExpression(BoundExpression node) throws Exception
+    private Object evaluateExpression(AnnotatedExpression node) throws Exception
     {
-        if(node instanceof BoundLiteralExpression)
+        if(node instanceof AnnotatedLiteralExpression)
             return this.evaluateNumberExpression(node);
 
-        if(node instanceof BoundUnaryExpression)
+        if(node instanceof AnnotatedUnaryExpression)
             return this.evaluateUnaryExpression(node);
 
-        if(node instanceof BoundBinaryExpression)
+        if(node instanceof AnnotatedBinaryExpression)
             return this.evaluateBinaryExpression(node);
 
         throw new Exception(String.format("Unexpected node '%s'", node.getObjectType()));
     }
 
-    private Object evaluateNumberExpression(BoundExpression node)
+    private Object evaluateNumberExpression(AnnotatedExpression node)
     {
-        return ((BoundLiteralExpression) node).getValue();
+        return ((AnnotatedLiteralExpression) node).getValue();
     }
 
-    private Object evaluateUnaryExpression(BoundExpression node) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedExpression node) throws Exception
     {
-        Object operand = this.evaluateExpression(((BoundUnaryExpression) node).getOperand());
-        OperatorType operatorType = ((BoundUnaryExpression) node).getOperator().getOperatorType();
+        Object operand = this.evaluateExpression(((AnnotatedUnaryExpression) node).getOperand());
+        OperatorType operatorType = ((AnnotatedUnaryExpression) node).getOperator().getOperatorType();
 
         switch(operatorType)
         {
@@ -71,11 +71,11 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateBinaryExpression(BoundExpression node) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedExpression node) throws Exception
     {
-        Object left = this.evaluateExpression(((BoundBinaryExpression) node).getLeftTerm());
-        Object right = this.evaluateExpression(((BoundBinaryExpression) node).getRightTerm());
-        OperatorType tokenKind = ((BoundBinaryExpression) node).getOperator().getOperatorType();
+        Object left = this.evaluateExpression(((AnnotatedBinaryExpression) node).getLeftTerm());
+        Object right = this.evaluateExpression(((AnnotatedBinaryExpression) node).getRightTerm());
+        OperatorType tokenKind = ((AnnotatedBinaryExpression) node).getOperator().getOperatorType();
 
         switch(tokenKind)
         {
