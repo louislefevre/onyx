@@ -104,6 +104,8 @@ v. Other methods should be ordered based on access modifiers, followed by workfl
 - Try and create individual class for each piece of compiler feature functionality (e.g. class for boolean handling, etc).
 - Create custom input object.
 - Rename "term" to "operand"?
+- Put error messages into their corresponding classes (e.g. lexical error messages go in the class LexicalError). Store the strings as constants, and return through static methods?
+- Try and see if recursion can be implemented in the Lexer.
 
 ## Notes
 - Using [Mavens Standard Directory Layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html) for project structure.  
