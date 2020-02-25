@@ -87,8 +87,9 @@ public final class Lexer
 
         String text = this.inputText.substring(startPos, this.position);
         TokenType tokenType = getKeywordToken(text);
+        Object tokenValue = getKeywordValue(tokenType);
 
-        return new Token(tokenType, text, startPos);
+        return new Token(tokenType, text, tokenValue, startPos);
     }
 
     private Token whitespaceToken()
@@ -191,6 +192,19 @@ public final class Lexer
                 return TokenType.FALSE_KEYWORD_TOKEN;
             default:
                 return TokenType.IDENTIFIER_KEYWORD_TOKEN;
+        }
+    }
+
+    private static Object getKeywordValue(TokenType type)
+    {
+        switch(type)
+        {
+            case TRUE_KEYWORD_TOKEN:
+                return true;
+            case FALSE_KEYWORD_TOKEN:
+                return false;
+            default:
+                return null;
         }
     }
 }
