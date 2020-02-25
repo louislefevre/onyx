@@ -2,6 +2,7 @@ package synthesis.generation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
+import identifiers.ObjectType;
 import identifiers.OperatorType;
 
 public final class Evaluator
@@ -31,7 +32,9 @@ public final class Evaluator
                 System.out.println(error.getMessage());
             }
         }
-        return null;
+        ErrorHandler.printErrors();
+        ErrorHandler.resetErrors();
+        return ObjectType.NULL_OBJECT;
     }
 
     private Object evaluateExpression(AnnotatedExpression node) throws Exception

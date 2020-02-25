@@ -19,9 +19,18 @@ public final class ErrorHandler
     {
         if(errorsLog.isEmpty())
             return false;
-        showErrors();
-        errorsLog.clear();
         return true;
+    }
+
+    public static void printErrors()
+    {
+        for (Error error : errorsLog)
+            System.out.println(ANSI.RED + error.getErrorMessage() + ANSI.RESET);
+    }
+
+    public static void resetErrors()
+    {
+        errorsLog.clear();
     }
 
     public static void addLexicalError(String message)
@@ -42,11 +51,5 @@ public final class ErrorHandler
     private static void addError(Error error)
     {
         errorsLog.add(error);
-    }
-
-    private static void showErrors()
-    {
-        for (Error error : errorsLog)
-            System.out.println(ANSI.RED + error.getErrorMessage() + ANSI.RESET);
     }
 }

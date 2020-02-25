@@ -1,3 +1,5 @@
+import identifiers.ObjectType;
+
 import java.util.Scanner;
 
 public class Main
@@ -13,7 +15,8 @@ public class Main
             Compiler compiler = new Compiler(input);
             Object output = compiler.compile();
 
-            System.out.println(output);
+            if(output != ObjectType.NULL_OBJECT)
+                System.out.println(output);
         }
     }
 
