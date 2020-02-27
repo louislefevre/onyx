@@ -3,7 +3,7 @@ package errors;
 import identifiers.ErrorType;
 import lombok.Getter;
 
-public class EvaluateError extends Error
+public final class EvaluateError extends Error
 {
     @Getter private final String errorMessage;
     @Getter private final ErrorType errorType;

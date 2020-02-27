@@ -3,30 +3,24 @@ import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
 import synthesis.generation.Evaluator;
+import synthesis.generation.SourceOutput;
 
 public final class Compiler
 {
-    private final String input;
+    public Compiler() { }
 
-    public Compiler(String input)
+    public Object compile(String input)
     {
-        this.input = input;
-    }
-
-    public Object compile()
-    {
-        Lexer lexer = new Lexer(this.input);
+        Lexer lexer = new Lexer(input);
         Parser parser = new Parser(lexer);
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
-
-        Object output = evaluator.evaluate();
+        SourceOutput sourceOutput = new SourceOutput(evaluator);
 
         ErrorHandler errorHandler = new ErrorHandler(lexer, parser, typeChecker, evaluator);
 
         if(errorHandler.errorsPresent())
             return null;
-
-        return output;
+        return sourceOutput.getOutput();
     }
 }

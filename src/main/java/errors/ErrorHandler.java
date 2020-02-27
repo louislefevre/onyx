@@ -3,7 +3,6 @@ package errors;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
-import identifiers.ErrorType;
 import synthesis.generation.Evaluator;
 import util.ANSI;
 
@@ -32,11 +31,6 @@ public final class ErrorHandler
         return true;
     }
 
-    public ErrorType getErrorType()
-    {
-        return this.errorsLog.get(0).getErrorType();
-    }
-
     @SafeVarargs
     private void retrieveErrors(List<Error> ... errorLogsList)
     {
@@ -53,6 +47,5 @@ public final class ErrorHandler
             System.out.println(error.getErrorMessage());
             System.out.print(ANSI.RESET);
         }
-
     }
 }

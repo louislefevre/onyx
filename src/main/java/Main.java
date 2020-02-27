@@ -10,8 +10,8 @@ public class Main
             if(input.isBlank())
                 return;
 
-            Compiler compiler = new Compiler(input);
-            Object output = compiler.compile();
+            Compiler compiler = new Compiler();
+            Object output = compiler.compile(input);
 
             System.out.println(output);
         }
