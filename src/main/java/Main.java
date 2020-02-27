@@ -1,3 +1,5 @@
+import compilation.Compiler;
+
 import java.util.Scanner;
 
 public class Main

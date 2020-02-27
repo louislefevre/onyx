@@ -1,3 +1,5 @@
+package compilation;
+
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
