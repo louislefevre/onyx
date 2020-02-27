@@ -1,6 +1,7 @@
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
+import errors.ErrorHandler;
 import synthesis.generation.Evaluator;
 
 public final class Compiler
@@ -19,6 +20,13 @@ public final class Compiler
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
 
-        return evaluator.evaluate();
+        Object output = evaluator.evaluate();
+
+        ErrorHandler errorHandler = new ErrorHandler(lexer, parser, typeChecker, evaluator);
+
+        if(errorHandler.errorsPresent())
+            return null;
+
+        return output;
     }
 }

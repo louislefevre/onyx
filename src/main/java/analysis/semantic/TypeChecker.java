@@ -1,20 +1,31 @@
 package analysis.semantic;
 
 import analysis.syntax.*;
-import errors.ErrorHandler;
+import errors.Error;
+import errors.SemanticError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TypeChecker
 {
     private final ParseTree parseTree;
+    private final List<Error> errorLog;
 
     public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
+        this.errorLog = new ArrayList<>();
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
     {
         return new AnnotatedParseTree(this.getAnnotatedExpression());
+    }
+
+    public List<Error> getErrorLog()
+    {
+        return this.errorLog;
     }
 
     private AnnotatedExpression getAnnotatedExpression()
@@ -73,7 +84,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType()));
+            this.errorLog.add(new SemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType())));
             return annotatedOperand;
         }
 
@@ -88,7 +99,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            ErrorHandler.addSemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType()));
+            this.errorLog.add(new SemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType())));
             return annotatedLeft;
         }
 

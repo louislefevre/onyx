@@ -1,5 +1,10 @@
 package errors;
 
+import analysis.lexical.Lexer;
+import analysis.semantic.TypeChecker;
+import analysis.syntax.Parser;
+import identifiers.ErrorType;
+import synthesis.generation.Evaluator;
 import util.ANSI;
 
 import java.util.ArrayList;
@@ -7,49 +12,47 @@ import java.util.List;
 
 public final class ErrorHandler
 {
-    private final static List<Error> errorsLog = new ArrayList<>();
+    private final List<Error> errorsLog;
 
-    private ErrorHandler()
+    public ErrorHandler(Lexer lexer, Parser parser, TypeChecker typeChecker, Evaluator evaluator)
     {
-        // Prevents class instantiation
-        throw new UnsupportedOperationException();
+        this.errorsLog = new ArrayList<>();
+        this.retrieveErrors(lexer.getErrorLog(),
+                            parser.getErrorLog(),
+                            typeChecker.getErrorLog(),
+                            evaluator.getErrorLog());
     }
 
-    public static boolean errorsPresent()
+    public boolean errorsPresent()
     {
-        if(errorsLog.isEmpty())
+        if(this.errorsLog.isEmpty())
             return false;
+
+        this.printErrors();
         return true;
     }
 
-    public static void printErrors()
+    public ErrorType getErrorType()
     {
-        for (Error error : errorsLog)
-            System.out.println(ANSI.RED + error.getErrorMessage() + ANSI.RESET);
+        return this.errorsLog.get(0).getErrorType();
     }
 
-    public static void resetErrors()
+    @SafeVarargs
+    private void retrieveErrors(List<Error> ... errorLogsList)
     {
-        errorsLog.clear();
+        for(List<Error> errorLog : errorLogsList)
+            this.errorsLog.addAll(errorLog);
     }
 
-    public static void addLexicalError(String message)
+    private void printErrors()
     {
-        addError(new LexicalError(message));
-    }
+        for (Error error : this.errorsLog)
+        {
+            System.out.print(ANSI.RED);
+            System.out.println(error.getErrorType());
+            System.out.println(error.getErrorMessage());
+            System.out.print(ANSI.RESET);
+        }
 
-    public static void addSyntaxError(String message)
-    {
-        addError(new SyntaxError(message));
-    }
-
-    public static void addSemanticError(String message)
-    {
-        addError(new SemanticError(message));
-    }
-
-    private static void addError(Error error)
-    {
-        errorsLog.add(error);
     }
 }

@@ -1,16 +1,16 @@
 package errors;
 
-import lombok.Getter;
 import identifiers.ErrorType;
+import lombok.Getter;
 
-public final class SemanticError extends Error
+public class EvaluateError extends Error
 {
     @Getter private final String errorMessage;
     @Getter private final ErrorType errorType;
 
-    public SemanticError(String errorMessage)
+    public EvaluateError(String errorMessage)
     {
         this.errorMessage = errorMessage;
-        this.errorType = ErrorType.SEMANTIC_ERROR;
+        this.errorType = ErrorType.EVALUATE_ERROR;
     }
 }

@@ -3,7 +3,7 @@ package errors;
 import lombok.Getter;
 import identifiers.ErrorType;
 
-final class LexicalError extends Error
+public final class LexicalError extends Error
 {
     @Getter private final String errorMessage;
     @Getter private final ErrorType errorType;

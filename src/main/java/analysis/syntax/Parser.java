@@ -1,26 +1,35 @@
 package analysis.syntax;
 
-import errors.ErrorHandler;
-import identifiers.TokenType;
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
+import errors.Error;
+import errors.SyntaxError;
+import identifiers.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Parser
 {
     private final List<Token> tokens;
+    private final List<Error> errorLog;
     private int position;
 
     public Parser(Lexer lexer)
     {
         this.tokens = lexer.getTokens();
+        this.errorLog = new ArrayList<>();
         this.position = 0;
     }
 
     public ParseTree getParseTree()
     {
         return new ParseTree(this.parseExpression(0));
+    }
+
+    public List<Error> getErrorLog()
+    {
+        return this.errorLog;
     }
 
     private Expression parseExpression(int parentPrecedence)
@@ -92,7 +101,7 @@ public final class Parser
     {
         if(this.currentToken().getTokenType() == kind)
             return this.nextToken();
-        ErrorHandler.addSyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind));
+        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind)));
         return new Token(kind, this.currentToken().getPosition());
     }
 

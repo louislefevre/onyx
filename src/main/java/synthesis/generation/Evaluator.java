@@ -1,43 +1,35 @@
 package synthesis.generation;
 
 import analysis.semantic.*;
-import errors.ErrorHandler;
-import identifiers.ObjectType;
+import errors.Error;
+import errors.EvaluateError;
 import identifiers.OperatorType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
+    private final List<Error> errorLog;
 
     public Evaluator(TypeChecker typeChecker)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
+        this.errorLog = new ArrayList<>();
     }
 
     public Object evaluate()
     {
-        return this.evaluateErrors(this.annotatedParseTree.getExpression());
+        return this.evaluateExpression(this.annotatedParseTree.getExpression());
     }
 
-    private Object evaluateErrors(AnnotatedExpression expression)
+    public List<Error> getErrorLog()
     {
-        if(!ErrorHandler.errorsPresent())
-        {
-            try
-            {
-                return evaluateExpression(expression);
-            }
-            catch(Exception error)
-            {
-                System.out.println(error.getMessage());
-            }
-        }
-        ErrorHandler.printErrors();
-        ErrorHandler.resetErrors();
-        return ObjectType.NULL_OBJECT;
+        return this.errorLog;
     }
 
-    private Object evaluateExpression(AnnotatedExpression node) throws Exception
+    private Object evaluateExpression(AnnotatedExpression node)
     {
         if(node instanceof AnnotatedLiteralExpression)
             return this.evaluateNumberExpression(node);
@@ -48,7 +40,8 @@ public final class Evaluator
         if(node instanceof AnnotatedBinaryExpression)
             return this.evaluateBinaryExpression(node);
 
-        throw new Exception(String.format("Unexpected node '%s'", node.getObjectType()));
+        this.errorLog.add(new EvaluateError(String.format("Unexpected node '%s'", node.getObjectType())));
+        return null;
     }
 
     private Object evaluateNumberExpression(AnnotatedExpression node)
@@ -56,7 +49,7 @@ public final class Evaluator
         return ((AnnotatedLiteralExpression) node).getValue();
     }
 
-    private Object evaluateUnaryExpression(AnnotatedExpression node) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedExpression node)
     {
         Object operand = this.evaluateExpression(((AnnotatedUnaryExpression) node).getOperand());
         OperatorType operatorType = ((AnnotatedUnaryExpression) node).getOperator().getOperatorType();
@@ -70,11 +63,12 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean)operand;
             default:
-                throw new Exception(String.format("Unexpected unary operator '%s'", operatorType));
+                this.errorLog.add(new EvaluateError(String.format("Unexpected unary operator '%s'", operatorType)));
+                return null;
         }
     }
 
-    private Object evaluateBinaryExpression(AnnotatedExpression node) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedExpression node)
     {
         Object left = this.evaluateExpression(((AnnotatedBinaryExpression) node).getLeftTerm());
         Object right = this.evaluateExpression(((AnnotatedBinaryExpression) node).getRightTerm());
@@ -111,7 +105,8 @@ public final class Evaluator
             case LESS_EQUALS_OPERATOR:
                 return (int)left <= (int)right;
             default:
-                throw new Exception(String.format("Unexpected binary operator '%s'", tokenKind));
+                this.errorLog.add(new EvaluateError(String.format("Unexpected binary operator '%s'", tokenKind)));
+                return null;
         }
     }
 }
