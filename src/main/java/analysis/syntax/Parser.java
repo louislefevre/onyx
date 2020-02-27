@@ -71,8 +71,10 @@ public final class Parser
             case FALSE_KEYWORD_TOKEN:
             case TRUE_KEYWORD_TOKEN:
                 return this.parseBooleanExpression();
-            default:
+            case NUMBER_TOKEN:
                 return this.parseNumberExpression();
+            default:
+                return this.parseUnknownExpression();
         }
     }
 
@@ -93,16 +95,24 @@ public final class Parser
 
     private Expression parseNumberExpression()
     {
-        Token numberToken = this.matchTokens(TokenType.NUMBER_TOKEN);
-        return new LiteralExpression(numberToken);
+        Token numberToken = this.nextToken();
+        Object value = numberToken.getValue();
+        return new LiteralExpression(numberToken, value);
     }
 
-    private Token matchTokens(TokenType kind)
+    private Expression parseUnknownExpression()
     {
-        if(this.currentToken().getTokenType() == kind)
+        Token token = this.currentToken();
+        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s'.", token.getTokenType())));
+        return new LiteralExpression(token, null);
+    }
+
+    private Token matchTokens(TokenType type)
+    {
+        if(this.currentToken().getTokenType() == type)
             return this.nextToken();
-        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), kind)));
-        return new Token(kind, this.currentToken().getPosition());
+        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), type)));
+        return new Token(type, this.currentToken().getPosition());
     }
 
     private Token nextToken()

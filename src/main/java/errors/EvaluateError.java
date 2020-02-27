@@ -1,7 +1,7 @@
 package errors;
 
-import identifiers.ErrorType;
 import lombok.Getter;
+import identifiers.ErrorType;
 
 public final class EvaluateError extends Error
 {

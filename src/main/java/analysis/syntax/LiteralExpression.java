@@ -22,9 +22,4 @@ public final class LiteralExpression extends Expression
         this.tokenType = TokenType.LITERAL_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Collections.singletonList(this.literalToken));
     }
-
-    public LiteralExpression(Token literalToken)
-    {
-        this(literalToken, literalToken.getValue());
-    }
 }
