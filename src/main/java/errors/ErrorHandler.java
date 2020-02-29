@@ -1,41 +1,33 @@
 package errors;
 
-import analysis.lexical.Lexer;
-import analysis.semantic.TypeChecker;
-import analysis.syntax.Parser;
 import synthesis.generation.Evaluator;
 import util.ANSI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class ErrorHandler
 {
+    private final Object evaluation;
     private final List<Error> errorsLog;
 
-    public ErrorHandler(Lexer lexer, Parser parser, TypeChecker typeChecker, Evaluator evaluator)
+    public ErrorHandler(Evaluator evaluator)
     {
-        this.errorsLog = new ArrayList<>();
-        this.retrieveErrors(lexer.getErrorLog(),
-                            parser.getErrorLog(),
-                            typeChecker.getErrorLog(),
-                            evaluator.getErrorLog());
+        this.evaluation = evaluator.evaluate();
+        this.errorsLog = evaluator.getErrorLog();
     }
 
-    public boolean errorsPresent()
+    public Object getEvaluation()
     {
-        if(this.errorsLog.isEmpty())
-            return false;
+        if(!this.errorsPresent())
+            return this.evaluation;
 
         this.printErrors();
-        return true;
+        return null;
     }
 
-    @SafeVarargs
-    private void retrieveErrors(List<Error> ... errorLogsList)
+    private boolean errorsPresent()
     {
-        for(List<Error> errorLog : errorLogsList)
-            this.errorsLog.addAll(errorLog);
+        return !this.errorsLog.isEmpty();
     }
 
     private void printErrors()

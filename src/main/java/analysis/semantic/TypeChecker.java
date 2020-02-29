@@ -4,7 +4,6 @@ import analysis.syntax.*;
 import errors.Error;
 import errors.SemanticError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class TypeChecker
@@ -15,7 +14,7 @@ public final class TypeChecker
     public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
-        this.errorLog = new ArrayList<>();
+        this.errorLog = parser.getErrorLog();
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()

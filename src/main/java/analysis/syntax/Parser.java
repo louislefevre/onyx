@@ -6,7 +6,6 @@ import errors.Error;
 import errors.SyntaxError;
 import identifiers.TokenType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Parser
@@ -18,7 +17,7 @@ public final class Parser
     public Parser(Lexer lexer)
     {
         this.tokens = lexer.getTokens();
-        this.errorLog = new ArrayList<>();
+        this.errorLog = lexer.getErrorLog();
         this.position = 0;
     }
 

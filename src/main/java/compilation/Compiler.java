@@ -17,12 +17,9 @@ public final class Compiler
         Parser parser = new Parser(lexer);
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
-        SourceOutput sourceOutput = new SourceOutput(evaluator);
+        ErrorHandler errorHandler = new ErrorHandler(evaluator);
+        SourceOutput sourceOutput = new SourceOutput(errorHandler);
 
-        ErrorHandler errorHandler = new ErrorHandler(lexer, parser, typeChecker, evaluator);
-
-        if(errorHandler.errorsPresent())
-            return null;
         return sourceOutput.getOutput();
     }
 }

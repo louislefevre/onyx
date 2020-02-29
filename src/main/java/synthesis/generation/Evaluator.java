@@ -5,7 +5,6 @@ import errors.Error;
 import errors.EvaluateError;
 import identifiers.OperatorType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Evaluator
@@ -16,7 +15,7 @@ public final class Evaluator
     public Evaluator(TypeChecker typeChecker)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
-        this.errorLog = new ArrayList<>();
+        this.errorLog = typeChecker.getErrorLog();
     }
 
     public Object evaluate()
