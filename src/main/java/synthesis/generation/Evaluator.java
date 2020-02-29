@@ -39,7 +39,7 @@ public final class Evaluator
         if(node instanceof AnnotatedBinaryExpression)
             return this.evaluateBinaryExpression(node);
 
-        this.errorLog.add(new EvaluateError(String.format("Unexpected node '%s'", node.getObjectType())));
+        this.errorLog.add(EvaluateError.unexpectedNode(node.getObjectType(),0,0 ));
         return null;
     }
 
@@ -62,7 +62,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean)operand;
             default:
-                this.errorLog.add(new EvaluateError(String.format("Unexpected unary operator '%s'", operatorType)));
+                this.errorLog.add(EvaluateError.unexpectedUnaryOperator(operatorType, 0, 0));
                 return null;
         }
     }
@@ -104,7 +104,7 @@ public final class Evaluator
             case LESS_EQUALS_OPERATOR:
                 return (int)left <= (int)right;
             default:
-                this.errorLog.add(new EvaluateError(String.format("Unexpected binary operator '%s'", tokenKind)));
+                this.errorLog.add(EvaluateError.unexpectedBinaryOperator(tokenKind, 0, 0));
                 return null;
         }
     }

@@ -102,7 +102,7 @@ public final class Parser
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();
-        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s'.", token.getTokenType())));
+        this.errorLog.add(SyntaxError.unexpectedToken(token.getSyntax(), token.getTokenType(), 0, 0));
         return new LiteralExpression(token, null);
     }
 
@@ -110,7 +110,7 @@ public final class Parser
     {
         if(this.currentToken().getTokenType() == type)
             return this.nextToken();
-        this.errorLog.add(new SyntaxError(String.format("ERROR: Unexpected token '%1s', expected '%2s'", this.currentToken().getTokenType(), type)));
+        this.errorLog.add(SyntaxError.unexpectedTokenMatch(this.currentToken().getSyntax(), type, 0, 0));
         return new Token(type, this.currentToken().getPosition());
     }
 

@@ -75,7 +75,7 @@ public final class Lexer
         if(Utilities.isParsable(text))
             value = Integer.parseInt(text);
         else
-            this.errorLog.add(new LexicalError(String.format("The number '%s' isn't a valid Int32", this.inputText)));
+            this.errorLog.add(LexicalError.invalidNumber(text, int.class.getName(), startPos, this.position-startPos));
 
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
@@ -161,7 +161,7 @@ public final class Lexer
 
     private Token badToken()
     {
-        this.errorLog.add(new LexicalError(String.format("ERROR: Bad character '%s'", this.currentChar())));
+        this.errorLog.add(LexicalError.badToken(this.currentChar(), this.currentChar().getClass(), 0, 0));
         return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
     }
 

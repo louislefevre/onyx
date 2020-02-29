@@ -83,7 +83,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(new SemanticError(String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType())));
+            this.errorLog.add(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType(), 0, 0));
             return annotatedOperand;
         }
 
@@ -98,7 +98,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(new SemanticError(String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType())));
+            this.errorLog.add(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType(), 0, 0));
             return annotatedLeft;
         }
 
