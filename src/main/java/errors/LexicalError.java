@@ -13,17 +13,17 @@ public final class LexicalError extends Error
         this.errorType = ErrorType.LEXICAL_ERROR;
     }
 
-    public static Error invalidNumber(String syntax, Object type, int start, int length)
+    public static Error invalidInt(String syntax, int start, int length)
     {
         TextSpan span = new TextSpan(start, length);
-        String message = String.format("The number '%1s' isn't a valid %2s", syntax, type);
+        String message = String.format("ERROR: The number '%s' isn't a valid int.", syntax);
         return new LexicalError(span, message);
     }
 
-    public static Error badToken(String syntax, Object type, int start, int length)
+    public static Error badCharacter(String syntax, int start, int length)
     {
         TextSpan span = new TextSpan(start, length);
-        String message = String.format("ERROR: Bad character '%1s' of type %2s", syntax, type);
+        String message = String.format("ERROR: Bad character '%s'.", syntax);
         return new LexicalError(span, message);
     }
 }

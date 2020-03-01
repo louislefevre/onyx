@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import errors.TextSpan;
 import identifiers.TokenType;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ public final class Token
     @Getter private final String syntax;
     @Getter private final Object value;
     @Getter private final int position;
+    @Getter private final TextSpan span;
 
     public Token(TokenType tokenType, String syntax, Object value, int position)
     {
@@ -16,6 +18,7 @@ public final class Token
         this.syntax = syntax;
         this.value = value;
         this.position = position;
+        this.span = new TextSpan(position, syntax.length());
     }
 
     public Token(TokenType tokenType, String syntax, int position)

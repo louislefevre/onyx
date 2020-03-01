@@ -1,5 +1,6 @@
 package errors;
 
+import identifiers.ObjectType;
 import lombok.Getter;
 import identifiers.ErrorType;
 
@@ -13,24 +14,21 @@ public final class EvaluateError extends Error
         this.errorType = ErrorType.EVALUATE_ERROR;
     }
 
-    public static Error unexpectedNode(Object type, int start, int length)
+    public static Error unexpectedNode(ObjectType type)
     {
-        TextSpan span = new TextSpan(start, length);
-        String message = String.format("Unexpected node '%s'", type);
-        return new LexicalError(span, message);
+        String message = String.format("ERROR: Unexpected node '%s'.", type);
+        return new LexicalError(null, message);
     }
 
-    public static Error unexpectedUnaryOperator(Object type, int start, int length)
+    public static Error unexpectedUnaryOperator(Object type)
     {
-        TextSpan span = new TextSpan(start, length);
-        String message = String.format("Unexpected unary operator '%s'", type);
-        return new LexicalError(span, message);
+        String message = String.format("ERROR: Unexpected unary operator '%s'.", type);
+        return new LexicalError(null, message);
     }
 
-    public static Error unexpectedBinaryOperator(Object type, int start, int length)
+    public static Error unexpectedBinaryOperator(Object type)
     {
-        TextSpan span = new TextSpan(start, length);
-        String message = String.format("Unexpected binary operator '%s'", type);
-        return new LexicalError(span, message);
+        String message = String.format("ERROR: Unexpected binary operator '%s'.", type);
+        return new LexicalError(null, message);
     }
 }

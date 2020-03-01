@@ -102,16 +102,17 @@ public final class Parser
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();
-        this.errorLog.add(SyntaxError.unexpectedToken(token.getSyntax(), token.getTokenType(), 0, 0));
+        this.errorLog.add(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
         return new LiteralExpression(token, null);
     }
 
     private Token matchTokens(TokenType type)
     {
-        if(this.currentToken().getTokenType() == type)
+        Token token = this.currentToken();
+        if(token.getTokenType() == type)
             return this.nextToken();
-        this.errorLog.add(SyntaxError.unexpectedTokenMatch(this.currentToken().getSyntax(), type, 0, 0));
-        return new Token(type, this.currentToken().getPosition());
+        this.errorLog.add(SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type));
+        return new Token(type, token.getPosition());
     }
 
     private Token nextToken()

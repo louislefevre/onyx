@@ -83,7 +83,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType(), 0, 0));
+            this.errorLog.add(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType()));
             return annotatedOperand;
         }
 
@@ -98,7 +98,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType(), 0, 0));
+            this.errorLog.add(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType()));
             return annotatedLeft;
         }
 

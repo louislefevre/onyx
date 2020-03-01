@@ -1,5 +1,6 @@
 package errors;
 
+import identifiers.TokenType;
 import lombok.Getter;
 import identifiers.ErrorType;
 
@@ -13,17 +14,15 @@ public final class SyntaxError extends Error
         this.errorType = ErrorType.SYNTAX_ERROR;
     }
 
-    public static Error unexpectedToken(String syntax, Object type, int start, int length)
+    public static Error unexpectedToken(TextSpan span, TokenType type)
     {
-        TextSpan span = new TextSpan(start, length);
-        String message = String.format("ERROR: Unexpected token '%1s' of type %2s.", syntax, type);
+        String message = String.format("ERROR: Unexpected token '%s'.", type);
         return new SemanticError(span, message);
     }
 
-    public static Error unexpectedTokenMatch(String syntax, Object type, int start, int length)
+    public static Error unexpectedTokenMatch(TextSpan span, TokenType actualType, TokenType expectedType)
     {
-        TextSpan span = new TextSpan(start, length);
-        String message = String.format("ERROR: Unexpected token '%1s', expected '%2s'", syntax, type);
+        String message = String.format("ERROR: Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
         return new SemanticError(span, message);
     }
 }
