@@ -1,5 +1,6 @@
 package errors;
 
+import analysis.lexical.SyntaxSpan;
 import identifiers.ObjectType;
 import lombok.Getter;
 import identifiers.ErrorType;
@@ -8,7 +9,7 @@ public final class EvaluateError extends Error
 {
     @Getter private final ErrorType errorType;
 
-    public EvaluateError(TextSpan span, String errorMessage)
+    public EvaluateError(SyntaxSpan span, String errorMessage)
     {
         super(span, errorMessage);
         this.errorType = ErrorType.EVALUATE_ERROR;
