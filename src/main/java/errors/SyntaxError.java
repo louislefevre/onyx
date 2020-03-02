@@ -18,12 +18,12 @@ public final class SyntaxError extends Error
     public static Error unexpectedToken(SyntaxSpan span, TokenType type)
     {
         String message = String.format("Unexpected token '%s'.", type);
-        return new SemanticError(span, message);
+        return new SyntaxError(span, message);
     }
 
     public static Error unexpectedTokenMatch(SyntaxSpan span, TokenType actualType, TokenType expectedType)
     {
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
-        return new SemanticError(span, message);
+        return new SyntaxError(span, message);
     }
 }
