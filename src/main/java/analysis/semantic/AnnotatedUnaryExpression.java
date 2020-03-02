@@ -16,6 +16,6 @@ public final class AnnotatedUnaryExpression extends AnnotatedExpression
         this.operator = operator;
         this.operand = operand;
         this.expressionType = ExpressionType.UNARY_EXPRESSION;
-        this.objectType = this.operator.getResultObjectType();
+        this.objectType = operator.getResultObjectType();
     }
 }

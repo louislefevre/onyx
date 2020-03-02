@@ -22,6 +22,6 @@ public final class BinaryExpression extends Expression
         this.operatorToken = operatorToken;
         this.rightTerm = rightTerm;
         this.tokenType = TokenType.BINARY_EXPRESSION_TOKEN;
-        this.children = new ArrayList<>(Arrays.asList(this.leftTerm, this.operatorToken, this.rightTerm));
+        this.children = new ArrayList<>(Arrays.asList(leftTerm, operatorToken, rightTerm));
     }
 }

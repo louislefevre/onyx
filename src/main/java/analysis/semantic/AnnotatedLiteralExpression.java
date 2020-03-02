@@ -14,7 +14,7 @@ public final class AnnotatedLiteralExpression extends AnnotatedExpression
     {
         this.value = value;
         this.expressionType = ExpressionType.LITERAL_EXPRESSION;
-        this.objectType = typeOf(this.value);
+        this.objectType = typeOf(value);
     }
 
     private static ObjectType typeOf(Object object)

@@ -20,6 +20,6 @@ public final class UnaryExpression extends Expression
         this.operatorToken = operatorToken;
         this.operand = operand;
         this.tokenType = TokenType.UNARY_EXPRESSION_TOKEN;
-        this.children = new ArrayList<>(Arrays.asList(this.operatorToken, this.operand));
+        this.children = new ArrayList<>(Arrays.asList(operatorToken, operand));
     }
 }

@@ -18,6 +18,6 @@ public final class AnnotatedBinaryExpression extends AnnotatedExpression
         this.operator = operator;
         this.rightTerm = rightTerm;
         this.expressionType = ExpressionType.BINARY_EXPRESSION;
-        this.objectType = this.operator.getResultObjectType();
+        this.objectType = operator.getResultObjectType();
     }
 }
