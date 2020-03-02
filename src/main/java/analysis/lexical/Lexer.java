@@ -68,7 +68,7 @@ public final class Lexer
         int value = 0;
 
         while(Utilities.isDigit(this.currentChar()))
-            this.nextPosition();
+            this.currentPositionThenNext(1);
 
         String text = this.inputText.substring(startPos, this.position);
 
@@ -116,44 +116,44 @@ public final class Lexer
         switch(this.currentChar())
         {
             case Syntax.PLUS:
-                return new Token(TokenType.PLUS_TOKEN, this.position++);
+                return new Token(TokenType.PLUS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.MINUS:
-                return new Token(TokenType.MINUS_TOKEN, this.position++);
+                return new Token(TokenType.MINUS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.STAR:
-                return new Token(TokenType.STAR_TOKEN, this.position++);
+                return new Token(TokenType.STAR_TOKEN, this.currentPositionThenNext(1));
             case Syntax.SLASH:
-                return new Token(TokenType.SLASH_TOKEN, this.position++);
+                return new Token(TokenType.SLASH_TOKEN, this.currentPositionThenNext(1));
             case Syntax.CARET:
-                return new Token(TokenType.CARET_TOKEN, this.position++);
+                return new Token(TokenType.CARET_TOKEN, this.currentPositionThenNext(1));
             case Syntax.PERCENT:
-                return new Token(TokenType.PERCENT_TOKEN, this.position++);
+                return new Token(TokenType.PERCENT_TOKEN, this.currentPositionThenNext(1));
             case Syntax.OPEN_PARENTHESIS:
-                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.position++);
+                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.CLOSE_PARENTHESIS:
-                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.position++);
+                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.AMPERSAND:
                 if(this.nextChar().equals(Syntax.AMPERSAND))
-                    return new Token(TokenType.AND_TOKEN, this.position+=2);
+                    return new Token(TokenType.AND_TOKEN, this.currentPositionThenNext(2));
                 break;
             case Syntax.PIPE:
                 if(this.nextChar().equals(Syntax.PIPE))
-                    return new Token(TokenType.OR_TOKEN, this.position+=2);
+                    return new Token(TokenType.OR_TOKEN, this.currentPositionThenNext(2));
                 break;
             case Syntax.EQUALS:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.position+=2);
+                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 break;
             case Syntax.NOT:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.position+=2);
+                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.NOT_TOKEN, this.position++);
             case Syntax.GREATER:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.position+=2);
+                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.GREATER_TOKEN, this.position++);
             case Syntax.LESS:
                 if(this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.position+=2);
+                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.LESS_TOKEN, this.position++);
         }
         return this.badToken();
@@ -162,7 +162,7 @@ public final class Lexer
     private Token badToken()
     {
         this.errorLog.add(LexicalError.badCharacter(this.currentChar(), this.position, 1));
-        return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.position++);
+        return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.currentPositionThenNext(1));
     }
 
     private String currentChar()
@@ -187,6 +187,13 @@ public final class Lexer
     private void nextPosition()
     {
         this.position++;
+    }
+
+    private int currentPositionThenNext(int increment)
+    {
+        int currentPos = this.position;
+        this.position += increment;
+        return currentPos;
     }
 
     private static TokenType getKeywordToken(String text)
