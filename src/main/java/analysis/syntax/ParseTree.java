@@ -1,6 +1,7 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
+import org.jetbrains.annotations.TestOnly;
 import util.ANSI;
 
 public final class ParseTree
@@ -14,10 +15,11 @@ public final class ParseTree
 
     public Expression getExpression()
     {
-        this.showTree();
+        //this.showTree();
         return expression;
     }
 
+    @TestOnly
     private void showTree()
     {
         printTree(this.expression, "", true);
