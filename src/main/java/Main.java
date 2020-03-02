@@ -1,4 +1,5 @@
 import compilation.Compiler;
+import synthesis.generation.SourceOutput;
 
 import java.util.Scanner;
 
@@ -13,9 +14,11 @@ public class Main
                 return;
 
             Compiler compiler = new Compiler();
-            Object output = compiler.compile(input);
+            SourceOutput output = compiler.compile(input);
 
-            System.out.println(output);
+            if(!output.compilationFailed())
+                System.out.println(output.getResult());
+            System.out.println();
         }
     }
 

@@ -16,13 +16,13 @@ public final class SemanticError extends Error
 
     public static Error undefinedUnaryOperator(TextSpan span, String syntax, ObjectType type)
     {
-        String message = String.format("ERROR: Unary operator '%1s' is not defined for type '%2s'.", syntax, type);
+        String message = String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax, type);
         return new SemanticError(span, message);
     }
 
     public static Error undefinedBinaryOperator(TextSpan span, String syntax, ObjectType leftType, ObjectType rightType)
     {
-        String message = String.format("ERROR: Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax, leftType, rightType);
+        String message = String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax, leftType, rightType);
         return new SemanticError(span, message);
     }
 

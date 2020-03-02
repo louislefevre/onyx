@@ -11,15 +11,15 @@ public final class Compiler
 {
     public Compiler() { }
 
-    public Object compile(String input)
+    public SourceOutput compile(String input)
     {
         Lexer lexer = new Lexer(input);
         Parser parser = new Parser(lexer);
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
-        ErrorHandler errorHandler = new ErrorHandler(evaluator);
+        ErrorHandler errorHandler = new ErrorHandler(evaluator, input);
         SourceOutput sourceOutput = new SourceOutput(errorHandler);
 
-        return sourceOutput.getOutput();
+        return sourceOutput;
     }
 }

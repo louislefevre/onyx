@@ -4,15 +4,22 @@ import errors.ErrorHandler;
 
 public final class SourceOutput
 {
-    private final Object output;
+    private final Object getResult;
+    private final boolean failed;
 
     public SourceOutput(ErrorHandler errorHandler)
     {
-        this.output = errorHandler.getEvaluation();
+        this.getResult = errorHandler.getEvaluation();
+        this.failed = errorHandler.errorsPresent();
     }
 
-    public Object getOutput()
+    public boolean compilationFailed()
     {
-        return output;
+        return this.failed;
+    }
+
+    public Object getResult()
+    {
+        return getResult;
     }
 }

@@ -16,14 +16,14 @@ public final class LexicalError extends Error
     public static Error invalidInt(String syntax, int start, int length)
     {
         TextSpan span = new TextSpan(start, length);
-        String message = String.format("ERROR: The number '%s' isn't a valid int.", syntax);
+        String message = String.format("The number '%s' isn't a valid int.", syntax);
         return new LexicalError(span, message);
     }
 
     public static Error badCharacter(String syntax, int start, int length)
     {
         TextSpan span = new TextSpan(start, length);
-        String message = String.format("ERROR: Bad character '%s'.", syntax);
+        String message = String.format("Bad character '%s'.", syntax);
         return new LexicalError(span, message);
     }
 }

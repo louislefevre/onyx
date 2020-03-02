@@ -9,11 +9,13 @@ public final class ErrorHandler
 {
     private final Object evaluation;
     private final List<Error> errorsLog;
+    private final String input;
 
-    public ErrorHandler(Evaluator evaluator)
+    public ErrorHandler(Evaluator evaluator, String input)
     {
         this.evaluation = evaluator.evaluate();
         this.errorsLog = evaluator.getErrorLog();
+        this.input = input;
     }
 
     public Object getEvaluation()
@@ -25,7 +27,7 @@ public final class ErrorHandler
         return null;
     }
 
-    private boolean errorsPresent()
+    public boolean errorsPresent()
     {
         return !this.errorsLog.isEmpty();
     }
@@ -34,10 +36,24 @@ public final class ErrorHandler
     {
         for (Error error : this.errorsLog)
         {
-            System.out.print(ANSI.RED);
-            System.out.println(error.getErrorType());
-            System.out.println(error.getErrorMessage());
-            System.out.print(ANSI.RESET);
+            int start = error.getSpan().getStart();
+            int length = error.getSpan().getLength();
+            int end = error.getSpan().getEnd();
+
+            String prefixSyntax = ANSI.GREY + this.input.substring(0, start) + ANSI.RESET;
+            String errorSyntax = ANSI.RED + this.input.substring(start, start+length) + ANSI.RESET;
+            String suffixSyntax = ANSI.GREY + this.input.substring(end) + ANSI.RESET;
+
+            String fullSyntax = prefixSyntax + errorSyntax + suffixSyntax;
+
+            String errorMessage = ANSI.RED +
+                                  error.getErrorType() +
+                                  ": " +
+                                  error.getErrorMessage() +
+                                  ANSI.RESET;
+
+            System.out.println(errorMessage);
+            System.out.println(fullSyntax);
         }
     }
 }

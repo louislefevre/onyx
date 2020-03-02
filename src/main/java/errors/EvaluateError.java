@@ -16,19 +16,19 @@ public final class EvaluateError extends Error
 
     public static Error unexpectedNode(ObjectType type)
     {
-        String message = String.format("ERROR: Unexpected node '%s'.", type);
+        String message = String.format("Unexpected node '%s'.", type);
         return new LexicalError(null, message);
     }
 
     public static Error unexpectedUnaryOperator(Object type)
     {
-        String message = String.format("ERROR: Unexpected unary operator '%s'.", type);
+        String message = String.format("Unexpected unary operator '%s'.", type);
         return new LexicalError(null, message);
     }
 
     public static Error unexpectedBinaryOperator(Object type)
     {
-        String message = String.format("ERROR: Unexpected binary operator '%s'.", type);
+        String message = String.format("Unexpected binary operator '%s'.", type);
         return new LexicalError(null, message);
     }
 }
