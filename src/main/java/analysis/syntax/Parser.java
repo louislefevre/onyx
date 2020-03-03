@@ -23,7 +23,7 @@ public final class Parser
 
     public ParseTree getParseTree()
     {
-        return new ParseTree(this.parseExpression(0));
+        return new ParseTree(this.parseExpression());
     }
 
     public List<Error> getErrorLog()
@@ -31,7 +31,30 @@ public final class Parser
         return this.errorLog;
     }
 
-    private Expression parseExpression(int parentPrecedence)
+    private Expression parseExpression()
+    {
+        return this.parseAssignmentExpression();
+    }
+
+    private Expression parseAssignmentExpression()
+    {
+        if(this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
+           this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
+        {
+            Token identifierToken = this.nextToken();
+            Token operatorToken = this.nextToken();
+            Expression right = this.parseAssignmentExpression();
+            return new AssignmentExpression(identifierToken, operatorToken, right);
+        }
+        return this.parseBinaryExpression();
+    }
+
+    private Expression parseBinaryExpression()
+    {
+        return this.parseBinaryExpression(0);
+    }
+
+    private Expression parseBinaryExpression(int parentPrecedence)
     {
         Expression left;
         int unaryOperatorPrecedence = SyntaxPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
@@ -39,7 +62,7 @@ public final class Parser
         if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
             Token operatorToken = this.nextToken();
-            Expression operand = this.parseExpression(unaryOperatorPrecedence);
+            Expression operand = this.parseBinaryExpression(unaryOperatorPrecedence);
             left = new UnaryExpression(operatorToken, operand);
         }
         else
@@ -54,7 +77,7 @@ public final class Parser
                 break;
 
             Token operatorToken = this.nextToken();
-            Expression right = this.parseExpression(binaryOperatorPrecedence);
+            Expression right = this.parseBinaryExpression(binaryOperatorPrecedence);
             left = new BinaryExpression(left, operatorToken, right);
         }
 
@@ -72,6 +95,8 @@ public final class Parser
                 return this.parseBooleanExpression();
             case NUMBER_TOKEN:
                 return this.parseNumberExpression();
+            case IDENTIFIER_KEYWORD_TOKEN:
+                return this.parseNameExpression();
             default:
                 return this.parseUnknownExpression();
         }
@@ -80,7 +105,7 @@ public final class Parser
     private Expression parseParenthesizedExpression()
     {
         Token left = this.nextToken();
-        Expression expression = this.parseExpression(0);
+        Expression expression = this.parseBinaryExpression();
         Token right = this.matchTokens(TokenType.CLOSE_PARENTHESIS_TOKEN);
         return new ParenthesizedExpression(left, expression, right);
     }
@@ -99,6 +124,12 @@ public final class Parser
         return new LiteralExpression(numberToken, value);
     }
 
+    private Expression parseNameExpression()
+    {
+        Token identifierToken = this.nextToken();
+        return new NameExpression(identifierToken);
+    }
+
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();
@@ -115,6 +146,14 @@ public final class Parser
         return new Token(type, token.getPosition());
     }
 
+    private Token peek(int offset)
+    {
+        int index = this.position + offset;
+        if(index >= this.tokens.size())
+            return this.tokens.get(this.tokens.size()-1);
+        return this.tokens.get(index);
+    }
+
     private Token nextToken()
     {
         Token token = this.currentToken();
@@ -124,9 +163,6 @@ public final class Parser
 
     private Token currentToken()
     {
-        int index = this.position;
-        if(index >= this.tokens.size())
-            return this.tokens.get(this.tokens.size() - 1);
-        return this.tokens.get(index);
+        return this.peek(0);
     }
 }

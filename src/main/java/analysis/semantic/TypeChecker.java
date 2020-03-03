@@ -3,18 +3,24 @@ package analysis.semantic;
 import analysis.syntax.*;
 import errors.Error;
 import errors.SemanticError;
+import identifiers.ObjectType;
+import symbols.SymbolTable;
+import util.Utilities;
 
+import java.util.HashMap;
 import java.util.List;
 
 public final class TypeChecker
 {
     private final ParseTree parseTree;
     private final List<Error> errorLog;
+    private final HashMap<String, Object> variables;
 
     public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
         this.errorLog = parser.getErrorLog();
+        this.variables = SymbolTable.variables;
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
@@ -25,6 +31,11 @@ public final class TypeChecker
     public List<Error> getErrorLog()
     {
         return this.errorLog;
+    }
+
+    public HashMap<String, Object> getVariables()
+    {
+        return variables;
     }
 
     private AnnotatedExpression getAnnotatedExpression()
@@ -57,6 +68,10 @@ public final class TypeChecker
                 return this.annotateUnaryExpression((UnaryExpression)syntax);
             case BINARY_EXPRESSION_TOKEN:
                 return this.annotateBinaryExpression((BinaryExpression)syntax);
+            case NAME_EXPRESSION_TOKEN:
+                return this.annotateNameExpression((NameExpression)syntax);
+            case ASSIGNMENT_EXPRESSION_TOKEN:
+                return this.annotateAssignmentExpression((AssignmentExpression)syntax);
             default:
                 throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));
         }
@@ -103,5 +118,26 @@ public final class TypeChecker
         }
 
         return new AnnotatedBinaryExpression(annotatedLeft, annotatedOperator, annotatedRight);
+    }
+
+    private AnnotatedExpression annotateNameExpression(NameExpression syntax)
+    {
+        String name = syntax.getIdentifierToken().getSyntax();
+
+        if(!this.variables.containsKey(name))
+        {
+            this.errorLog.add(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
+            return new AnnotatedLiteralExpression(null);
+        }
+        ObjectType type = Utilities.typeOf(this.variables.get(name));
+
+        return new AnnotatedVariableExpression(name, type);
+    }
+
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression syntax) throws Exception
+    {
+        String name = syntax.getIdentifierToken().getSyntax();
+        AnnotatedExpression expression = this.annotateExpression(syntax.getExpression());
+        return new AnnotatedAssignmentExpression(name, expression);
     }
 }

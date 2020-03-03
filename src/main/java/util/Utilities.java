@@ -1,5 +1,7 @@
 package util;
 
+import identifiers.ObjectType;
+
 public final class Utilities
 {
     private Utilities()
@@ -40,5 +42,15 @@ public final class Utilities
         if(str.length() != 1)
             return false;
         return Character.isDigit(str.charAt(0));
+    }
+
+    public static ObjectType typeOf(Object object)
+    {
+        if(object instanceof Integer)
+            return ObjectType.INTEGER_OBJECT;
+        else if(object instanceof Boolean)
+            return ObjectType.BOOLEAN_OBJECT;
+        else
+            return ObjectType.NULL_OBJECT;
     }
 }

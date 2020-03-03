@@ -56,6 +56,8 @@ public final class Token
                 return Syntax.OR;
             case EQUALS_EQUALS_TOKEN:
                 return Syntax.EQUALS_EQUALS;
+            case EQUALS_TOKEN:
+                return Syntax.EQUALS;
             case NOT_EQUALS_TOKEN:
                 return Syntax.NOT_EQUALS;
             case NOT_TOKEN:

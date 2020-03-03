@@ -142,7 +142,7 @@ public final class Lexer
             case Syntax.EQUALS:
                 if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.currentPositionThenNext(2));
-                break;
+                return new Token(TokenType.EQUALS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.NOT:
                 if(this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
