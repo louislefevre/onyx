@@ -6,3 +6,6 @@
 - Rename "term" to "operand"?
 - Put error messages into their corresponding classes (e.g. lexical error messages go in the class LexicalError). Store the strings as constants, and return through static methods?
 - Try and see if recursion can be implemented in the Lexer.
+- Parser will sometimes print two similar error messages if it involves parenthesis (e.g. "(" results in this).
+- Consider creating the ErrorHandler object (passing input) at the start, passing it to the lexer, and retrieving it again at the end of compilation.
+- Use EvaluateError to throw exceptions instead of adding error messages?
