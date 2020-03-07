@@ -9,3 +9,5 @@
 - Parser will sometimes print two similar error messages if it involves parenthesis (e.g. "(" results in this).
 - Consider creating the ErrorHandler object (passing input) at the start, passing it to the lexer, and retrieving it again at the end of compilation.
 - Use EvaluateError to throw exceptions instead of adding error messages?
+- Add print symbol table method.
+- Change lexer so that it scans through input text and compares to constants in the syntax class.
