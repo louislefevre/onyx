@@ -1,6 +1,5 @@
 package compilation;
 
-import symbols.SymbolTable;
 import synthesis.generation.SourceOutput;
 
 import java.util.Scanner;
@@ -11,8 +10,7 @@ public final class Repl
 
     public void run()
     {
-        SymbolTable symbolTable = new SymbolTable();
-        Compiler compiler = new Compiler(symbolTable);
+        Compiler compiler = new Compiler();
 
         while(true)
         {

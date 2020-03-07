@@ -3,20 +3,19 @@ package synthesis.generation;
 import analysis.semantic.*;
 import errors.ErrorHandler;
 import identifiers.OperatorType;
-
-import java.util.HashMap;
+import symbols.SymbolTable;
 
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
     private final ErrorHandler errorHandler;
-    private final HashMap<String, Object> variables;
+    private final SymbolTable symbolTable;
 
-    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler)
+    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
         this.errorHandler = errorHandler;
-        this.variables = typeChecker.getVariables();
+        this.symbolTable = symbolTable;
     }
 
     public Object getEvaluation()
@@ -32,7 +31,15 @@ public final class Evaluator
         }
         catch(Exception exception)
         {
-            System.out.println(exception.getMessage());
+            StackTraceElement stackTraceElement = exception.getStackTrace()[0];
+            int lineNumber = stackTraceElement.getLineNumber();
+            String className = stackTraceElement.getClassName();
+
+            String location = String.format("Line %1s: Exception occurred at %2s", lineNumber, className);
+            String message = exception.getMessage();
+
+            System.out.println(location);
+            System.out.println(message);
         }
         return null;
     }
@@ -121,15 +128,18 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateVariableExpression(AnnotatedVariableExpression node)
+    private Object evaluateVariableExpression(AnnotatedVariableExpression node) throws Exception
     {
-        return this.variables.get(node.getName());
+        String name = node.getName();
+        if(this.symbolTable.containsSymbol(name))
+            return this.symbolTable.getSymbol(node.getName()).getValue();
+        throw new Exception(String.format("EXCEPTION: Symbol '%s' does not exist in symbol table.", name));
     }
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression node) throws Exception
     {
         Object value = this.evaluateExpression(node.getExpression());
-        this.variables.put(node.getName(), value);
+        this.symbolTable.addSymbol(node.getName(), value, node.getObjectType());
         return value;
     }
 }

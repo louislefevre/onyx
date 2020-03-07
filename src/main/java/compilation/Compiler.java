@@ -12,9 +12,9 @@ public final class Compiler
 {
     private final SymbolTable symbolTable;
 
-    public Compiler(SymbolTable symbolTable)
+    public Compiler()
     {
-        this.symbolTable = symbolTable;
+        this.symbolTable = new SymbolTable();
     }
 
     public SourceOutput compile(String input)
@@ -25,7 +25,7 @@ public final class Compiler
         Lexer lexer = new Lexer(input, errorHandler);
         Parser parser = new Parser(lexer, errorHandler);
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
-        Evaluator evaluator = new Evaluator(typeChecker, errorHandler);
+        Evaluator evaluator = new Evaluator(typeChecker, errorHandler, symbolTable);
         SourceOutput sourceOutput = new SourceOutput(evaluator, errorHandler);
 
         return sourceOutput;

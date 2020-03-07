@@ -5,31 +5,23 @@ import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
 import symbols.SymbolTable;
-import util.Utilities;
-
-import java.util.HashMap;
 
 public final class TypeChecker
 {
     private final ParseTree parseTree;
     private final ErrorHandler errorHandler;
-    private final HashMap<String, Object> variables;
+    private final SymbolTable symbolTable;
 
     public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.parseTree = parser.getParseTree();
         this.errorHandler = errorHandler;
-        this.variables = symbolTable.getVariables();
+        this.symbolTable = symbolTable;
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
     {
         return new AnnotatedParseTree(this.getAnnotatedExpression());
-    }
-
-    public HashMap<String, Object> getVariables()
-    {
-        return variables;
     }
 
     private AnnotatedExpression getAnnotatedExpression()
@@ -118,12 +110,12 @@ public final class TypeChecker
     {
         String name = syntax.getIdentifierToken().getSyntax();
 
-        if(!this.variables.containsKey(name))
+        if(!this.symbolTable.containsSymbol(name))
         {
             this.errorHandler.addError(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
             return new AnnotatedLiteralExpression(null);
         }
-        ObjectType type = Utilities.typeOf(this.variables.get(name));
+        ObjectType type = this.symbolTable.getSymbol(name).getType();
 
         return new AnnotatedVariableExpression(name, type);
     }
