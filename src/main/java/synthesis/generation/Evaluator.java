@@ -1,26 +1,30 @@
 package synthesis.generation;
 
 import analysis.semantic.*;
-import errors.Error;
+import errors.ErrorHandler;
 import identifiers.OperatorType;
 
 import java.util.HashMap;
-import java.util.List;
 
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
-    private final List<Error> errorLog;
+    private final ErrorHandler errorHandler;
     private final HashMap<String, Object> variables;
 
-    public Evaluator(TypeChecker typeChecker)
+    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
-        this.errorLog = typeChecker.getErrorLog();
+        this.errorHandler = errorHandler;
         this.variables = typeChecker.getVariables();
     }
 
-    public Object evaluate()
+    public Object getEvaluation()
+    {
+        return this.evaluate();
+    }
+
+    private Object evaluate()
     {
         try
         {
@@ -31,11 +35,6 @@ public final class Evaluator
             System.out.println(exception.getMessage());
         }
         return null;
-    }
-
-    public List<Error> getErrorLog()
-    {
-        return this.errorLog;
     }
 
     private Object evaluateExpression(AnnotatedExpression node) throws Exception

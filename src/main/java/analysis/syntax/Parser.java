@@ -2,7 +2,7 @@ package analysis.syntax;
 
 import analysis.lexical.Lexer;
 import analysis.lexical.Token;
-import errors.Error;
+import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
 
@@ -11,24 +11,19 @@ import java.util.List;
 public final class Parser
 {
     private final List<Token> tokens;
-    private final List<Error> errorLog;
+    private final ErrorHandler errorHandler;
     private int position;
 
-    public Parser(Lexer lexer)
+    public Parser(Lexer lexer, ErrorHandler errorHandler)
     {
         this.tokens = lexer.getTokens();
-        this.errorLog = lexer.getErrorLog();
+        this.errorHandler = errorHandler;
         this.position = 0;
     }
 
     public ParseTree getParseTree()
     {
         return new ParseTree(this.parseExpression());
-    }
-
-    public List<Error> getErrorLog()
-    {
-        return this.errorLog;
     }
 
     private Expression parseExpression()
@@ -133,7 +128,7 @@ public final class Parser
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();
-        this.errorLog.add(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
+        this.errorHandler.addError(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
         return new LiteralExpression(token, null);
     }
 
@@ -142,7 +137,7 @@ public final class Parser
         Token token = this.currentToken();
         if(token.getTokenType() == type)
             return this.nextToken();
-        this.errorLog.add(SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type));
+        this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type));
         return new Token(type, token.getPosition());
     }
 

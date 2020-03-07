@@ -7,9 +7,9 @@ public final class SourceOutput
     private final Object getResult;
     private final boolean failed;
 
-    public SourceOutput(ErrorHandler errorHandler)
+    public SourceOutput(Evaluator evaluator, ErrorHandler errorHandler)
     {
-        this.getResult = errorHandler.getEvaluation();
+        this.getResult = evaluator.getEvaluation();
         this.failed = errorHandler.errorsPresent();
     }
 

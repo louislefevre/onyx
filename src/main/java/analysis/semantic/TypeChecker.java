@@ -1,36 +1,30 @@
 package analysis.semantic;
 
 import analysis.syntax.*;
-import errors.Error;
+import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
 import symbols.SymbolTable;
 import util.Utilities;
 
 import java.util.HashMap;
-import java.util.List;
 
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    private final List<Error> errorLog;
+    private final ErrorHandler errorHandler;
     private final HashMap<String, Object> variables;
 
-    public TypeChecker(Parser parser)
+    public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.parseTree = parser.getParseTree();
-        this.errorLog = parser.getErrorLog();
-        this.variables = SymbolTable.variables;
+        this.errorHandler = errorHandler;
+        this.variables = symbolTable.getVariables();
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
     {
         return new AnnotatedParseTree(this.getAnnotatedExpression());
-    }
-
-    public List<Error> getErrorLog()
-    {
-        return this.errorLog;
     }
 
     public HashMap<String, Object> getVariables()
@@ -98,7 +92,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType()));
+            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType()));
             return annotatedOperand;
         }
 
@@ -113,7 +107,7 @@ public final class TypeChecker
 
         if(annotatedOperator == null)
         {
-            this.errorLog.add(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType()));
+            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType()));
             return annotatedLeft;
         }
 
@@ -126,7 +120,7 @@ public final class TypeChecker
 
         if(!this.variables.containsKey(name))
         {
-            this.errorLog.add(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
+            this.errorHandler.addError(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
             return new AnnotatedLiteralExpression(null);
         }
         ObjectType type = Utilities.typeOf(this.variables.get(name));

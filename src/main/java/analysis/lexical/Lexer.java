@@ -1,6 +1,6 @@
 package analysis.lexical;
 
-import errors.Error;
+import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
 import util.Utilities;
@@ -11,24 +11,19 @@ import java.util.List;
 public final class Lexer
 {
     private final String inputText;
-    private final List<Error> errorLog;
+    private final ErrorHandler errorHandler;
     private int position;
 
-    public Lexer(String inputText)
+    public Lexer(String inputText, ErrorHandler errorHandler)
     {
         this.inputText = inputText;
-        this.errorLog = new ArrayList<>();
+        this.errorHandler = errorHandler;
         this.position = 0;
     }
 
     public List<Token> getTokens()
     {
         return this.lexTokens();
-    }
-
-    public List<Error> getErrorLog()
-    {
-        return this.errorLog;
     }
 
     private List<Token> lexTokens()
@@ -75,7 +70,7 @@ public final class Lexer
         if(Utilities.isParsable(text))
             value = Integer.parseInt(text);
         else
-            this.errorLog.add(LexicalError.invalidInt(text, startPos, this.position-startPos));
+            this.errorHandler.addError(LexicalError.invalidInt(text, startPos, this.position-startPos));
 
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
@@ -161,7 +156,7 @@ public final class Lexer
 
     private Token badToken()
     {
-        this.errorLog.add(LexicalError.badCharacter(this.currentChar(), this.position, 1));
+        this.errorHandler.addError(LexicalError.badCharacter(this.currentChar(), this.position, 1));
         return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.currentPositionThenNext(1));
     }
 

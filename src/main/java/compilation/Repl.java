@@ -7,22 +7,19 @@ import java.util.Scanner;
 
 public final class Repl
 {
-    private final SymbolTable symbolTable;
-
-    public Repl()
-    {
-        this.symbolTable = new SymbolTable();
-    }
+    public Repl() { }
 
     public void run()
     {
+        SymbolTable symbolTable = new SymbolTable();
+        Compiler compiler = new Compiler(symbolTable);
+
         while(true)
         {
             String input = readInput();
             if(input.isBlank())
                 return;
 
-            Compiler compiler = new Compiler();
             SourceOutput output = compiler.compile(input);
 
             if(!output.compilationFailed())

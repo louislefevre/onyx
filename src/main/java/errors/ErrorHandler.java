@@ -1,48 +1,47 @@
 package errors;
 
-import synthesis.generation.Evaluator;
 import util.ANSI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class ErrorHandler
 {
-    private final Object evaluation;
     private final List<Error> errorsLog;
     private final String input;
 
-    public ErrorHandler(Evaluator evaluator, String input)
+    public ErrorHandler(String input)
     {
-        this.evaluation = evaluator.evaluate();
-        this.errorsLog = evaluator.getErrorLog();
+        this.errorsLog = new ArrayList<>();
         this.input = input;
-    }
-
-    public Object getEvaluation()
-    {
-        if(!this.errorsPresent())
-            return this.evaluation;
-
-        this.printErrors();
-        return null;
     }
 
     public boolean errorsPresent()
     {
-        return !this.errorsLog.isEmpty();
+        if(this.errorsLog.isEmpty())
+            return false;
+        this.printErrors();
+        return true;
+    }
+
+    public void addError(Error error)
+    {
+        this.errorsLog.add(error);
     }
 
     private void printErrors()
     {
         for (Error error : this.errorsLog)
         {
+            String input = this.input;
             int start = error.getSpan().getStart();
-            int length = error.getSpan().getLength();
             int end = error.getSpan().getEnd();
 
-            String prefixSyntax = ANSI.GREY + this.input.substring(0, start) + ANSI.RESET;
-            String errorSyntax = ANSI.RED + this.input.substring(start, start+length) + ANSI.RESET;
-            String suffixSyntax = ANSI.GREY + this.input.substring(end) + ANSI.RESET;
+            if(end > this.input.length()) input += "_"; // For handling unexpected EOF_TOKEN errors; results in out of bounds exception otherwise
+
+            String prefixSyntax = ANSI.GREY + input.substring(0, start) + ANSI.RESET;
+            String errorSyntax = ANSI.RED + input.substring(start, end) + ANSI.RESET;
+            String suffixSyntax = ANSI.GREY + input.substring(end) + ANSI.RESET;
 
             String fullSyntax = prefixSyntax + errorSyntax + suffixSyntax;
 
