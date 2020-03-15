@@ -15,19 +15,19 @@ public final class SemanticError extends Error
         this.errorType = ErrorType.SEMANTIC_ERROR;
     }
 
-    public static Error undefinedUnaryOperator(SyntaxSpan span, String syntax, ObjectType type)
+    public static SemanticError undefinedUnaryOperator(SyntaxSpan span, String syntax, ObjectType type)
     {
         String message = String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax, type);
         return new SemanticError(span, message);
     }
 
-    public static Error undefinedBinaryOperator(SyntaxSpan span, String syntax, ObjectType leftType, ObjectType rightType)
+    public static SemanticError undefinedBinaryOperator(SyntaxSpan span, String syntax, ObjectType leftType, ObjectType rightType)
     {
         String message = String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax, leftType, rightType);
         return new SemanticError(span, message);
     }
 
-    public static Error undefinedName(SyntaxSpan span, String syntax)
+    public static SemanticError undefinedName(SyntaxSpan span, String syntax)
     {
         String message = String.format("Variable '%s' does not exist.", syntax);
         return new SemanticError(span, message);

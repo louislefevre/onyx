@@ -15,13 +15,13 @@ public final class SyntaxError extends Error
         this.errorType = ErrorType.SYNTAX_ERROR;
     }
 
-    public static Error unexpectedToken(SyntaxSpan span, TokenType type)
+    public static SyntaxError unexpectedToken(SyntaxSpan span, TokenType type)
     {
         String message = String.format("Unexpected token '%s'.", type);
         return new SyntaxError(span, message);
     }
 
-    public static Error unexpectedTokenMatch(SyntaxSpan span, TokenType actualType, TokenType expectedType)
+    public static SyntaxError unexpectedTokenMatch(SyntaxSpan span, TokenType actualType, TokenType expectedType)
     {
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
         return new SyntaxError(span, message);

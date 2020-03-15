@@ -128,7 +128,8 @@ public final class Parser
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();
-        this.errorHandler.addError(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
+        SyntaxError error = SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType());
+        this.errorHandler.addError(error);
         return new LiteralExpression(token, null);
     }
 
@@ -137,7 +138,8 @@ public final class Parser
         Token token = this.currentToken();
         if(token.getTokenType() == type)
             return this.nextToken();
-        this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type));
+        SyntaxError error = SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type);
+        this.errorHandler.addError(error);
         return new Token(type, token.getPosition());
     }
 

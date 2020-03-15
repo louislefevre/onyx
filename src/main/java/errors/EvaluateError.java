@@ -15,21 +15,21 @@ public final class EvaluateError extends Error
         this.errorType = ErrorType.EVALUATE_ERROR;
     }
 
-    public static Error unexpectedNode(ObjectType type)
+    public static EvaluateError unexpectedNode(ObjectType type)
     {
         String message = String.format("Unexpected node '%s'.", type);
         return new EvaluateError(null, message);
     }
 
-    public static Error unexpectedUnaryOperator(Object type)
+    public static EvaluateError unexpectedUnaryOperator(ObjectType type)
     {
         String message = String.format("Unexpected unary operator '%s'.", type);
         return new EvaluateError(null, message);
     }
 
-    public static Error unexpectedBinaryOperator(Object type)
+    public static EvaluateError unexpectedBinaryOperator(ObjectType type)
     {
         String message = String.format("Unexpected binary operator '%s'.", type);
-        return new LexicalError(null, message);
+        return new EvaluateError(null, message);
     }
 }

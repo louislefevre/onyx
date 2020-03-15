@@ -37,7 +37,9 @@ public final class ErrorHandler
             int start = error.getSpan().getStart();
             int end = error.getSpan().getEnd();
 
-            if(end > this.input.length()) input += "_"; // For handling unexpected EOF_TOKEN errors; results in out of bounds exception otherwise
+            // For handling unexpected EOF_TOKEN errors; results in out of bounds exception otherwise
+            if(end > this.input.length())
+                input += "_";
 
             String prefixSyntax = ANSI.GREY + input.substring(0, start) + ANSI.RESET;
             String errorSyntax = ANSI.RED + input.substring(start, end) + ANSI.RESET;

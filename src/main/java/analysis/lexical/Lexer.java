@@ -68,9 +68,14 @@ public final class Lexer
         String text = this.inputText.substring(startPos, this.position);
 
         if(Utilities.isParsable(text))
+        {
             value = Integer.parseInt(text);
+        }
         else
-            this.errorHandler.addError(LexicalError.invalidInt(text, startPos, this.position-startPos));
+        {
+            LexicalError error = LexicalError.invalidInt(text, startPos, this.position - startPos);
+            this.errorHandler.addError(error);
+        }
 
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
@@ -156,7 +161,8 @@ public final class Lexer
 
     private Token badToken()
     {
-        this.errorHandler.addError(LexicalError.badCharacter(this.currentChar(), this.position, 1));
+        LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
+        this.errorHandler.addError(error);
         return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.currentPositionThenNext(1));
     }
 

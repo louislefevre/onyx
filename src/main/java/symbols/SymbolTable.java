@@ -37,10 +37,9 @@ public final class SymbolTable
     public Symbol getSymbol(String name)
     {
         for(Symbol symbol : this.symbols)
-        {
             if(symbol.getName().equals(name))
                 return symbol;
-        }
+
         return null;
     }
 
