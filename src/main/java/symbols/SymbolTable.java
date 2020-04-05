@@ -2,6 +2,7 @@ package symbols;
 
 import identifiers.ObjectType;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public final class SymbolTable
 
     public void addSymbol(String name, Object value, ObjectType type)
     {
-        if(this.containsSymbol(name))
+        if (this.containsSymbol(name))
         {
             Symbol symbol = this.getSymbol(name);
             symbol.setValue(value);
@@ -36,17 +37,18 @@ public final class SymbolTable
     @Nullable
     public Symbol getSymbol(String name)
     {
-        for(Symbol symbol : this.symbols)
-            if(symbol.getName().equals(name))
+        for (Symbol symbol : this.symbols)
+            if (symbol.getName().equals(name))
                 return symbol;
 
         return null;
     }
 
+    @TestOnly
     public void printSymbolTable()
     {
         System.out.println("----------------------------");
-        for(Symbol symbol : this.symbols)
+        for (Symbol symbol : this.symbols)
         {
             String message = String.format("%1s   %2s   %3s", symbol.getName(), symbol.getValue(), symbol.getType());
             System.out.println(message);

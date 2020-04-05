@@ -5,9 +5,10 @@ import identifiers.ObjectType;
 import lombok.Getter;
 import identifiers.ErrorType;
 
+@Getter
 public final class SemanticError extends Error
 {
-    @Getter private final ErrorType errorType;
+    private final ErrorType errorType;
 
     public SemanticError(SyntaxSpan span, String errorMessage)
     {
@@ -21,9 +22,11 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
-    public static SemanticError undefinedBinaryOperator(SyntaxSpan span, String syntax, ObjectType leftType, ObjectType rightType)
+    public static SemanticError undefinedBinaryOperator(SyntaxSpan span, String syntax, ObjectType leftType,
+                                                        ObjectType rightType)
     {
-        String message = String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax, leftType, rightType);
+        String message = String.format("Binary operator '%1s' is not defined for type '%2s' and '%3s'.", syntax,
+                                       leftType, rightType);
         return new SemanticError(span, message);
     }
 

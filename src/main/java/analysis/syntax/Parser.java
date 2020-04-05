@@ -33,8 +33,8 @@ public final class Parser
 
     private Expression parseAssignmentExpression()
     {
-        if(this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
-           this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
+        if (this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
+            this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
         {
             Token identifierToken = this.nextToken();
             Token operatorToken = this.nextToken();
@@ -54,7 +54,7 @@ public final class Parser
         Expression left;
         int unaryOperatorPrecedence = SyntaxPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
 
-        if(unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
             Token operatorToken = this.nextToken();
             Expression operand = this.parseBinaryExpression(unaryOperatorPrecedence);
@@ -65,10 +65,11 @@ public final class Parser
             left = this.parsePrimaryExpression();
         }
 
-        while(true)
+        while (true)
         {
-            int binaryOperatorPrecedence = SyntaxPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
-            if(binaryOperatorPrecedence == 0 || binaryOperatorPrecedence <= parentPrecedence)
+            int binaryOperatorPrecedence =
+                    SyntaxPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
+            if (binaryOperatorPrecedence == 0 || binaryOperatorPrecedence <= parentPrecedence)
                 break;
 
             Token operatorToken = this.nextToken();
@@ -81,7 +82,7 @@ public final class Parser
 
     private Expression parsePrimaryExpression()
     {
-        switch(this.currentToken().getTokenType())
+        switch (this.currentToken().getTokenType())
         {
             case OPEN_PARENTHESIS_TOKEN:
                 return this.parseParenthesizedExpression();
@@ -136,7 +137,7 @@ public final class Parser
     private Token matchTokens(TokenType type)
     {
         Token token = this.currentToken();
-        if(token.getTokenType() == type)
+        if (token.getTokenType() == type)
             return this.nextToken();
         SyntaxError error = SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type);
         this.errorHandler.addError(error);
@@ -146,8 +147,8 @@ public final class Parser
     private Token peek(int offset)
     {
         int index = this.position + offset;
-        if(index >= this.tokens.size())
-            return this.tokens.get(this.tokens.size()-1);
+        if (index >= this.tokens.size())
+            return this.tokens.get(this.tokens.size() - 1);
         return this.tokens.get(index);
     }
 

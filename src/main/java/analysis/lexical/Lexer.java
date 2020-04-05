@@ -33,21 +33,22 @@ public final class Lexer
         do
         {
             token = this.nextToken();
-            if(token.getTokenType() != TokenType.BAD_TOKEN && token.getTokenType() != TokenType.WHITE_SPACE_TOKEN)
+            if (token.getTokenType() != TokenType.BAD_TOKEN &&
+                token.getTokenType() != TokenType.WHITE_SPACE_TOKEN)
                 tokens.add(token);
-        }while(token.getTokenType() != TokenType.EOF_TOKEN);
+        } while (token.getTokenType() != TokenType.EOF_TOKEN);
         return tokens;
     }
 
     private Token nextToken()
     {
-        if(this.position >= this.inputText.length())
+        if (this.position >= this.inputText.length())
             return this.endToken();
-        else if(Utilities.isDigit(this.currentChar()))
+        else if (Utilities.isDigit(this.currentChar()))
             return this.numberToken();
-        else if(Utilities.isLetter(this.currentChar()))
+        else if (Utilities.isLetter(this.currentChar()))
             return this.letterToken();
-        else if(Utilities.isWhitespace(this.currentChar()))
+        else if (Utilities.isWhitespace(this.currentChar()))
             return this.whitespaceToken();
         return this.symbolToken();
     }
@@ -62,12 +63,12 @@ public final class Lexer
         int startPos = this.position;
         int value = 0;
 
-        while(Utilities.isDigit(this.currentChar()))
+        while (Utilities.isDigit(this.currentChar()))
             this.currentPositionThenNext(1);
 
         String text = this.inputText.substring(startPos, this.position);
 
-        if(Utilities.isParsable(text))
+        if (Utilities.isParsable(text))
         {
             value = Integer.parseInt(text);
         }
@@ -86,10 +87,10 @@ public final class Lexer
 
         // Checks if a number token is present before the letter token.
         int i = -1;
-        while(Utilities.isWhitespace(this.peek(i))) i--;
-        if(Utilities.isDigit(this.peek(i))) return this.badToken();
+        while (Utilities.isWhitespace(this.peek(i))) i--;
+        if (Utilities.isDigit(this.peek(i))) return this.badToken();
 
-        while(Utilities.isLetter(this.currentChar()))
+        while (Utilities.isLetter(this.currentChar()))
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
@@ -103,7 +104,7 @@ public final class Lexer
     {
         int startPos = this.position;
 
-        while(Utilities.isWhitespace(this.currentChar()))
+        while (Utilities.isWhitespace(this.currentChar()))
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
@@ -113,7 +114,7 @@ public final class Lexer
 
     private Token symbolToken()
     {
-        switch(this.currentChar())
+        switch (this.currentChar())
         {
             case Syntax.PLUS:
                 return new Token(TokenType.PLUS_TOKEN, this.currentPositionThenNext(1));
@@ -132,27 +133,27 @@ public final class Lexer
             case Syntax.CLOSE_PARENTHESIS:
                 return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.AMPERSAND:
-                if(this.nextChar().equals(Syntax.AMPERSAND))
+                if (this.nextChar().equals(Syntax.AMPERSAND))
                     return new Token(TokenType.AND_TOKEN, this.currentPositionThenNext(2));
                 break;
             case Syntax.PIPE:
-                if(this.nextChar().equals(Syntax.PIPE))
+                if (this.nextChar().equals(Syntax.PIPE))
                     return new Token(TokenType.OR_TOKEN, this.currentPositionThenNext(2));
                 break;
             case Syntax.EQUALS:
-                if(this.nextChar().equals(Syntax.EQUALS))
+                if (this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.EQUALS_TOKEN, this.currentPositionThenNext(1));
             case Syntax.NOT:
-                if(this.nextChar().equals(Syntax.EQUALS))
+                if (this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.NOT_TOKEN, this.position++);
             case Syntax.GREATER:
-                if(this.nextChar().equals(Syntax.EQUALS))
+                if (this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.GREATER_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.GREATER_TOKEN, this.position++);
             case Syntax.LESS:
-                if(this.nextChar().equals(Syntax.EQUALS))
+                if (this.nextChar().equals(Syntax.EQUALS))
                     return new Token(TokenType.LESS_EQUALS_TOKEN, this.currentPositionThenNext(2));
                 return new Token(TokenType.LESS_TOKEN, this.position++);
         }
@@ -163,7 +164,9 @@ public final class Lexer
     {
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
         this.errorHandler.addError(error);
-        return new Token(TokenType.BAD_TOKEN, inputText.substring(Utilities.minimumZero(this.position-1), this.position), this.currentPositionThenNext(1));
+        return new Token(TokenType.BAD_TOKEN,
+                         inputText.substring(Utilities.minimumZero(this.position - 1), this.position),
+                         this.currentPositionThenNext(1));
     }
 
     private String currentChar()
@@ -180,7 +183,7 @@ public final class Lexer
     {
         int index = this.position + offset;
 
-        if(index >= this.inputText.length() || index < 0)
+        if (index >= this.inputText.length() || index < 0)
             return Syntax.ESCAPE;
         return Character.toString(this.inputText.charAt(index));
     }
@@ -199,7 +202,7 @@ public final class Lexer
 
     private static TokenType getKeywordToken(String text)
     {
-        switch(text)
+        switch (text)
         {
             case Syntax.TRUE:
                 return TokenType.TRUE_KEYWORD_TOKEN;
@@ -212,7 +215,7 @@ public final class Lexer
 
     private static Object getKeywordValue(TokenType type)
     {
-        switch(type)
+        switch (type)
         {
             case TRUE_KEYWORD_TOKEN:
                 return true;

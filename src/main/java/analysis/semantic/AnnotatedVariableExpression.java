@@ -4,11 +4,12 @@ import identifiers.ExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+@Getter
 public final class AnnotatedVariableExpression extends AnnotatedExpression
 {
-    @Getter private final String name;
-    @Getter private final ObjectType objectType;
-    @Getter private final ExpressionType expressionType;
+    private final String name;
+    private final ObjectType objectType;
+    private final ExpressionType expressionType;
 
     public AnnotatedVariableExpression(String name, ObjectType type)
     {

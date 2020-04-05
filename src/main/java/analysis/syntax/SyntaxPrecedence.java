@@ -12,7 +12,7 @@ public final class SyntaxPrecedence
 
     public static int getUnaryOperatorPrecedence(TokenType type)
     {
-        switch(type)
+        switch (type)
         {
             case PLUS_TOKEN:
             case MINUS_TOKEN:
@@ -25,7 +25,7 @@ public final class SyntaxPrecedence
 
     public static int getBinaryOperatorPrecedence(TokenType type)
     {
-        switch(type)
+        switch (type)
         {
             case CARET_TOKEN:
                 return 6;

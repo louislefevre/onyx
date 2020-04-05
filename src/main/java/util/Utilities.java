@@ -12,10 +12,12 @@ public final class Utilities
 
     public static boolean isParsable(String str)
     {
-        try {
+        try
+        {
             Integer.parseInt(str);
             return true;
-        } catch(NumberFormatException error) {
+        } catch (NumberFormatException error)
+        {
             return false;
         }
     }
@@ -32,23 +34,23 @@ public final class Utilities
 
     public static boolean isLetter(String str)
     {
-        if(str.length() != 1)
+        if (str.length() != 1)
             return false;
         return Character.isLetter(str.charAt(0));
     }
 
     public static boolean isDigit(String str)
     {
-        if(str.length() != 1)
+        if (str.length() != 1)
             return false;
         return Character.isDigit(str.charAt(0));
     }
 
     public static ObjectType typeOf(Object object)
     {
-        if(object instanceof Integer)
+        if (object instanceof Integer)
             return ObjectType.INTEGER_OBJECT;
-        else if(object instanceof Boolean)
+        else if (object instanceof Boolean)
             return ObjectType.BOOLEAN_OBJECT;
         else
             return ObjectType.NULL_OBJECT;

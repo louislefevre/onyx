@@ -6,21 +6,23 @@ import java.util.Scanner;
 
 public final class Repl
 {
-    public Repl() { }
+    public Repl()
+    {
+    }
 
     public void run()
     {
         Compiler compiler = new Compiler();
 
-        while(true)
+        while (true)
         {
             String input = readInput();
-            if(input.isBlank())
+            if (input.isBlank())
                 return;
 
             SourceOutput output = compiler.compile(input);
 
-            if(!output.compilationFailed())
+            if (!output.compilationFailed())
                 System.out.println(output.getResult());
             System.out.println();
         }

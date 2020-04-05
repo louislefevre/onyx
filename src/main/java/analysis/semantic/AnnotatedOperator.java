@@ -7,6 +7,8 @@ import identifiers.TokenType;
 public abstract class AnnotatedOperator
 {
     public abstract TokenType getTokenType();
+
     public abstract OperatorType getOperatorType();
+
     public abstract ObjectType getResultObjectType();
 }

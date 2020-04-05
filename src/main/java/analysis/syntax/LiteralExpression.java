@@ -8,16 +8,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public final class LiteralExpression extends Expression
 {
-    @Getter private final Token literalToken;
-    @Getter private final Object value;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Token literalToken;
+    private final Object value;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public LiteralExpression(Token literalToken, Object value)
     {
-        this.literalToken =  literalToken;
+        this.literalToken = literalToken;
         this.value = value;
         this.tokenType = TokenType.LITERAL_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Collections.singletonList(literalToken));

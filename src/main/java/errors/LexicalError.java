@@ -4,9 +4,10 @@ import analysis.lexical.SyntaxSpan;
 import lombok.Getter;
 import identifiers.ErrorType;
 
+@Getter
 public final class LexicalError extends Error
 {
-    @Getter private final ErrorType errorType;
+    private final ErrorType errorType;
 
     public LexicalError(SyntaxSpan span, String errorMessage)
     {

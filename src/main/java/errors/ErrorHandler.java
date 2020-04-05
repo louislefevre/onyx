@@ -18,7 +18,7 @@ public final class ErrorHandler
 
     public boolean errorsPresent()
     {
-        if(this.errorsLog.isEmpty())
+        if (this.errorsLog.isEmpty())
             return false;
         this.printErrors();
         return true;
@@ -38,7 +38,7 @@ public final class ErrorHandler
             int end = error.getSpan().getEnd();
 
             // For handling unexpected EOF_TOKEN errors; results in out of bounds exception otherwise
-            if(end > this.input.length())
+            if (end > this.input.length())
                 input += "_";
 
             String prefixSyntax = ANSI.GREY + input.substring(0, start) + ANSI.RESET;

@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public final class BinaryExpression extends Expression
 {
-    @Getter private final Expression leftTerm;
-    @Getter private final Token operatorToken;
-    @Getter private final Expression rightTerm;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Expression leftTerm;
+    private final Token operatorToken;
+    private final Expression rightTerm;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public BinaryExpression(Expression leftTerm, Token operatorToken, Expression rightTerm)
     {

@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public final class AssignmentExpression extends Expression
 {
-    @Getter private final Token identifierToken;
-    @Getter private final Token equalsToken;
-    @Getter private final Expression expression;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Token identifierToken;
+    private final Token equalsToken;
+    private final Expression expression;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public AssignmentExpression(Token identifierToken, Token equalsToken, Expression expression)
     {
@@ -22,6 +23,6 @@ public final class AssignmentExpression extends Expression
         this.equalsToken = equalsToken;
         this.expression = expression;
         this.tokenType = TokenType.ASSIGNMENT_EXPRESSION_TOKEN;
-        this.children = new ArrayList<>(Arrays.asList(identifierToken, equalsToken, expression));;
+        this.children = new ArrayList<>(Arrays.asList(identifierToken, equalsToken, expression));
     }
 }

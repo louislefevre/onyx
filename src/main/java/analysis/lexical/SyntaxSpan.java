@@ -2,11 +2,12 @@ package analysis.lexical;
 
 import lombok.Getter;
 
+@Getter
 public final class SyntaxSpan
 {
-    @Getter private final int start;
-    @Getter private final int length;
-    @Getter private final int end;
+    private final int start;
+    private final int length;
+    private final int end;
 
     public SyntaxSpan(int start, int length)
     {

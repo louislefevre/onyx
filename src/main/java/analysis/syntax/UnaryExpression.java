@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public final class UnaryExpression extends Expression
 {
-    @Getter private final Token operatorToken;
-    @Getter private final Expression operand;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Token operatorToken;
+    private final Expression operand;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public UnaryExpression(Token operatorToken, Expression operand)
     {

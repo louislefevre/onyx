@@ -4,10 +4,11 @@ import analysis.lexical.SyntaxSpan;
 import identifiers.ErrorType;
 import lombok.Getter;
 
+@Getter
 public abstract class Error
 {
-    @Getter private final SyntaxSpan span;
-    @Getter private final String errorMessage;
+    private final SyntaxSpan span;
+    private final String errorMessage;
 
     public Error(SyntaxSpan span, String errorMessage)
     {

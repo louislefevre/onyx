@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public final class ParenthesizedExpression extends Expression
 {
-    @Getter private final Expression expression;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Expression expression;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public ParenthesizedExpression(Token openParenthesisToken, Expression expression, Token closeParenthesisToken)
     {

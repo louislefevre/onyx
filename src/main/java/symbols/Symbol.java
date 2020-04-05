@@ -4,11 +4,14 @@ import identifiers.ObjectType;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 public final class Symbol
 {
-    @Getter private String name;
-    @Getter @Setter private Object value;
-    @Getter @Setter private ObjectType type;
+    private String name;
+    @Setter
+    private Object value;
+    @Setter
+    private ObjectType type;
 
     public Symbol(String name, Object value, ObjectType type)
     {

@@ -4,12 +4,13 @@ import identifiers.ExpressionType;
 import lombok.Getter;
 import identifiers.ObjectType;
 
+@Getter
 public final class AnnotatedUnaryExpression extends AnnotatedExpression
 {
-    @Getter private final AnnotatedUnaryOperator operator;
-    @Getter private final AnnotatedExpression operand;
-    @Getter private final ExpressionType expressionType;
-    @Getter private final ObjectType objectType;
+    private final AnnotatedUnaryOperator operator;
+    private final AnnotatedExpression operand;
+    private final ExpressionType expressionType;
+    private final ObjectType objectType;
 
     public AnnotatedUnaryExpression(AnnotatedUnaryOperator operator, AnnotatedExpression operand)
     {

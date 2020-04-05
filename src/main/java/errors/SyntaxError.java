@@ -5,9 +5,10 @@ import identifiers.TokenType;
 import lombok.Getter;
 import identifiers.ErrorType;
 
+@Getter
 public final class SyntaxError extends Error
 {
-    @Getter private final ErrorType errorType;
+    private final ErrorType errorType;
 
     public SyntaxError(SyntaxSpan span, String errorMessage)
     {

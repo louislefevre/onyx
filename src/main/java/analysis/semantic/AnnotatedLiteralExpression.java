@@ -5,11 +5,12 @@ import identifiers.ExpressionType;
 import identifiers.ObjectType;
 import util.Utilities;
 
+@Getter
 public final class AnnotatedLiteralExpression extends AnnotatedExpression
 {
-    @Getter private final Object value;
-    @Getter private final ExpressionType expressionType;
-    @Getter private final ObjectType objectType;
+    private final Object value;
+    private final ExpressionType expressionType;
+    private final ObjectType objectType;
 
     public AnnotatedLiteralExpression(Object value)
     {

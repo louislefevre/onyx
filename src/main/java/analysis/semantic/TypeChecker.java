@@ -34,8 +34,7 @@ public final class TypeChecker
         try
         {
             return this.annotateExpression(syntax);
-        }
-        catch(Exception error)
+        } catch (Exception error)
         {
             System.out.println(error.getMessage());
             return null;
@@ -44,20 +43,20 @@ public final class TypeChecker
 
     private AnnotatedExpression annotateExpression(Expression syntax) throws Exception
     {
-        switch(syntax.getTokenType())
+        switch (syntax.getTokenType())
         {
             case PARENTHESIZED_EXPRESSION_TOKEN:
-                return this.annotateParenthesizedExpression((ParenthesizedExpression)syntax);
+                return this.annotateParenthesizedExpression((ParenthesizedExpression) syntax);
             case LITERAL_EXPRESSION_TOKEN:
-                return this.annotateLiteralExpression((LiteralExpression)syntax);
+                return this.annotateLiteralExpression((LiteralExpression) syntax);
             case UNARY_EXPRESSION_TOKEN:
-                return this.annotateUnaryExpression((UnaryExpression)syntax);
+                return this.annotateUnaryExpression((UnaryExpression) syntax);
             case BINARY_EXPRESSION_TOKEN:
-                return this.annotateBinaryExpression((BinaryExpression)syntax);
+                return this.annotateBinaryExpression((BinaryExpression) syntax);
             case NAME_EXPRESSION_TOKEN:
-                return this.annotateNameExpression((NameExpression)syntax);
+                return this.annotateNameExpression((NameExpression) syntax);
             case ASSIGNMENT_EXPRESSION_TOKEN:
-                return this.annotateAssignmentExpression((AssignmentExpression)syntax);
+                return this.annotateAssignmentExpression((AssignmentExpression) syntax);
             default:
                 throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));
         }
@@ -71,7 +70,7 @@ public final class TypeChecker
     private AnnotatedExpression annotateLiteralExpression(LiteralExpression syntax)
     {
         Object value = syntax.getValue();
-        if(value == null)
+        if (value == null)
             value = 0;
 
         return new AnnotatedLiteralExpression(value);
@@ -80,11 +79,15 @@ public final class TypeChecker
     private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax) throws Exception
     {
         AnnotatedExpression annotatedOperand = this.annotateExpression(syntax.getOperand());
-        AnnotatedUnaryOperator annotatedOperator = TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(), annotatedOperand.getObjectType());
+        AnnotatedUnaryOperator annotatedOperator =
+                TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(),
+                                              annotatedOperand.getObjectType());
 
-        if(annotatedOperator == null)
+        if (annotatedOperator == null)
         {
-            SemanticError error = SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedOperand.getObjectType());
+            SemanticError error = SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(),
+                                                                       syntax.getOperatorToken().getSyntax(),
+                                                                       annotatedOperand.getObjectType());
             this.errorHandler.addError(error);
             return annotatedOperand;
         }
@@ -96,11 +99,17 @@ public final class TypeChecker
     {
         AnnotatedExpression annotatedLeft = this.annotateExpression(syntax.getLeftTerm());
         AnnotatedExpression annotatedRight = this.annotateExpression(syntax.getRightTerm());
-        AnnotatedBinaryOperator annotatedOperator = TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(), annotatedLeft.getObjectType(), annotatedRight.getObjectType());
+        AnnotatedBinaryOperator annotatedOperator =
+                TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(),
+                                               annotatedLeft.getObjectType(),
+                                               annotatedRight.getObjectType());
 
-        if(annotatedOperator == null)
+        if (annotatedOperator == null)
         {
-            SemanticError error = SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(), syntax.getOperatorToken().getSyntax(), annotatedLeft.getObjectType(), annotatedRight.getObjectType());
+            SemanticError error = SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(),
+                                                                        syntax.getOperatorToken().getSyntax(),
+                                                                        annotatedLeft.getObjectType(),
+                                                                        annotatedRight.getObjectType());
             this.errorHandler.addError(error);
             return annotatedLeft;
         }
@@ -112,7 +121,7 @@ public final class TypeChecker
     {
         String name = syntax.getIdentifierToken().getSyntax();
 
-        if(!this.symbolTable.containsSymbol(name))
+        if (!this.symbolTable.containsSymbol(name))
         {
             SemanticError error = SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name);
             this.errorHandler.addError(error);

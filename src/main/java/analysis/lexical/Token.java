@@ -3,13 +3,14 @@ package analysis.lexical;
 import identifiers.TokenType;
 import lombok.Getter;
 
+@Getter
 public final class Token
 {
-    @Getter private final TokenType tokenType;
-    @Getter private final String syntax;
-    @Getter private final Object value;
-    @Getter private final int position;
-    @Getter private final SyntaxSpan span;
+    private final TokenType tokenType;
+    private final String syntax;
+    private final Object value;
+    private final int position;
+    private final SyntaxSpan span;
 
     public Token(TokenType tokenType, String syntax, Object value, int position)
     {
@@ -32,7 +33,7 @@ public final class Token
 
     private static String findSyntax(TokenType tokenType)
     {
-        switch(tokenType)
+        switch (tokenType)
         {
             case PLUS_TOKEN:
                 return Syntax.PLUS;

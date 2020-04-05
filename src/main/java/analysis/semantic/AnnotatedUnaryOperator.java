@@ -5,14 +5,16 @@ import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
 
+@Getter
 public final class AnnotatedUnaryOperator extends AnnotatedOperator
 {
-    @Getter private final TokenType tokenType;
-    @Getter private final OperatorType operatorType;
-    @Getter private final ObjectType operandObjectType;
-    @Getter private final ObjectType resultObjectType;
+    private final TokenType tokenType;
+    private final OperatorType operatorType;
+    private final ObjectType operandObjectType;
+    private final ObjectType resultObjectType;
 
-    public AnnotatedUnaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType, ObjectType resultObjectType)
+    public AnnotatedUnaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType operandObjectType,
+                                  ObjectType resultObjectType)
     {
         this.tokenType = tokenType;
         this.operatorType = operatorType;

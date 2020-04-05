@@ -26,7 +26,7 @@ class LexerTest
         );
         List<Token> actualTokens = lexer.getTokens();
 
-        for(int i = 0; i < expectedTokens.size(); i++)
+        for (int i = 0; i < expectedTokens.size(); i++)
         {
             Token expectedToken = expectedTokens.get(i);
             Token actualToken = actualTokens.get(i);
@@ -45,10 +45,10 @@ class LexerTest
         Lexer lexer = new Lexer(input, errorHandler);
 
         List<Token> expectedTokens = Arrays.asList(
-                new Token(null, "",0),
-                new Token(null, "",0),
-                new Token(null, "",0),
-                new Token(null, "",0)
+                new Token(null, "", 0),
+                new Token(null, "", 0),
+                new Token(null, "", 0),
+                new Token(null, "", 0)
         );
         List<Token> actualTokens = lexer.getTokens();
 

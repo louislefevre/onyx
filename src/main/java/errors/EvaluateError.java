@@ -5,9 +5,10 @@ import identifiers.ObjectType;
 import lombok.Getter;
 import identifiers.ErrorType;
 
+@Getter
 public final class EvaluateError extends Error
 {
-    @Getter private final ErrorType errorType;
+    private final ErrorType errorType;
 
     public EvaluateError(SyntaxSpan span, String errorMessage)
     {

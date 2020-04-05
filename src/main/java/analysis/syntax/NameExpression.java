@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public final class NameExpression extends Expression
 {
-    @Getter private final Token identifierToken;
-    @Getter private final TokenType tokenType;
-    @Getter private final List<Object> children;
+    private final Token identifierToken;
+    private final TokenType tokenType;
+    private final List<Object> children;
 
     public NameExpression(Token identifierToken)
     {

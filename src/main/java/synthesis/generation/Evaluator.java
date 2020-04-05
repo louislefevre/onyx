@@ -28,8 +28,7 @@ public final class Evaluator
         try
         {
             return this.evaluateExpression(this.annotatedParseTree.getExpression());
-        }
-        catch(Exception exception)
+        } catch (Exception exception)
         {
             StackTraceElement stackTraceElement = exception.getStackTrace()[0];
             int lineNumber = stackTraceElement.getLineNumber();
@@ -46,20 +45,20 @@ public final class Evaluator
 
     private Object evaluateExpression(AnnotatedExpression node) throws Exception
     {
-        if(node instanceof AnnotatedLiteralExpression)
-            return this.evaluateNumberExpression((AnnotatedLiteralExpression)node);
+        if (node instanceof AnnotatedLiteralExpression)
+            return this.evaluateNumberExpression((AnnotatedLiteralExpression) node);
 
-        if(node instanceof AnnotatedUnaryExpression)
-            return this.evaluateUnaryExpression((AnnotatedUnaryExpression)node);
+        if (node instanceof AnnotatedUnaryExpression)
+            return this.evaluateUnaryExpression((AnnotatedUnaryExpression) node);
 
-        if(node instanceof AnnotatedBinaryExpression)
-            return this.evaluateBinaryExpression((AnnotatedBinaryExpression)node);
+        if (node instanceof AnnotatedBinaryExpression)
+            return this.evaluateBinaryExpression((AnnotatedBinaryExpression) node);
 
-        if(node instanceof AnnotatedVariableExpression)
-            return this.evaluateVariableExpression((AnnotatedVariableExpression)node);
+        if (node instanceof AnnotatedVariableExpression)
+            return this.evaluateVariableExpression((AnnotatedVariableExpression) node);
 
-        if(node instanceof AnnotatedAssignmentExpression)
-            return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression)node);
+        if (node instanceof AnnotatedAssignmentExpression)
+            return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) node);
 
         throw new Exception(String.format("EXCEPTION: Unexpected node '%s'.", node.getObjectType()));
     }
@@ -74,14 +73,14 @@ public final class Evaluator
         Object operand = this.evaluateExpression(node.getOperand());
         OperatorType operatorType = node.getOperator().getOperatorType();
 
-        switch(operatorType)
+        switch (operatorType)
         {
             case IDENTITY_OPERATOR:
                 return operand;
             case NEGATION_OPERATOR:
-                return -(int)operand;
+                return -(int) operand;
             case LOGIC_NEGATION_OPERATOR:
-                return !(boolean)operand;
+                return !(boolean) operand;
             default:
                 throw new Exception(String.format("EXCEPTION: Unexpected unary operator '%s'.", operatorType));
         }
@@ -93,36 +92,36 @@ public final class Evaluator
         Object right = this.evaluateExpression(node.getRightTerm());
         OperatorType tokenKind = node.getOperator().getOperatorType();
 
-        switch(tokenKind)
+        switch (tokenKind)
         {
             case ADDITION_OPERATOR:
-                return (int)left + (int)right;
+                return (int) left + (int) right;
             case SUBTRACTION_OPERATOR:
-                return (int)left - (int)right;
+                return (int) left - (int) right;
             case MULTIPLICATION_OPERATOR:
-                return (int)left * (int)right;
+                return (int) left * (int) right;
             case DIVISION_OPERATOR:
-                return (int)left / (int)right;
+                return (int) left / (int) right;
             case POWER_OPERATOR:
-                return (int)Math.pow((int)left, (int)right);
+                return (int) Math.pow((int) left, (int) right);
             case MODULO_OPERATOR:
-                return (int)left % (int)right;
+                return (int) left % (int) right;
             case AND_OPERATOR:
-                return (boolean)left && (boolean)right;
+                return (boolean) left && (boolean) right;
             case OR_OPERATOR:
-                return (boolean)left || (boolean)right;
+                return (boolean) left || (boolean) right;
             case EQUALS_EQUALS_OPERATOR:
                 return left == right;
             case NOT_EQUALS_OPERATOR:
                 return left != right;
             case GREATER_OPERATOR:
-                return (int)left > (int)right;
+                return (int) left > (int) right;
             case LESS_OPERATOR:
-                return (int)left < (int)right;
+                return (int) left < (int) right;
             case GREATER_EQUALS_OPERATOR:
-                return (int)left >= (int)right;
+                return (int) left >= (int) right;
             case LESS_EQUALS_OPERATOR:
-                return (int)left <= (int)right;
+                return (int) left <= (int) right;
             default:
                 throw new Exception(String.format("EXCEPTION: Unexpected binary operator '%s'.", tokenKind));
         }
@@ -131,7 +130,7 @@ public final class Evaluator
     private Object evaluateVariableExpression(AnnotatedVariableExpression node) throws Exception
     {
         String name = node.getName();
-        if(this.symbolTable.containsSymbol(name))
+        if (this.symbolTable.containsSymbol(name))
             return this.symbolTable.getSymbol(node.getName()).getValue();
         throw new Exception(String.format("EXCEPTION: Symbol '%s' does not exist in symbol table.", name));
     }

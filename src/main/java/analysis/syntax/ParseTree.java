@@ -15,12 +15,11 @@ public final class ParseTree
 
     public Expression getExpression()
     {
-        //this.showTree();
         return expression;
     }
 
     @TestOnly
-    private void showTree()
+    public void showTree()
     {
         printTree(this.expression, "", true);
     }
@@ -31,24 +30,24 @@ public final class ParseTree
 
         String marker = isLast ? "└──" : "├──";
 
-        if(node instanceof Expression)
+        if (node instanceof Expression)
             System.out.print(indent + marker + ((Expression) node).getTokenType());
-        else if(node instanceof Token)
+        else if (node instanceof Token)
             System.out.print(indent + marker + ((Token) node).getTokenType());
 
-        if(node instanceof Token && ((Token) node).getValue() != null)
+        if (node instanceof Token && ((Token) node).getValue() != null)
             System.out.print(" " + ((Token) node).getValue());
 
         System.out.println();
         indent += isLast ? "    " : "│   ";
 
-        if(node instanceof Expression)
+        if (node instanceof Expression)
         {
             Object lastChild = null;
-            for(Object child : ((Expression) node).getChildren())
+            for (Object child : ((Expression) node).getChildren())
                 lastChild = child;
 
-            for(Object child : ((Expression) node).getChildren())
+            for (Object child : ((Expression) node).getChildren())
                 printTree(child, indent, child == lastChild);
         }
 
