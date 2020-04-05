@@ -4,6 +4,7 @@ import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
+import org.jetbrains.annotations.NotNull;
 import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 import synthesis.generation.SourceOutput;
@@ -17,6 +18,7 @@ public final class Compiler
         this.symbolTable = new SymbolTable();
     }
 
+    @NotNull
     public SourceOutput compile(String input)
     {
         SymbolTable symbolTable = this.symbolTable;

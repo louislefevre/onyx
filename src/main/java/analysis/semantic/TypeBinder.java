@@ -3,6 +3,7 @@ package analysis.semantic;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
+import org.jetbrains.annotations.Nullable;
 
 public final class TypeBinder
 {
@@ -85,6 +86,7 @@ public final class TypeBinder
                                                 ObjectType.BOOLEAN_OBJECT)
             };
 
+    @Nullable
     public static AnnotatedUnaryOperator bindUnaryOperators(TokenType tokenType, ObjectType operandObjectType)
     {
         for (AnnotatedUnaryOperator operator : unaryOperators)
@@ -96,6 +98,7 @@ public final class TypeBinder
         return null;
     }
 
+    @Nullable
     public static AnnotatedBinaryOperator bindBinaryOperators(TokenType tokenType, ObjectType leftObjectType,
                                                               ObjectType rightObjectType)
     {

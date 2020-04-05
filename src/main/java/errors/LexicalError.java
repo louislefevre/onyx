@@ -3,6 +3,7 @@ package errors;
 import analysis.lexical.SyntaxSpan;
 import lombok.Getter;
 import identifiers.ErrorType;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public final class LexicalError extends Error
@@ -15,6 +16,7 @@ public final class LexicalError extends Error
         this.errorType = ErrorType.LEXICAL_ERROR;
     }
 
+    @NotNull
     public static LexicalError invalidInt(String syntax, int start, int length)
     {
         SyntaxSpan span = new SyntaxSpan(start, length);
@@ -22,6 +24,7 @@ public final class LexicalError extends Error
         return new LexicalError(span, message);
     }
 
+    @NotNull
     public static LexicalError badCharacter(String syntax, int start, int length)
     {
         SyntaxSpan span = new SyntaxSpan(start, length);

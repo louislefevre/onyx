@@ -5,6 +5,8 @@ import analysis.lexical.Token;
 import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -14,13 +16,15 @@ public final class Parser
     private final ErrorHandler errorHandler;
     private int position;
 
-    public Parser(Lexer lexer, ErrorHandler errorHandler)
+    public Parser(@NotNull Lexer lexer, ErrorHandler errorHandler)
     {
         this.tokens = lexer.getTokens();
         this.errorHandler = errorHandler;
         this.position = 0;
     }
 
+    @NotNull
+    @Contract(" -> new")
     public ParseTree getParseTree()
     {
         return new ParseTree(this.parseExpression());
@@ -98,6 +102,7 @@ public final class Parser
         }
     }
 
+    @NotNull
     private Expression parseParenthesizedExpression()
     {
         Token left = this.nextToken();
@@ -106,6 +111,7 @@ public final class Parser
         return new ParenthesizedExpression(left, expression, right);
     }
 
+    @NotNull
     private Expression parseBooleanExpression()
     {
         Token keywordToken = this.nextToken();
@@ -113,6 +119,7 @@ public final class Parser
         return new LiteralExpression(keywordToken, value);
     }
 
+    @NotNull
     private Expression parseNumberExpression()
     {
         Token numberToken = this.nextToken();
@@ -120,12 +127,15 @@ public final class Parser
         return new LiteralExpression(numberToken, value);
     }
 
+    @NotNull
     private Expression parseNameExpression()
     {
         Token identifierToken = this.nextToken();
         return new NameExpression(identifierToken);
     }
 
+    @NotNull
+    @Contract(" -> new")
     private Expression parseUnknownExpression()
     {
         Token token = this.currentToken();

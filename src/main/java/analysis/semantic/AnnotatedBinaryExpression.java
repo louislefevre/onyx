@@ -3,6 +3,7 @@ package analysis.semantic;
 import lombok.Getter;
 import identifiers.ExpressionType;
 import identifiers.ObjectType;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public final class AnnotatedBinaryExpression extends AnnotatedExpression
@@ -13,7 +14,7 @@ public final class AnnotatedBinaryExpression extends AnnotatedExpression
     private final ExpressionType expressionType;
     private final ObjectType objectType;
 
-    public AnnotatedBinaryExpression(AnnotatedExpression leftTerm, AnnotatedBinaryOperator operator,
+    public AnnotatedBinaryExpression(AnnotatedExpression leftTerm, @NotNull AnnotatedBinaryOperator operator,
                                      AnnotatedExpression rightTerm)
     {
         this.leftTerm = leftTerm;

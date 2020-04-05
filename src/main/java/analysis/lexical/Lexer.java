@@ -3,6 +3,9 @@ package analysis.lexical;
 import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import util.Utilities;
 
 import java.util.ArrayList;
@@ -21,11 +24,13 @@ public final class Lexer
         this.position = 0;
     }
 
+    @NotNull
     public List<Token> getTokens()
     {
         return this.lexTokens();
     }
 
+    @NotNull
     private List<Token> lexTokens()
     {
         List<Token> tokens = new ArrayList<>();
@@ -53,11 +58,15 @@ public final class Lexer
         return this.symbolToken();
     }
 
+    @NotNull
+    @Contract(" -> new")
     private Token endToken()
     {
         return new Token(TokenType.EOF_TOKEN, "\0", this.position);
     }
 
+    @NotNull
+    @Contract(" -> new")
     private Token numberToken()
     {
         int startPos = this.position;
@@ -81,6 +90,7 @@ public final class Lexer
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
 
+    @NotNull
     private Token letterToken()
     {
         int startPos = this.position;
@@ -100,6 +110,8 @@ public final class Lexer
         return new Token(tokenType, text, tokenValue, startPos);
     }
 
+    @NotNull
+    @Contract(" -> new")
     private Token whitespaceToken()
     {
         int startPos = this.position;
@@ -112,6 +124,7 @@ public final class Lexer
         return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
+    @NotNull
     private Token symbolToken()
     {
         switch (this.currentChar())
@@ -160,6 +173,8 @@ public final class Lexer
         return this.badToken();
     }
 
+    @NotNull
+    @Contract(" -> new")
     private Token badToken()
     {
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
@@ -200,7 +215,8 @@ public final class Lexer
         return currentPos;
     }
 
-    private static TokenType getKeywordToken(String text)
+    @Contract(pure = true)
+    private static TokenType getKeywordToken(@NotNull String text)
     {
         switch (text)
         {
@@ -213,7 +229,9 @@ public final class Lexer
         }
     }
 
-    private static Object getKeywordValue(TokenType type)
+    @Nullable
+    @Contract(pure = true)
+    private static Object getKeywordValue(@NotNull TokenType type)
     {
         switch (type)
         {
