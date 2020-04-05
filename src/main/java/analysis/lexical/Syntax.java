@@ -1,41 +1,46 @@
 package analysis.lexical;
 
-public final class Syntax
+enum Syntax
 {
-    public static final String PLUS = "+";
-    public static final String MINUS = "-";
-    public static final String STAR = "*";
-    public static final String SLASH = "/";
-    public static final String CARET = "^";
-    public static final String PERCENT = "%";
+    PLUS("+"),
+    MINUS("-"),
+    STAR("*"),
+    SLASH("/"),
+    CARET("^"),
+    PERCENT("%"),
+    OPEN_PARENTHESIS("("),
+    CLOSE_PARENTHESIS(")"),
 
-    public static final String OPEN_PARENTHESIS = "(";
-    public static final String CLOSE_PARENTHESIS = ")";
+    AMPERSAND("&"),
+    AND("&&"),
 
-    public static final String AMPERSAND = "&";
-    public static final String AND = "&&";
+    PIPE("|"),
+    OR("||"),
 
-    public static final String PIPE = "|";
-    public static final String OR = "||";
+    EQUALS("="),
+    EQUALS_EQUALS("=="),
+    NOT("!"),
+    NOT_EQUALS("!="),
 
-    public static final String EQUALS = "=";
-    public static final String EQUALS_EQUALS = "==";
-    public static final String NOT = "!";
-    public static final String NOT_EQUALS = "!=";
+    GREATER(">"),
+    LESS("<"),
+    GREATER_EQUALS(">="),
+    LESS_EQUALS("<="),
 
-    public static final String GREATER = ">";
-    public static final String LESS = "<";
-    public static final String GREATER_EQUALS = ">=";
-    public static final String LESS_EQUALS = "<=";
+    TRUE("true"),
+    FALSE("false"),
 
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
+    ESCAPE("\0");
 
-    public static final String ESCAPE = "\0";
+    private final String syntax;
 
-    private Syntax()
+    Syntax(String syntax)
     {
-        // Prevents class instantiation
-        throw new UnsupportedOperationException();
+        this.syntax = syntax;
+    }
+
+    public String getSyntax()
+    {
+        return this.syntax;
     }
 }

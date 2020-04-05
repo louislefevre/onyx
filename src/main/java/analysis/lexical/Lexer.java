@@ -127,49 +127,76 @@ public final class Lexer
     @NotNull
     private Token symbolToken()
     {
-        switch (this.currentChar())
+        String currentChar = this.currentChar();
+        String nextChar = this.nextChar();
+
+        if (Syntax.PLUS.getSyntax().equals(currentChar))
         {
-            case Syntax.PLUS:
-                return new Token(TokenType.PLUS_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.MINUS:
-                return new Token(TokenType.MINUS_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.STAR:
-                return new Token(TokenType.STAR_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.SLASH:
-                return new Token(TokenType.SLASH_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.CARET:
-                return new Token(TokenType.CARET_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.PERCENT:
-                return new Token(TokenType.PERCENT_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.OPEN_PARENTHESIS:
-                return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.CLOSE_PARENTHESIS:
-                return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.AMPERSAND:
-                if (this.nextChar().equals(Syntax.AMPERSAND))
-                    return new Token(TokenType.AND_TOKEN, this.currentPositionThenNext(2));
-                break;
-            case Syntax.PIPE:
-                if (this.nextChar().equals(Syntax.PIPE))
-                    return new Token(TokenType.OR_TOKEN, this.currentPositionThenNext(2));
-                break;
-            case Syntax.EQUALS:
-                if (this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.currentPositionThenNext(2));
-                return new Token(TokenType.EQUALS_TOKEN, this.currentPositionThenNext(1));
-            case Syntax.NOT:
-                if (this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
-                return new Token(TokenType.NOT_TOKEN, this.position++);
-            case Syntax.GREATER:
-                if (this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.GREATER_EQUALS_TOKEN, this.currentPositionThenNext(2));
-                return new Token(TokenType.GREATER_TOKEN, this.position++);
-            case Syntax.LESS:
-                if (this.nextChar().equals(Syntax.EQUALS))
-                    return new Token(TokenType.LESS_EQUALS_TOKEN, this.currentPositionThenNext(2));
-                return new Token(TokenType.LESS_TOKEN, this.position++);
+            return new Token(TokenType.PLUS_TOKEN, this.currentPositionThenNext(1));
         }
+        else if (Syntax.MINUS.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.MINUS_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.STAR.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.STAR_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.SLASH.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.SLASH_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.CARET.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.CARET_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.PERCENT.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.PERCENT_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.OPEN_PARENTHESIS.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.CLOSE_PARENTHESIS.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.AMPERSAND.getSyntax().equals(currentChar))
+        {
+            if (Syntax.AMPERSAND.getSyntax().equals(nextChar()))
+                return new Token(TokenType.AND_TOKEN, this.currentPositionThenNext(2));
+        }
+        else if (Syntax.PIPE.getSyntax().equals(currentChar))
+        {
+            if (Syntax.PIPE.getSyntax().equals(nextChar))
+                return new Token(TokenType.OR_TOKEN, this.currentPositionThenNext(2));
+        }
+        else if (Syntax.EQUALS.getSyntax().equals(currentChar))
+        {
+            if (Syntax.EQUALS.getSyntax().equals(nextChar))
+                return new Token(TokenType.EQUALS_EQUALS_TOKEN, this.currentPositionThenNext(2));
+            return new Token(TokenType.EQUALS_TOKEN, this.currentPositionThenNext(1));
+        }
+        else if (Syntax.NOT.getSyntax().equals(currentChar))
+        {
+            if (Syntax.EQUALS.getSyntax().equals(nextChar))
+                return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
+            return new Token(TokenType.NOT_TOKEN, this.position++);
+        }
+        else if (Syntax.GREATER.getSyntax().equals(currentChar))
+        {
+            if (Syntax.EQUALS.getSyntax().equals(nextChar))
+                return new Token(TokenType.GREATER_EQUALS_TOKEN, this.currentPositionThenNext(2));
+            return new Token(TokenType.GREATER_TOKEN, this.position++);
+        }
+        else if (Syntax.LESS.getSyntax().equals(currentChar))
+        {
+            if (Syntax.EQUALS.getSyntax().equals(nextChar))
+                return new Token(TokenType.LESS_EQUALS_TOKEN, this.currentPositionThenNext(2));
+            return new Token(TokenType.LESS_TOKEN, this.position++);
+        }
+
         return this.badToken();
     }
 
@@ -199,7 +226,7 @@ public final class Lexer
         int index = this.position + offset;
 
         if (index >= this.inputText.length() || index < 0)
-            return Syntax.ESCAPE;
+            return Syntax.ESCAPE.getSyntax();
         return Character.toString(this.inputText.charAt(index));
     }
 
@@ -218,15 +245,12 @@ public final class Lexer
     @Contract(pure = true)
     private static TokenType getKeywordToken(@NotNull String text)
     {
-        switch (text)
-        {
-            case Syntax.TRUE:
-                return TokenType.TRUE_KEYWORD_TOKEN;
-            case Syntax.FALSE:
-                return TokenType.FALSE_KEYWORD_TOKEN;
-            default:
-                return TokenType.IDENTIFIER_KEYWORD_TOKEN;
-        }
+        if (Syntax.TRUE.getSyntax().equals(text))
+            return TokenType.TRUE_KEYWORD_TOKEN;
+        else if (Syntax.FALSE.getSyntax().equals(text))
+            return TokenType.FALSE_KEYWORD_TOKEN;
+
+        return TokenType.IDENTIFIER_KEYWORD_TOKEN;
     }
 
     @Nullable

@@ -41,41 +41,41 @@ public final class Token
         switch (tokenType)
         {
             case PLUS_TOKEN:
-                return Syntax.PLUS;
+                return Syntax.PLUS.getSyntax();
             case MINUS_TOKEN:
-                return Syntax.MINUS;
+                return Syntax.MINUS.getSyntax();
             case STAR_TOKEN:
-                return Syntax.STAR;
+                return Syntax.STAR.getSyntax();
             case SLASH_TOKEN:
-                return Syntax.SLASH;
+                return Syntax.SLASH.getSyntax();
             case CARET_TOKEN:
-                return Syntax.CARET;
+                return Syntax.CARET.getSyntax();
             case PERCENT_TOKEN:
-                return Syntax.PERCENT;
+                return Syntax.PERCENT.getSyntax();
             case OPEN_PARENTHESIS_TOKEN:
-                return Syntax.OPEN_PARENTHESIS;
+                return Syntax.OPEN_PARENTHESIS.getSyntax();
             case CLOSE_PARENTHESIS_TOKEN:
-                return Syntax.CLOSE_PARENTHESIS;
+                return Syntax.CLOSE_PARENTHESIS.getSyntax();
             case AND_TOKEN:
-                return Syntax.AND;
+                return Syntax.AND.getSyntax();
             case OR_TOKEN:
-                return Syntax.OR;
+                return Syntax.OR.getSyntax();
             case EQUALS_EQUALS_TOKEN:
-                return Syntax.EQUALS_EQUALS;
+                return Syntax.EQUALS_EQUALS.getSyntax();
             case EQUALS_TOKEN:
-                return Syntax.EQUALS;
+                return Syntax.EQUALS.getSyntax();
             case NOT_EQUALS_TOKEN:
-                return Syntax.NOT_EQUALS;
+                return Syntax.NOT_EQUALS.getSyntax();
             case NOT_TOKEN:
-                return Syntax.NOT;
+                return Syntax.NOT.getSyntax();
             case GREATER_TOKEN:
-                return Syntax.GREATER;
+                return Syntax.GREATER.getSyntax();
             case LESS_TOKEN:
-                return Syntax.LESS;
+                return Syntax.LESS.getSyntax();
             case GREATER_EQUALS_TOKEN:
-                return Syntax.GREATER_EQUALS;
+                return Syntax.GREATER_EQUALS.getSyntax();
             case LESS_EQUALS_TOKEN:
-                return Syntax.LESS_EQUALS;
+                return Syntax.LESS_EQUALS.getSyntax();
             default:
                 return null;
         }
