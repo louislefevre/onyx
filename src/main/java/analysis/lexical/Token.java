@@ -76,6 +76,8 @@ public final class Token
                 return Syntax.GREATER_EQUALS.getSyntax();
             case LESS_EQUALS_TOKEN:
                 return Syntax.LESS_EQUALS.getSyntax();
+            case EOF_TOKEN:
+                return Syntax.EOF.getSyntax();
             default:
                 return null;
         }

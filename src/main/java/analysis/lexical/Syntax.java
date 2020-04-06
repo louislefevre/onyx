@@ -10,27 +10,21 @@ enum Syntax
     PERCENT("%"),
     OPEN_PARENTHESIS("("),
     CLOSE_PARENTHESIS(")"),
-
     AMPERSAND("&"),
     AND("&&"),
-
     PIPE("|"),
     OR("||"),
-
     EQUALS("="),
     EQUALS_EQUALS("=="),
     NOT("!"),
     NOT_EQUALS("!="),
-
     GREATER(">"),
     LESS("<"),
     GREATER_EQUALS(">="),
     LESS_EQUALS("<="),
-
     TRUE("true"),
     FALSE("false"),
-
-    ESCAPE("\0");
+    EOF("\0");
 
     private final String syntax;
 

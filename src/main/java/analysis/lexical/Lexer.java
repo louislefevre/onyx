@@ -62,7 +62,7 @@ public final class Lexer
     @Contract(" -> new")
     private Token endToken()
     {
-        return new Token(TokenType.EOF_TOKEN, "\0", this.position);
+        return new Token(TokenType.EOF_TOKEN, this.position);
     }
 
     @NotNull
@@ -226,7 +226,7 @@ public final class Lexer
         int index = this.position + offset;
 
         if (index >= this.inputText.length() || index < 0)
-            return Syntax.ESCAPE.getSyntax();
+            return Syntax.EOF.getSyntax();
         return Character.toString(this.inputText.charAt(index));
     }
 
