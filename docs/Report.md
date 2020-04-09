@@ -100,3 +100,6 @@ Appendices containing:
 
 Do not include any code that has not been written by you explicitly.
 
+
+## Resources
+- [Projects in Computing and Information Systems](https://dinus.ac.id/repository/docs/ajar/Projects-in-Computing-and-Information-Systems-A-Student%E2%80%99s-Guide-2nd-Edition-April-2009.pdf)
