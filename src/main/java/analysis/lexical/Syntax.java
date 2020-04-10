@@ -1,6 +1,6 @@
 package analysis.lexical;
 
-enum Syntax
+public enum Syntax
 {
     PLUS("+"),
     MINUS("-"),
