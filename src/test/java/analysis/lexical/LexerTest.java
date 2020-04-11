@@ -5,7 +5,6 @@ import identifiers.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,144 +12,119 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LexerTest
 {
     @Test
-    public void lexerReturnsCorrectTokens()
+    public void lexerIdentifiesInbuiltTokens()
     {
-        Lexer lexer = createLexer("5+5");
+        String message = "Failed to return correct inbuilt token - TokenType mismatch at: ";
 
-        List<Token> expectedTokens = Arrays.asList(
-                new Token(TokenType.NUMBER_TOKEN, "5", 5, 0),
-                new Token(TokenType.PLUS_TOKEN, "+", 1),
-                new Token(TokenType.NUMBER_TOKEN, "5", 5, 2),
-                new Token(TokenType.EOF_TOKEN, "\0", 3)
-        );
-        List<Token> actualTokens = lexer.getTokens();
+        String[] inputSyntax = {Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax(), Syntax.STAR.getSyntax(),
+                                Syntax.SLASH.getSyntax(), Syntax.CARET.getSyntax(), Syntax.PERCENT.getSyntax(),
+                                Syntax.OPEN_PARENTHESIS.getSyntax(), Syntax.CLOSE_PARENTHESIS.getSyntax(),
+                                Syntax.AND.getSyntax(), Syntax.OR.getSyntax(), Syntax.EQUALS.getSyntax(),
+                                Syntax.EQUALS_EQUALS.getSyntax(), Syntax.NOT.getSyntax(), Syntax.NOT_EQUALS.getSyntax(),
+                                Syntax.GREATER.getSyntax(), Syntax.LESS.getSyntax(), Syntax.GREATER_EQUALS.getSyntax(),
+                                Syntax.LESS_EQUALS.getSyntax(), Syntax.TRUE.getSyntax(),
+                                Syntax.FALSE.getSyntax(), Syntax.EOF.getSyntax()};
+        TokenType[] expectedTypes = {TokenType.PLUS_TOKEN, TokenType.MINUS_TOKEN, TokenType.STAR_TOKEN,
+                                     TokenType.SLASH_TOKEN, TokenType.CARET_TOKEN, TokenType.PERCENT_TOKEN,
+                                     TokenType.OPEN_PARENTHESIS_TOKEN, TokenType.CLOSE_PARENTHESIS_TOKEN,
+                                     TokenType.AND_TOKEN, TokenType.OR_TOKEN, TokenType.EQUALS_TOKEN,
+                                     TokenType.EQUALS_EQUALS_TOKEN, TokenType.NOT_TOKEN, TokenType.NOT_EQUALS_TOKEN,
+                                     TokenType.GREATER_TOKEN, TokenType.LESS_TOKEN, TokenType.GREATER_EQUALS_TOKEN,
+                                     TokenType.LESS_EQUALS_TOKEN, TokenType.TRUE_KEYWORD_TOKEN,
+                                     TokenType.FALSE_KEYWORD_TOKEN, TokenType.EOF_TOKEN};
 
-        for (int i = 0; i < expectedTokens.size(); i++)
+        for (int i = 0; i < inputSyntax.length; i++)
         {
-            Token expectedToken = expectedTokens.get(i);
-            Token actualToken = actualTokens.get(i);
+            TokenType expectedTokenType = expectedTypes[i];
+            TokenType actualTokenType = tokenTypeOf(inputSyntax[i]);
 
-            assertEquals(expectedToken.getTokenType(), actualToken.getTokenType(),
-                         "Failed to return correct tokens - TokenType mismatch");
-            assertEquals(expectedToken.getSyntax(), actualToken.getSyntax(),
-                         "Failed to return correct tokens - Syntax mismatch");
-            assertEquals(expectedToken.getValue(), actualToken.getValue(),
-                         "Failed to return correct tokens - Value mismatch");
-            assertEquals(expectedToken.getPosition(), actualToken.getPosition(),
-                         "Failed to return correct tokens - Position mismatch");
+            assertEquals(expectedTokenType, actualTokenType, message + inputSyntax[i]);
+        }
+
+
+    }
+
+    @Test
+    public void lexerIdentifiesNumberToken()
+    {
+        TokenType expectedTokenType = TokenType.NUMBER_TOKEN;
+        String message = "Failed to return correct number token - TokenType mismatch at: ";
+
+        String[] inputSyntax = {"0", "1", "10000", "123456", "2147483647"};
+
+        for (String syntax : inputSyntax)
+        {
+            TokenType actualTokenType = tokenTypeOf(syntax);
+            assertEquals(expectedTokenType, actualTokenType, message + syntax);
+        }
+    }
+
+    @Test
+    public void lexerIdentifiesIdentifierToken()
+    {
+        TokenType expectedTokenType = TokenType.IDENTIFIER_KEYWORD_TOKEN;
+        String message = "Failed to return correct identifier token - TokenType mismatch at: ";
+
+        String[] inputSyntax = {"a", "aaa", "var", "myVeryLongVariableName"};
+
+        for (String syntax : inputSyntax)
+        {
+            TokenType actualTokenType = tokenTypeOf(syntax);
+            assertEquals(expectedTokenType, actualTokenType, message + syntax);
         }
     }
 
     @Test
     public void lexerReturnsCorrectAmountOfTokens()
     {
-        Lexer lexer = createLexer("(10+5)*10");
+        String message = "Failed to return correct token amount - Incorrect amount at: ";
 
-        List<Token> expectedTokens = Arrays.asList(
-                new Token(TokenType.OPEN_PARENTHESIS_TOKEN, "(", 0),
-                new Token(TokenType.NUMBER_TOKEN, "10", 10, 1),
-                new Token(TokenType.PLUS_TOKEN, "+", 2),
-                new Token(TokenType.NUMBER_TOKEN, "5", 5, 3),
-                new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, ")", 4),
-                new Token(TokenType.STAR_TOKEN, "*", 5),
-                new Token(TokenType.NUMBER_TOKEN, "10", 10, 6),
-                new Token(TokenType.EOF_TOKEN, "\0", 7)
-        );
-        List<Token> actualTokens = lexer.getTokens();
+        String[] inputSyntax = {"0", "1", "10000", "123456789", "-1", "-10000", "-123456789",
+                                "10 + 1", "(10 + 5)", "(10 + 5) * 10", "var = true", "true == false"};
+        int[] expectedAmounts = {2, 2, 2, 2, 3, 3, 3, 4, 6, 8, 4, 4};
 
-        assertEquals(expectedTokens.size(), actualTokens.size(),
-                     "Incorrect token count");
+        for (int i = 0; i < inputSyntax.length; i++)
+        {
+            String syntax = inputSyntax[i];
+            Lexer lexer = createLexer(syntax);
+            int expectedAmount = expectedAmounts[i];
+            int actualAmount = lexer.getTokens().size();
+
+            assertEquals(expectedAmount, actualAmount, message + syntax);
+        }
     }
 
     @Test
     public void lexerRemovesWhitespaceTokens()
     {
-        Lexer lexer = createLexer("  5  *     2");
-        List<Token> tokens = lexer.getTokens();
+        String message = "Failed to remove whitespace - Incorrect removal at: ";
 
-        String expectedSyntax = "5*2\0";
-        StringBuilder actualSyntax = new StringBuilder();
+        String[] inputSyntax = {"0", "1", "1 0 0 0 0", "12345 6789", "- 1", "- 100 00", "-1 23456789",
+                                "1  0  +  1", "( 10+5 )", "(10 + 5) * 10", "var =true", " true == false "};
 
-        for (Token token : tokens)
-            actualSyntax.append(token.getSyntax());
+        String[] expectedSyntax = {"0\0", "1\0", "10000\0", "123456789\0", "-1\0", "-10000\0", "-123456789\0",
+                                   "10+1\0", "(10+5)\0", "(10+5)*10\0", "var=true\0", "true==false\0"};
 
-        assertEquals(expectedSyntax, actualSyntax.toString(),
-                     "Failed to remove whitespace");
+        for (int i = 0; i < inputSyntax.length; i++)
+        {
+            String syntax = inputSyntax[i];
+            Lexer lexer = createLexer(syntax);
+            String expectedRemoval = expectedSyntax[i];
+            StringBuilder actualRemoval = new StringBuilder();
+
+            List<Token> tokens = lexer.getTokens();
+            for (Token token : tokens)
+                actualRemoval.append(token.getSyntax());
+
+            assertEquals(expectedRemoval, actualRemoval.toString(), message + syntax);
+        }
     }
 
-    @Test
-    public void lexerIdentifiesEOFToken()
+    private static TokenType tokenTypeOf(String input)
     {
-        Lexer lexer = createLexer("true == false");
-        List<Token> tokens = lexer.getTokens();
-        Token token = tokens.get(tokens.size() - 1);
-
-        TokenType expectedTokenType = TokenType.EOF_TOKEN;
-        TokenType actualTokenType = token.getTokenType();
-        String expectedSyntax = "\0";
-        String actualSyntax = token.getSyntax();
-
-        assertEquals(expectedTokenType, actualTokenType,
-                     "Failed to identify whitespace - TokenType mismatch");
-        assertEquals(expectedSyntax, actualSyntax,
-                     "Failed to identify whitespace - Syntax mismatch");
-    }
-
-    @Test
-    public void lexerIdentifiesNumberToken()
-    {
-        TokenType type = TokenType.NUMBER_TOKEN;
-        String message = "Failed to identify number token";
-
-        identifyToken("0", type, message);
-        identifyToken("110", type, message);
-        identifyToken("10000000", type, message);
-    }
-
-    @Test
-    public void lexerIdentifiesIdentifierToken()
-    {
-        TokenType type = TokenType.IDENTIFIER_KEYWORD_TOKEN;
-        String message = "Failed to identify identifier token";
-
-        identifyToken("a", type, message);
-        identifyToken("var", type, message);
-        identifyToken("myVeryLongIdentifierNameForTesting", type, message);
-    }
-
-    @Test
-    public void lexerIdentifiesKeywordToken()
-    {
-        String message = "Failed to identify keyword token";
-
-        identifyToken("true", TokenType.TRUE_KEYWORD_TOKEN, message);
-        identifyToken("false", TokenType.FALSE_KEYWORD_TOKEN, message);
-    }
-
-    @Test
-    public void lexerIdentifiesSymbolToken()
-    {
-        String message = "Failed to identify symbol token";
-
-        identifyToken(Syntax.PLUS.getSyntax(), TokenType.PLUS_TOKEN, message);
-        identifyToken(Syntax.MINUS.getSyntax(), TokenType.MINUS_TOKEN, message);
-        identifyToken(Syntax.STAR.getSyntax(), TokenType.STAR_TOKEN, message);
-        identifyToken(Syntax.SLASH.getSyntax(), TokenType.SLASH_TOKEN, message);
-        identifyToken(Syntax.CARET.getSyntax(), TokenType.CARET_TOKEN, message);
-        identifyToken(Syntax.PERCENT.getSyntax(), TokenType.PERCENT_TOKEN, message);
-        identifyToken(Syntax.OPEN_PARENTHESIS.getSyntax(), TokenType.OPEN_PARENTHESIS_TOKEN, message);
-        identifyToken(Syntax.CLOSE_PARENTHESIS.getSyntax(), TokenType.CLOSE_PARENTHESIS_TOKEN, message);
-        identifyToken(Syntax.AND.getSyntax(), TokenType.AND_TOKEN, message);
-        identifyToken(Syntax.OR.getSyntax(), TokenType.OR_TOKEN, message);
-        identifyToken(Syntax.EQUALS_EQUALS.getSyntax(), TokenType.EQUALS_EQUALS_TOKEN, message);
-        identifyToken(Syntax.EQUALS.getSyntax(), TokenType.EQUALS_TOKEN, message);
-        identifyToken(Syntax.NOT_EQUALS.getSyntax(), TokenType.NOT_EQUALS_TOKEN, message);
-        identifyToken(Syntax.NOT.getSyntax(), TokenType.NOT_TOKEN, message);
-        identifyToken(Syntax.GREATER.getSyntax(), TokenType.GREATER_TOKEN, message);
-        identifyToken(Syntax.LESS.getSyntax(), TokenType.LESS_TOKEN, message);
-        identifyToken(Syntax.GREATER_EQUALS.getSyntax(), TokenType.GREATER_EQUALS_TOKEN, message);
-        identifyToken(Syntax.LESS_EQUALS.getSyntax(), TokenType.LESS_EQUALS_TOKEN, message);
-        identifyToken(Syntax.EOF.getSyntax(), TokenType.EOF_TOKEN, message);
+        Lexer lexer = createLexer(input);
+        Token token = lexer.getTokens().get(0);
+        return token.getTokenType();
     }
 
     @NotNull
@@ -158,14 +132,5 @@ class LexerTest
     {
         ErrorHandler errorHandler = new ErrorHandler(input);
         return new Lexer(input, errorHandler);
-    }
-
-    private void identifyToken(String input, TokenType expectedTokenType, String message)
-    {
-        Lexer lexer = createLexer(input);
-        Token token = lexer.getTokens().get(0);
-        TokenType actualTokenType = token.getTokenType();
-
-        assertEquals(expectedTokenType, actualTokenType, message);
     }
 }
