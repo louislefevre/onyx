@@ -21,7 +21,7 @@ class ParserTest
         int valueLimit = 1000;
 
         for (int i = 0; i <= valueLimit; i++)
-            assertEquals(expectedExpression, actualExpression(String.valueOf(i)), message + i);
+            assertEquals(expectedExpression, expressionTypeOf(String.valueOf(i)), message + i);
     }
 
     @Test
@@ -33,7 +33,7 @@ class ParserTest
         String[] keywords = {Syntax.TRUE.getSyntax(), Syntax.FALSE.getSyntax()};
 
         for (String keyword : keywords)
-            assertEquals(expectedExpression, actualExpression(keyword), message + keyword);
+            assertEquals(expectedExpression, expressionTypeOf(keyword), message + keyword);
     }
 
     @Test
@@ -50,7 +50,7 @@ class ParserTest
             for (String op : unaryOperators)
             {
                 String expression = op + i;
-                assertEquals(expectedExpression, actualExpression(expression), message + expression);
+                assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
             }
 
             j += i; // Varies numbers (can be adapted)
@@ -71,7 +71,7 @@ class ParserTest
             for (String op : unaryOperators)
             {
                 String expression = op + keyword;
-                assertEquals(expectedExpression, actualExpression(expression), message + expression);
+                assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
             }
         }
     }
@@ -83,8 +83,8 @@ class ParserTest
         String message = "Failed to identify numerical binary expression: ";
 
         int valueLimit = 100;
-        String[] binaryOperators = {Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax(), Syntax.SLASH.getSyntax(),
-                                    Syntax.CARET.getSyntax(), Syntax.PERCENT.getSyntax(),
+        String[] binaryOperators = {Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax(), Syntax.STAR.getSyntax(),
+                                    Syntax.SLASH.getSyntax(), Syntax.CARET.getSyntax(), Syntax.PERCENT.getSyntax(),
                                     Syntax.EQUALS_EQUALS.getSyntax(), Syntax.NOT_EQUALS.getSyntax(),
                                     Syntax.GREATER.getSyntax(), Syntax.LESS.getSyntax(),
                                     Syntax.GREATER_EQUALS.getSyntax(), Syntax.LESS_EQUALS.getSyntax()};
@@ -103,7 +103,7 @@ class ParserTest
                     for (String op : binaryOperators)
                     {
                         String expression = term1 + op + term2;
-                        assertEquals(expectedExpression, actualExpression(expression), message + expression);
+                        assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
                     }
                 }
             }
@@ -130,12 +130,53 @@ class ParserTest
                 for (String op : binaryOperators)
                 {
                     String expression = keyword1 + op + keyword2;
-                    assertEquals(expectedExpression, actualExpression(expression), message + expression);
+                    assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
                 }
             }
         }
     }
 
+    @Test
+    public void parserIdentifiesParenthesizedExpression()
+    {
+        TokenType expectedExpression = TokenType.PARENTHESIZED_EXPRESSION_TOKEN;
+        String message = "Failed to identify parenthesized expression: ";
+
+        String[] inputSyntax = {"0", "1", "10000", "123456789", "-1", "-10000", "-123456789",
+                                "10 + 1", "(10 + 5)", "(10 + 5) * 10", "var = true", "true == false"};
+
+        for (String syntax : inputSyntax)
+        {
+            String parenthesizedSyntax = Syntax.OPEN_PARENTHESIS.getSyntax() +
+                                         syntax +
+                                         Syntax.CLOSE_PARENTHESIS.getSyntax();
+            assertEquals(expectedExpression, expressionTypeOf(parenthesizedSyntax), message + expectedExpression);
+        }
+    }
+
+    @Test
+    public void parserIdentifiesNameExpression()
+    {
+        TokenType expectedExpression = TokenType.NAME_EXPRESSION_TOKEN;
+        String message = "Failed to identify name expression: ";
+
+        String[] inputSyntax = {"a", "aaa", "var", "myVeryLongVariableName"};
+
+        for (String syntax : inputSyntax)
+            assertEquals(expectedExpression, expressionTypeOf(syntax), message + syntax);
+    }
+
+    @Test
+    public void parserIdentifiesAssignmentExpression()
+    {
+        TokenType expectedExpression = TokenType.ASSIGNMENT_EXPRESSION_TOKEN;
+        String message = "Failed to identify assignment expression: ";
+
+        String[] inputSyntax = {"a = 1", "aaa = 10", "var = a", "myVeryLongVariableName = 50", "A = b"};
+
+        for (String syntax : inputSyntax)
+            assertEquals(expectedExpression, expressionTypeOf(syntax), message + syntax);
+    }
 
     @NotNull
     @Contract(pure = true)
@@ -146,7 +187,7 @@ class ParserTest
         return operator + value;
     }
 
-    private static TokenType actualExpression(String input)
+    private static TokenType expressionTypeOf(String input)
     {
         Parser parser = createParser(input);
         Expression expression = parser.getParseTree().getExpression();
