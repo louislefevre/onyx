@@ -145,14 +145,14 @@ class EvaluatorTest
         String message = "Failed to evaluate conditionals expresion: ";
         HashMap<String, Object> data = new HashMap<>();
 
-        data.put("true && true", true);
-        data.put("false && false", false);
-        data.put("true && false", false);
-        data.put("false && true", false);
-        data.put("true || true", true);
-        data.put("false || false", false);
-        data.put("true || false", true);
-        data.put("false || true", true);
+        data.put("true AND true", true);
+        data.put("false AND false", false);
+        data.put("true AND false", false);
+        data.put("false AND true", false);
+        data.put("true OR true", true);
+        data.put("false OR false", false);
+        data.put("true OR false", true);
+        data.put("false OR true", true);
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));

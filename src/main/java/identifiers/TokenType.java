@@ -16,8 +16,6 @@ public enum TokenType
     OPEN_PARENTHESIS_TOKEN,
     CLOSE_PARENTHESIS_TOKEN,
     NOT_TOKEN,
-    AND_TOKEN,
-    OR_TOKEN,
     EQUALS_TOKEN,
     EQUALS_EQUALS_TOKEN,
     NOT_EQUALS_TOKEN,
@@ -29,6 +27,8 @@ public enum TokenType
     // Keywords
     FALSE_KEYWORD_TOKEN,
     TRUE_KEYWORD_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
     IDENTIFIER_KEYWORD_TOKEN,
 
     // Expression Tokens

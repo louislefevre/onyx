@@ -102,8 +102,11 @@ public final class Token
             case LESS_TOKEN: case GREATER_EQUALS_TOKEN: case LESS_EQUALS_TOKEN:
                 return TokenGroup.SYMBOL;
 
-            case FALSE_KEYWORD_TOKEN: case TRUE_KEYWORD_TOKEN: case IDENTIFIER_KEYWORD_TOKEN:
+            case FALSE_KEYWORD_TOKEN: case TRUE_KEYWORD_TOKEN:
                 return TokenGroup.KEYWORD;
+
+            case IDENTIFIER_KEYWORD_TOKEN:
+                return TokenGroup.IDENTIFIER;
 
             case LITERAL_EXPRESSION_TOKEN: case UNARY_EXPRESSION_TOKEN:
             case BINARY_EXPRESSION_TOKEN: case PARENTHESIZED_EXPRESSION_TOKEN:

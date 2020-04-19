@@ -129,7 +129,7 @@ class ParserTest
             {
                 for (String op : binaryOperators)
                 {
-                    String expression = keyword1 + op + keyword2;
+                    String expression = keyword1 + ' ' + op + ' ' + keyword2;
                     assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
                 }
             }

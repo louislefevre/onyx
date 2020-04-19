@@ -6,7 +6,6 @@ import identifiers.TokenGroup;
 import identifiers.TokenType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import util.Utilities;
 
 import java.util.ArrayList;
@@ -27,13 +26,11 @@ public final class Lexer
         this.position = 0;
     }
 
-    @NotNull
     public List<Token> getTokens()
     {
         return this.lexTokens();
     }
 
-    @NotNull
     private List<Token> lexTokens()
     {
         Token token;
@@ -60,18 +57,15 @@ public final class Lexer
         return this.symbolToken();
     }
 
-    @NotNull
     @Contract(" -> new")
-    private Token endToken()
+    private @NotNull Token endToken()
     {
         return new Token(TokenType.EOF_TOKEN, this.position);
     }
 
-    @NotNull
-    @Contract(" -> new")
-    private Token numberToken()
+    private @NotNull Token numberToken()
     {
-        if(!this.previousTokenEquals(TokenGroup.SYMBOL))
+        if (this.previousTokenNotEquals(TokenGroup.SYMBOL))
             return this.badToken();
 
         int startPos = this.position;
@@ -95,10 +89,9 @@ public final class Lexer
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
 
-    @NotNull
-    private Token letterToken()
+    private @NotNull Token letterToken()
     {
-        if(!this.previousTokenEquals(TokenGroup.SYMBOL))
+        if (this.previousTokenNotEquals(TokenGroup.SYMBOL, TokenGroup.KEYWORD))
             return this.badToken();
 
         int startPos = this.position;
@@ -107,15 +100,27 @@ public final class Lexer
             this.nextPosition();
 
         String text = this.inputText.substring(startPos, this.position);
-        TokenType tokenType = getKeywordToken(text);
-        Object tokenValue = getKeywordValue(tokenType);
 
-        return new Token(tokenType, text, tokenValue, startPos);
+        return getKeywordToken(text, startPos);
     }
 
-    @NotNull
+    @Contract("_, _ -> new")
+    private static @NotNull Token getKeywordToken(String text, int pos)
+    {
+        if (Syntax.TRUE.getSyntax().equals(text))
+            return new Token(TokenType.TRUE_KEYWORD_TOKEN, text, true, pos);
+        else if (Syntax.FALSE.getSyntax().equals(text))
+            return new Token(TokenType.FALSE_KEYWORD_TOKEN, text, false, pos);
+        else if (Syntax.AND.getSyntax().equals(text))
+            return new Token(TokenType.AND_TOKEN, text, pos);
+        else if (Syntax.OR.getSyntax().equals(text))
+            return new Token(TokenType.OR_TOKEN, text, pos);
+
+        return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
+    }
+
     @Contract(" -> new")
-    private Token whitespaceToken()
+    private @NotNull Token whitespaceToken()
     {
         int startPos = this.position;
 
@@ -127,8 +132,7 @@ public final class Lexer
         return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
-    @NotNull
-    private Token symbolToken()
+    private @NotNull Token symbolToken()
     {
         String currentChar = this.currentChar();
         String nextChar = this.nextChar();
@@ -165,16 +169,6 @@ public final class Lexer
         {
             return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
         }
-        else if (Syntax.AMPERSAND.getSyntax().equals(currentChar))
-        {
-            if (Syntax.AMPERSAND.getSyntax().equals(nextChar()))
-                return new Token(TokenType.AND_TOKEN, this.currentPositionThenNext(2));
-        }
-        else if (Syntax.PIPE.getSyntax().equals(currentChar))
-        {
-            if (Syntax.PIPE.getSyntax().equals(nextChar))
-                return new Token(TokenType.OR_TOKEN, this.currentPositionThenNext(2));
-        }
         else if (Syntax.EQUALS.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
@@ -203,15 +197,28 @@ public final class Lexer
         return this.badToken();
     }
 
-    @NotNull
     @Contract(" -> new")
-    private Token badToken()
+    private @NotNull Token badToken()
     {
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
         this.errorHandler.addError(error);
         return new Token(TokenType.BAD_TOKEN,
                          inputText.substring(Utilities.minimumZero(this.position - 1), this.position),
                          this.currentPositionThenNext(1));
+    }
+
+    private boolean previousTokenNotEquals(TokenGroup... tokenGroup)
+    {
+        if (this.tokens.size() < 1)
+            return false;
+
+        Token token = this.tokens.get(this.tokens.size() - 1);
+
+        for (TokenGroup groupType : tokenGroup)
+            if (token.getTokenGroup() == groupType)
+                return false;
+
+        return true;
     }
 
     private String currentChar()
@@ -243,39 +250,5 @@ public final class Lexer
         int currentPos = this.position;
         this.position += increment;
         return currentPos;
-    }
-
-    private boolean previousTokenEquals(TokenGroup tokenGroup)
-    {
-        if(this.tokens.size() < 1)
-            return true;
-        Token token = this.tokens.get(this.tokens.size()-1);
-        return token.getTokenGroup() == tokenGroup;
-    }
-
-    @Contract(pure = true)
-    private static TokenType getKeywordToken(@NotNull String text)
-    {
-        if (Syntax.TRUE.getSyntax().equals(text))
-            return TokenType.TRUE_KEYWORD_TOKEN;
-        else if (Syntax.FALSE.getSyntax().equals(text))
-            return TokenType.FALSE_KEYWORD_TOKEN;
-
-        return TokenType.IDENTIFIER_KEYWORD_TOKEN;
-    }
-
-    @Nullable
-    @Contract(pure = true)
-    private static Object getKeywordValue(@NotNull TokenType type)
-    {
-        switch (type)
-        {
-            case TRUE_KEYWORD_TOKEN:
-                return true;
-            case FALSE_KEYWORD_TOKEN:
-                return false;
-            default:
-                return null;
-        }
     }
 }
