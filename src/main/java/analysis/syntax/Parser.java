@@ -30,22 +30,22 @@ public final class Parser
         return new ParseTree(this.parseExpression());
     }
 
-    private Expression parseExpression()
-    {
-        return this.parseAssignmentExpression();
-    }
-
-    private Expression parseAssignmentExpression()
+    public Expression parseExpression()
     {
         if (this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
             this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
         {
-            Token identifierToken = this.nextToken();
-            Token operatorToken = this.nextToken();
-            Expression right = this.parseAssignmentExpression();
-            return new AssignmentExpression(identifierToken, operatorToken, right);
+            return this.parseAssignmentExpression();
         }
         return this.parseBinaryExpression();
+    }
+
+    private @NotNull Expression parseAssignmentExpression()
+    {
+        Token identifierToken = this.currentTokenThenNext();
+        Token operatorToken = this.currentTokenThenNext();
+        Expression right = this.parseExpression();
+        return new AssignmentExpression(identifierToken, operatorToken, right);
     }
 
     private Expression parseBinaryExpression()
@@ -55,19 +55,7 @@ public final class Parser
 
     private Expression parseBinaryExpression(int parentPrecedence)
     {
-        Expression left;
-        int unaryOperatorPrecedence = SyntaxPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
-
-        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
-        {
-            Token operatorToken = this.nextToken();
-            Expression operand = this.parseBinaryExpression(unaryOperatorPrecedence);
-            left = new UnaryExpression(operatorToken, operand);
-        }
-        else
-        {
-            left = this.parsePrimaryExpression();
-        }
+        Expression left = this.parseUnaryExpression(parentPrecedence);
 
         while (true)
         {
@@ -76,12 +64,25 @@ public final class Parser
             if (binaryOperatorPrecedence == 0 || binaryOperatorPrecedence <= parentPrecedence)
                 break;
 
-            Token operatorToken = this.nextToken();
+            Token operatorToken = this.currentTokenThenNext();
             Expression right = this.parseBinaryExpression(binaryOperatorPrecedence);
             left = new BinaryExpression(left, operatorToken, right);
         }
 
         return left;
+    }
+
+    private Expression parseUnaryExpression(int parentPrecedence)
+    {
+        int unaryOperatorPrecedence = SyntaxPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
+
+        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+        {
+            Token operatorToken = this.currentTokenThenNext();
+            Expression operand = this.parseBinaryExpression(unaryOperatorPrecedence);
+            return new UnaryExpression(operatorToken, operand);
+        }
+        return this.parsePrimaryExpression();
     }
 
     private Expression parsePrimaryExpression()
@@ -105,16 +106,23 @@ public final class Parser
     @NotNull
     private Expression parseParenthesizedExpression()
     {
-        Token left = this.nextToken();
-        Expression expression = this.parseBinaryExpression();
-        Token right = this.matchTokens(TokenType.CLOSE_PARENTHESIS_TOKEN);
+        Token left = this.currentTokenThenNext();
+        Expression expression = this.parseExpression();
+        Token right = this.currentTokenThenNext();
+
+        if(right.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
+        {
+            SyntaxError error = SyntaxError.unexpectedTokenMatch(right.getSpan(), right.getTokenType(), TokenType.CLOSE_PARENTHESIS_TOKEN);
+            this.errorHandler.addError(error);
+        }
+
         return new ParenthesizedExpression(left, expression, right);
     }
 
     @NotNull
     private Expression parseBooleanExpression()
     {
-        Token keywordToken = this.nextToken();
+        Token keywordToken = this.currentTokenThenNext();
         boolean value = keywordToken.getTokenType() == TokenType.TRUE_KEYWORD_TOKEN;
         return new LiteralExpression(keywordToken, value);
     }
@@ -122,7 +130,7 @@ public final class Parser
     @NotNull
     private Expression parseNumberExpression()
     {
-        Token numberToken = this.nextToken();
+        Token numberToken = this.currentTokenThenNext();
         Object value = numberToken.getValue();
         return new LiteralExpression(numberToken, value);
     }
@@ -130,7 +138,7 @@ public final class Parser
     @NotNull
     private Expression parseNameExpression()
     {
-        Token identifierToken = this.nextToken();
+        Token identifierToken = this.currentTokenThenNext();
         return new NameExpression(identifierToken);
     }
 
@@ -144,16 +152,6 @@ public final class Parser
         return new LiteralExpression(token, null);
     }
 
-    private Token matchTokens(TokenType type)
-    {
-        Token token = this.currentToken();
-        if (token.getTokenType() == type)
-            return this.nextToken();
-        SyntaxError error = SyntaxError.unexpectedTokenMatch(token.getSpan(), token.getTokenType(), type);
-        this.errorHandler.addError(error);
-        return new Token(type, token.getPosition());
-    }
-
     private Token peek(int offset)
     {
         int index = this.position + offset;
@@ -162,7 +160,7 @@ public final class Parser
         return this.tokens.get(index);
     }
 
-    private Token nextToken()
+    private Token currentTokenThenNext()
     {
         Token token = this.currentToken();
         this.position++;
