@@ -30,7 +30,7 @@ public final class Parser
         return new ParseTree(this.parseExpression());
     }
 
-    public Expression parseExpression()
+    private Expression parseExpression()
     {
         if (this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
             this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
