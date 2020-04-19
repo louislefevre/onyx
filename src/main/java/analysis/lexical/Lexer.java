@@ -2,7 +2,6 @@ package analysis.lexical;
 
 import errors.ErrorHandler;
 import errors.LexicalError;
-import identifiers.TokenGroup;
 import identifiers.TokenType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -65,9 +64,6 @@ public final class Lexer
 
     private @NotNull Token numberToken()
     {
-        if (this.previousTokenNotEquals(TokenGroup.SYMBOL))
-            return this.badToken();
-
         int startPos = this.position;
         int value = 0;
 
@@ -91,9 +87,6 @@ public final class Lexer
 
     private @NotNull Token letterToken()
     {
-        if (this.previousTokenNotEquals(TokenGroup.SYMBOL, TokenGroup.KEYWORD))
-            return this.badToken();
-
         int startPos = this.position;
 
         while (Utilities.isLetter(this.currentChar()))
@@ -205,20 +198,6 @@ public final class Lexer
         return new Token(TokenType.BAD_TOKEN,
                          inputText.substring(Utilities.minimumZero(this.position - 1), this.position),
                          this.currentPositionThenNext(1));
-    }
-
-    private boolean previousTokenNotEquals(TokenGroup... tokenGroup)
-    {
-        if (this.tokens.size() < 1)
-            return false;
-
-        Token token = this.tokens.get(this.tokens.size() - 1);
-
-        for (TokenGroup groupType : tokenGroup)
-            if (token.getTokenGroup() == groupType)
-                return false;
-
-        return true;
     }
 
     private String currentChar()
