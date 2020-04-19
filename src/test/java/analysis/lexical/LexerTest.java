@@ -5,8 +5,6 @@ import identifiers.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LexerTest
@@ -91,32 +89,6 @@ class LexerTest
             int actualAmount = lexer.getTokens().size();
 
             assertEquals(expectedAmount, actualAmount, message + syntax);
-        }
-    }
-
-    @Test
-    public void lexerRemovesWhitespaceTokens()
-    {
-        String message = "Failed to remove whitespace - Incorrect removal at: ";
-
-        String[] inputSyntax = {"0", "1", "1 0 0 0 0", "12345 6789", "- 1", "- 100 00", "-1 23456789",
-                                "1  0  +  1", "( 10+5 )", "(10 + 5) * 10", "var =true", " true == false "};
-
-        String[] expectedSyntax = {"0\0", "1\0", "10000\0", "123456789\0", "-1\0", "-10000\0", "-123456789\0",
-                                   "10+1\0", "(10+5)\0", "(10+5)*10\0", "var=true\0", "true==false\0"};
-
-        for (int i = 0; i < inputSyntax.length; i++)
-        {
-            String syntax = inputSyntax[i];
-            Lexer lexer = createLexer(syntax);
-            String expectedRemoval = expectedSyntax[i];
-            StringBuilder actualRemoval = new StringBuilder();
-
-            List<Token> tokens = lexer.getTokens();
-            for (Token token : tokens)
-                actualRemoval.append(token.getSyntax());
-
-            assertEquals(expectedRemoval, actualRemoval.toString(), message + syntax);
         }
     }
 
