@@ -47,12 +47,12 @@ public final class Lexer
     {
         if (this.position >= this.inputText.length())
             return this.endToken();
+        else if (Utilities.isWhitespace(this.currentChar()))
+            return this.whitespaceToken();
         else if (Utilities.isDigit(this.currentChar()))
             return this.numberToken();
         else if (Utilities.isLetter(this.currentChar()))
             return this.letterToken();
-        else if (Utilities.isWhitespace(this.currentChar()))
-            return this.whitespaceToken();
         return this.symbolToken();
     }
 
@@ -60,6 +60,19 @@ public final class Lexer
     private @NotNull Token endToken()
     {
         return new Token(TokenType.EOF_TOKEN, this.position);
+    }
+
+    @Contract(" -> new")
+    private @NotNull Token whitespaceToken()
+    {
+        int startPos = this.position;
+
+        while (Utilities.isWhitespace(this.currentChar()))
+            this.nextPosition();
+
+        String text = this.inputText.substring(startPos, this.position);
+
+        return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
     private @NotNull Token numberToken()
@@ -101,28 +114,15 @@ public final class Lexer
     private static @NotNull Token getKeywordToken(String text, int pos)
     {
         if (Syntax.TRUE.getSyntax().equals(text))
-            return new Token(TokenType.TRUE_KEYWORD_TOKEN, text, true, pos);
+            return new Token(TokenType.TRUE_KEYWORD_TOKEN, pos);
         else if (Syntax.FALSE.getSyntax().equals(text))
-            return new Token(TokenType.FALSE_KEYWORD_TOKEN, text, false, pos);
+            return new Token(TokenType.FALSE_KEYWORD_TOKEN, pos);
         else if (Syntax.AND.getSyntax().equals(text))
-            return new Token(TokenType.AND_TOKEN, text, pos);
+            return new Token(TokenType.AND_TOKEN, pos);
         else if (Syntax.OR.getSyntax().equals(text))
-            return new Token(TokenType.OR_TOKEN, text, pos);
+            return new Token(TokenType.OR_TOKEN, pos);
 
         return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
-    }
-
-    @Contract(" -> new")
-    private @NotNull Token whitespaceToken()
-    {
-        int startPos = this.position;
-
-        while (Utilities.isWhitespace(this.currentChar()))
-            this.nextPosition();
-
-        String text = this.inputText.substring(startPos, this.position);
-
-        return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
     private @NotNull Token symbolToken()

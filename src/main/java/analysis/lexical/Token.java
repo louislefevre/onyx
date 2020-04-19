@@ -26,12 +26,25 @@ public final class Token
 
     public Token(TokenType tokenType, String syntax, int position)
     {
-        this(tokenType, syntax, null, position);
+        this(tokenType, syntax, findValue(tokenType), position);
     }
 
     public Token(TokenType tokenType, int position)
     {
         this(tokenType, findSyntax(tokenType), position);
+    }
+
+    private static Object findValue(TokenType tokenType)
+    {
+        switch (tokenType)
+        {
+            case TRUE_KEYWORD_TOKEN:
+                return true;
+            case FALSE_KEYWORD_TOKEN:
+                return false;
+            default:
+                return null;
+        }
     }
 
     @Nullable
@@ -56,10 +69,6 @@ public final class Token
                 return Syntax.OPEN_PARENTHESIS.getSyntax();
             case CLOSE_PARENTHESIS_TOKEN:
                 return Syntax.CLOSE_PARENTHESIS.getSyntax();
-            case AND_TOKEN:
-                return Syntax.AND.getSyntax();
-            case OR_TOKEN:
-                return Syntax.OR.getSyntax();
             case EQUALS_EQUALS_TOKEN:
                 return Syntax.EQUALS_EQUALS.getSyntax();
             case EQUALS_TOKEN:
@@ -76,6 +85,14 @@ public final class Token
                 return Syntax.GREATER_EQUALS.getSyntax();
             case LESS_EQUALS_TOKEN:
                 return Syntax.LESS_EQUALS.getSyntax();
+            case AND_TOKEN:
+                return Syntax.AND.getSyntax();
+            case OR_TOKEN:
+                return Syntax.OR.getSyntax();
+            case TRUE_KEYWORD_TOKEN:
+                return Syntax.TRUE.getSyntax();
+            case FALSE_KEYWORD_TOKEN:
+                return Syntax.FALSE.getSyntax();
             case EOF_TOKEN:
                 return Syntax.EOF.getSyntax();
             default:
