@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import identifiers.TokenGroup;
 import identifiers.TokenType;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
@@ -13,6 +14,7 @@ public final class Token
     private final String syntax;
     private final Object value;
     private final int position;
+    private final TokenGroup tokenGroup;
     private final SyntaxSpan span;
 
     public Token(TokenType tokenType, @NotNull String syntax, Object value, int position)
@@ -21,6 +23,7 @@ public final class Token
         this.syntax = syntax;
         this.value = value;
         this.position = position;
+        this.tokenGroup = findGroup(tokenType);
         this.span = new SyntaxSpan(position, syntax.length());
     }
 
@@ -80,6 +83,38 @@ public final class Token
                 return Syntax.EOF.getSyntax();
             default:
                 return null;
+        }
+    }
+
+    @Contract(pure = true)
+    private static TokenGroup findGroup(@NotNull TokenType tokenType)
+    {
+        switch (tokenType)
+        {
+            case NUMBER_TOKEN:
+                return TokenGroup.NUMBER;
+
+            case PLUS_TOKEN: case MINUS_TOKEN: case STAR_TOKEN:
+            case SLASH_TOKEN: case CARET_TOKEN: case PERCENT_TOKEN:
+            case OPEN_PARENTHESIS_TOKEN: case CLOSE_PARENTHESIS_TOKEN: case AND_TOKEN:
+            case OR_TOKEN: case EQUALS_EQUALS_TOKEN: case EQUALS_TOKEN:
+            case NOT_EQUALS_TOKEN: case NOT_TOKEN: case GREATER_TOKEN:
+            case LESS_TOKEN: case GREATER_EQUALS_TOKEN: case LESS_EQUALS_TOKEN:
+                return TokenGroup.SYMBOL;
+
+            case FALSE_KEYWORD_TOKEN: case TRUE_KEYWORD_TOKEN: case IDENTIFIER_KEYWORD_TOKEN:
+                return TokenGroup.KEYWORD;
+
+            case LITERAL_EXPRESSION_TOKEN: case UNARY_EXPRESSION_TOKEN:
+            case BINARY_EXPRESSION_TOKEN: case PARENTHESIZED_EXPRESSION_TOKEN:
+            case NAME_EXPRESSION_TOKEN: case ASSIGNMENT_EXPRESSION_TOKEN:
+                return TokenGroup.EXPRESSION;
+
+            case WHITE_SPACE_TOKEN: case BAD_TOKEN: case EOF_TOKEN:
+                return TokenGroup.MISCELLANEOUS;
+
+            default:
+                return TokenGroup.UNDEFINED;
         }
     }
 }

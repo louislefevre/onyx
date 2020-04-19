@@ -2,6 +2,7 @@ package analysis.lexical;
 
 import errors.ErrorHandler;
 import errors.LexicalError;
+import identifiers.TokenGroup;
 import identifiers.TokenType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -15,12 +16,14 @@ public final class Lexer
 {
     private final String inputText;
     private final ErrorHandler errorHandler;
+    private final List<Token> tokens;
     private int position;
 
     public Lexer(String inputText, ErrorHandler errorHandler)
     {
         this.inputText = inputText;
         this.errorHandler = errorHandler;
+        this.tokens = new ArrayList<>();
         this.position = 0;
     }
 
@@ -33,7 +36,6 @@ public final class Lexer
     @NotNull
     private List<Token> lexTokens()
     {
-        List<Token> tokens = new ArrayList<>();
         Token token;
         do
         {
@@ -69,6 +71,9 @@ public final class Lexer
     @Contract(" -> new")
     private Token numberToken()
     {
+        if(!this.previousTokenEquals(TokenGroup.SYMBOL))
+            return this.badToken();
+
         int startPos = this.position;
         int value = 0;
 
@@ -93,12 +98,10 @@ public final class Lexer
     @NotNull
     private Token letterToken()
     {
-        int startPos = this.position;
+        if(!this.previousTokenEquals(TokenGroup.SYMBOL))
+            return this.badToken();
 
-        // Checks if a number token is present before the letter token.
-        int i = -1;
-        while (Utilities.isWhitespace(this.peek(i))) i--;
-        if (Utilities.isDigit(this.peek(i))) return this.badToken();
+        int startPos = this.position;
 
         while (Utilities.isLetter(this.currentChar()))
             this.nextPosition();
@@ -240,6 +243,14 @@ public final class Lexer
         int currentPos = this.position;
         this.position += increment;
         return currentPos;
+    }
+
+    private boolean previousTokenEquals(TokenGroup tokenGroup)
+    {
+        if(this.tokens.size() < 1)
+            return true;
+        Token token = this.tokens.get(this.tokens.size()-1);
+        return token.getTokenGroup() == tokenGroup;
     }
 
     @Contract(pure = true)
