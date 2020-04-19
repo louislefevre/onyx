@@ -105,13 +105,13 @@ public final class Evaluator
             case MULTIPLICATION_OPERATOR:
                 return (int) left * (int) right;
             case DIVISION_OPERATOR:
-                if((int) left == 0 && (int) right == 0)
+                if((int) right == 0)
                     return 0;
                 return (int) left / (int) right;
             case POWER_OPERATOR:
                 return (int) Math.pow((int) left, (int) right);
             case MODULO_OPERATOR:
-                if((int) left == 0 && (int) right == 0)
+                if((int) right == 0)
                     return 0;
                 return (int) left % (int) right;
             case AND_OPERATOR:
