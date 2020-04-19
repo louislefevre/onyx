@@ -32,6 +32,13 @@ public final class Parser
 
     private Expression parseExpression()
     {
+        if(this.nextToken().getTokenType() != TokenType.EOF_TOKEN &&
+           !ExpressionBinder.isBindable(this.currentToken(), this.nextToken()))
+        {
+                this.nextPosition();
+                return this.parseUnknownExpression();
+        }
+
         if (this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
             this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
         {
@@ -152,6 +159,16 @@ public final class Parser
         return new LiteralExpression(token, null);
     }
 
+    private Token currentToken()
+    {
+        return this.peek(0);
+    }
+
+    private Token nextToken()
+    {
+        return this.peek(1);
+    }
+
     private Token peek(int offset)
     {
         int index = this.position + offset;
@@ -160,15 +177,15 @@ public final class Parser
         return this.tokens.get(index);
     }
 
+    private void nextPosition()
+    {
+        this.position++;
+    }
+
     private Token currentTokenThenNext()
     {
         Token token = this.currentToken();
         this.position++;
         return token;
-    }
-
-    private Token currentToken()
-    {
-        return this.peek(0);
     }
 }
