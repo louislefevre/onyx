@@ -34,7 +34,8 @@ public final class Token
         this(tokenType, findSyntax(tokenType), position);
     }
 
-    private static Object findValue(TokenType tokenType)
+    @Contract(pure = true)
+    private static @Nullable Object findValue(@NotNull TokenType tokenType)
     {
         switch (tokenType)
         {

@@ -22,9 +22,7 @@ public final class Repl
 
             SourceOutput output = compiler.compile(input);
 
-            if (!output.compilationFailed())
-                System.out.println(output.getResult());
-            System.out.println();
+            System.out.println(output.getResult());
         }
     }
 

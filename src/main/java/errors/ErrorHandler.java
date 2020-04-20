@@ -16,20 +16,17 @@ public final class ErrorHandler
         this.input = input;
     }
 
-    public boolean errorsPresent()
-    {
-        if (this.errorsLog.isEmpty())
-            return false;
-        this.printErrors();
-        return true;
-    }
-
     public void addError(Error error)
     {
         this.errorsLog.add(error);
     }
 
-    private void printErrors()
+    public boolean errorsPresent()
+    {
+        return !this.errorsLog.isEmpty();
+    }
+
+    public void outputErrors()
     {
         for (Error error : this.errorsLog)
         {

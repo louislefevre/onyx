@@ -5,22 +5,23 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SourceOutput
 {
-    private final Object getResult;
-    private final boolean failed;
+    private final Object result;
+    private final ErrorHandler errorHandler;
 
     public SourceOutput(@NotNull Evaluator evaluator, @NotNull ErrorHandler errorHandler)
     {
-        this.getResult = evaluator.getEvaluation();
-        this.failed = errorHandler.errorsPresent();
-    }
-
-    public boolean compilationFailed()
-    {
-        return this.failed;
+        this.result = evaluator.getEvaluation();
+        this.errorHandler = errorHandler;
     }
 
     public Object getResult()
     {
-        return getResult;
+        if(this.errorHandler.errorsPresent())
+        {
+            this.errorHandler.outputErrors();
+            return '\0';
+        }
+
+        return this.result;
     }
 }
