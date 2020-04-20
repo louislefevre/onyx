@@ -1,5 +1,6 @@
 package compilation;
 
+import analysis.SourceText;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
@@ -22,9 +23,11 @@ public final class Compiler
     public SourceOutput compile(String input)
     {
         SymbolTable symbolTable = this.symbolTable;
-        ErrorHandler errorHandler = new ErrorHandler(input);
 
-        Lexer lexer = new Lexer(input, errorHandler);
+        SourceText sourceText = new SourceText(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceText);
+
+        Lexer lexer = new Lexer(sourceText, errorHandler);
         Parser parser = new Parser(lexer, errorHandler);
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
         Evaluator evaluator = new Evaluator(typeChecker, errorHandler, symbolTable);
