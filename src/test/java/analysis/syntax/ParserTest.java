@@ -1,5 +1,6 @@
 package analysis.syntax;
 
+import source.SourceInput;
 import analysis.lexical.Lexer;
 import analysis.lexical.Syntax;
 import errors.ErrorHandler;
@@ -197,8 +198,9 @@ class ParserTest
     @NotNull
     private static Parser createParser(String input)
     {
-        ErrorHandler errorHandler = new ErrorHandler(input);
-        Lexer lexer = new Lexer(input, errorHandler);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
         return new Parser(lexer, errorHandler);
     }
 }

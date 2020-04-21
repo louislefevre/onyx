@@ -1,5 +1,6 @@
 package analysis.lexical;
 
+import source.SourceInput;
 import errors.ErrorHandler;
 import identifiers.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -102,7 +103,8 @@ class LexerTest
     @NotNull
     private static Lexer createLexer(String input)
     {
-        ErrorHandler errorHandler = new ErrorHandler(input);
-        return new Lexer(input, errorHandler);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        return new Lexer(sourceInput, errorHandler);
     }
 }

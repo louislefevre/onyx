@@ -1,5 +1,6 @@
 package synthesis.generation;
 
+import source.SourceInput;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
@@ -246,8 +247,9 @@ class EvaluatorTest
     private static @NotNull Evaluator createEvaluator(String input)
     {
         SymbolTable symbolTable = new SymbolTable();
-        ErrorHandler errorHandler = new ErrorHandler(input);
-        Lexer lexer = new Lexer(input, errorHandler);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
         Parser parser = new Parser(lexer, errorHandler);
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
         return new Evaluator(typeChecker, errorHandler, symbolTable);
