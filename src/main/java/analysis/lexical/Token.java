@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import source.SourceSpan;
 
 @Getter
 public final class Token
@@ -13,7 +14,7 @@ public final class Token
     private final String syntax;
     private final Object value;
     private final int position;
-    private final SyntaxSpan span;
+    private final SourceSpan span;
 
     public Token(TokenType tokenType, @NotNull String syntax, Object value, int position)
     {
@@ -21,7 +22,7 @@ public final class Token
         this.syntax = syntax;
         this.value = value;
         this.position = position;
-        this.span = new SyntaxSpan(position, syntax.length());
+        this.span = new SourceSpan(position, syntax.length());
     }
 
     public Token(TokenType tokenType, String syntax, int position)

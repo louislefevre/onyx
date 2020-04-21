@@ -1,6 +1,6 @@
 package compilation;
 
-import synthesis.generation.SourceOutput;
+import source.SourceOutput;
 
 import java.util.Scanner;
 

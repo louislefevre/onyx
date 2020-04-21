@@ -1,16 +1,16 @@
 package errors;
 
-import analysis.lexical.SyntaxSpan;
+import source.SourceSpan;
 import identifiers.ErrorType;
 import lombok.Getter;
 
 @Getter
 public abstract class Error
 {
-    private final SyntaxSpan span;
+    private final SourceSpan span;
     private final String errorMessage;
 
-    public Error(SyntaxSpan span, String errorMessage)
+    public Error(SourceSpan span, String errorMessage)
     {
         this.span = span;
         this.errorMessage = errorMessage;

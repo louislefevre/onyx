@@ -1,7 +1,8 @@
-package synthesis.generation;
+package source;
 
 import errors.ErrorHandler;
 import org.jetbrains.annotations.NotNull;
+import synthesis.generation.Evaluator;
 
 public final class SourceOutput
 {

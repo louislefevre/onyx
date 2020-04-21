@@ -1,6 +1,6 @@
 package analysis.lexical;
 
-import analysis.SourceText;
+import source.SourceInput;
 import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
@@ -13,14 +13,14 @@ import java.util.List;
 
 public final class Lexer
 {
-    private final SourceText sourceText;
+    private final SourceInput sourceInput;
     private final ErrorHandler errorHandler;
     private final List<Token> tokens;
     private int position;
 
-    public Lexer(SourceText sourceText, ErrorHandler errorHandler)
+    public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
     {
-        this.sourceText = sourceText;
+        this.sourceInput = sourceInput;
         this.errorHandler = errorHandler;
         this.tokens = new ArrayList<>();
         this.position = 0;
@@ -46,7 +46,7 @@ public final class Lexer
 
     private Token nextToken()
     {
-        if (this.position >= this.sourceText.length())
+        if (this.position >= this.sourceInput.length())
             return this.endToken();
         else if (Utilities.isWhitespace(this.currentChar()))
             return this.whitespaceToken();
@@ -71,7 +71,7 @@ public final class Lexer
         while (Utilities.isWhitespace(this.currentChar()))
             this.nextPosition();
 
-        String text = this.sourceText.substring(startPos, this.position);
+        String text = this.sourceInput.substring(startPos, this.position);
 
         return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
@@ -84,7 +84,7 @@ public final class Lexer
         while (Utilities.isDigit(this.currentChar()))
             this.currentPositionThenNext(1);
 
-        String text = this.sourceText.substring(startPos, this.position);
+        String text = this.sourceInput.substring(startPos, this.position);
 
         if (Utilities.isParsable(text))
         {
@@ -106,7 +106,7 @@ public final class Lexer
         while (Utilities.isLetter(this.currentChar()))
             this.nextPosition();
 
-        String text = this.sourceText.substring(startPos, this.position);
+        String text = this.sourceInput.substring(startPos, this.position);
 
         return getKeywordToken(text, startPos);
     }
@@ -197,7 +197,7 @@ public final class Lexer
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
         this.errorHandler.addError(error);
         return new Token(TokenType.BAD_TOKEN,
-                         sourceText.substring(Utilities.minimumZero(this.position - 1), this.position),
+                         sourceInput.substring(Utilities.minimumZero(this.position - 1), this.position),
                          this.currentPositionThenNext(1));
     }
 
@@ -215,9 +215,9 @@ public final class Lexer
     {
         int index = this.position + offset;
 
-        if (index >= this.sourceText.length() || index < 0)
+        if (index >= this.sourceInput.length() || index < 0)
             return Syntax.EOF.getSyntax();
-        return Character.toString(this.sourceText.charAt(index));
+        return Character.toString(this.sourceInput.charAt(index));
     }
 
     private void nextPosition()

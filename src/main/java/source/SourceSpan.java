@@ -1,15 +1,15 @@
-package analysis.lexical;
+package source;
 
 import lombok.Getter;
 
 @Getter
-public final class SyntaxSpan
+public final class SourceSpan
 {
     private final int start;
     private final int length;
     private final int end;
 
-    public SyntaxSpan(int start, int length)
+    public SourceSpan(int start, int length)
     {
         this.start = start;
         this.length = length;
