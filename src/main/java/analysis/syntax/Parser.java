@@ -39,8 +39,8 @@ public final class Parser
                 return this.parseUnknownExpression();
         }
 
-        if (this.peek(0).getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
-            this.peek(1).getTokenType() == TokenType.EQUALS_TOKEN)
+        if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
+            this.nextToken().getTokenType() == TokenType.EQUALS_TOKEN)
         {
             return this.parseAssignmentExpression();
         }
@@ -153,7 +153,7 @@ public final class Parser
     @Contract(" -> new")
     private Expression parseUnknownExpression()
     {
-        Token token = this.currentToken();
+        Token token = this.currentTokenThenNext();
         SyntaxError error = SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType());
         this.errorHandler.addError(error);
         return new LiteralExpression(token, null);
