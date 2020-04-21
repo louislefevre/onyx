@@ -14,22 +14,44 @@ public final class Repl
     {
         Compiler compiler = new Compiler();
 
-        while (true)
-        {
-            String input = readInput();
-            if (input.isBlank())
-                return;
+        String input = readInput();
 
-            SourceOutput output = compiler.compile(input);
+        SourceOutput output = compiler.compile(input);
 
-            System.out.println(output.getResult());
-        }
+        System.out.println(output.getResult());
+
     }
 
     private static String readInput()
     {
-        System.out.print("> ");
+        StringBuilder builder = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+
+        System.out.print("> ");
+        String line;
+        while(true)
+        {
+            line = scanner.nextLine();
+
+            if(line.isBlank())
+                break;
+
+            builder.append(line);
+            builder.append(System.getProperty("line.separator"));
+            System.out.print("| ");
+        }
+
+        return builder.toString();
     }
 }
+
+
+
+
+
+
+
+
+
+
+

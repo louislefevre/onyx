@@ -1,6 +1,7 @@
 package errors;
 
 import source.SourceInput;
+import source.SourceLine;
 import util.ANSI;
 
 import java.util.ArrayList;
@@ -31,17 +32,21 @@ public final class ErrorHandler
     {
         for (Error error : this.errorsLog)
         {
-            int start = error.getSpan().getStart();
-            int end = error.getSpan().getEnd();
+            int errorStart = error.getSpan().getStart();
+            int errorEnd = error.getSpan().getEnd();
+            int lineIndex = this.sourceInput.getLineIndex(errorStart);
 
-            int lineIndex = this.sourceInput.getLineIndex(start);
-            int character = start - this.sourceInput.getSourceLines().get(lineIndex).getStart() + 1;
+            SourceLine line = this.sourceInput.getSourceLines().get(lineIndex);
+            int lineStart = line.getStart();
+            int lineEnd = line.getEnd();
+            int character = errorStart - lineStart + 1;
 
             // For handling unexpected EOF_TOKEN errors; results in out of bounds exception otherwise
             String appendages = "";
-            if (end > this.sourceInput.length())
+            if (errorEnd > this.sourceInput.length())
             {
-                end -= 1;
+                errorEnd--;
+                lineEnd++;
                 appendages = "_";
             }
 
@@ -52,10 +57,10 @@ public final class ErrorHandler
                                   error.getErrorMessage() +
                                   ANSI.RESET;
 
-            String prefixSyntax = ANSI.GREY + this.sourceInput.substring(0, start) + ANSI.RESET;
-            String errorSyntax = ANSI.RED + this.sourceInput.substring(start, end) + appendages + ANSI.RESET;
-            String suffixSyntax = ANSI.GREY + this.sourceInput.substring(end) + ANSI.RESET;
-            String fullSyntax = prefixSyntax + errorSyntax + suffixSyntax;
+            String prefixSyntax = ANSI.GREY + this.sourceInput.substring(lineStart, errorStart) + ANSI.RESET;
+            String errorSyntax = ANSI.RED + this.sourceInput.substring(errorStart, errorEnd) + appendages + ANSI.RESET;
+            String suffixSyntax = ANSI.GREY + this.sourceInput.substring(errorEnd, lineEnd) + ANSI.RESET;
+            String fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax;
 
             System.out.println(errorMessage);
             System.out.println(fullSyntax);

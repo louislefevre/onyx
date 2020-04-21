@@ -32,11 +32,6 @@ public final class SourceInput
         return this.sourceText.substring(beginIndex, endIndex);
     }
 
-    public String substring(int beginIndex)
-    {
-        return this.sourceText.substring(beginIndex);
-    }
-
     public int getLineIndex(int position)
     {
         int lower = 0;
@@ -74,13 +69,13 @@ public final class SourceInput
                 continue;
             }
 
-            result.add(new SourceLine(lineStart));
+            result.add(new SourceLine(lineStart, position - lineStart));
             position += lineBreakWidth;
             lineStart = position;
         }
 
         if (position > lineStart)
-            result.add(new SourceLine(lineStart));
+            result.add(new SourceLine(lineStart, position - lineStart));
 
         return result;
     }

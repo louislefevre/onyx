@@ -15,6 +15,7 @@ public final class ParseTree
 
     public Expression getExpression()
     {
+        //this.showTree();
         return expression;
     }
 
@@ -24,7 +25,7 @@ public final class ParseTree
         printTree(this.expression, "", true);
     }
 
-    private void printTree(Object node, String indent, boolean isLast)
+    private static void printTree(Object node, String indent, boolean isLast)
     {
         System.out.print(ANSI.GREY);
 
