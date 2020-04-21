@@ -33,4 +33,10 @@ public final class EvaluateError extends Error
         String message = String.format("Unexpected binary operator '%s'.", type);
         return new EvaluateError(null, message);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Evaluate Error";
+    }
 }

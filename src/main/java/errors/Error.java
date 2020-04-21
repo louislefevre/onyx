@@ -1,8 +1,8 @@
 package errors;
 
-import source.SourceSpan;
 import identifiers.ErrorType;
 import lombok.Getter;
+import source.SourceSpan;
 
 @Getter
 public abstract class Error
@@ -17,4 +17,7 @@ public abstract class Error
     }
 
     public abstract ErrorType getErrorType();
+
+    @Override
+    public abstract String toString();
 }

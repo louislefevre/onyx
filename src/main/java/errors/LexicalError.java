@@ -28,4 +28,10 @@ public final class LexicalError extends Error
         String message = String.format("Bad character '%s'.", syntax);
         return new LexicalError(span, message);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Lexical Error";
+    }
 }

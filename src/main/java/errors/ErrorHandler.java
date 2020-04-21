@@ -42,7 +42,7 @@ public final class ErrorHandler
             int character = errorStart - lineStart + 1;
 
             String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
-            String errorMessage = ANSI.RED + error.getErrorType() + lineInfo + error.getErrorMessage();
+            String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
 
             String prefixSyntax, errorSyntax, suffixSyntax, fullSyntax;
             if (errorEnd > this.sourceInput.length()) // Handles unexpected EOF_TOKEN errors

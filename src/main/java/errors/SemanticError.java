@@ -35,4 +35,10 @@ public final class SemanticError extends Error
         String message = String.format("Variable '%s' does not exist.", syntax);
         return new SemanticError(span, message);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Semantic Error";
+    }
 }
