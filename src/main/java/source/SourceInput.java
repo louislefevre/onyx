@@ -34,50 +34,54 @@ public final class SourceInput
 
     public int getLineIndex(int position)
     {
-        int lower = 0;
-        int upper = this.sourceLines.size() - 1;
+        return searchLineList(this.sourceLines, 0, this.sourceLines.size() - 1, position);
+    }
 
-        while (lower <= upper)
+    private List<SourceLine> parseLines(String text)
+    {
+        return splitLines(new ArrayList<>(), text, 0, 0);
+    }
+
+    private static int searchLineList(List<SourceLine> lineList, int lowerBound, int upperBound, int position)
+    {
+        if (lowerBound <= upperBound)
         {
-            int index = lower + (upper - lower) / 2;
-            int start = this.sourceLines.get(index).getStart();
+            int index = lowerBound + (upperBound - lowerBound) / 2;
+            int start = lineList.get(index).getStart();
 
             if (start == position)
                 return index;
-
             if (start > position)
-                upper = index - 1;
+                return searchLineList(lineList, lowerBound, index - 1, position);
             else
-                lower = index + 1;
+                return searchLineList(lineList, index + 1, upperBound, position);
         }
 
-        return lower - 1;
+        return lowerBound - 1;
     }
 
-    private static List<SourceLine> parseLines(String text)
+    private static List<SourceLine> splitLines(List<SourceLine> lineList, String text, int position, int lineStart)
     {
-        List<SourceLine> result = new ArrayList<>();
-        int position = 0, lineStart = 0;
-
-        while (position < text.length())
+        if (position < text.length())
         {
             int lineBreakWidth = getLineBreakWidth(text, position);
 
             if (lineBreakWidth == 0)
+                splitLines(lineList, text, ++position, lineStart);
+            else
             {
-                position++;
-                continue;
+                lineList.add(new SourceLine(lineStart, position - lineStart));
+                position += lineBreakWidth;
+                splitLines(lineList, text, position, position);
             }
-
-            result.add(new SourceLine(lineStart, position - lineStart));
-            position += lineBreakWidth;
-            lineStart = position;
+        }
+        else
+        {
+            if (position > lineStart)
+                lineList.add(new SourceLine(lineStart, position - lineStart));
         }
 
-        if (position > lineStart)
-            result.add(new SourceLine(lineStart, position - lineStart));
-
-        return result;
+        return lineList;
     }
 
     private static int getLineBreakWidth(String text, int i)
