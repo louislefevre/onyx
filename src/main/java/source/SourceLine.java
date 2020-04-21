@@ -3,7 +3,7 @@ package source;
 import lombok.Getter;
 
 @Getter
-public class SourceLine
+public final class SourceLine
 {
     private final int start;
     private final int length;
