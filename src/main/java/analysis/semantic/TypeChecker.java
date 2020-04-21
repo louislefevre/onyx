@@ -78,9 +78,6 @@ public final class TypeChecker
     private AnnotatedExpression annotateLiteralExpression(@NotNull LiteralExpression syntax)
     {
         Object value = syntax.getValue();
-        if (value == null)
-            value = 0;
-
         return new AnnotatedLiteralExpression(value);
     }
 
