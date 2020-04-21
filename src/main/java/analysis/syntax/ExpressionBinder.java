@@ -2,7 +2,6 @@ package analysis.syntax;
 
 import analysis.lexical.Token;
 import identifiers.TokenType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -59,7 +58,7 @@ public class ExpressionBinder
                                                             CLOSE_PARENTHESIS_TOKEN, AND_TOKEN, OR_TOKEN});
     }
 
-    public static boolean isBindable(@NotNull Token current, Token next)
+    public static boolean isBindable(Token current, Token next)
     {
         TokenType tokenType = current.getTokenType();
 

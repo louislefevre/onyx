@@ -1,9 +1,8 @@
 package analysis.semantic;
 
 import identifiers.ExpressionType;
-import lombok.Getter;
 import identifiers.ObjectType;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
 
 @Getter
 public final class AnnotatedUnaryExpression extends AnnotatedExpression
@@ -13,7 +12,7 @@ public final class AnnotatedUnaryExpression extends AnnotatedExpression
     private final ExpressionType expressionType;
     private final ObjectType objectType;
 
-    public AnnotatedUnaryExpression(@NotNull AnnotatedUnaryOperator operator, AnnotatedExpression operand)
+    public AnnotatedUnaryExpression(AnnotatedUnaryOperator operator, AnnotatedExpression operand)
     {
         this.operator = operator;
         this.operand = operand;

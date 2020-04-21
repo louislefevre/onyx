@@ -29,11 +29,11 @@ public final class Repl
 
         System.out.print("> ");
         String line;
-        while(true)
+        while (true)
         {
             line = scanner.nextLine();
 
-            if(line.isBlank())
+            if (line.isBlank())
                 break;
 
             builder.append(line);

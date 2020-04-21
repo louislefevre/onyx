@@ -3,7 +3,6 @@ package synthesis.generation;
 import analysis.semantic.*;
 import errors.ErrorHandler;
 import identifiers.OperatorType;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
 
@@ -13,7 +12,7 @@ public final class Evaluator
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
 
-    public Evaluator(@NotNull TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
         this.errorHandler = errorHandler;
@@ -66,12 +65,12 @@ public final class Evaluator
         throw new Exception(String.format("EXCEPTION: Unexpected node '%s'.", node.getObjectType()));
     }
 
-    private Object evaluateNumberExpression(@NotNull AnnotatedLiteralExpression node)
+    private Object evaluateNumberExpression(AnnotatedLiteralExpression node)
     {
         return node.getValue();
     }
 
-    private Object evaluateUnaryExpression(@NotNull AnnotatedUnaryExpression node) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedUnaryExpression node) throws Exception
     {
         Object operand = this.evaluateExpression(node.getOperand());
         OperatorType operatorType = node.getOperator().getOperatorType();
@@ -89,8 +88,7 @@ public final class Evaluator
         }
     }
 
-    @NotNull
-    private Object evaluateBinaryExpression(@NotNull AnnotatedBinaryExpression node) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedBinaryExpression node) throws Exception
     {
         Object left = this.evaluateExpression(node.getLeftTerm());
         Object right = this.evaluateExpression(node.getRightTerm());
@@ -133,7 +131,7 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateVariableExpression(@NotNull AnnotatedVariableExpression node) throws Exception
+    private Object evaluateVariableExpression(AnnotatedVariableExpression node) throws Exception
     {
         String name = node.getName();
         if (this.symbolTable.containsSymbol(name))
@@ -141,7 +139,7 @@ public final class Evaluator
         throw new Exception(String.format("EXCEPTION: Symbol '%s' does not exist in symbol table.", name));
     }
 
-    private Object evaluateAssignmentExpression(@NotNull AnnotatedAssignmentExpression node) throws Exception
+    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression node) throws Exception
     {
         Object value = this.evaluateExpression(node.getExpression());
         this.symbolTable.addSymbol(node.getName(), value, node.getObjectType());

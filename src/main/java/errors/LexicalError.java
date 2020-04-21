@@ -1,9 +1,8 @@
 package errors;
 
-import source.SourceSpan;
-import lombok.Getter;
 import identifiers.ErrorType;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
+import source.SourceSpan;
 
 @Getter
 public final class LexicalError extends Error
@@ -16,7 +15,6 @@ public final class LexicalError extends Error
         this.errorType = ErrorType.LEXICAL_ERROR;
     }
 
-    @NotNull
     public static LexicalError invalidInt(String syntax, int start, int length)
     {
         SourceSpan span = new SourceSpan(start, length);
@@ -24,7 +22,6 @@ public final class LexicalError extends Error
         return new LexicalError(span, message);
     }
 
-    @NotNull
     public static LexicalError badCharacter(String syntax, int start, int length)
     {
         SourceSpan span = new SourceSpan(start, length);

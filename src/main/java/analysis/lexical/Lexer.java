@@ -1,11 +1,9 @@
 package analysis.lexical;
 
-import source.SourceInput;
 import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import source.SourceInput;
 import util.Utilities;
 
 import java.util.ArrayList;
@@ -57,14 +55,12 @@ public final class Lexer
         return this.symbolToken();
     }
 
-    @Contract(" -> new")
-    private @NotNull Token endToken()
+    private Token endToken()
     {
         return new Token(TokenType.EOF_TOKEN, this.position);
     }
 
-    @Contract(" -> new")
-    private @NotNull Token whitespaceToken()
+    private Token whitespaceToken()
     {
         int startPos = this.position;
 
@@ -76,7 +72,7 @@ public final class Lexer
         return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
-    private @NotNull Token numberToken()
+    private Token numberToken()
     {
         int startPos = this.position;
         int value = 0;
@@ -99,7 +95,7 @@ public final class Lexer
         return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
     }
 
-    private @NotNull Token letterToken()
+    private Token letterToken()
     {
         int startPos = this.position;
 
@@ -111,8 +107,7 @@ public final class Lexer
         return getKeywordToken(text, startPos);
     }
 
-    @Contract("_, _ -> new")
-    private static @NotNull Token getKeywordToken(String text, int pos)
+    private static Token getKeywordToken(String text, int pos)
     {
         if (Syntax.TRUE.getSyntax().equals(text))
             return new Token(TokenType.TRUE_KEYWORD_TOKEN, pos);
@@ -126,7 +121,7 @@ public final class Lexer
         return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
     }
 
-    private @NotNull Token symbolToken()
+    private Token symbolToken()
     {
         String currentChar = this.currentChar();
         String nextChar = this.nextChar();
@@ -191,8 +186,7 @@ public final class Lexer
         return this.badToken();
     }
 
-    @Contract(" -> new")
-    private @NotNull Token badToken()
+    private Token badToken()
     {
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
         this.errorHandler.addError(error);

@@ -4,8 +4,6 @@ import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
 
@@ -15,15 +13,13 @@ public final class TypeChecker
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
 
-    public TypeChecker(@NotNull Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.parseTree = parser.getParseTree();
         this.errorHandler = errorHandler;
         this.symbolTable = symbolTable;
     }
 
-    @NotNull
-    @Contract(" -> new")
     public AnnotatedParseTree getAnnotatedParseTree()
     {
         return new AnnotatedParseTree(this.getAnnotatedExpression());
@@ -47,7 +43,7 @@ public final class TypeChecker
         }
     }
 
-    private AnnotatedExpression annotateExpression(@NotNull Expression syntax) throws Exception
+    private AnnotatedExpression annotateExpression(Expression syntax) throws Exception
     {
         switch (syntax.getTokenType())
         {
@@ -68,21 +64,18 @@ public final class TypeChecker
         }
     }
 
-    private AnnotatedExpression annotateParenthesizedExpression(@NotNull ParenthesizedExpression syntax) throws Exception
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression syntax) throws Exception
     {
         return this.annotateExpression(syntax.getExpression());
     }
 
-    @NotNull
-    @Contract("_ -> new")
-    private AnnotatedExpression annotateLiteralExpression(@NotNull LiteralExpression syntax)
+    private AnnotatedExpression annotateLiteralExpression(LiteralExpression syntax)
     {
         Object value = syntax.getValue();
         return new AnnotatedLiteralExpression(value);
     }
 
-    @NotNull
-    private AnnotatedExpression annotateUnaryExpression(@NotNull UnaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax) throws Exception
     {
         AnnotatedExpression annotatedOperand = this.annotateExpression(syntax.getOperand());
         AnnotatedUnaryOperator annotatedOperator =
@@ -101,8 +94,7 @@ public final class TypeChecker
         return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    @NotNull
-    private AnnotatedExpression annotateBinaryExpression(@NotNull BinaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression syntax) throws Exception
     {
         AnnotatedExpression annotatedLeft = this.annotateExpression(syntax.getLeftTerm());
         AnnotatedExpression annotatedRight = this.annotateExpression(syntax.getRightTerm());
@@ -124,9 +116,7 @@ public final class TypeChecker
         return new AnnotatedBinaryExpression(annotatedLeft, annotatedOperator, annotatedRight);
     }
 
-    @NotNull
-    @Contract("_ -> new")
-    private AnnotatedExpression annotateNameExpression(@NotNull NameExpression syntax)
+    private AnnotatedExpression annotateNameExpression(NameExpression syntax)
     {
         String name = syntax.getIdentifierToken().getSyntax();
 
@@ -141,8 +131,7 @@ public final class TypeChecker
         return new AnnotatedVariableExpression(name, type);
     }
 
-    @NotNull
-    private AnnotatedExpression annotateAssignmentExpression(@NotNull AssignmentExpression syntax) throws Exception
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression syntax) throws Exception
     {
         String name = syntax.getIdentifierToken().getSyntax();
         AnnotatedExpression expression = this.annotateExpression(syntax.getExpression());

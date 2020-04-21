@@ -2,8 +2,6 @@ package analysis.lexical;
 
 import identifiers.TokenType;
 import lombok.Getter;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import source.SourceSpan;
 
@@ -16,7 +14,7 @@ public final class Token
     private final int position;
     private final SourceSpan span;
 
-    public Token(TokenType tokenType, @NotNull String syntax, Object value, int position)
+    public Token(TokenType tokenType, String syntax, Object value, int position)
     {
         this.tokenType = tokenType;
         this.syntax = syntax;
@@ -35,8 +33,8 @@ public final class Token
         this(tokenType, findSyntax(tokenType), position);
     }
 
-    @Contract(pure = true)
-    private static @Nullable Object findValue(@NotNull TokenType tokenType)
+    @Nullable
+    private static Object findValue(TokenType tokenType)
     {
         switch (tokenType)
         {
@@ -50,8 +48,7 @@ public final class Token
     }
 
     @Nullable
-    @Contract(pure = true)
-    private static String findSyntax(@NotNull TokenType tokenType)
+    private static String findSyntax(TokenType tokenType)
     {
         switch (tokenType)
         {

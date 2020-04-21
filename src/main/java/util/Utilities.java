@@ -1,7 +1,6 @@
 package util;
 
 import identifiers.ObjectType;
-import org.jetbrains.annotations.NotNull;
 
 public final class Utilities
 {
@@ -28,19 +27,19 @@ public final class Utilities
         return Math.max(num, 0);
     }
 
-    public static boolean isWhitespace(@NotNull String str)
+    public static boolean isWhitespace(String str)
     {
         return str.isBlank();
     }
 
-    public static boolean isLetter(@NotNull String str)
+    public static boolean isLetter(String str)
     {
         if (str.length() != 1)
             return false;
         return Character.isLetter(str.charAt(0));
     }
 
-    public static boolean isDigit(@NotNull String str)
+    public static boolean isDigit(String str)
     {
         if (str.length() != 1)
             return false;

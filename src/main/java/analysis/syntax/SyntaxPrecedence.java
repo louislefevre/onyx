@@ -1,8 +1,6 @@
 package analysis.syntax;
 
 import identifiers.TokenType;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public final class SyntaxPrecedence
 {
@@ -12,8 +10,7 @@ public final class SyntaxPrecedence
         throw new UnsupportedOperationException();
     }
 
-    @Contract(pure = true)
-    public static int getUnaryOperatorPrecedence(@NotNull TokenType type)
+    public static int getUnaryOperatorPrecedence(TokenType type)
     {
         switch (type)
         {
@@ -26,8 +23,7 @@ public final class SyntaxPrecedence
         }
     }
 
-    @Contract(pure = true)
-    public static int getBinaryOperatorPrecedence(@NotNull TokenType type)
+    public static int getBinaryOperatorPrecedence(TokenType type)
     {
         switch (type)
         {
