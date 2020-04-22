@@ -7,23 +7,25 @@ import lombok.Getter;
 @Getter
 public final class InputBox
 {
+    private final TextArea textArea;
     private final VBox box;
 
     public InputBox()
     {
-        this.box = generateInputBox();
-    }
-
-    private static VBox generateInputBox()
-    {
-        return new VBox(createTextArea());
+        this.textArea = createTextArea();
+        this.box = generateInputBox(this.textArea);
     }
 
     private static TextArea createTextArea()
     {
         TextArea textArea = new TextArea();
-        textArea.setMinHeight(PrimaryInterface.getWindowHeight()*0.8);
+        textArea.setMinHeight(PrimaryInterface.getWindowHeight() * 0.8);
         textArea.setWrapText(true);
         return textArea;
+    }
+
+    private static VBox generateInputBox(TextArea textArea)
+    {
+        return new VBox(textArea);
     }
 }

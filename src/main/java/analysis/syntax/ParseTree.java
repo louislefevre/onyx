@@ -2,7 +2,6 @@ package analysis.syntax;
 
 import analysis.lexical.Token;
 import org.jetbrains.annotations.TestOnly;
-import util.ANSI;
 
 public final class ParseTree
 {
@@ -15,7 +14,7 @@ public final class ParseTree
 
     public Expression getExpression()
     {
-        //this.showTree();
+        this.showTree();
         return expression;
     }
 
@@ -27,8 +26,6 @@ public final class ParseTree
 
     private static void printTree(Object node, String indent, boolean isLast)
     {
-        System.out.print(ANSI.GREY);
-
         String marker = isLast ? "└──" : "├──";
 
         if (node instanceof Expression)
@@ -51,7 +48,5 @@ public final class ParseTree
             for (Object child : ((Expression) node).getChildren())
                 printTree(child, indent, child == lastChild);
         }
-
-        System.out.print(ANSI.RESET);
     }
 }

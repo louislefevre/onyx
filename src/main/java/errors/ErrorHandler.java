@@ -1,8 +1,9 @@
 package errors;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import source.SourceInput;
 import source.SourceLine;
-import util.ANSI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,9 @@ public final class ErrorHandler
         return !this.errorsLog.isEmpty();
     }
 
-    public void outputErrors()
+    public List<Text> outputErrors()
     {
+        List<Text> lines = new ArrayList<>();
         for (Error error : this.errorsLog)
         {
             int errorStart = error.getSpan().getStart();
@@ -42,25 +44,42 @@ public final class ErrorHandler
             int character = errorStart - lineStart + 1;
 
             String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
-            String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
+            String errorMessage = error.toString() + lineInfo + error.getErrorMessage();
 
-            String prefixSyntax, errorSyntax, suffixSyntax, fullSyntax;
+            String prefixSyntax, errorSyntax, suffixSyntax;
             if (errorEnd > this.sourceInput.length()) // Handles unexpected EOF_TOKEN errors
             {
-                prefixSyntax = ANSI.GREY + this.sourceInput.substring(lineStart, lineEnd);
-                errorSyntax = ANSI.RED + "_";
-                suffixSyntax = ANSI.GREY + "";
+                prefixSyntax = this.sourceInput.substring(lineStart, lineEnd);
+                errorSyntax = "_";
+                suffixSyntax = "";
             }
             else // Handles all other errors
             {
-                prefixSyntax = ANSI.GREY + this.sourceInput.substring(lineStart, errorStart);
-                errorSyntax = ANSI.RED + this.sourceInput.substring(errorStart, errorEnd);
-                suffixSyntax = ANSI.GREY + this.sourceInput.substring(errorEnd, lineEnd);
+                prefixSyntax = this.sourceInput.substring(lineStart, errorStart);
+                errorSyntax = this.sourceInput.substring(errorStart, errorEnd);
+                suffixSyntax = this.sourceInput.substring(errorEnd, lineEnd);
             }
-            fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
 
-            System.out.println(errorMessage);
-            System.out.println(fullSyntax);
+            lines.add(createText(errorMessage + System.getProperty("line.separator"), Color.RED));
+
+            if (!prefixSyntax.isBlank())
+                lines.add(createText(prefixSyntax, Color.GREY));
+
+            if (!errorSyntax.isBlank())
+                lines.add(createText(errorSyntax, Color.RED));
+
+            if (!suffixSyntax.isBlank())
+                lines.add(createText(suffixSyntax, Color.GREY));
+
+            lines.add(new Text(System.getProperty("line.separator")));
         }
+        return lines;
+    }
+
+    private static Text createText(String str, Color color)
+    {
+        Text text = new Text(str);
+        text.setFill(color);
+        return text;
     }
 }

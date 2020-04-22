@@ -1,7 +1,12 @@
 package source;
 
 import errors.ErrorHandler;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import synthesis.generation.Evaluator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SourceOutput
 {
@@ -14,14 +19,20 @@ public final class SourceOutput
         this.errorHandler = errorHandler;
     }
 
-    public Object getResult()
+    public List<Text> getResult()
     {
-        if(this.errorHandler.errorsPresent())
-        {
-            this.errorHandler.outputErrors();
-            return '\0';
-        }
+        if (this.errorHandler.errorsPresent())
+            return this.errorHandler.outputErrors();
 
-        return this.result;
+        return stringToText(this.result.toString());
+    }
+
+    private static List<Text> stringToText(String str)
+    {
+        List<Text> textList = new ArrayList<>();
+        Text text = new Text(str);
+        text.setFill(Color.WHITE);
+        textList.add(text);
+        return textList;
     }
 }

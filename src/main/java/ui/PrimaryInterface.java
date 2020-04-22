@@ -13,7 +13,7 @@ public final class PrimaryInterface extends Application
 {
     private static final String TITLE = "Onyx Compiler";
 
-    public void run(String[] args)
+    public void launchInterface(String[] args)
     {
         Application.launch(args);
     }
@@ -30,9 +30,9 @@ public final class PrimaryInterface extends Application
 
     private Scene createScene()
     {
-        MenuBox menuBox = new MenuBox();
         InputBox inputBox = new InputBox();
         OutputBox outputBox = new OutputBox();
+        MenuBox menuBox = new MenuBox(inputBox, outputBox);
 
         VBox menu = menuBox.getBox();
         VBox top = inputBox.getBox();
