@@ -33,17 +33,10 @@ public final class TypeChecker
     @Nullable
     private AnnotatedExpression annotate(Expression syntax)
     {
-        try
-        {
-            return this.annotateExpression(syntax);
-        } catch (Exception error)
-        {
-            System.out.println(error.getMessage());
-            return null;
-        }
+        return this.annotateExpression(syntax);
     }
 
-    private AnnotatedExpression annotateExpression(Expression syntax) throws Exception
+    private AnnotatedExpression annotateExpression(Expression syntax)
     {
         switch (syntax.getTokenType())
         {
@@ -60,11 +53,11 @@ public final class TypeChecker
             case ASSIGNMENT_EXPRESSION_TOKEN:
                 return this.annotateAssignmentExpression((AssignmentExpression) syntax);
             default:
-                throw new Exception(String.format("Unexpected syntax '%s'", syntax.getTokenType()));
+                return this.unknownExpression(syntax);
         }
     }
 
-    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression syntax) throws Exception
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression syntax)
     {
         return this.annotateExpression(syntax.getExpression());
     }
@@ -75,7 +68,7 @@ public final class TypeChecker
         return new AnnotatedLiteralExpression(value);
     }
 
-    private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax)
     {
         AnnotatedExpression annotatedOperand = this.annotateExpression(syntax.getOperand());
         AnnotatedUnaryOperator annotatedOperator =
@@ -94,7 +87,7 @@ public final class TypeChecker
         return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    private AnnotatedExpression annotateBinaryExpression(BinaryExpression syntax) throws Exception
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression syntax)
     {
         AnnotatedExpression annotatedLeft = this.annotateExpression(syntax.getLeftTerm());
         AnnotatedExpression annotatedRight = this.annotateExpression(syntax.getRightTerm());
@@ -131,10 +124,22 @@ public final class TypeChecker
         return new AnnotatedVariableExpression(name, type);
     }
 
-    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression syntax) throws Exception
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression syntax)
     {
         String name = syntax.getIdentifierToken().getSyntax();
         AnnotatedExpression expression = this.annotateExpression(syntax.getExpression());
         return new AnnotatedAssignmentExpression(name, expression);
+    }
+
+    private AnnotatedExpression unknownExpression(Expression syntax)
+    {
+        try
+        {
+            throw SemanticError.undefinedExpression(syntax.getTokenType().toString());
+        } catch (Exception err)
+        {
+            System.out.println(err.getMessage());
+        }
+        return null;
     }
 }

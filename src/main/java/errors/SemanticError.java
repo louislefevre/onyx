@@ -36,6 +36,12 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
+    public static Exception undefinedExpression(String syntax)
+    {
+        String message = String.format("Unexpected syntax '%s'", syntax);
+        return new Exception(message);
+    }
+
     @Override
     public String toString()
     {
