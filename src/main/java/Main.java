@@ -1,10 +1,14 @@
 import compilation.Repl;
+import ui.PrimaryInterface;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        Repl repl = new Repl();
-        repl.run();
+        PrimaryInterface primaryInterface = new PrimaryInterface();
+        primaryInterface.run(args);
+
+        //Repl repl = new Repl();
+        //repl.run();
     }
 }
