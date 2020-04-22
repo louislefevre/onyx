@@ -2,6 +2,7 @@ package synthesis.generation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
+import errors.EvaluateError;
 import identifiers.OperatorType;
 import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
@@ -45,24 +46,24 @@ public final class Evaluator
         return null;
     }
 
-    private Object evaluateExpression(AnnotatedExpression node) throws Exception
+    private Object evaluateExpression(AnnotatedExpression expression) throws Exception
     {
-        if (node instanceof AnnotatedLiteralExpression)
-            return this.evaluateNumberExpression((AnnotatedLiteralExpression) node);
+        if (expression instanceof AnnotatedLiteralExpression)
+            return this.evaluateNumberExpression((AnnotatedLiteralExpression) expression);
 
-        if (node instanceof AnnotatedUnaryExpression)
-            return this.evaluateUnaryExpression((AnnotatedUnaryExpression) node);
+        if (expression instanceof AnnotatedUnaryExpression)
+            return this.evaluateUnaryExpression((AnnotatedUnaryExpression) expression);
 
-        if (node instanceof AnnotatedBinaryExpression)
-            return this.evaluateBinaryExpression((AnnotatedBinaryExpression) node);
+        if (expression instanceof AnnotatedBinaryExpression)
+            return this.evaluateBinaryExpression((AnnotatedBinaryExpression) expression);
 
-        if (node instanceof AnnotatedVariableExpression)
-            return this.evaluateVariableExpression((AnnotatedVariableExpression) node);
+        if (expression instanceof AnnotatedVariableExpression)
+            return this.evaluateVariableExpression((AnnotatedVariableExpression) expression);
 
-        if (node instanceof AnnotatedAssignmentExpression)
-            return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) node);
+        if (expression instanceof AnnotatedAssignmentExpression)
+            return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
 
-        throw new Exception(String.format("EXCEPTION: Unexpected node '%s'.", node.getObjectType()));
+        throw EvaluateError.unexpectedExpression(expression.getExpressionType().toString());
     }
 
     private Object evaluateNumberExpression(AnnotatedLiteralExpression node)
@@ -84,7 +85,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw new Exception(String.format("EXCEPTION: Unexpected unary operator '%s'.", operatorType));
+                throw EvaluateError.unexpectedUnaryOperator(operatorType.toString());
         }
     }
 
@@ -103,12 +104,12 @@ public final class Evaluator
             case MULTIPLICATION_OPERATOR:
                 return (int) left * (int) right;
             case DIVISION_OPERATOR:
-                if((int) right == 0) return 0;
+                if ((int) right == 0) return 0;
                 return (int) left / (int) right;
             case POWER_OPERATOR:
                 return (int) Math.pow((int) left, (int) right);
             case MODULO_OPERATOR:
-                if((int) right == 0) return 0;
+                if ((int) right == 0) return 0;
                 return (int) left % (int) right;
             case AND_OPERATOR:
                 return (boolean) left && (boolean) right;
@@ -127,7 +128,7 @@ public final class Evaluator
             case LESS_EQUALS_OPERATOR:
                 return (int) left <= (int) right;
             default:
-                throw new Exception(String.format("EXCEPTION: Unexpected binary operator '%s'.", tokenKind));
+                throw EvaluateError.unexpectedBinaryOperator(tokenKind.toString());
         }
     }
 
@@ -136,7 +137,7 @@ public final class Evaluator
         String name = node.getName();
         if (this.symbolTable.containsSymbol(name))
             return this.symbolTable.getSymbol(node.getName()).getValue();
-        throw new Exception(String.format("EXCEPTION: Symbol '%s' does not exist in symbol table.", name));
+        throw EvaluateError.missingSymbol(name);
     }
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression node) throws Exception

@@ -1,7 +1,6 @@
 package errors;
 
 import identifiers.ErrorType;
-import identifiers.ObjectType;
 import lombok.Getter;
 import source.SourceSpan;
 
@@ -16,22 +15,28 @@ public final class EvaluateError extends Error
         this.errorType = ErrorType.EVALUATE_ERROR;
     }
 
-    public static EvaluateError unexpectedNode(ObjectType type)
+    public static Exception unexpectedExpression(String expression)
     {
-        String message = String.format("Unexpected node '%s'.", type);
-        return new EvaluateError(null, message);
+        String message = String.format("Unexpected expression '%s'.", expression);
+        return new Exception(message);
     }
 
-    public static EvaluateError unexpectedUnaryOperator(ObjectType type)
+    public static Exception unexpectedUnaryOperator(String operator)
     {
-        String message = String.format("Unexpected unary operator '%s'.", type);
-        return new EvaluateError(null, message);
+        String message = String.format("Unexpected unary operator '%s'.", operator);
+        return new Exception(message);
     }
 
-    public static EvaluateError unexpectedBinaryOperator(ObjectType type)
+    public static Exception unexpectedBinaryOperator(String operator)
     {
-        String message = String.format("Unexpected binary operator '%s'.", type);
-        return new EvaluateError(null, message);
+        String message = String.format("Unexpected binary operator '%s'.", operator);
+        return new Exception(message);
+    }
+
+    public static Exception missingSymbol(String name)
+    {
+        String message = String.format("Symbol '%s' does not exist in symbol table.", name);
+        return new Exception(message);
     }
 
     @Override
