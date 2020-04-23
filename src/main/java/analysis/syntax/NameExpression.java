@@ -1,7 +1,7 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.TokenType;
+import identifiers.ExpressionType;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ import java.util.List;
 public final class NameExpression extends Expression
 {
     private final Token identifierToken;
-    private final TokenType tokenType;
+    private final ExpressionType expressionType;
     private final List<Object> children;
 
     public NameExpression(Token identifierToken)
     {
         this.identifierToken = identifierToken;
-        this.tokenType = TokenType.NAME_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.NAME_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Collections.singletonList(identifierToken));
     }
 }

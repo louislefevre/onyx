@@ -1,7 +1,7 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.TokenType;
+import identifiers.ExpressionType;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public final class BinaryExpression extends Expression
     private final Expression leftTerm;
     private final Token operatorToken;
     private final Expression rightTerm;
-    private final TokenType tokenType;
+    private final ExpressionType expressionType;
     private final List<Object> children;
 
     public BinaryExpression(Expression leftTerm, Token operatorToken, Expression rightTerm)
@@ -22,7 +22,7 @@ public final class BinaryExpression extends Expression
         this.leftTerm = leftTerm;
         this.operatorToken = operatorToken;
         this.rightTerm = rightTerm;
-        this.tokenType = TokenType.BINARY_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.BINARY_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Arrays.asList(leftTerm, operatorToken, rightTerm));
     }
 }

@@ -38,7 +38,7 @@ public final class TypeChecker
 
     private AnnotatedExpression annotateExpression(Expression syntax)
     {
-        switch (syntax.getTokenType())
+        switch (syntax.getExpressionType())
         {
             case PARENTHESIZED_EXPRESSION_TOKEN:
                 return this.annotateParenthesizedExpression((ParenthesizedExpression) syntax);
@@ -135,7 +135,7 @@ public final class TypeChecker
     {
         try
         {
-            throw SemanticError.undefinedExpression(syntax.getTokenType().toString());
+            throw SemanticError.undefinedExpression(syntax.getExpressionType().toString());
         } catch (Exception err)
         {
             System.out.println(err.getMessage());

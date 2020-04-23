@@ -32,7 +32,7 @@ public final class ParseTree
         String marker = isLast ? "└──" : "├──";
 
         if (node instanceof Expression)
-            System.out.print(indent + marker + ((Expression) node).getTokenType());
+            System.out.print(indent + marker + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
             System.out.print(indent + marker + ((Token) node).getTokenType());
 

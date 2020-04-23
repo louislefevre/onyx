@@ -1,7 +1,7 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.TokenType;
+import identifiers.ExpressionType;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ public final class UnaryExpression extends Expression
 {
     private final Token operatorToken;
     private final Expression operand;
-    private final TokenType tokenType;
+    private final ExpressionType expressionType;
     private final List<Object> children;
 
     public UnaryExpression(Token operatorToken, Expression operand)
     {
         this.operatorToken = operatorToken;
         this.operand = operand;
-        this.tokenType = TokenType.UNARY_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.UNARY_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Arrays.asList(operatorToken, operand));
     }
 }

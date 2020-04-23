@@ -1,12 +1,12 @@
 package analysis.syntax;
 
-import identifiers.TokenType;
+import identifiers.ExpressionType;
 
 import java.util.List;
 
 public abstract class Expression
 {
-    public abstract TokenType getTokenType();
+    public abstract ExpressionType getExpressionType();
 
     public abstract List<Object> getChildren();
 }
