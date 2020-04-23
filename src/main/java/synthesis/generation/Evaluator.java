@@ -33,17 +33,8 @@ public final class Evaluator
             return this.evaluateExpression(this.annotatedParseTree.getExpression());
         } catch (Exception exception)
         {
-            StackTraceElement stackTraceElement = exception.getStackTrace()[0];
-            int lineNumber = stackTraceElement.getLineNumber();
-            String className = stackTraceElement.getClassName();
-
-            String location = String.format("Line %1s: Exception occurred at %2s", lineNumber, className);
-            String message = exception.getMessage();
-
-            System.out.println(location);
-            System.out.println(message);
+            return EvaluateError.exceptionOccurred(exception);
         }
-        return null;
     }
 
     private Object evaluateExpression(AnnotatedExpression expression) throws Exception
@@ -96,14 +87,14 @@ public final class Evaluator
         OperatorType operatorType = expression.getOperator().getOperatorType();
         Object result = null;
 
-        if((left instanceof Integer && right instanceof Integer) ||
-           (left instanceof Boolean && right instanceof Boolean))
-            result =  this.evaluateBinaryPrimitiveExpression(left, right, operatorType);
+        if ((left instanceof Integer && right instanceof Integer) ||
+            (left instanceof Boolean && right instanceof Boolean))
+            result = this.evaluateBinaryPrimitiveExpression(left, right, operatorType);
 
-        if(left instanceof String && right instanceof String)
-            result =  this.evaluateBinaryStringExpression(left, right, operatorType);
+        if (left instanceof String && right instanceof String)
+            result = this.evaluateBinaryStringExpression(left, right, operatorType);
 
-        if(result != null)
+        if (result != null)
             return result;
 
         throw EvaluateError.unexpectedBinaryOperator(operatorType.toString());
