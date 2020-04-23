@@ -13,14 +13,12 @@ public final class Lexer
 {
     private final SourceInput sourceInput;
     private final ErrorHandler errorHandler;
-    private final List<Token> tokens;
     private int position;
 
     public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
     {
         this.sourceInput = sourceInput;
         this.errorHandler = errorHandler;
-        this.tokens = new ArrayList<>();
         this.position = 0;
     }
 
@@ -31,6 +29,7 @@ public final class Lexer
 
     private List<Token> lexTokens()
     {
+        List<Token> tokens = new ArrayList<>();
         Token token;
         do
         {
