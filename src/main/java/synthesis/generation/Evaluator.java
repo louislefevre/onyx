@@ -54,7 +54,7 @@ public final class Evaluator
         if (expression instanceof AnnotatedAssignmentExpression)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
 
-        throw EvaluateError.unexpectedExpression(expression.getExpressionType().toString());
+        throw EvaluateError.unexpectedExpression(expression.getAnnotatedExpressionType().toString());
     }
 
     private Object evaluateNumberExpression(AnnotatedLiteralExpression expression)
