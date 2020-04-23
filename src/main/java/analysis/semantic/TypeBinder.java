@@ -91,6 +91,10 @@ public final class TypeBinder
                     new AnnotatedBinaryOperator(TokenType.EQUALS_EQUALS_TOKEN,
                                                 OperatorType.EQUALS_EQUALS_OPERATOR,
                                                 ObjectType.STRING_OBJECT,
+                                                ObjectType.BOOLEAN_OBJECT),
+                    new AnnotatedBinaryOperator(TokenType.NOT_EQUALS_TOKEN,
+                                                OperatorType.NOT_EQUALS_OPERATOR,
+                                                ObjectType.STRING_OBJECT,
                                                 ObjectType.BOOLEAN_OBJECT)
             };
 

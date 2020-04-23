@@ -18,7 +18,7 @@ public class ExpressionBinder
                                                 EQUALS_EQUALS_TOKEN, GREATER_TOKEN, LESS_TOKEN, GREATER_EQUALS_TOKEN,
                                                 LESS_EQUALS_TOKEN});
 
-        binds.put(STRING_TOKEN, new TokenType[]{PLUS_TOKEN, EQUALS_EQUALS_TOKEN});
+        binds.put(STRING_TOKEN, new TokenType[]{PLUS_TOKEN, EQUALS_EQUALS_TOKEN, NOT_EQUALS_TOKEN});
 
         binds.put(PLUS_TOKEN, new TokenType[]{NUMBER_TOKEN, STRING_TOKEN, OPEN_PARENTHESIS_TOKEN});
         binds.put(MINUS_TOKEN, new TokenType[]{NUMBER_TOKEN, OPEN_PARENTHESIS_TOKEN});
@@ -46,7 +46,7 @@ public class ExpressionBinder
         binds.put(EQUALS_EQUALS_TOKEN, new TokenType[]{NUMBER_TOKEN, OPEN_PARENTHESIS_TOKEN, TRUE_KEYWORD_TOKEN,
                                                        FALSE_KEYWORD_TOKEN, IDENTIFIER_KEYWORD_TOKEN, STRING_TOKEN});
         binds.put(NOT_EQUALS_TOKEN, new TokenType[]{NUMBER_TOKEN, OPEN_PARENTHESIS_TOKEN, TRUE_KEYWORD_TOKEN,
-                                                    FALSE_KEYWORD_TOKEN, IDENTIFIER_KEYWORD_TOKEN});
+                                                    FALSE_KEYWORD_TOKEN, IDENTIFIER_KEYWORD_TOKEN, STRING_TOKEN});
 
         binds.put(TRUE_KEYWORD_TOKEN, new TokenType[]{AND_TOKEN, OR_TOKEN, EQUALS_EQUALS_TOKEN, NOT_EQUALS_TOKEN});
         binds.put(FALSE_KEYWORD_TOKEN, new TokenType[]{AND_TOKEN, OR_TOKEN, EQUALS_EQUALS_TOKEN, NOT_EQUALS_TOKEN});

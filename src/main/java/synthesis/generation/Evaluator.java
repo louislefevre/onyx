@@ -87,9 +87,11 @@ public final class Evaluator
         OperatorType operatorType = expression.getOperator().getOperatorType();
         Object result = null;
 
-        if ((left instanceof Integer && right instanceof Integer) ||
-            (left instanceof Boolean && right instanceof Boolean))
-            result = this.evaluateBinaryPrimitiveExpression(left, right, operatorType);
+        if (left instanceof Integer && right instanceof Integer)
+            result = this.evaluateBinaryIntegerExpression(left, right, operatorType);
+
+        if (left instanceof Boolean && right instanceof Boolean)
+            result = this.evaluateBinaryBooleanExpression(left, right, operatorType);
 
         if (left instanceof String && right instanceof String)
             result = this.evaluateBinaryStringExpression(left, right, operatorType);
@@ -100,40 +102,59 @@ public final class Evaluator
         throw EvaluateError.unexpectedBinaryOperator(operatorType.toString());
     }
 
-    private Object evaluateBinaryPrimitiveExpression(Object left, Object right, OperatorType operatorType)
+    private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType)
     {
+        int leftInt = (int) left;
+        int rightInt = (int) right;
+
         switch (operatorType)
         {
             case ADDITION_OPERATOR:
-                return (int) left + (int) right;
+                return leftInt + rightInt;
             case SUBTRACTION_OPERATOR:
-                return (int) left - (int) right;
+                return leftInt - rightInt;
             case MULTIPLICATION_OPERATOR:
-                return (int) left * (int) right;
+                return leftInt * rightInt;
             case DIVISION_OPERATOR:
-                if ((int) right == 0) return 0;
-                return (int) left / (int) right;
+                if (rightInt == 0) return 0;
+                return leftInt / rightInt;
             case POWER_OPERATOR:
-                return (int) Math.pow((int) left, (int) right);
+                return (int) Math.pow(leftInt, rightInt);
             case MODULO_OPERATOR:
-                if ((int) right == 0) return 0;
-                return (int) left % (int) right;
-            case AND_OPERATOR:
-                return (boolean) left && (boolean) right;
-            case OR_OPERATOR:
-                return (boolean) left || (boolean) right;
-            case EQUALS_EQUALS_OPERATOR:
-                return left == right;
-            case NOT_EQUALS_OPERATOR:
-                return left != right;
+                if (rightInt == 0) return 0;
+                return leftInt % rightInt;
             case GREATER_OPERATOR:
-                return (int) left > (int) right;
+                return leftInt > rightInt;
             case LESS_OPERATOR:
-                return (int) left < (int) right;
+                return leftInt < rightInt;
             case GREATER_EQUALS_OPERATOR:
-                return (int) left >= (int) right;
+                return leftInt >= rightInt;
             case LESS_EQUALS_OPERATOR:
-                return (int) left <= (int) right;
+                return leftInt <= rightInt;
+            case EQUALS_EQUALS_OPERATOR:
+                return leftInt == rightInt;
+            case NOT_EQUALS_OPERATOR:
+                return leftInt != rightInt;
+            default:
+                return null;
+        }
+    }
+
+    private Object evaluateBinaryBooleanExpression(Object left, Object right, OperatorType operatorType)
+    {
+        boolean leftBool = (boolean) left;
+        boolean rightBool = (boolean) right;
+
+        switch (operatorType)
+        {
+            case AND_OPERATOR:
+                return leftBool && rightBool;
+            case OR_OPERATOR:
+                return leftBool || rightBool;
+            case EQUALS_EQUALS_OPERATOR:
+                return leftBool == rightBool;
+            case NOT_EQUALS_OPERATOR:
+                return leftBool != rightBool;
             default:
                 return null;
         }
@@ -141,12 +162,17 @@ public final class Evaluator
 
     private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType)
     {
+        String leftString = left.toString();
+        String rightString = right.toString();
+
         switch (operatorType)
         {
             case ADDITION_OPERATOR:
-                return left.toString() + right.toString();
+                return leftString + rightString;
             case EQUALS_EQUALS_OPERATOR:
-                return left.toString().equals(right.toString());
+                return leftString.equals(rightString);
+            case NOT_EQUALS_OPERATOR:
+                return !leftString.equals(rightString);
             default:
                 return null;
         }
