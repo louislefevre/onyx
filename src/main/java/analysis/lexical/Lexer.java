@@ -122,31 +122,38 @@ public final class Lexer
 
     private Token stringToken()
     {
-        int startPos = this.currentPositionThenNext(1);
+        StringBuilder syntaxBuilder = new StringBuilder(); // Includes quotes
+        StringBuilder valueBuilder = new StringBuilder(); // Doesn't include quotes
+        TokenType tokenType;
 
-        StringBuilder builder = new StringBuilder();
+        syntaxBuilder.append(currentChar());
+        int startPos = this.currentPositionThenNext(1);
 
         while (true)
         {
             String currentChar = this.currentChar();
 
-            if(currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
+            if (currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
             {
-                LexicalError error = LexicalError.incompleteString(builder.toString(), startPos, this.position - startPos);
+                tokenType = TokenType.BAD_TOKEN;
+                LexicalError error = LexicalError.incompleteString(valueBuilder.toString(), startPos,
+                                                                   this.position - startPos);
                 this.errorHandler.addError(error);
                 break;
             }
-            else if(currentChar.equals("\""))
+            else if (currentChar.equals("\""))
             {
+                tokenType = TokenType.STRING_TOKEN;
+                syntaxBuilder.append(currentChar);
                 this.nextPosition();
                 break;
             }
-
-            builder.append(currentChar);
+            syntaxBuilder.append(currentChar);
+            valueBuilder.append(currentChar);
             this.nextPosition();
         }
-        String str = builder.toString();
-        return new Token(TokenType.STRING_TOKEN, "\""+str+"\"", str, startPos);
+
+        return new Token(tokenType, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
     }
 
     private Token symbolToken()
