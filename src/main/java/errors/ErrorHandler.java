@@ -60,7 +60,7 @@ public final class ErrorHandler
                 suffixSyntax = this.sourceInput.substring(errorEnd, lineEnd);
             }
 
-            lines.add(createText(errorMessage + System.getProperty("line.separator"), Color.RED));
+            lines.add(createText(errorMessage + System.getProperty("line.separator") + "    ", Color.RED));
 
             if (!prefixSyntax.isBlank())
                 lines.add(createText(prefixSyntax, Color.GREY));

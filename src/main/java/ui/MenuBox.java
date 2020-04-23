@@ -30,17 +30,17 @@ public final class MenuBox
     private MenuBar generateMenuBar()
     {
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(this.createOpenMenu(), this.createEditMenu(),
+        menuBar.getMenus().addAll(this.createFileMenu(), this.createEditMenu(),
                                   this.createFormatMenu(), this.createRunMenu(),
                                   this.createOptionsMenu(), this.createHelpMenu());
 
         return menuBar;
     }
 
-    private Menu createOpenMenu()
+    private Menu createFileMenu()
     {
-        Menu openMenu = new Menu("Open");
-        MenuItem open = new MenuItem("File");
+        Menu openMenu = new Menu("File");
+        MenuItem open = new MenuItem("Open");
         MenuItem save = new MenuItem("Save");
         MenuItem saveAs = new MenuItem("Save As");
         openMenu.getItems().addAll(open, save, saveAs);
