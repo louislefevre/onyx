@@ -1,6 +1,5 @@
 package analysis.syntax;
 
-import source.SourceInput;
 import analysis.lexical.Lexer;
 import analysis.lexical.Syntax;
 import errors.ErrorHandler;
@@ -8,6 +7,7 @@ import identifiers.TokenType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import source.SourceInput;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,7 +44,7 @@ class ParserTest
         String message = "Failed to identify numerical unary expression: ";
 
         int valueLimit = 1000;
-        String[] unaryOperators = {Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax(), Syntax.NOT.getSyntax()};
+        String[] unaryOperators = {Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax()};
 
         for (int i = 0, j = 0; i <= valueLimit; i++, j++)
         {
@@ -91,7 +91,7 @@ class ParserTest
                                     Syntax.GREATER_EQUALS.getSyntax(), Syntax.LESS_EQUALS.getSyntax()};
         String[] unaryOperators = {"",
                                    Syntax.PLUS.getSyntax(), Syntax.MINUS.getSyntax(),
-                                   Syntax.NOT.getSyntax(), Syntax.OPEN_PARENTHESIS.getSyntax()};
+                                   Syntax.OPEN_PARENTHESIS.getSyntax()};
 
         for (int i = 0, j = 0; i <= valueLimit; i++, j++)
         {
@@ -151,7 +151,7 @@ class ParserTest
             String parenthesizedSyntax = Syntax.OPEN_PARENTHESIS.getSyntax() +
                                          syntax +
                                          Syntax.CLOSE_PARENTHESIS.getSyntax();
-            assertEquals(expectedExpression, expressionTypeOf(parenthesizedSyntax), message + expectedExpression);
+            assertEquals(expectedExpression, expressionTypeOf(parenthesizedSyntax), message + syntax);
         }
     }
 
