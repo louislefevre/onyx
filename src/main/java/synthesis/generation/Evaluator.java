@@ -66,15 +66,15 @@ public final class Evaluator
         throw EvaluateError.unexpectedExpression(expression.getExpressionType().toString());
     }
 
-    private Object evaluateNumberExpression(AnnotatedLiteralExpression node)
+    private Object evaluateNumberExpression(AnnotatedLiteralExpression expression)
     {
-        return node.getValue();
+        return expression.getValue();
     }
 
-    private Object evaluateUnaryExpression(AnnotatedUnaryExpression node) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedUnaryExpression expression) throws Exception
     {
-        Object operand = this.evaluateExpression(node.getOperand());
-        OperatorType operatorType = node.getOperator().getOperatorType();
+        Object operand = this.evaluateExpression(expression.getOperand());
+        OperatorType operatorType = expression.getOperator().getOperatorType();
 
         switch (operatorType)
         {
@@ -89,11 +89,11 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateBinaryExpression(AnnotatedBinaryExpression node) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedBinaryExpression expression) throws Exception
     {
-        Object left = this.evaluateExpression(node.getLeftTerm());
-        Object right = this.evaluateExpression(node.getRightTerm());
-        OperatorType operatorType = node.getOperator().getOperatorType();
+        Object left = this.evaluateExpression(expression.getLeftTerm());
+        Object right = this.evaluateExpression(expression.getRightTerm());
+        OperatorType operatorType = expression.getOperator().getOperatorType();
         Object result = null;
 
         if((left instanceof Integer && right instanceof Integer) ||
@@ -161,18 +161,18 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateVariableExpression(AnnotatedVariableExpression node) throws Exception
+    private Object evaluateVariableExpression(AnnotatedVariableExpression expression) throws Exception
     {
-        String name = node.getName();
+        String name = expression.getName();
         if (this.symbolTable.containsSymbol(name))
-            return this.symbolTable.getSymbol(node.getName()).getValue();
+            return this.symbolTable.getSymbol(expression.getName()).getValue();
         throw EvaluateError.missingSymbol(name);
     }
 
-    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression node) throws Exception
+    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression expression) throws Exception
     {
-        Object value = this.evaluateExpression(node.getExpression());
-        this.symbolTable.addSymbol(node.getName(), value, node.getObjectType());
+        Object value = this.evaluateExpression(expression.getExpression());
+        this.symbolTable.addSymbol(expression.getName(), value, expression.getObjectType());
         return value;
     }
 }
