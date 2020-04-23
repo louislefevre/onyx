@@ -55,7 +55,7 @@ public final class Lexer
 
     private Token endToken()
     {
-        return new Token(TokenType.EOF_TOKEN, Syntax.EOF.getSyntax(), null, this.position);
+        return new Token(TokenType.EOF_TOKEN, Syntax.EOF.getSyntax(), this.position);
     }
 
     private Token whitespaceToken()
@@ -67,7 +67,7 @@ public final class Lexer
 
         String text = this.sourceInput.substring(startPos, this.position);
 
-        return new Token(TokenType.WHITE_SPACE_TOKEN, text, null, startPos);
+        return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
     private Token numberToken()
@@ -107,11 +107,11 @@ public final class Lexer
         else if (Syntax.FALSE.getSyntax().equals(text))
             return new Token(TokenType.FALSE_KEYWORD_TOKEN, Syntax.FALSE.getSyntax(), false, pos);
         else if (Syntax.AND.getSyntax().equals(text))
-            return new Token(TokenType.AND_TOKEN, Syntax.AND.getSyntax(), null, pos);
+            return new Token(TokenType.AND_TOKEN, Syntax.AND.getSyntax(), pos);
         else if (Syntax.OR.getSyntax().equals(text))
-            return new Token(TokenType.OR_TOKEN, Syntax.OR.getSyntax(), null, pos);
+            return new Token(TokenType.OR_TOKEN, Syntax.OR.getSyntax(), pos);
 
-        return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, null, pos);
+        return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
     }
 
     private Token stringToken()
@@ -154,81 +154,81 @@ public final class Lexer
         String currentChar = this.currentChar();
         String nextChar = this.nextChar();
 
-        if (Syntax.PLUS.getSyntax().equals(currentChar))
+        if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
+        {
+            return this.stringToken();
+        }
+        else if (Syntax.PLUS.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.PLUS_TOKEN, Syntax.PLUS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.MINUS.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.MINUS_TOKEN, Syntax.MINUS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.STAR.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.STAR_TOKEN, Syntax.STAR.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.SLASH.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.SLASH_TOKEN, Syntax.SLASH.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.CARET.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.CARET_TOKEN, Syntax.CARET.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.PERCENT.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.PERCENT_TOKEN, Syntax.PERCENT.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.OPEN_PARENTHESIS.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, Syntax.OPEN_PARENTHESIS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.CLOSE_PARENTHESIS.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, Syntax.CLOSE_PARENTHESIS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
-        }
-        else if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
-        {
-            return this.stringToken();
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.EQUALS.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.EQUALS_EQUALS_TOKEN, Syntax.EQUALS_EQUALS.getSyntax(),
-                                 null, this.currentPositionThenNext(2));
+                                 this.currentPositionThenNext(2));
             return new Token(TokenType.EQUALS_TOKEN, Syntax.EQUALS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.NOT.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.NOT_EQUALS_TOKEN, Syntax.NOT_EQUALS.getSyntax(),
-                                 null, this.currentPositionThenNext(2));
+                                 this.currentPositionThenNext(2));
             return new Token(TokenType.NOT_TOKEN, Syntax.NOT.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.GREATER.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.GREATER_EQUALS_TOKEN, Syntax.GREATER_EQUALS.getSyntax(),
-                                 null, this.currentPositionThenNext(2));
+                                 this.currentPositionThenNext(2));
             return new Token(TokenType.GREATER_TOKEN, Syntax.GREATER.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
         else if (Syntax.LESS.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.LESS_EQUALS_TOKEN, Syntax.LESS_EQUALS.getSyntax(),
-                                 null, this.currentPositionThenNext(2));
+                                 this.currentPositionThenNext(2));
             return new Token(TokenType.LESS_TOKEN, Syntax.LESS.getSyntax(),
-                             null, this.currentPositionThenNext(1));
+                             this.currentPositionThenNext(1));
         }
 
         return this.badToken();
@@ -237,8 +237,9 @@ public final class Lexer
     private Token badToken()
     {
         this.errorHandler.addError(LexicalError.badCharacter(this.currentChar(), this.position, 1));
-        return new Token(TokenType.BAD_TOKEN, sourceInput.substring(minimumZero(this.position - 1), this.position),
-                         null, this.currentPositionThenNext(1));
+        return new Token(TokenType.BAD_TOKEN,
+                         sourceInput.substring(minimumZero(this.position - 1), this.position),
+                         this.currentPositionThenNext(1));
     }
 
     private String currentChar()

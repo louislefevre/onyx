@@ -21,4 +21,9 @@ public final class Token
         this.position = position;
         this.span = new SourceSpan(position, syntax.length());
     }
+
+    public Token(TokenType tokenType, String syntax, int position)
+    {
+        this(tokenType, syntax, null, position);
+    }
 }
