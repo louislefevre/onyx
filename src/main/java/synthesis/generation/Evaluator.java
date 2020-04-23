@@ -182,7 +182,7 @@ public final class Evaluator
     {
         String name = expression.getName();
         if (this.symbolTable.containsSymbol(name))
-            return this.symbolTable.getSymbol(expression.getName()).getValue();
+            return this.symbolTable.getSymbol(name).getValue();
         throw EvaluationError.missingSymbol(name);
     }
 

@@ -28,8 +28,8 @@ public final class Parser
 
     private Expression parseExpression()
     {
-        if(this.nextToken().getTokenType() != TokenType.EOF_TOKEN &&
-           !ExpressionBinder.isBindable(this.currentToken(), this.nextToken()))
+        if (this.nextToken().getTokenType() != TokenType.EOF_TOKEN &&
+            !ExpressionBinder.isBindable(this.currentToken(), this.nextToken()))
         {
             this.nextPosition();
             return this.parseUnknownExpression();
@@ -114,11 +114,9 @@ public final class Parser
         Expression expression = this.parseExpression();
         Token right = this.currentTokenThenNext();
 
-        if(right.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
-        {
-            SyntaxError error = SyntaxError.unexpectedTokenMatch(right.getSpan(), right.getTokenType(), TokenType.CLOSE_PARENTHESIS_TOKEN);
-            this.errorHandler.addError(error);
-        }
+        if (right.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
+            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(right.getSpan(), right.getTokenType(),
+                                                                        TokenType.CLOSE_PARENTHESIS_TOKEN));
 
         return new ParenthesizedExpression(left, expression, right);
     }
@@ -153,8 +151,7 @@ public final class Parser
     private Expression parseUnknownExpression()
     {
         Token token = this.currentTokenThenNext();
-        SyntaxError error = SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType());
-        this.errorHandler.addError(error);
+        this.errorHandler.addError(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
         return new LiteralExpression(token, null);
     }
 

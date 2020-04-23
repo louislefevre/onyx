@@ -26,6 +26,7 @@ public final class SymbolTable
         if (this.containsSymbol(name))
         {
             Symbol symbol = this.getSymbol(name);
+            assert symbol != null;
             symbol.setValue(value);
             symbol.setType(type);
             return;

@@ -77,10 +77,9 @@ public final class TypeChecker
 
         if (annotatedOperator == null)
         {
-            SemanticError error = SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(),
-                                                                       syntax.getOperatorToken().getSyntax(),
-                                                                       annotatedOperand.getObjectType());
-            this.errorHandler.addError(error);
+            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(),
+                                                                            syntax.getOperatorToken().getSyntax(),
+                                                                            annotatedOperand.getObjectType()));
             return annotatedOperand;
         }
 
@@ -98,11 +97,10 @@ public final class TypeChecker
 
         if (annotatedOperator == null)
         {
-            SemanticError error = SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(),
-                                                                        syntax.getOperatorToken().getSyntax(),
-                                                                        annotatedLeft.getObjectType(),
-                                                                        annotatedRight.getObjectType());
-            this.errorHandler.addError(error);
+            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(),
+                                                                             syntax.getOperatorToken().getSyntax(),
+                                                                             annotatedLeft.getObjectType(),
+                                                                             annotatedRight.getObjectType()));
             return annotatedLeft;
         }
 
@@ -115,8 +113,7 @@ public final class TypeChecker
 
         if (!this.symbolTable.containsSymbol(name))
         {
-            SemanticError error = SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name);
-            this.errorHandler.addError(error);
+            this.errorHandler.addError(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
             return new AnnotatedLiteralExpression(null);
         }
         ObjectType type = this.symbolTable.getSymbol(name).getType();
