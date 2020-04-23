@@ -102,7 +102,7 @@ public final class Parser
             case STRING_TOKEN:
                 return this.parseStringExpression();
             case IDENTIFIER_KEYWORD_TOKEN:
-                return this.parseNameExpression();
+                return this.parseIdentifierExpression();
             default:
                 return this.parseUnknownExpression();
         }
@@ -142,10 +142,10 @@ public final class Parser
         return new LiteralExpression(stringToken, value);
     }
 
-    private Expression parseNameExpression()
+    private Expression parseIdentifierExpression()
     {
         Token identifierToken = this.currentTokenThenNext();
-        return new NameExpression(identifierToken);
+        return new IdentifierExpression(identifierToken);
     }
 
     private Expression parseUnknownExpression()

@@ -31,54 +31,54 @@ public final class TypeChecker
     }
 
     @Nullable
-    private AnnotatedExpression annotate(Expression syntax)
+    private AnnotatedExpression annotate(Expression expression)
     {
-        return this.annotateExpression(syntax);
+        return this.annotateExpression(expression);
     }
 
-    private AnnotatedExpression annotateExpression(Expression syntax)
+    private AnnotatedExpression annotateExpression(Expression expression)
     {
-        switch (syntax.getExpressionType())
+        switch (expression.getExpressionType())
         {
             case PARENTHESIZED_EXPRESSION_TOKEN:
-                return this.annotateParenthesizedExpression((ParenthesizedExpression) syntax);
+                return this.annotateParenthesizedExpression((ParenthesizedExpression) expression);
             case LITERAL_EXPRESSION_TOKEN:
-                return this.annotateLiteralExpression((LiteralExpression) syntax);
+                return this.annotateLiteralExpression((LiteralExpression) expression);
             case UNARY_EXPRESSION_TOKEN:
-                return this.annotateUnaryExpression((UnaryExpression) syntax);
+                return this.annotateUnaryExpression((UnaryExpression) expression);
             case BINARY_EXPRESSION_TOKEN:
-                return this.annotateBinaryExpression((BinaryExpression) syntax);
-            case NAME_EXPRESSION_TOKEN:
-                return this.annotateNameExpression((NameExpression) syntax);
+                return this.annotateBinaryExpression((BinaryExpression) expression);
+            case IDENTIFIER_EXPRESSION_TOKEN:
+                return this.annotateIdentifierExpression((IdentifierExpression) expression);
             case ASSIGNMENT_EXPRESSION_TOKEN:
-                return this.annotateAssignmentExpression((AssignmentExpression) syntax);
+                return this.annotateAssignmentExpression((AssignmentExpression) expression);
             default:
-                return this.unknownExpression(syntax);
+                return this.unknownExpression(expression);
         }
     }
 
-    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression syntax)
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression expression)
     {
-        return this.annotateExpression(syntax.getExpression());
+        return this.annotateExpression(expression.getExpression());
     }
 
-    private AnnotatedExpression annotateLiteralExpression(LiteralExpression syntax)
+    private AnnotatedExpression annotateLiteralExpression(LiteralExpression expression)
     {
-        Object value = syntax.getValue();
+        Object value = expression.getValue();
         return new AnnotatedLiteralExpression(value);
     }
 
-    private AnnotatedExpression annotateUnaryExpression(UnaryExpression syntax)
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression expression)
     {
-        AnnotatedExpression annotatedOperand = this.annotateExpression(syntax.getOperand());
+        AnnotatedExpression annotatedOperand = this.annotateExpression(expression.getOperand());
         AnnotatedUnaryOperator annotatedOperator =
-                TypeBinder.bindUnaryOperators(syntax.getOperatorToken().getTokenType(),
+                TypeBinder.bindUnaryOperators(expression.getOperatorToken().getTokenType(),
                                               annotatedOperand.getObjectType());
 
         if (annotatedOperator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(syntax.getOperatorToken().getSpan(),
-                                                                            syntax.getOperatorToken().getSyntax(),
+            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(expression.getOperatorToken().getSpan(),
+                                                                            expression.getOperatorToken().getSyntax(),
                                                                             annotatedOperand.getObjectType()));
             return annotatedOperand;
         }
@@ -86,19 +86,19 @@ public final class TypeChecker
         return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    private AnnotatedExpression annotateBinaryExpression(BinaryExpression syntax)
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression expression)
     {
-        AnnotatedExpression annotatedLeft = this.annotateExpression(syntax.getLeftTerm());
-        AnnotatedExpression annotatedRight = this.annotateExpression(syntax.getRightTerm());
+        AnnotatedExpression annotatedLeft = this.annotateExpression(expression.getLeftTerm());
+        AnnotatedExpression annotatedRight = this.annotateExpression(expression.getRightTerm());
         AnnotatedBinaryOperator annotatedOperator =
-                TypeBinder.bindBinaryOperators(syntax.getOperatorToken().getTokenType(),
+                TypeBinder.bindBinaryOperators(expression.getOperatorToken().getTokenType(),
                                                annotatedLeft.getObjectType(),
                                                annotatedRight.getObjectType());
 
         if (annotatedOperator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(syntax.getOperatorToken().getSpan(),
-                                                                             syntax.getOperatorToken().getSyntax(),
+            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(expression.getOperatorToken().getSpan(),
+                                                                             expression.getOperatorToken().getSyntax(),
                                                                              annotatedLeft.getObjectType(),
                                                                              annotatedRight.getObjectType()));
             return annotatedLeft;
@@ -107,13 +107,13 @@ public final class TypeChecker
         return new AnnotatedBinaryExpression(annotatedLeft, annotatedOperator, annotatedRight);
     }
 
-    private AnnotatedExpression annotateNameExpression(NameExpression syntax)
+    private AnnotatedExpression annotateIdentifierExpression(IdentifierExpression expression)
     {
-        String name = syntax.getIdentifierToken().getSyntax();
+        String name = expression.getIdentifierToken().getSyntax();
 
         if (!this.symbolTable.containsSymbol(name))
         {
-            this.errorHandler.addError(SemanticError.undefinedName(syntax.getIdentifierToken().getSpan(), name));
+            this.errorHandler.addError(SemanticError.undefinedIdentifier(expression.getIdentifierToken().getSpan(), name));
             return new AnnotatedLiteralExpression(null);
         }
         ObjectType type = this.symbolTable.getSymbol(name).getType();
@@ -121,18 +121,18 @@ public final class TypeChecker
         return new AnnotatedVariableExpression(name, type);
     }
 
-    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression syntax)
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression expression)
     {
-        String name = syntax.getIdentifierToken().getSyntax();
-        AnnotatedExpression expression = this.annotateExpression(syntax.getExpression());
-        return new AnnotatedAssignmentExpression(name, expression);
+        String name = expression.getIdentifierToken().getSyntax();
+        AnnotatedExpression annotatedExpression = this.annotateExpression(expression.getExpression());
+        return new AnnotatedAssignmentExpression(name, annotatedExpression);
     }
 
-    private AnnotatedExpression unknownExpression(Expression syntax)
+    private AnnotatedExpression unknownExpression(Expression expression)
     {
         try
         {
-            throw SemanticError.undefinedExpression(syntax.getExpressionType().toString());
+            throw SemanticError.undefinedExpression(expression.getExpressionType().toString());
         } catch (Exception err)
         {
             System.out.println(err.getMessage());

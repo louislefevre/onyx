@@ -189,7 +189,7 @@ class ParserTest
     @Test
     public void parserIdentifiesNameExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.NAME_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.IDENTIFIER_EXPRESSION_TOKEN;
         String message = "Failed to identify name expression: ";
 
         String[] inputSyntax = {"a", "aaa", "var", "myVeryLongVariableName"};

@@ -9,16 +9,16 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public final class NameExpression extends Expression
+public final class IdentifierExpression extends Expression
 {
     private final Token identifierToken;
     private final ExpressionType expressionType;
     private final List<Object> children;
 
-    public NameExpression(Token identifierToken)
+    public IdentifierExpression(Token identifierToken)
     {
         this.identifierToken = identifierToken;
-        this.expressionType = ExpressionType.NAME_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.IDENTIFIER_EXPRESSION_TOKEN;
         this.children = new ArrayList<>(Collections.singletonList(identifierToken));
     }
 }
