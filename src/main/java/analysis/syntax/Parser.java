@@ -31,8 +31,8 @@ public final class Parser
         if(this.nextToken().getTokenType() != TokenType.EOF_TOKEN &&
            !ExpressionBinder.isBindable(this.currentToken(), this.nextToken()))
         {
-                this.nextPosition();
-                return this.parseUnknownExpression();
+            this.nextPosition();
+            return this.parseUnknownExpression();
         }
 
         if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
@@ -99,6 +99,8 @@ public final class Parser
                 return this.parseBooleanExpression();
             case NUMBER_TOKEN:
                 return this.parseNumberExpression();
+            case STRING_TOKEN:
+                return this.parseStringExpression();
             case IDENTIFIER_KEYWORD_TOKEN:
                 return this.parseNameExpression();
             default:
@@ -133,6 +135,13 @@ public final class Parser
         Token numberToken = this.currentTokenThenNext();
         Object value = numberToken.getValue();
         return new LiteralExpression(numberToken, value);
+    }
+
+    private Expression parseStringExpression()
+    {
+        Token stringToken = this.currentTokenThenNext();
+        Object value = stringToken.getValue();
+        return new LiteralExpression(stringToken, value);
     }
 
     private Expression parseNameExpression()

@@ -50,6 +50,8 @@ public final class Utilities
     {
         if (object instanceof Integer)
             return ObjectType.INTEGER_OBJECT;
+        else if (object instanceof String)
+            return ObjectType.STRING_OBJECT;
         else if (object instanceof Boolean)
             return ObjectType.BOOLEAN_OBJECT;
         else

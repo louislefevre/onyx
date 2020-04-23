@@ -10,6 +10,7 @@ public enum Syntax
     PERCENT("%"),
     OPEN_PARENTHESIS("("),
     CLOSE_PARENTHESIS(")"),
+    DOUBLE_QUOTES("\""),
     EQUALS("="),
     EQUALS_EQUALS("=="),
     NOT("!"),

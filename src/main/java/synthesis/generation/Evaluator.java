@@ -93,9 +93,25 @@ public final class Evaluator
     {
         Object left = this.evaluateExpression(node.getLeftTerm());
         Object right = this.evaluateExpression(node.getRightTerm());
-        OperatorType tokenKind = node.getOperator().getOperatorType();
+        OperatorType operatorType = node.getOperator().getOperatorType();
+        Object result = null;
 
-        switch (tokenKind)
+        if((left instanceof Integer && right instanceof Integer) ||
+           (left instanceof Boolean && right instanceof Boolean))
+            result =  this.evaluateBinaryPrimitiveExpression(left, right, operatorType);
+
+        if(left instanceof String && right instanceof String)
+            result =  this.evaluateBinaryStringExpression(left, right, operatorType);
+
+        if(result != null)
+            return result;
+
+        throw EvaluateError.unexpectedBinaryOperator(operatorType.toString());
+    }
+
+    private Object evaluateBinaryPrimitiveExpression(Object left, Object right, OperatorType operatorType)
+    {
+        switch (operatorType)
         {
             case ADDITION_OPERATOR:
                 return (int) left + (int) right;
@@ -128,7 +144,20 @@ public final class Evaluator
             case LESS_EQUALS_OPERATOR:
                 return (int) left <= (int) right;
             default:
-                throw EvaluateError.unexpectedBinaryOperator(tokenKind.toString());
+                return null;
+        }
+    }
+
+    private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType)
+    {
+        switch (operatorType)
+        {
+            case ADDITION_OPERATOR:
+                return left.toString() + right.toString();
+            case EQUALS_EQUALS_OPERATOR:
+                return left.toString().equals(right.toString());
+            default:
+                return null;
         }
     }
 

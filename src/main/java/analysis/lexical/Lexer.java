@@ -120,6 +120,35 @@ public final class Lexer
         return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
     }
 
+    private Token stringToken()
+    {
+        int startPos = this.currentPositionThenNext(1);
+
+        StringBuilder builder = new StringBuilder();
+
+        while (true)
+        {
+            String currentChar = this.currentChar();
+
+            if(currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
+            {
+                LexicalError error = LexicalError.incompleteString(builder.toString(), startPos, this.position - startPos);
+                this.errorHandler.addError(error);
+                break;
+            }
+            else if(currentChar.equals("\""))
+            {
+                this.nextPosition();
+                break;
+            }
+
+            builder.append(currentChar);
+            this.nextPosition();
+        }
+        String str = builder.toString();
+        return new Token(TokenType.STRING_TOKEN, "\""+str+"\"", str, startPos);
+    }
+
     private Token symbolToken()
     {
         String currentChar = this.currentChar();
@@ -157,6 +186,10 @@ public final class Lexer
         {
             return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, this.currentPositionThenNext(1));
         }
+        else if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
+        {
+            return this.stringToken();
+        }
         else if (Syntax.EQUALS.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
@@ -167,19 +200,19 @@ public final class Lexer
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.NOT_EQUALS_TOKEN, this.currentPositionThenNext(2));
-            return new Token(TokenType.NOT_TOKEN, this.position++);
+            return new Token(TokenType.NOT_TOKEN, this.currentPositionThenNext(1));
         }
         else if (Syntax.GREATER.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.GREATER_EQUALS_TOKEN, this.currentPositionThenNext(2));
-            return new Token(TokenType.GREATER_TOKEN, this.position++);
+            return new Token(TokenType.GREATER_TOKEN, this.currentPositionThenNext(1));
         }
         else if (Syntax.LESS.getSyntax().equals(currentChar))
         {
             if (Syntax.EQUALS.getSyntax().equals(nextChar))
                 return new Token(TokenType.LESS_EQUALS_TOKEN, this.currentPositionThenNext(2));
-            return new Token(TokenType.LESS_TOKEN, this.position++);
+            return new Token(TokenType.LESS_TOKEN, this.currentPositionThenNext(1));
         }
 
         return this.badToken();

@@ -4,6 +4,7 @@ public enum TokenType
 {
     // Primary Tokens
     NUMBER_TOKEN,
+    STRING_TOKEN,
     WHITE_SPACE_TOKEN,
 
     // Operator Tokens

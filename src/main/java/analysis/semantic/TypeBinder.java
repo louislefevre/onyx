@@ -83,6 +83,14 @@ public final class TypeBinder
                     new AnnotatedBinaryOperator(TokenType.NOT_EQUALS_TOKEN,
                                                 OperatorType.NOT_EQUALS_OPERATOR,
                                                 ObjectType.INTEGER_OBJECT,
+                                                ObjectType.BOOLEAN_OBJECT),
+
+                    new AnnotatedBinaryOperator(TokenType.PLUS_TOKEN,
+                                                OperatorType.ADDITION_OPERATOR,
+                                                ObjectType.STRING_OBJECT),
+                    new AnnotatedBinaryOperator(TokenType.EQUALS_EQUALS_TOKEN,
+                                                OperatorType.EQUALS_EQUALS_OPERATOR,
+                                                ObjectType.STRING_OBJECT,
                                                 ObjectType.BOOLEAN_OBJECT)
             };
 
@@ -90,10 +98,8 @@ public final class TypeBinder
     public static AnnotatedUnaryOperator bindUnaryOperators(TokenType tokenType, ObjectType operandObjectType)
     {
         for (AnnotatedUnaryOperator operator : unaryOperators)
-        {
             if (operator.getTokenType() == tokenType && operator.getOperandObjectType() == operandObjectType)
                 return operator;
-        }
 
         return null;
     }
@@ -103,12 +109,10 @@ public final class TypeBinder
                                                               ObjectType rightObjectType)
     {
         for (AnnotatedBinaryOperator operator : binaryOperators)
-        {
             if (operator.getTokenType() == tokenType &&
                 operator.getLeftObjectType() == leftObjectType &&
                 operator.getRightObjectType() == rightObjectType)
                 return operator;
-        }
 
         return null;
     }

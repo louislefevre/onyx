@@ -29,6 +29,13 @@ public final class LexicalError extends Error
         return new LexicalError(span, message);
     }
 
+    public static LexicalError incompleteString(String syntax, int start, int length)
+    {
+        SourceSpan span = new SourceSpan(start, length);
+        String message = String.format("Incomplete string '%s'.", syntax);
+        return new LexicalError(span, message);
+    }
+
     @Override
     public String toString()
     {
