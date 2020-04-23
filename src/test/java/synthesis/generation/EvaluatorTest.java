@@ -1,12 +1,12 @@
 package synthesis.generation;
 
-import source.SourceInput;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import source.SourceInput;
 import symbols.SymbolTable;
 
 import java.util.HashMap;
@@ -29,6 +29,8 @@ class EvaluatorTest
         data.put("false", false);
         data.put("!true", false);
         data.put("!false", true);
+        data.put("\"string\"", "string");
+        data.put("\"separated string\"", "separated string");
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));
@@ -44,6 +46,7 @@ class EvaluatorTest
         data.put("10 + 5", 15);
         data.put("+10 + +5", 15);
         data.put("-10 + -5", -15);
+        data.put("\"string\" + \"string\"", "stringstring");
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));
@@ -171,6 +174,8 @@ class EvaluatorTest
         data.put("false == true", false);
         data.put("10 == 10", true);
         data.put("10 == 5", false);
+        data.put("\"string\" == \"string\"", true);
+        data.put("\"string\" == \"notstring\"", false);
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));
@@ -192,6 +197,8 @@ class EvaluatorTest
         data.put("false != true", true);
         data.put("10 != 10", false);
         data.put("10 != 5", true);
+        data.put("\"string\" != \"string\"", false);
+        data.put("\"string\" != \"notstring\"", true);
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));
@@ -239,6 +246,8 @@ class EvaluatorTest
         data.put("a=10", 10);
         data.put("a=10*5", 50);
         data.put("a=true", true);
+        data.put("a = \"string\"", "string");
+        data.put("a = \"string\" + \"string\"", "stringstring");
 
         data.forEach((input, expected) ->
                              assertEquals(expected, createEvaluator(input).getEvaluation(), message + input));

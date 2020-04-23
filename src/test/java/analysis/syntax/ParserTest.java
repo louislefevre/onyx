@@ -26,6 +26,18 @@ class ParserTest
     }
 
     @Test
+    public void parserIdentifiesStringLiteralExpression()
+    {
+        TokenType expectedExpression = TokenType.LITERAL_EXPRESSION_TOKEN;
+        String message = "Failed to identify string literal expression: ";
+
+        String[] strings = {"\"a\"", "\"string\"", "\"separated string\"", "\"0\"",};
+
+        for (String str : strings)
+            assertEquals(expectedExpression, expressionTypeOf(str), message + str);
+    }
+
+    @Test
     public void parserIdentifiesConditionalLiteralExpression()
     {
         TokenType expectedExpression = TokenType.LITERAL_EXPRESSION_TOKEN;
@@ -109,6 +121,25 @@ class ParserTest
                 }
             }
             j += i; // Varies numbers (can be adapted)
+        }
+    }
+
+    @Test
+    public void parserIdentifiesStringBinaryExpression()
+    {
+        TokenType expectedExpression = TokenType.BINARY_EXPRESSION_TOKEN;
+        String message = "Failed to identify string binary expression: ";
+
+        String[] binaryOperators = {Syntax.PLUS.getSyntax(), Syntax.EQUALS_EQUALS.getSyntax()};
+        String[] strings = {"\"a\"", "\"string\"", "\"separated string\"", "\"0\"",};
+
+        for (String str : strings)
+        {
+            for (String op : binaryOperators)
+            {
+                String expression = str + op + str;
+                assertEquals(expectedExpression, expressionTypeOf(expression), message + expression);
+            }
         }
     }
 
