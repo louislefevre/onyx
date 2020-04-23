@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import static identifiers.TokenType.*;
 
-public class ExpressionBinder
+public final class ExpressionBinder
 {
     private final static HashMap<TokenType, TokenType[]> binds = new HashMap<>();
 
