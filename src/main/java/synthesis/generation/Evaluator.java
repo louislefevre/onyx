@@ -2,7 +2,7 @@ package synthesis.generation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;
-import errors.EvaluateError;
+import errors.EvaluationError;
 import identifiers.OperatorType;
 import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
@@ -33,7 +33,7 @@ public final class Evaluator
             return this.evaluateExpression(this.annotatedParseTree.getExpression());
         } catch (Exception exception)
         {
-            return EvaluateError.exceptionOccurred(exception);
+            return EvaluationError.exceptionOccurred(exception);
         }
     }
 
@@ -54,7 +54,7 @@ public final class Evaluator
         if (expression instanceof AnnotatedAssignmentExpression)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
 
-        throw EvaluateError.unexpectedExpression(expression.getAnnotatedExpressionType().toString());
+        throw EvaluationError.unexpectedExpression(expression.getAnnotatedExpressionType().toString());
     }
 
     private Object evaluateNumberExpression(AnnotatedLiteralExpression expression)
@@ -76,7 +76,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw EvaluateError.unexpectedUnaryOperator(operatorType.toString());
+                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
         }
     }
 
@@ -99,7 +99,7 @@ public final class Evaluator
         if (result != null)
             return result;
 
-        throw EvaluateError.unexpectedBinaryOperator(operatorType.toString());
+        throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
     }
 
     private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType)
@@ -183,7 +183,7 @@ public final class Evaluator
         String name = expression.getName();
         if (this.symbolTable.containsSymbol(name))
             return this.symbolTable.getSymbol(expression.getName()).getValue();
-        throw EvaluateError.missingSymbol(name);
+        throw EvaluationError.missingSymbol(name);
     }
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression expression) throws Exception

@@ -5,11 +5,11 @@ import lombok.Getter;
 import source.SourceSpan;
 
 @Getter
-public final class EvaluateError extends Error
+public final class EvaluationError extends Error
 {
     private final ErrorType errorType;
 
-    public EvaluateError(SourceSpan span, String errorMessage)
+    public EvaluationError(SourceSpan span, String errorMessage)
     {
         super(span, errorMessage);
         this.errorType = ErrorType.EVALUATE_ERROR;
