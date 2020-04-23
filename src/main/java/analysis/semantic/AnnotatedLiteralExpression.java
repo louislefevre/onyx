@@ -1,9 +1,8 @@
 package analysis.semantic;
 
-import lombok.Getter;
 import identifiers.ExpressionType;
 import identifiers.ObjectType;
-import util.Utilities;
+import lombok.Getter;
 
 @Getter
 public final class AnnotatedLiteralExpression extends AnnotatedExpression
@@ -16,6 +15,18 @@ public final class AnnotatedLiteralExpression extends AnnotatedExpression
     {
         this.value = value;
         this.expressionType = ExpressionType.LITERAL_EXPRESSION;
-        this.objectType = Utilities.typeOf(value);
+        this.objectType = typeOf(value);
+    }
+
+    private static ObjectType typeOf(Object object)
+    {
+        if (object instanceof Integer)
+            return ObjectType.INTEGER_OBJECT;
+        else if (object instanceof String)
+            return ObjectType.STRING_OBJECT;
+        else if (object instanceof Boolean)
+            return ObjectType.BOOLEAN_OBJECT;
+        else
+            return ObjectType.NULL_OBJECT;
     }
 }

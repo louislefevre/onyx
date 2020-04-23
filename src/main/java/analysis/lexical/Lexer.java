@@ -4,7 +4,6 @@ import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
 import source.SourceInput;
-import util.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +44,11 @@ public final class Lexer
     {
         if (this.position >= this.sourceInput.length())
             return this.endToken();
-        else if (Utilities.isWhitespace(this.currentChar()))
+        else if (isWhitespace(this.currentChar()))
             return this.whitespaceToken();
-        else if (Utilities.isDigit(this.currentChar()))
+        else if (isDigit(this.currentChar()))
             return this.numberToken();
-        else if (Utilities.isLetter(this.currentChar()))
+        else if (isLetter(this.currentChar()))
             return this.letterToken();
         return this.symbolToken();
     }
@@ -63,7 +62,7 @@ public final class Lexer
     {
         int startPos = this.position;
 
-        while (Utilities.isWhitespace(this.currentChar()))
+        while (isWhitespace(this.currentChar()))
             this.nextPosition();
 
         String text = this.sourceInput.substring(startPos, this.position);
@@ -76,12 +75,12 @@ public final class Lexer
         int startPos = this.position;
         int value = 0;
 
-        while (Utilities.isDigit(this.currentChar()))
+        while (isDigit(this.currentChar()))
             this.currentPositionThenNext(1);
 
         String text = this.sourceInput.substring(startPos, this.position);
 
-        if (Utilities.isParsable(text))
+        if (isParsable(text))
         {
             value = Integer.parseInt(text);
         }
@@ -98,7 +97,7 @@ public final class Lexer
     {
         int startPos = this.position;
 
-        while (Utilities.isLetter(this.currentChar()))
+        while (isLetter(this.currentChar()))
             this.nextPosition();
 
         String text = this.sourceInput.substring(startPos, this.position);
@@ -230,7 +229,7 @@ public final class Lexer
         LexicalError error = LexicalError.badCharacter(this.currentChar(), this.position, 1);
         this.errorHandler.addError(error);
         return new Token(TokenType.BAD_TOKEN,
-                         sourceInput.substring(Utilities.minimumZero(this.position - 1), this.position),
+                         sourceInput.substring(minimumZero(this.position - 1), this.position),
                          this.currentPositionThenNext(1));
     }
 
@@ -263,5 +262,41 @@ public final class Lexer
         int currentPos = this.position;
         this.position += increment;
         return currentPos;
+    }
+
+    private static boolean isWhitespace(String str)
+    {
+        return str.isBlank();
+    }
+
+    private static boolean isDigit(String str)
+    {
+        if (str.length() != 1)
+            return false;
+        return Character.isDigit(str.charAt(0));
+    }
+
+    private static boolean isLetter(String str)
+    {
+        if (str.length() != 1)
+            return false;
+        return Character.isLetter(str.charAt(0));
+    }
+
+    private static boolean isParsable(String str)
+    {
+        try
+        {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException error)
+        {
+            return false;
+        }
+    }
+
+    private static int minimumZero(int num)
+    {
+        return Math.max(num, 0);
     }
 }
