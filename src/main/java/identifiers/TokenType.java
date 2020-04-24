@@ -6,7 +6,6 @@ public enum TokenType
     IDENTIFIER_KEYWORD_TOKEN,
     NUMBER_TOKEN,
     STRING_TOKEN,
-    WHITE_SPACE_TOKEN,
 
     // Keywords
     AND_TOKEN,
@@ -36,5 +35,9 @@ public enum TokenType
 
     // Break Tokens
     BAD_TOKEN,
-    EOF_TOKEN
+    EOF_TOKEN,
+
+    // Not-parsed Tokens
+    COMMENT_TOKEN,
+    WHITE_SPACE_TOKEN
 }

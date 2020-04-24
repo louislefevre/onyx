@@ -34,7 +34,8 @@ public final class Lexer
         {
             token = this.nextToken();
             if (token.getTokenType() != TokenType.BAD_TOKEN &&
-                token.getTokenType() != TokenType.WHITE_SPACE_TOKEN)
+                token.getTokenType() != TokenType.WHITE_SPACE_TOKEN &&
+                token.getTokenType() != TokenType.COMMENT_TOKEN)
                 tokens.add(token);
         } while (token.getTokenType() != TokenType.EOF_TOKEN);
         return tokens;
@@ -120,7 +121,7 @@ public final class Lexer
         StringBuilder valueBuilder = new StringBuilder(); // Doesn't include quotes
         TokenType tokenType;
 
-        syntaxBuilder.append(currentChar());
+        syntaxBuilder.append(this.currentChar());
         int startPos = this.currentPositionThenNext(1);
 
         while (true)
@@ -149,12 +150,39 @@ public final class Lexer
         return new Token(tokenType, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
     }
 
+    private Token commentToken()
+    {
+        StringBuilder syntaxBuilder = new StringBuilder();
+        StringBuilder valueBuilder = new StringBuilder();
+
+        syntaxBuilder.append(this.currentChar());
+        int startPos = this.currentPositionThenNext(1);
+
+        while (true)
+        {
+            String currentChar = this.currentChar();
+
+            if (currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
+                break;
+
+            syntaxBuilder.append(currentChar);
+            valueBuilder.append(currentChar);
+            this.nextPosition();
+        }
+
+        return new Token(TokenType.COMMENT_TOKEN, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
+    }
+
     private Token symbolToken()
     {
         String currentChar = this.currentChar();
         String nextChar = this.nextChar();
 
-        if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
+        if (Syntax.HASH.getSyntax().equals(currentChar))
+        {
+            return this.commentToken();
+        }
+        else if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
         {
             return this.stringToken();
         }
