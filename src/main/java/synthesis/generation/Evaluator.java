@@ -83,10 +83,10 @@ public final class Evaluator
 
     private Object evaluateBinaryExpression(AnnotatedBinaryExpression expression) throws Exception
     {
-        ObjectType leftType = expression.getLeftTerm().getObjectType();
-        ObjectType rightType = expression.getRightTerm().getObjectType();
         Object left = this.evaluateExpression(expression.getLeftTerm());
         Object right = this.evaluateExpression(expression.getRightTerm());
+        ObjectType leftType = expression.getLeftTerm().getObjectType();
+        ObjectType rightType = expression.getRightTerm().getObjectType();
         OperatorType operatorType = expression.getOperator().getOperatorType();
 
         if (leftType == ObjectType.INTEGER_OBJECT && rightType == ObjectType.INTEGER_OBJECT)
@@ -101,6 +101,7 @@ public final class Evaluator
         throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
     }
 
+    @Nullable
     private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType)
     {
         int leftInt = (int) left;
@@ -139,6 +140,7 @@ public final class Evaluator
         }
     }
 
+    @Nullable
     private Object evaluateBinaryBooleanExpression(Object left, Object right, OperatorType operatorType)
     {
         boolean leftBool = (boolean) left;
@@ -159,6 +161,7 @@ public final class Evaluator
         }
     }
 
+    @Nullable
     private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType)
     {
         String leftString = left.toString();
