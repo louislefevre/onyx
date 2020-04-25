@@ -27,20 +27,20 @@ public final class ParseTree
 
     private static void printTree(Object node, String indent, boolean isLast)
     {
-        System.out.print(ANSI.GREY);
-
-        String marker = isLast ? "└──" : "├──";
+        String marker = ANSI.GREY;
+        marker += isLast ? "└──" : "├──";
 
         if (node instanceof Expression)
-            System.out.print(ANSI.CYAN + indent + marker + ((Expression) node).getExpressionType());
+            System.out.print(indent + marker + ANSI.CYAN + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
-            System.out.print(ANSI.BRIGHT_RED + indent + marker + ((Token) node).getTokenType());
+            System.out.print(indent + marker + ANSI.BRIGHT_RED + ((Token) node).getTokenType());
 
         if (node instanceof Token && ((Token) node).getValue() != null)
             System.out.print(ANSI.RED + " (" + ((Token) node).getValue() + ")");
 
         System.out.println();
-        indent += isLast ? "    " : "│   ";
+        indent += ANSI.GREY;
+        indent += isLast ? "   " : "│   ";
 
         if (node instanceof Expression)
         {
