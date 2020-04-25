@@ -3,6 +3,7 @@ package synthesis.generation;
 import analysis.semantic.*;
 import errors.ErrorHandler;
 import errors.EvaluationError;
+import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import org.jetbrains.annotations.Nullable;
@@ -40,19 +41,21 @@ public final class Evaluator
 
     private Object evaluateExpression(AnnotatedExpression expression) throws Exception
     {
-        if (expression instanceof AnnotatedLiteralExpression)
+        AnnotatedExpressionType type = expression.getAnnotatedExpressionType();
+
+        if (type == AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION)
             return this.evaluateNumberExpression((AnnotatedLiteralExpression) expression);
 
-        if (expression instanceof AnnotatedUnaryExpression)
+        if (type == AnnotatedExpressionType.ANNOTATED_UNARY_EXPRESSION)
             return this.evaluateUnaryExpression((AnnotatedUnaryExpression) expression);
 
-        if (expression instanceof AnnotatedBinaryExpression)
+        if (type == AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION)
             return this.evaluateBinaryExpression((AnnotatedBinaryExpression) expression);
 
-        if (expression instanceof AnnotatedVariableExpression)
+        if (type == AnnotatedExpressionType.ANNOTATED_VARIABLE_EXPRESSION)
             return this.evaluateVariableExpression((AnnotatedVariableExpression) expression);
 
-        if (expression instanceof AnnotatedAssignmentExpression)
+        if (type == AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
 
         throw EvaluationError.unexpectedExpression(expression.getAnnotatedExpressionType().toString());
@@ -92,10 +95,10 @@ public final class Evaluator
         if (leftType == ObjectType.INTEGER_OBJECT && rightType == ObjectType.INTEGER_OBJECT)
             return this.evaluateBinaryIntegerExpression(left, right, operatorType);
 
-        else if (leftType == ObjectType.BOOLEAN_OBJECT && rightType == ObjectType.BOOLEAN_OBJECT)
+        if (leftType == ObjectType.BOOLEAN_OBJECT && rightType == ObjectType.BOOLEAN_OBJECT)
             return this.evaluateBinaryBooleanExpression(left, right, operatorType);
 
-        else if (leftType == ObjectType.STRING_OBJECT && rightType == ObjectType.STRING_OBJECT)
+        if (leftType == ObjectType.STRING_OBJECT && rightType == ObjectType.STRING_OBJECT)
             return this.evaluateBinaryStringExpression(left, right, operatorType);
 
         throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
