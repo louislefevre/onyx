@@ -3,6 +3,7 @@ package synthesis.generation;
 import analysis.semantic.*;
 import errors.ErrorHandler;
 import errors.EvaluationError;
+import identifiers.ObjectType;
 import identifiers.OperatorType;
 import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
@@ -82,22 +83,20 @@ public final class Evaluator
 
     private Object evaluateBinaryExpression(AnnotatedBinaryExpression expression) throws Exception
     {
+        ObjectType leftType = expression.getLeftTerm().getObjectType();
+        ObjectType rightType = expression.getRightTerm().getObjectType();
         Object left = this.evaluateExpression(expression.getLeftTerm());
         Object right = this.evaluateExpression(expression.getRightTerm());
         OperatorType operatorType = expression.getOperator().getOperatorType();
-        Object result = null;
 
-        if (left instanceof Integer && right instanceof Integer)
-            result = this.evaluateBinaryIntegerExpression(left, right, operatorType);
+        if (leftType == ObjectType.INTEGER_OBJECT && rightType == ObjectType.INTEGER_OBJECT)
+            return this.evaluateBinaryIntegerExpression(left, right, operatorType);
 
-        if (left instanceof Boolean && right instanceof Boolean)
-            result = this.evaluateBinaryBooleanExpression(left, right, operatorType);
+        else if (leftType == ObjectType.BOOLEAN_OBJECT && rightType == ObjectType.BOOLEAN_OBJECT)
+            return this.evaluateBinaryBooleanExpression(left, right, operatorType);
 
-        if (left instanceof String && right instanceof String)
-            result = this.evaluateBinaryStringExpression(left, right, operatorType);
-
-        if (result != null)
-            return result;
+        else if (leftType == ObjectType.STRING_OBJECT && rightType == ObjectType.STRING_OBJECT)
+            return this.evaluateBinaryStringExpression(left, right, operatorType);
 
         throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
     }
