@@ -112,7 +112,7 @@ public final class Lexer
         else if (Syntax.OR.getSyntax().equals(text))
             return new Token(TokenType.OR_TOKEN, Syntax.OR.getSyntax(), pos);
 
-        return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, pos);
+        return new Token(TokenType.IDENTIFIER_KEYWORD_TOKEN, text, text, pos);
     }
 
     private Token stringToken()
