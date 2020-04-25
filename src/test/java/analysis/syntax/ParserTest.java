@@ -16,7 +16,7 @@ class ParserTest
     @Test
     public void parserIdentifiesNumericalLiteralExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION;
         String message = "Failed to identify numerical literal expression: ";
 
         int valueLimit = 1000;
@@ -28,7 +28,7 @@ class ParserTest
     @Test
     public void parserIdentifiesStringLiteralExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION;
         String message = "Failed to identify string literal expression: ";
 
         String[] strings = {"\"a\"", "\"string\"", "\"separated string\"", "\"0\"",};
@@ -40,7 +40,7 @@ class ParserTest
     @Test
     public void parserIdentifiesConditionalLiteralExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.LITERAL_EXPRESSION;
         String message = "Failed to identify numerical literal expression: ";
 
         String[] keywords = {Syntax.TRUE.getSyntax(), Syntax.FALSE.getSyntax()};
@@ -52,7 +52,7 @@ class ParserTest
     @Test
     public void parserIdentifiesNumericalUnaryExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.UNARY_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.UNARY_EXPRESSION;
         String message = "Failed to identify numerical unary expression: ";
 
         int valueLimit = 1000;
@@ -73,7 +73,7 @@ class ParserTest
     @Test
     public void parserIdentifiesConditionalUnaryExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.UNARY_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.UNARY_EXPRESSION;
         String message = "Failed to identify conditional unary expression: ";
 
         String[] keywords = {Syntax.TRUE.getSyntax(), Syntax.FALSE.getSyntax()};
@@ -92,7 +92,7 @@ class ParserTest
     @Test
     public void parserIdentifiesNumericalBinaryExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION;
         String message = "Failed to identify numerical binary expression: ";
 
         int valueLimit = 100;
@@ -127,7 +127,7 @@ class ParserTest
     @Test
     public void parserIdentifiesStringBinaryExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION;
         String message = "Failed to identify string binary expression: ";
 
         String[] binaryOperators = {Syntax.PLUS.getSyntax(), Syntax.EQUALS_EQUALS.getSyntax()};
@@ -146,7 +146,7 @@ class ParserTest
     @Test
     public void parserIdentifiesConditionalBinaryExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.BINARY_EXPRESSION;
         String message = "Failed to identify conditional binary expression: ";
 
         String[] keywords = {Syntax.TRUE.getSyntax(), Syntax.FALSE.getSyntax()};
@@ -171,7 +171,7 @@ class ParserTest
     @Test
     public void parserIdentifiesParenthesizedExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.PARENTHESIZED_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.PARENTHESIZED_EXPRESSION;
         String message = "Failed to identify parenthesized expression: ";
 
         String[] inputSyntax = {"0", "1", "10000", "123456789", "-1", "-10000", "-123456789",
@@ -189,7 +189,7 @@ class ParserTest
     @Test
     public void parserIdentifiesNameExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.IDENTIFIER_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.IDENTIFIER_EXPRESSION;
         String message = "Failed to identify name expression: ";
 
         String[] inputSyntax = {"a", "aaa", "var", "myVeryLongVariableName"};
@@ -201,7 +201,7 @@ class ParserTest
     @Test
     public void parserIdentifiesAssignmentExpression()
     {
-        ExpressionType expectedExpression = ExpressionType.ASSIGNMENT_EXPRESSION_TOKEN;
+        ExpressionType expectedExpression = ExpressionType.ASSIGNMENT_EXPRESSION;
         String message = "Failed to identify assignment expression: ";
 
         String[] inputSyntax = {"a = 1", "aaa = 10", "var = a", "myVeryLongVariableName = 50", "A = b"};

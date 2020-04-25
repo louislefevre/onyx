@@ -18,7 +18,7 @@ public final class IdentifierExpression extends Expression
     public IdentifierExpression(Token identifierToken)
     {
         this.identifierToken = identifierToken;
-        this.expressionType = ExpressionType.IDENTIFIER_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.IDENTIFIER_EXPRESSION;
         this.children = new ArrayList<>(Collections.singletonList(identifierToken));
     }
 }

@@ -22,7 +22,7 @@ public final class AssignmentExpression extends Expression
         this.identifierToken = identifierToken;
         this.equalsToken = equalsToken;
         this.expression = expression;
-        this.expressionType = ExpressionType.ASSIGNMENT_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.ASSIGNMENT_EXPRESSION;
         this.children = new ArrayList<>(Arrays.asList(identifierToken, equalsToken, expression));
     }
 }

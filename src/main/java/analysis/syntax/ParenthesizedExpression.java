@@ -18,7 +18,7 @@ public final class ParenthesizedExpression extends Expression
     public ParenthesizedExpression(Token openParenthesisToken, Expression expression, Token closeParenthesisToken)
     {
         this.expression = expression;
-        this.expressionType = ExpressionType.PARENTHESIZED_EXPRESSION_TOKEN;
+        this.expressionType = ExpressionType.PARENTHESIZED_EXPRESSION;
         this.children = new ArrayList<>(Arrays.asList(openParenthesisToken, expression, closeParenthesisToken));
     }
 }

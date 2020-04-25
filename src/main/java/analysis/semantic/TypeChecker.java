@@ -40,17 +40,17 @@ public final class TypeChecker
     {
         switch (expression.getExpressionType())
         {
-            case PARENTHESIZED_EXPRESSION_TOKEN:
+            case PARENTHESIZED_EXPRESSION:
                 return this.annotateParenthesizedExpression((ParenthesizedExpression) expression);
-            case LITERAL_EXPRESSION_TOKEN:
+            case LITERAL_EXPRESSION:
                 return this.annotateLiteralExpression((LiteralExpression) expression);
-            case UNARY_EXPRESSION_TOKEN:
+            case UNARY_EXPRESSION:
                 return this.annotateUnaryExpression((UnaryExpression) expression);
-            case BINARY_EXPRESSION_TOKEN:
+            case BINARY_EXPRESSION:
                 return this.annotateBinaryExpression((BinaryExpression) expression);
-            case IDENTIFIER_EXPRESSION_TOKEN:
+            case IDENTIFIER_EXPRESSION:
                 return this.annotateIdentifierExpression((IdentifierExpression) expression);
-            case ASSIGNMENT_EXPRESSION_TOKEN:
+            case ASSIGNMENT_EXPRESSION:
                 return this.annotateAssignmentExpression((AssignmentExpression) expression);
             default:
                 return this.unknownExpression(expression);
