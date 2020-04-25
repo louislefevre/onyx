@@ -15,7 +15,7 @@ public final class ParseTree
 
     public Expression getExpression()
     {
-        //this.showTree();
+        this.showTree();
         return expression;
     }
 
@@ -32,12 +32,12 @@ public final class ParseTree
         String marker = isLast ? "└──" : "├──";
 
         if (node instanceof Expression)
-            System.out.print(indent + marker + ((Expression) node).getExpressionType());
+            System.out.print(ANSI.CYAN + indent + marker + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
-            System.out.print(indent + marker + ((Token) node).getTokenType());
+            System.out.print(ANSI.BRIGHT_RED + indent + marker + ((Token) node).getTokenType());
 
         if (node instanceof Token && ((Token) node).getValue() != null)
-            System.out.print(" " + ((Token) node).getValue());
+            System.out.print(ANSI.RED + " (" + ((Token) node).getValue() + ")");
 
         System.out.println();
         indent += isLast ? "    " : "│   ";
