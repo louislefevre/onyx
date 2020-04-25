@@ -1,28 +1,30 @@
 package compilation;
 
+import source.SourceInput;
 import source.SourceOutput;
 
 import java.util.Scanner;
 
 public final class Repl
 {
-    public Repl()
-    {
-    }
-
     public void run()
     {
         Compiler compiler = new Compiler();
 
-        String input = readInput();
+        while (true)
+        {
+            SourceInput input = readInput();
 
-        SourceOutput output = compiler.compile(input);
+            if (input.isBlank())
+                break;
 
-        System.out.println(output.getResult());
+            SourceOutput output = compiler.compile(input);
 
+            System.out.println(output.getResult());
+        }
     }
 
-    private static String readInput()
+    private static SourceInput readInput()
     {
         StringBuilder builder = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
@@ -41,7 +43,7 @@ public final class Repl
             System.out.print("| ");
         }
 
-        return builder.toString();
+        return new SourceInput(builder.toString());
     }
 }
 

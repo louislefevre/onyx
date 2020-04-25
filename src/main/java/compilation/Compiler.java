@@ -18,9 +18,8 @@ public final class Compiler
         this.symbolTable = new SymbolTable();
     }
 
-    public SourceOutput compile(String input)
+    public SourceOutput compile(SourceInput sourceInput)
     {
-        SourceInput sourceInput = new SourceInput(input);
         ErrorHandler errorHandler = new ErrorHandler(sourceInput);
 
         Lexer lexer = new Lexer(sourceInput, errorHandler);
