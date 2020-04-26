@@ -48,7 +48,7 @@ public final class Lexer
         else if (isWhitespace(this.currentChar()))
             return this.whitespaceToken();
         else if (isDigit(this.currentChar()))
-            return this.numberToken();
+            return this.integerToken();
         else if (isLetter(this.currentChar()))
             return this.letterToken();
         return this.symbolToken();
@@ -71,22 +71,44 @@ public final class Lexer
         return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
     }
 
-    private Token numberToken()
+    private Token integerToken()
     {
         int startPos = this.position;
-        int value = 0;
 
         while (isDigit(this.currentChar()))
             this.currentPositionThenNext(1);
 
-        String text = this.sourceInput.substring(startPos, this.position);
+        if(this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
+            return this.doubleToken(startPos);
 
-        if (isParsable(text))
+        String text = this.sourceInput.substring(startPos, this.position);
+        int value = 0;
+
+        if (isIntegerParsable(text))
             value = Integer.parseInt(text);
         else
             this.errorHandler.addError(LexicalError.invalidInt(text, startPos, this.position - startPos));
 
-        return new Token(TokenType.NUMBER_TOKEN, text, value, startPos);
+        return new Token(TokenType.INTEGER_TOKEN, text, value, startPos);
+    }
+
+    private Token doubleToken(int startPos)
+    {
+        do // 'do' to skip the decimal point
+        {
+            this.currentPositionThenNext(1);
+        }
+        while(isDigit(this.currentChar()));
+
+        String text = this.sourceInput.substring(startPos, this.position);
+        double value = 0;
+
+        if (isDoubleParsable(text))
+            value = Double.parseDouble(text);
+        else
+            this.errorHandler.addError(LexicalError.invalidDouble(text, startPos, this.position - startPos));
+
+        return new Token(TokenType.DOUBLE_TOKEN, text, value, startPos);
     }
 
     private Token letterToken()
@@ -320,11 +342,23 @@ public final class Lexer
         return Character.isLetter(str.charAt(0));
     }
 
-    private static boolean isParsable(String str)
+    private static boolean isIntegerParsable(String str)
     {
         try
         {
             Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException error)
+        {
+            return false;
+        }
+    }
+
+    private static boolean isDoubleParsable(String str)
+    {
+        try
+        {
+            Double.parseDouble(str);
             return true;
         } catch (NumberFormatException error)
         {

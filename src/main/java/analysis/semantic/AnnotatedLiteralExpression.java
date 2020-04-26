@@ -22,6 +22,8 @@ public final class AnnotatedLiteralExpression extends AnnotatedExpression
     {
         if (object instanceof Integer)
             return ObjectType.INTEGER_OBJECT;
+        else if (object instanceof Double)
+            return ObjectType.DOUBLE_OBJECT;
         else if (object instanceof String)
             return ObjectType.STRING_OBJECT;
         else if (object instanceof Boolean)

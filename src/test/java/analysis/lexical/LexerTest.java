@@ -44,7 +44,7 @@ class LexerTest
     @Test
     public void lexerIdentifiesNumberToken()
     {
-        TokenType expectedTokenType = TokenType.NUMBER_TOKEN;
+        TokenType expectedTokenType = TokenType.INTEGER_TOKEN;
         String message = "Failed to return correct number token - TokenType mismatch at: ";
 
         String[] inputSyntax = {"0", "1", "10000", "123456", "2147483647"};

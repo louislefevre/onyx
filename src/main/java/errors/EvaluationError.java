@@ -33,6 +33,18 @@ public final class EvaluationError extends Error
         return new Exception(message);
     }
 
+    public static Exception unexpectedUnaryObjectType(String type)
+    {
+        String message = String.format("Unexpected unary object type '%s'.", type);
+        return new Exception(message);
+    }
+
+    public static Exception unexpectedBinaryObjectTypes(String leftType, String rightType)
+    {
+        String message = String.format("Unexpected binary object types '%1s' and '%2s'.", leftType, rightType);
+        return new Exception(message);
+    }
+
     public static Exception unexpectedUnaryOperator(String operator)
     {
         String message = String.format("Unexpected unary operator '%s'.", operator);

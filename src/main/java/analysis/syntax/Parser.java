@@ -92,20 +92,30 @@ public final class Parser
     {
         switch (this.currentToken().getTokenType())
         {
-            case OPEN_PARENTHESIS_TOKEN:
-                return this.parseParenthesizedExpression();
-            case FALSE_KEYWORD_TOKEN:
-            case TRUE_KEYWORD_TOKEN:
-                return this.parseBooleanExpression();
-            case NUMBER_TOKEN:
-                return this.parseNumberExpression();
+            case FALSE_KEYWORD_TOKEN: case TRUE_KEYWORD_TOKEN:
+            case INTEGER_TOKEN: case DOUBLE_TOKEN:
             case STRING_TOKEN:
-                return this.parseStringExpression();
+                return this.parseLiteralExpression();
             case IDENTIFIER_KEYWORD_TOKEN:
                 return this.parseIdentifierExpression();
+            case OPEN_PARENTHESIS_TOKEN:
+                return this.parseParenthesizedExpression();
             default:
                 return this.parseUnknownExpression();
         }
+    }
+
+    private Expression parseLiteralExpression()
+    {
+        Token token = this.currentTokenThenNext();
+        Object value = token.getValue();
+        return new LiteralExpression(token, value);
+    }
+
+    private Expression parseIdentifierExpression()
+    {
+        Token identifierToken = this.currentTokenThenNext();
+        return new IdentifierExpression(identifierToken);
     }
 
     private Expression parseParenthesizedExpression()
@@ -119,33 +129,6 @@ public final class Parser
                                                                         TokenType.CLOSE_PARENTHESIS_TOKEN));
 
         return new ParenthesizedExpression(left, expression, right);
-    }
-
-    private Expression parseBooleanExpression()
-    {
-        Token keywordToken = this.currentTokenThenNext();
-        boolean value = keywordToken.getTokenType() == TokenType.TRUE_KEYWORD_TOKEN;
-        return new LiteralExpression(keywordToken, value);
-    }
-
-    private Expression parseNumberExpression()
-    {
-        Token numberToken = this.currentTokenThenNext();
-        Object value = numberToken.getValue();
-        return new LiteralExpression(numberToken, value);
-    }
-
-    private Expression parseStringExpression()
-    {
-        Token stringToken = this.currentTokenThenNext();
-        Object value = stringToken.getValue();
-        return new LiteralExpression(stringToken, value);
-    }
-
-    private Expression parseIdentifierExpression()
-    {
-        Token identifierToken = this.currentTokenThenNext();
-        return new IdentifierExpression(identifierToken);
     }
 
     private Expression parseUnknownExpression()

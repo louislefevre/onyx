@@ -3,8 +3,9 @@ package identifiers;
 public enum TokenType
 {
     // Primary Tokens
+    DOUBLE_TOKEN,
     IDENTIFIER_KEYWORD_TOKEN,
-    NUMBER_TOKEN,
+    INTEGER_TOKEN,
     STRING_TOKEN,
 
     // Keywords

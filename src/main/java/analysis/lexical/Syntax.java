@@ -5,6 +5,7 @@ public enum Syntax
     AND("AND"),
     CARET("^"),
     CLOSE_PARENTHESIS(")"),
+    DECIMAL_POINT("."),
     DOUBLE_QUOTES("\""),
     EOF("\0"),
     EQUALS("="),

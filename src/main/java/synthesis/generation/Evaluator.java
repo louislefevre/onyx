@@ -69,14 +69,47 @@ public final class Evaluator
     private Object evaluateUnaryExpression(AnnotatedUnaryExpression expression) throws Exception
     {
         Object operand = this.evaluateExpression(expression.getOperand());
+        ObjectType type = expression.getObjectType();
         OperatorType operatorType = expression.getOperator().getOperatorType();
+
+        if (type == ObjectType.INTEGER_OBJECT)
+            return this.evaluateUnaryIntegerExpression(operand, operatorType);
+
+        if (type == ObjectType.DOUBLE_OBJECT)
+            return this.evaluateUnaryDoubleExpression(operand, operatorType);
+
+        throw EvaluationError.unexpectedUnaryObjectType(type.toString());
+    }
+
+    @Nullable
+    private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws Exception
+    {
+        int operandInt = (int) operand;
 
         switch (operatorType)
         {
             case IDENTITY_OPERATOR:
-                return operand;
+                return operandInt;
             case NEGATION_OPERATOR:
-                return -(int) operand;
+                return -operandInt;
+            case LOGIC_NEGATION_OPERATOR:
+                return !(boolean) operand;
+            default:
+                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+        }
+    }
+
+    @Nullable
+    private Object evaluateUnaryDoubleExpression(Object operand, OperatorType operatorType) throws Exception
+    {
+        double operandDouble = (double) operand;
+
+        switch (operatorType)
+        {
+            case IDENTITY_OPERATOR:
+                return operandDouble;
+            case NEGATION_OPERATOR:
+                return -operandDouble;
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
@@ -95,17 +128,20 @@ public final class Evaluator
         if (leftType == ObjectType.INTEGER_OBJECT && rightType == ObjectType.INTEGER_OBJECT)
             return this.evaluateBinaryIntegerExpression(left, right, operatorType);
 
+        if (leftType == ObjectType.DOUBLE_OBJECT && rightType == ObjectType.DOUBLE_OBJECT)
+            return this.evaluateBinaryDoubleExpression(left, right, operatorType);
+
         if (leftType == ObjectType.BOOLEAN_OBJECT && rightType == ObjectType.BOOLEAN_OBJECT)
             return this.evaluateBinaryBooleanExpression(left, right, operatorType);
 
         if (leftType == ObjectType.STRING_OBJECT && rightType == ObjectType.STRING_OBJECT)
             return this.evaluateBinaryStringExpression(left, right, operatorType);
 
-        throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+        throw EvaluationError.unexpectedBinaryObjectTypes(leftType.toString(), rightType.toString());
     }
 
     @Nullable
-    private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType)
+    private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         int leftInt = (int) left;
         int rightInt = (int) right;
@@ -139,12 +175,51 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftInt != rightInt;
             default:
-                return null;
+                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
         }
     }
 
     @Nullable
-    private Object evaluateBinaryBooleanExpression(Object left, Object right, OperatorType operatorType)
+    private Object evaluateBinaryDoubleExpression(Object left, Object right, OperatorType operatorType) throws Exception
+    {
+        double leftDouble = (double) left;
+        double rightDouble = (double) right;
+
+        switch (operatorType)
+        {
+            case ADDITION_OPERATOR:
+                return leftDouble + rightDouble;
+            case SUBTRACTION_OPERATOR:
+                return leftDouble - rightDouble;
+            case MULTIPLICATION_OPERATOR:
+                return leftDouble * rightDouble;
+            case DIVISION_OPERATOR:
+                if (rightDouble == 0.0) return 0.0;
+                return leftDouble / rightDouble;
+            case POWER_OPERATOR:
+                return Math.pow(leftDouble, rightDouble);
+            case MODULO_OPERATOR:
+                if (rightDouble == 0.0) return 0.0;
+                return leftDouble % rightDouble;
+            case GREATER_OPERATOR:
+                return leftDouble > rightDouble;
+            case LESS_OPERATOR:
+                return leftDouble < rightDouble;
+            case GREATER_EQUALS_OPERATOR:
+                return leftDouble >= rightDouble;
+            case LESS_EQUALS_OPERATOR:
+                return leftDouble <= rightDouble;
+            case EQUALS_EQUALS_OPERATOR:
+                return leftDouble == rightDouble;
+            case NOT_EQUALS_OPERATOR:
+                return leftDouble != rightDouble;
+            default:
+                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+        }
+    }
+
+    @Nullable
+    private Object evaluateBinaryBooleanExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         boolean leftBool = (boolean) left;
         boolean rightBool = (boolean) right;
@@ -160,12 +235,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftBool != rightBool;
             default:
-                return null;
+                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
         }
     }
 
     @Nullable
-    private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType)
+    private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         String leftString = left.toString();
         String rightString = right.toString();
@@ -179,7 +254,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return !leftString.equals(rightString);
             default:
-                return null;
+                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
         }
     }
 
