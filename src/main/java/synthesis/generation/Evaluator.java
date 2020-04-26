@@ -194,7 +194,8 @@ public final class Evaluator
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression expression) throws Exception
     {
         Object value = this.evaluateExpression(expression.getExpression());
-        this.symbolTable.addSymbol(expression.getName(), value, expression.getObjectType());
+        if (expression.getObjectType() != ObjectType.NULL_OBJECT)
+            this.symbolTable.addSymbol(expression.getName(), value, expression.getObjectType());
         return value;
     }
 }
