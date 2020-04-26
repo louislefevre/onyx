@@ -6,7 +6,6 @@ import errors.EvaluationError;
 import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
-import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
 
 public final class Evaluator
@@ -27,7 +26,6 @@ public final class Evaluator
         return this.evaluate();
     }
 
-    @Nullable
     private Object evaluate()
     {
         try
@@ -78,10 +76,12 @@ public final class Evaluator
         if (type == ObjectType.DOUBLE_OBJECT)
             return this.evaluateUnaryDoubleExpression(operand, operatorType);
 
+        if (type == ObjectType.BOOLEAN_OBJECT)
+            return this.evaluateUnaryBooleanExpression(operand, operatorType);
+
         throw EvaluationError.unexpectedUnaryObjectType(type.toString());
     }
 
-    @Nullable
     private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws Exception
     {
         int operandInt = (int) operand;
@@ -99,7 +99,6 @@ public final class Evaluator
         }
     }
 
-    @Nullable
     private Object evaluateUnaryDoubleExpression(Object operand, OperatorType operatorType) throws Exception
     {
         double operandDouble = (double) operand;
@@ -112,6 +111,19 @@ public final class Evaluator
                 return -operandDouble;
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
+            default:
+                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+        }
+    }
+
+    private Object evaluateUnaryBooleanExpression(Object operand, OperatorType operatorType) throws Exception
+    {
+        boolean operandBoolean = (boolean) operand;
+
+        switch (operatorType)
+        {
+            case LOGIC_NEGATION_OPERATOR:
+                return !operandBoolean;
             default:
                 throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
         }
@@ -140,7 +152,6 @@ public final class Evaluator
         throw EvaluationError.unexpectedBinaryObjectTypes(leftType.toString(), rightType.toString());
     }
 
-    @Nullable
     private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         int leftInt = (int) left;
@@ -179,7 +190,6 @@ public final class Evaluator
         }
     }
 
-    @Nullable
     private Object evaluateBinaryDoubleExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         double leftDouble = (double) left;
@@ -218,7 +228,6 @@ public final class Evaluator
         }
     }
 
-    @Nullable
     private Object evaluateBinaryBooleanExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         boolean leftBool = (boolean) left;
@@ -239,7 +248,6 @@ public final class Evaluator
         }
     }
 
-    @Nullable
     private Object evaluateBinaryStringExpression(Object left, Object right, OperatorType operatorType) throws Exception
     {
         String leftString = left.toString();
