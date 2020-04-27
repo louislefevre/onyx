@@ -1,10 +1,10 @@
 package analysis.lexical;
 
-import source.SourceInput;
 import errors.ErrorHandler;
 import identifiers.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import source.SourceInput;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,17 +39,30 @@ class LexerTest
 
             assertEquals(expectedTokenType, actualTokenType, message + inputSyntax[i]);
         }
-
-
     }
 
     @Test
     public void lexerIdentifiesNumberToken()
     {
-        TokenType expectedTokenType = TokenType.NUMBER_TOKEN;
+        TokenType expectedTokenType = TokenType.INTEGER_TOKEN;
         String message = "Failed to return correct number token - TokenType mismatch at: ";
 
         String[] inputSyntax = {"0", "1", "10000", "123456", "2147483647"};
+
+        for (String syntax : inputSyntax)
+        {
+            TokenType actualTokenType = tokenTypeOf(syntax);
+            assertEquals(expectedTokenType, actualTokenType, message + syntax);
+        }
+    }
+
+    @Test
+    public void lexerIdentifiesStringToken()
+    {
+        TokenType expectedTokenType = TokenType.STRING_TOKEN;
+        String message = "Failed to return correct string token - TokenType mismatch at: ";
+
+        String[] inputSyntax = {"\"a\"", "\"string\"", "\"separated string\"", "\"0\""};
 
         for (String syntax : inputSyntax)
         {
@@ -79,8 +92,9 @@ class LexerTest
         String message = "Failed to return correct token amount - Incorrect amount at: ";
 
         String[] inputSyntax = {"0", "1", "10000", "123456789", "-1", "-10000", "-123456789",
-                                "10 + 1", "(10 + 5)", "(10 + 5) * 10", "var = true", "true == false"};
-        int[] expectedAmounts = {2, 2, 2, 2, 3, 3, 3, 4, 6, 8, 4, 4};
+                                "10 + 1", "(10 + 5)", "(10 + 5) * 10", "var = true", "true == false",
+                                "\"string\"", "\"separated string\"", "\"str\" + \"ing\""};
+        int[] expectedAmounts = {2, 2, 2, 2, 3, 3, 3, 4, 6, 8, 4, 4, 2, 2, 4};
 
         for (int i = 0; i < inputSyntax.length; i++)
         {

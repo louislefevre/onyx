@@ -1,54 +1,40 @@
 package symbols;
 
 import identifiers.ObjectType;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public final class SymbolTable
 {
-    private final List<Symbol> symbols;
+    private final HashMap<String, Symbol> symbols;
 
     public SymbolTable()
     {
-        this.symbols = new ArrayList<>();
+        this.symbols = new HashMap<>();
     }
 
     public boolean containsSymbol(String name)
     {
-        return this.getSymbol(name) != null;
+        return this.symbols.containsKey(name);
+    }
+
+    public Symbol getSymbol(String name)
+    {
+        return this.symbols.get(name);
     }
 
     public void addSymbol(String name, Object value, ObjectType type)
     {
-        if (this.containsSymbol(name))
-        {
-            Symbol symbol = this.getSymbol(name);
-            symbol.setValue(value);
-            symbol.setType(type);
-            return;
-        }
         Symbol symbol = new Symbol(name, value, type);
-        this.symbols.add(symbol);
-    }
-
-    @Nullable
-    public Symbol getSymbol(String name)
-    {
-        for (Symbol symbol : this.symbols)
-            if (symbol.getName().equals(name))
-                return symbol;
-
-        return null;
+        this.symbols.put(name, symbol);
     }
 
     @TestOnly
     public void printSymbolTable()
     {
         System.out.println("----------------------------");
-        for (Symbol symbol : this.symbols)
+        for (Symbol symbol : this.symbols.values())
         {
             String message = String.format("%1s   %2s   %3s", symbol.getName(), symbol.getValue(), symbol.getType());
             System.out.println(message);

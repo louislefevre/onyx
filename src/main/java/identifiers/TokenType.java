@@ -2,46 +2,43 @@ package identifiers;
 
 public enum TokenType
 {
-    // Primary Tokens
-    NUMBER_TOKEN,
-    WHITE_SPACE_TOKEN,
+    // Data Tokens
+    INTEGER_TOKEN,
+    DOUBLE_TOKEN,
+    STRING_TOKEN,
+    IDENTIFIER_KEYWORD_TOKEN,
+
+    // Keyword Tokens
+    TRUE_KEYWORD_TOKEN,
+    FALSE_KEYWORD_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
+
+    // Separator Tokens
+    OPEN_PARENTHESIS_TOKEN,
+    CLOSE_PARENTHESIS_TOKEN,
 
     // Operator Tokens
     PLUS_TOKEN,
     MINUS_TOKEN,
     STAR_TOKEN,
     SLASH_TOKEN,
-    CARET_TOKEN,
     PERCENT_TOKEN,
+    CARET_TOKEN,
     GREATER_TOKEN,
     LESS_TOKEN,
     GREATER_EQUALS_TOKEN,
     LESS_EQUALS_TOKEN,
-    OPEN_PARENTHESIS_TOKEN,
-    CLOSE_PARENTHESIS_TOKEN,
-
-    // Conditional Tokens
     NOT_TOKEN,
     EQUALS_TOKEN,
     EQUALS_EQUALS_TOKEN,
     NOT_EQUALS_TOKEN,
 
-    // Keywords
-    TRUE_KEYWORD_TOKEN,
-    FALSE_KEYWORD_TOKEN,
-    AND_TOKEN,
-    OR_TOKEN,
-    IDENTIFIER_KEYWORD_TOKEN,
-
-    // Expression Tokens
-    LITERAL_EXPRESSION_TOKEN,
-    UNARY_EXPRESSION_TOKEN,
-    BINARY_EXPRESSION_TOKEN,
-    PARENTHESIZED_EXPRESSION_TOKEN,
-    NAME_EXPRESSION_TOKEN,
-    ASSIGNMENT_EXPRESSION_TOKEN,
-
     // Break Tokens
     BAD_TOKEN,
-    EOF_TOKEN
+    EOF_TOKEN,
+
+    // Not-parsed Tokens
+    COMMENT_TOKEN,
+    WHITE_SPACE_TOKEN
 }

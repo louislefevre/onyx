@@ -27,6 +27,11 @@ public final class SourceInput
         return this.sourceText.length();
     }
 
+    public boolean isBlank()
+    {
+        return this.sourceText.isBlank();
+    }
+
     public String substring(int beginIndex, int endIndex)
     {
         return this.sourceText.substring(beginIndex, endIndex);

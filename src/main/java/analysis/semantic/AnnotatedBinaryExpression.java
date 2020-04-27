@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import identifiers.ExpressionType;
+import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ public final class AnnotatedBinaryExpression extends AnnotatedExpression
     private final AnnotatedExpression leftTerm;
     private final AnnotatedBinaryOperator operator;
     private final AnnotatedExpression rightTerm;
-    private final ExpressionType expressionType;
+    private final AnnotatedExpressionType annotatedExpressionType;
     private final ObjectType objectType;
 
     public AnnotatedBinaryExpression(AnnotatedExpression leftTerm, AnnotatedBinaryOperator operator,
@@ -19,7 +19,7 @@ public final class AnnotatedBinaryExpression extends AnnotatedExpression
         this.leftTerm = leftTerm;
         this.operator = operator;
         this.rightTerm = rightTerm;
-        this.expressionType = ExpressionType.BINARY_EXPRESSION;
+        this.annotatedExpressionType = AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
         this.objectType = operator.getResultObjectType();
     }
 }

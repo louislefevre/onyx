@@ -1,7 +1,7 @@
 package analysis.semantic;
 
-import identifiers.OperatorType;
 import identifiers.ObjectType;
+import identifiers.OperatorType;
 import identifiers.TokenType;
 import lombok.Getter;
 
@@ -33,5 +33,10 @@ public final class AnnotatedBinaryOperator extends AnnotatedOperator
     public AnnotatedBinaryOperator(TokenType tokenType, OperatorType operatorType, ObjectType objectType)
     {
         this(tokenType, operatorType, objectType, objectType, objectType);
+    }
+
+    public ObjectType getResultObjectType()
+    {
+        return resultObjectType;
     }
 }

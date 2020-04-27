@@ -30,7 +30,7 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
-    public static SemanticError undefinedName(SourceSpan span, String syntax)
+    public static SemanticError undefinedIdentifier(SourceSpan span, String syntax)
     {
         String message = String.format("Variable '%s' does not exist.", syntax);
         return new SemanticError(span, message);

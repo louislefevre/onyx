@@ -1,11 +1,11 @@
 package analysis.semantic;
 
-import identifiers.ExpressionType;
+import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 
 public abstract class AnnotatedExpression
 {
-    public abstract ExpressionType getExpressionType();
+    public abstract AnnotatedExpressionType getAnnotatedExpressionType();
 
     public abstract ObjectType getObjectType();
 }
