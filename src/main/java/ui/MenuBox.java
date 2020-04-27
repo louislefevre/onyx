@@ -6,6 +6,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import source.SourceInput;
 import source.SourceOutput;
 
 @Getter
@@ -68,8 +69,9 @@ public final class MenuBox
 
         runProgram.setOnAction(e -> {
             String input = this.inputBox.getTextArea().getText();
+            SourceInput sourceInput = new SourceInput(input);
             Compiler compiler = new Compiler();
-            SourceOutput output = compiler.compile(input);
+            SourceOutput output = compiler.compile(sourceInput);
 
             this.outputBox.getTextFlow().getChildren().clear();
             this.outputBox.getTextFlow().getChildren().addAll(output.getResult());

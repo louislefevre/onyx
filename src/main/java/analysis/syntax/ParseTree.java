@@ -2,10 +2,15 @@ package analysis.syntax;
 
 import analysis.lexical.Token;
 import org.jetbrains.annotations.TestOnly;
-import util.ANSI;
 
 public final class ParseTree
 {
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREY = "\u001B[37m";
+    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String CYAN = "\u001B[36m";
+
     private final Expression expression;
 
     public ParseTree(Expression expression)
@@ -27,19 +32,19 @@ public final class ParseTree
 
     private static void printTree(Object node, String indent, boolean isLast)
     {
-        String marker = ANSI.GREY;
+        String marker = GREY;
         marker += isLast ? "└──" : "├──";
 
         if (node instanceof Expression)
-            System.out.print(indent + marker + ANSI.CYAN + ((Expression) node).getExpressionType());
+            System.out.print(indent + marker + CYAN + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
-            System.out.print(indent + marker + ANSI.BRIGHT_RED + ((Token) node).getTokenType());
+            System.out.print(indent + marker + BRIGHT_RED + ((Token) node).getTokenType());
 
         if (node instanceof Token && ((Token) node).getValue() != null)
-            System.out.print(ANSI.RED + " (" + ((Token) node).getValue() + ")");
+            System.out.print(RED + " (" + ((Token) node).getValue() + ")");
 
         System.out.println();
-        indent += ANSI.GREY;
+        indent += GREY;
         indent += isLast ? "   " : "│   ";
 
         if (node instanceof Expression)
@@ -52,6 +57,6 @@ public final class ParseTree
                 printTree(child, indent, child == lastChild);
         }
 
-        System.out.print(ANSI.RESET);
+        System.out.print(RESET);
     }
 }
