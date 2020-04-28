@@ -4,10 +4,10 @@ import identifiers.TokenType;
 import lombok.Getter;
 
 @Getter
-public class ExpressionBind
+public final class ExpressionBind
 {
-    private TokenType type;
-    private TokenType[] compatibleTypes;
+    private final TokenType type;
+    private final TokenType[] compatibleTypes;
 
     public ExpressionBind(TokenType type, TokenType[] compatibleTypes)
     {
