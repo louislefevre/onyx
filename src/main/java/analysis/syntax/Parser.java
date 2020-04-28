@@ -28,19 +28,11 @@ public final class Parser
 
     private Expression parseExpression()
     {
-        if (this.nextToken().getTokenType() != TokenType.EOF_TOKEN &&
-            !ExpressionBinder.isBindable(this.currentToken(), this.nextToken()))
-        {
-            this.nextPosition();
-            return this.parseUnknownExpression();
-        }
-
         if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
             this.nextToken().getTokenType() == TokenType.EQUALS_TOKEN)
-        {
             return this.parseAssignmentExpression();
-        }
-        return this.parseBinaryExpression();
+
+        return this.parseBinaryExpression(0);
     }
 
     private Expression parseAssignmentExpression()
@@ -51,13 +43,14 @@ public final class Parser
         return new AssignmentExpression(identifierToken, operatorToken, right);
     }
 
-    private Expression parseBinaryExpression()
-    {
-        return this.parseBinaryExpression(0);
-    }
-
     private Expression parseBinaryExpression(int parentPrecedence)
     {
+        if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
+        {
+            this.nextPosition();
+            return this.parseUnknownExpression();
+        }
+
         Expression left = this.parseUnaryExpression(parentPrecedence);
 
         while (true)
@@ -92,8 +85,10 @@ public final class Parser
     {
         switch (this.currentToken().getTokenType())
         {
-            case FALSE_KEYWORD_TOKEN: case TRUE_KEYWORD_TOKEN:
-            case INTEGER_TOKEN: case DOUBLE_TOKEN:
+            case FALSE_KEYWORD_TOKEN:
+            case TRUE_KEYWORD_TOKEN:
+            case INTEGER_TOKEN:
+            case DOUBLE_TOKEN:
             case STRING_TOKEN:
                 return this.parseLiteralExpression();
             case IDENTIFIER_KEYWORD_TOKEN:

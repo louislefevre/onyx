@@ -50,8 +50,8 @@ public final class ExpressionBinder
         // Separator Tokens
         new ExpressionBind(OPEN_PARENTHESIS_TOKEN,
                            new TokenType[]{CLOSE_PARENTHESIS_TOKEN, DOUBLE_TOKEN, FALSE_KEYWORD_TOKEN,
-                                           IDENTIFIER_KEYWORD_TOKEN, INTEGER_TOKEN, MINUS_TOKEN,
-                                           NOT_TOKEN, OPEN_PARENTHESIS_TOKEN, TRUE_KEYWORD_TOKEN}),
+                                           IDENTIFIER_KEYWORD_TOKEN, INTEGER_TOKEN, MINUS_TOKEN, NOT_TOKEN,
+                                           OPEN_PARENTHESIS_TOKEN, PLUS_TOKEN, TRUE_KEYWORD_TOKEN}),
         new ExpressionBind(CLOSE_PARENTHESIS_TOKEN,
                            new TokenType[]{AND_TOKEN, CARET_TOKEN, CLOSE_PARENTHESIS_TOKEN, EQUALS_EQUALS_TOKEN,
                                            GREATER_EQUALS_TOKEN, GREATER_TOKEN, LESS_EQUALS_TOKEN,
@@ -94,7 +94,7 @@ public final class ExpressionBinder
                                            OPEN_PARENTHESIS_TOKEN, STRING_TOKEN, TRUE_KEYWORD_TOKEN}),
     };
 
-    public static boolean isBindable(Token current, Token next)
+    private static boolean isBindable(Token current, Token next)
     {
         for (ExpressionBind bind : binds)
             if (bind.getType() == current.getTokenType())
@@ -103,5 +103,10 @@ public final class ExpressionBinder
                         return true;
 
         return false;
+    }
+
+    public static boolean tokensNotBindable(Token current, Token next)
+    {
+        return !ExpressionBinder.isBindable(current, next) && next.getTokenType() != TokenType.EOF_TOKEN;
     }
 }
