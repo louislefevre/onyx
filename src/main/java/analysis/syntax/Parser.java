@@ -6,6 +6,7 @@ import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Parser
@@ -23,7 +24,42 @@ public final class Parser
 
     public ParseTree getParseTree()
     {
-        return new ParseTree(this.parseExpression());
+        return new ParseTree(this.parseStatement());
+    }
+
+    private Statement parseStatement()
+    {
+        if (this.currentToken().getTokenType() == TokenType.OPEN_BRACE_TOKEN)
+            return this.parseBlockStatement();
+        return this.parseExpressionStatement();
+    }
+
+    private Statement parseBlockStatement()
+    {
+        Token openBrace = this.currentTokenThenNext();
+
+        List<Statement> statements = new ArrayList<>();
+        while (this.currentToken().getTokenType() != TokenType.EOF_TOKEN &&
+               this.currentToken().getTokenType() != TokenType.CLOSE_BRACE_TOKEN)
+        {
+            Statement statement = this.parseStatement();
+            statements.add(statement);
+        }
+
+        Token closeBrace = this.currentTokenThenNext();
+
+        if (closeBrace.getTokenType() != TokenType.CLOSE_BRACE_TOKEN)
+            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(closeBrace.getSpan(),
+                                                                        closeBrace.getTokenType(),
+                                                                        TokenType.CLOSE_BRACE_TOKEN));
+
+        return new BlockStatement(openBrace, statements, closeBrace);
+    }
+
+    private ExpressionStatement parseExpressionStatement()
+    {
+        Expression expression = this.parseExpression();
+        return new ExpressionStatement(expression);
     }
 
     private Expression parseExpression()
@@ -47,8 +83,8 @@ public final class Parser
     {
         if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
         {
-            this.nextPosition();
-            return this.parseUnknownExpression();
+            //this.nextPosition();
+            //return this.parseUnknownExpression();
         }
 
         Expression left = this.parseUnaryExpression(parentPrecedence);
@@ -115,15 +151,16 @@ public final class Parser
 
     private Expression parseParenthesizedExpression()
     {
-        Token left = this.currentTokenThenNext();
+        Token openParenthesis = this.currentTokenThenNext();
         Expression expression = this.parseExpression();
-        Token right = this.currentTokenThenNext();
+        Token closeParenthesis = this.currentTokenThenNext();
 
-        if (right.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
-            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(right.getSpan(), right.getTokenType(),
+        if (closeParenthesis.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
+            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(closeParenthesis.getSpan(),
+                                                                        closeParenthesis.getTokenType(),
                                                                         TokenType.CLOSE_PARENTHESIS_TOKEN));
 
-        return new ParenthesizedExpression(left, expression, right);
+        return new ParenthesizedExpression(openParenthesis, expression, closeParenthesis);
     }
 
     private Expression parseUnknownExpression()

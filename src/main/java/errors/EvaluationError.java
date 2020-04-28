@@ -33,6 +33,12 @@ public final class EvaluationError extends Error
         return new Exception(message);
     }
 
+    public static Exception unexpectedStatement(String statement)
+    {
+        String message = String.format("Unexpected statement '%s'.", statement);
+        return new Exception(message);
+    }
+
     public static Exception unexpectedUnaryObjectType(String type)
     {
         String message = String.format("Unexpected unary object type '%s'.", type);

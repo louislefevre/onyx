@@ -13,6 +13,7 @@ public final class Evaluator
     private final AnnotatedParseTree annotatedParseTree;
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
+    private Object lastValue;
 
     public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
@@ -30,11 +31,38 @@ public final class Evaluator
     {
         try
         {
-            return this.evaluateExpression(this.annotatedParseTree.getExpression());
+            this.evaluateStatement(this.annotatedParseTree.getAnnotatedStatement());
+            return this.lastValue;
         } catch (Exception exception)
         {
             return EvaluationError.exceptionOccurred(exception);
         }
+    }
+
+    private void evaluateStatement(AnnotatedStatement statement) throws Exception
+    {
+        switch(statement.getAnnotatedStatementType())
+        {
+            case ANNOTATED_BLOCK_STATEMENT:
+                this.evaluateBlockStatement((AnnotatedBlockStatement) statement);
+                break;
+            case ANNOTATED_EXPRESSION_STATEMENT:
+                this.evaluateExpressionStatement((AnnotatedExpressionStatement) statement);
+                break;
+            default:
+                throw EvaluationError.unexpectedStatement(statement.getAnnotatedStatementType().toString());
+        }
+    }
+
+    private void evaluateBlockStatement(AnnotatedBlockStatement annotatedBlockStatement) throws Exception
+    {
+        for(AnnotatedStatement statement : annotatedBlockStatement.getAnnotatedStatementList())
+            this.evaluateStatement(statement);
+    }
+
+    private void evaluateExpressionStatement(AnnotatedExpressionStatement annotatedExpressionStatement) throws Exception
+    {
+        this.lastValue = this.evaluateExpression(annotatedExpressionStatement.getAnnotatedExpression());
     }
 
     private Object evaluateExpression(AnnotatedExpression expression) throws Exception

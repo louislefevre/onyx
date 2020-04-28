@@ -15,6 +15,8 @@ public enum TokenType
     OR_TOKEN,
 
     // Separator Tokens
+    OPEN_BRACE_TOKEN,
+    CLOSE_BRACE_TOKEN,
     OPEN_PARENTHESIS_TOKEN,
     CLOSE_PARENTHESIS_TOKEN,
 

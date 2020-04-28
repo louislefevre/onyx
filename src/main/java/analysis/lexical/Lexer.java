@@ -78,7 +78,7 @@ public final class Lexer
         while (isDigit(this.currentChar()))
             this.currentPositionThenNext(1);
 
-        if(this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
+        if (this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
             return this.doubleToken(startPos);
 
         String text = this.sourceInput.substring(startPos, this.position);
@@ -98,7 +98,7 @@ public final class Lexer
         {
             this.currentPositionThenNext(1);
         }
-        while(isDigit(this.currentChar()));
+        while (isDigit(this.currentChar()));
 
         String text = this.sourceInput.substring(startPos, this.position);
         double value = 0;
@@ -236,6 +236,16 @@ public final class Lexer
         else if (Syntax.PERCENT.getSyntax().equals(currentChar))
         {
             return new Token(TokenType.PERCENT_TOKEN, Syntax.PERCENT.getSyntax(),
+                             this.currentPositionThenNext(1));
+        }
+        else if (Syntax.OPEN_BRACE.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.OPEN_BRACE_TOKEN, Syntax.OPEN_BRACE.getSyntax(),
+                             this.currentPositionThenNext(1));
+        }
+        else if (Syntax.CLOSE_BRACE.getSyntax().equals(currentChar))
+        {
+            return new Token(TokenType.CLOSE_BRACE_TOKEN, Syntax.CLOSE_BRACE.getSyntax(),
                              this.currentPositionThenNext(1));
         }
         else if (Syntax.OPEN_PARENTHESIS.getSyntax().equals(currentChar))

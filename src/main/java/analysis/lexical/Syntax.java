@@ -4,6 +4,7 @@ public enum Syntax
 {
     AND("AND"),
     CARET("^"),
+    CLOSE_BRACE("}"),
     CLOSE_PARENTHESIS(")"),
     DECIMAL_POINT("."),
     DOUBLE_QUOTES("\""),
@@ -19,6 +20,7 @@ public enum Syntax
     MINUS("-"),
     NOT("!"),
     NOT_EQUALS("!="),
+    OPEN_BRACE("{"),
     OPEN_PARENTHESIS("("),
     OR("OR"),
     PERCENT("%"),
