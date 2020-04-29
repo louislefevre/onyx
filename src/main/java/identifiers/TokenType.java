@@ -13,6 +13,7 @@ public enum TokenType
     FALSE_KEYWORD_TOKEN,
     AND_TOKEN,
     OR_TOKEN,
+    VAR_TOKEN,
 
     // Separator Tokens
     OPEN_BRACE_TOKEN,

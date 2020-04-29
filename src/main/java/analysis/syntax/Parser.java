@@ -44,6 +44,8 @@ public final class Parser
     {
         if (this.currentToken().getTokenType() == TokenType.OPEN_BRACE_TOKEN)
             return this.parseBlockStatement();
+        else if (this.currentToken().getTokenType() == TokenType.VAR_TOKEN)
+            return this.parseDeclarationStatement();
         return this.parseExpressionStatement();
     }
 
@@ -69,6 +71,25 @@ public final class Parser
         return new BlockStatement(openBrace, statements, closeBrace);
     }
 
+    private Statement parseDeclarationStatement()
+    {
+        Token varToken = this.currentTokenThenNext();
+        Token identifierToken = this.currentTokenThenNext();
+        Token equalsToken = this.currentTokenThenNext();
+        Expression initializerExpression = this.parseExpression();
+
+        if (identifierToken.getTokenType() != TokenType.IDENTIFIER_KEYWORD_TOKEN)
+            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(identifierToken.getSpan(),
+                                                                        identifierToken.getTokenType(),
+                                                                        TokenType.IDENTIFIER_KEYWORD_TOKEN));
+        if (equalsToken.getTokenType() != TokenType.EQUALS_TOKEN)
+            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(equalsToken.getSpan(),
+                                                                        equalsToken.getTokenType(),
+                                                                        TokenType.EQUALS_TOKEN));
+
+        return new DeclarationStatement(varToken, identifierToken, equalsToken, initializerExpression);
+    }
+
     private ExpressionStatement parseExpressionStatement()
     {
         Expression expression = this.parseExpression();
@@ -87,9 +108,9 @@ public final class Parser
     private Expression parseAssignmentExpression()
     {
         Token identifierToken = this.currentTokenThenNext();
-        Token operatorToken = this.currentTokenThenNext();
-        Expression right = this.parseExpression();
-        return new AssignmentExpression(identifierToken, operatorToken, right);
+        Token equalsToken = this.currentTokenThenNext();
+        Expression expression = this.parseExpression();
+        return new AssignmentExpression(identifierToken, equalsToken, expression);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)

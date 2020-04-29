@@ -11,6 +11,7 @@ public enum Syntax
     FALSE("false"),
     AND("AND"),
     OR("OR"),
+    VAR("var"),
 
     // Separator Syntax
     OPEN_BRACE("{"),

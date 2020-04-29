@@ -61,6 +61,9 @@ public final class Evaluator
             case ANNOTATED_EXPRESSION_STATEMENT:
                 this.evaluateExpressionStatement((AnnotatedExpressionStatement) statement);
                 break;
+            case ANNOTATED_DECLARATION_STATEMENT:
+                this.evaluateDeclarationStatement((AnnotatedDeclarationStatement) statement);
+                break;
             default:
                 throw EvaluationError.unexpectedStatement(statement.getAnnotatedStatementType().toString());
         }
@@ -75,6 +78,13 @@ public final class Evaluator
     private void evaluateExpressionStatement(AnnotatedExpressionStatement annotatedExpressionStatement) throws Exception
     {
         this.lastValue = this.evaluateExpression(annotatedExpressionStatement.getAnnotatedExpression());
+    }
+
+    private void evaluateDeclarationStatement(AnnotatedDeclarationStatement statement) throws Exception
+    {
+        Object value = this.evaluateExpression(statement.getInitializerExpression());
+        this.symbolTable.addSymbol(statement.getSymbol().getName(), value, statement.getSymbol().getType());
+        this.lastValue = value;
     }
 
     private Object evaluateExpression(AnnotatedExpression expression) throws Exception

@@ -48,6 +48,18 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
+    public static SemanticError declaredVariable(SourceSpan span, String syntax)
+    {
+        String message = String.format("Variable '%s' is already declared.", syntax);
+        return new SemanticError(span, message);
+    }
+
+    public static SemanticError undeclaredVariable(SourceSpan span, String syntax)
+    {
+        String message = String.format("Variable '%s' has not been declared.", syntax);
+        return new SemanticError(span, message);
+    }
+
     public static Exception undefinedExpression(String syntax)
     {
         String message = String.format("Unexpected expression '%s'", syntax);

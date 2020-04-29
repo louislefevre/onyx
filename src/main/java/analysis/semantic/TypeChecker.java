@@ -4,6 +4,7 @@ import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
+import symbols.Symbol;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public final class TypeChecker
                 return this.annotateBlockStatement((BlockStatement) statement);
             case EXPRESSION_STATEMENT:
                 return this.annotateExpressionStatement((ExpressionStatement) statement);
+            case DECLARATION_STATEMENT:
+                return this.annotatedDeclarationStatement((DeclarationStatement) statement);
             default:
                 throw SemanticError.undefinedStatement(statement.getStatementType().toString());
         }
@@ -80,6 +83,18 @@ public final class TypeChecker
     {
         AnnotatedExpression expression = this.annotateExpression(statement.getExpression());
         return new AnnotatedExpressionStatement(expression);
+    }
+
+    private AnnotatedStatement annotatedDeclarationStatement(DeclarationStatement statement) throws Exception
+    {
+        String name = statement.getIdentifierToken().getSyntax();
+        AnnotatedExpression initializerExpression = this.annotateExpression(statement.getInitializerExpression());
+        Symbol symbol = new Symbol(name, null, initializerExpression.getObjectType());
+
+        if (this.symbolTable.containsSymbol(name))
+            this.errorHandler.addError(SemanticError.declaredVariable(statement.getIdentifierToken().getSpan(), name));
+
+        return new AnnotatedDeclarationStatement(symbol, initializerExpression);
     }
 
     private AnnotatedExpression annotateExpression(Expression expression) throws Exception
@@ -172,6 +187,14 @@ public final class TypeChecker
     {
         String name = expression.getIdentifierToken().getSyntax();
         AnnotatedExpression annotatedExpression = this.annotateExpression(expression.getExpression());
+
+        if (!this.symbolTable.containsSymbol(name))
+        {
+            this.errorHandler.addError(SemanticError.undeclaredVariable(expression.getIdentifierToken().getSpan(),
+                                                                        name));
+            return annotatedExpression;
+        }
+
         return new AnnotatedAssignmentExpression(name, annotatedExpression);
     }
 }

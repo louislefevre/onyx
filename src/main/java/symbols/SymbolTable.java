@@ -27,7 +27,12 @@ public final class SymbolTable
     public void addSymbol(String name, Object value, ObjectType type)
     {
         Symbol symbol = new Symbol(name, value, type);
-        this.symbols.put(name, symbol);
+        this.addSymbol(symbol);
+    }
+
+    public void addSymbol(Symbol symbol)
+    {
+        this.symbols.put(symbol.getName(), symbol);
     }
 
     @TestOnly
