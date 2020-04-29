@@ -1,10 +1,9 @@
 package analysis.lexical;
 
-import errors.ErrorHandler;
 import identifiers.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-import source.SourceInput;
+import utilities.TestHub;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -117,8 +116,6 @@ class LexerTest
     @NotNull
     private static Lexer createLexer(String input)
     {
-        SourceInput sourceInput = new SourceInput(input);
-        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
-        return new Lexer(sourceInput, errorHandler);
+        return TestHub.createLexer(input);
     }
 }

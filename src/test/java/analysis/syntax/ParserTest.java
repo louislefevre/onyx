@@ -1,13 +1,11 @@
 package analysis.syntax;
 
-import analysis.lexical.Lexer;
 import analysis.lexical.Syntax;
-import errors.ErrorHandler;
 import identifiers.ExpressionType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-import source.SourceInput;
+import utilities.TestHub;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -222,16 +220,13 @@ class ParserTest
     private static ExpressionType expressionTypeOf(String input)
     {
         Parser parser = createParser(input);
-        Expression expression = parser.getParseTree().getExpression();
-        return expression.getExpressionType();
+        //Expression expression = parser.getParseTree().getStatement();
+        return null;
     }
 
     @NotNull
     private static Parser createParser(String input)
     {
-        SourceInput sourceInput = new SourceInput(input);
-        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
-        Lexer lexer = new Lexer(sourceInput, errorHandler);
-        return new Parser(lexer, errorHandler);
+        return TestHub.createParser(input);
     }
 }
