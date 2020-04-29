@@ -16,6 +16,18 @@ public final class SemanticError extends Error
         this.errorType = ErrorType.SEMANTIC_ERROR;
     }
 
+    public static String exceptionOccurred(Exception exception)
+    {
+        StackTraceElement stackTraceElement = exception.getStackTrace()[0];
+        int lineNumber = stackTraceElement.getLineNumber();
+        String className = stackTraceElement.getClassName();
+
+        String location = String.format("Line %1s: Exception occurred at %2s", lineNumber, className);
+        String message = exception.getMessage();
+
+        return location + "\n" + message;
+    }
+
     public static SemanticError undefinedUnaryOperator(SourceSpan span, String syntax, ObjectType type)
     {
         String message = String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax, type);

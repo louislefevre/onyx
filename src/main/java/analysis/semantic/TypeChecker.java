@@ -4,7 +4,6 @@ import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
-import org.jetbrains.annotations.Nullable;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -30,10 +29,18 @@ public final class TypeChecker
 
     private AnnotatedStatement getAnnotatedStatement()
     {
-        return this.annotateStatement(this.parseTree.getStatement());
+        try
+        {
+            return this.annotateStatement(this.parseTree.getStatement());
+        } catch (Exception exception)
+        {
+            String message = SemanticError.exceptionOccurred(exception);
+            System.out.println(message);
+            return null;
+        }
     }
 
-    private AnnotatedStatement annotateStatement(Statement statement)
+    private AnnotatedStatement annotateStatement(Statement statement) throws Exception
     {
         switch (statement.getStatementType())
         {
@@ -42,11 +49,11 @@ public final class TypeChecker
             case EXPRESSION_STATEMENT:
                 return this.annotateExpressionStatement((ExpressionStatement) statement);
             default:
-                return this.unknownStatement(statement);
+                throw SemanticError.undefinedStatement(statement.getStatementType().toString());
         }
     }
 
-    private AnnotatedStatement annotateBlockStatement(BlockStatement blockStatement)
+    private AnnotatedStatement annotateBlockStatement(BlockStatement blockStatement) throws Exception
     {
         List<AnnotatedStatement> statementList = new ArrayList<>();
 
@@ -59,13 +66,13 @@ public final class TypeChecker
         return new AnnotatedBlockStatement(statementList);
     }
 
-    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement statement)
+    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement statement) throws Exception
     {
         AnnotatedExpression expression = this.annotateExpression(statement.getExpression());
         return new AnnotatedExpressionStatement(expression);
     }
 
-    private AnnotatedExpression annotateExpression(Expression expression)
+    private AnnotatedExpression annotateExpression(Expression expression) throws Exception
     {
         switch (expression.getExpressionType())
         {
@@ -82,11 +89,11 @@ public final class TypeChecker
             case ASSIGNMENT_EXPRESSION:
                 return this.annotateAssignmentExpression((AssignmentExpression) expression);
             default:
-                return this.unknownExpression(expression);
+                throw SemanticError.undefinedExpression(expression.getExpressionType().toString());
         }
     }
 
-    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression expression)
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression expression) throws Exception
     {
         return this.annotateExpression(expression.getExpression());
     }
@@ -97,7 +104,7 @@ public final class TypeChecker
         return new AnnotatedLiteralExpression(value);
     }
 
-    private AnnotatedExpression annotateUnaryExpression(UnaryExpression expression)
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression expression) throws Exception
     {
         AnnotatedExpression annotatedOperand = this.annotateExpression(expression.getOperand());
         AnnotatedUnaryOperator annotatedOperator =
@@ -115,7 +122,7 @@ public final class TypeChecker
         return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    private AnnotatedExpression annotateBinaryExpression(BinaryExpression expression)
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression expression) throws Exception
     {
         AnnotatedExpression annotatedLeft = this.annotateExpression(expression.getLeftTerm());
         AnnotatedExpression annotatedRight = this.annotateExpression(expression.getRightTerm());
@@ -151,36 +158,10 @@ public final class TypeChecker
         return new AnnotatedIdentifierExpression(name, type);
     }
 
-    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression expression)
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression expression) throws Exception
     {
         String name = expression.getIdentifierToken().getSyntax();
         AnnotatedExpression annotatedExpression = this.annotateExpression(expression.getExpression());
         return new AnnotatedAssignmentExpression(name, annotatedExpression);
-    }
-
-    @Nullable
-    private AnnotatedExpression unknownExpression(Expression expression)
-    {
-        try
-        {
-            throw SemanticError.undefinedExpression(expression.getExpressionType().toString());
-        } catch (Exception err)
-        {
-            System.out.println(err.getMessage());
-        }
-        return null;
-    }
-
-    @Nullable
-    private AnnotatedStatement unknownStatement(Statement statement)
-    {
-        try
-        {
-            throw SemanticError.undefinedStatement(statement.getStatementType().toString());
-        } catch (Exception err)
-        {
-            System.out.println(err.getMessage());
-        }
-        return null;
     }
 }

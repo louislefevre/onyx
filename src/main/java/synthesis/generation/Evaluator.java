@@ -35,13 +35,15 @@ public final class Evaluator
             return this.lastValue;
         } catch (Exception exception)
         {
-            return EvaluationError.exceptionOccurred(exception);
+            String message = EvaluationError.exceptionOccurred(exception);
+            System.out.println(message);
+            return null;
         }
     }
 
     private void evaluateStatement(AnnotatedStatement statement) throws Exception
     {
-        switch(statement.getAnnotatedStatementType())
+        switch (statement.getAnnotatedStatementType())
         {
             case ANNOTATED_BLOCK_STATEMENT:
                 this.evaluateBlockStatement((AnnotatedBlockStatement) statement);
@@ -56,7 +58,7 @@ public final class Evaluator
 
     private void evaluateBlockStatement(AnnotatedBlockStatement annotatedBlockStatement) throws Exception
     {
-        for(AnnotatedStatement statement : annotatedBlockStatement.getAnnotatedStatementList())
+        for (AnnotatedStatement statement : annotatedBlockStatement.getAnnotatedStatementList())
             this.evaluateStatement(statement);
     }
 
