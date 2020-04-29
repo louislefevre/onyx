@@ -83,8 +83,8 @@ public final class Parser
     {
         if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
         {
-            //this.nextPosition();
-            //return this.parseUnknownExpression();
+            this.nextPosition();
+            return this.parseUnknownExpression();
         }
 
         Expression left = this.parseUnaryExpression(parentPrecedence);
