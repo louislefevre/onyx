@@ -3,9 +3,9 @@ package analysis.semantic;
 import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 
-public abstract class AnnotatedExpression
+public interface AnnotatedExpression
 {
-    public abstract AnnotatedExpressionType getAnnotatedExpressionType();
+    AnnotatedExpressionType getAnnotatedExpressionType();
 
-    public abstract ObjectType getObjectType();
+    ObjectType getObjectType();
 }

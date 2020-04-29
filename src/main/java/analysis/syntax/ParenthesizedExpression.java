@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public final class ParenthesizedExpression extends Expression
+public final class ParenthesizedExpression implements Expression
 {
     private final Expression expression;
     private final ExpressionType expressionType;

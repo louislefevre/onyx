@@ -6,7 +6,7 @@ import identifiers.TokenType;
 import lombok.Getter;
 
 @Getter
-public final class AnnotatedBinaryOperator extends AnnotatedOperator
+public final class AnnotatedBinaryOperator implements AnnotatedOperator
 {
     private final TokenType tokenType;
     private final OperatorType operatorType;

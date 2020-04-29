@@ -2,7 +2,7 @@ package analysis.semantic;
 
 import identifiers.AnnotatedStatementType;
 
-public abstract class AnnotatedStatement
+public interface AnnotatedStatement
 {
-    public abstract AnnotatedStatementType getAnnotatedStatementType();
+    AnnotatedStatementType getAnnotatedStatementType();
 }

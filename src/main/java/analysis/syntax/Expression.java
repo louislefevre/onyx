@@ -4,9 +4,9 @@ import identifiers.ExpressionType;
 
 import java.util.List;
 
-public abstract class Expression
+public interface Expression
 {
-    public abstract ExpressionType getExpressionType();
+    ExpressionType getExpressionType();
 
-    public abstract List<Object> getChildren();
+    List<Object> getChildren();
 }

@@ -1,12 +1,12 @@
 package analysis.semantic;
 
-import lombok.Getter;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
+import lombok.Getter;
 
 @Getter
-public final class AnnotatedUnaryOperator extends AnnotatedOperator
+public final class AnnotatedUnaryOperator implements AnnotatedOperator
 {
     private final TokenType tokenType;
     private final OperatorType operatorType;

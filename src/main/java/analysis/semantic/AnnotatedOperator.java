@@ -4,11 +4,11 @@ import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
 
-public abstract class AnnotatedOperator
+public interface AnnotatedOperator
 {
-    public abstract TokenType getTokenType();
+    TokenType getTokenType();
 
-    public abstract OperatorType getOperatorType();
+    OperatorType getOperatorType();
 
-    public abstract ObjectType getResultObjectType();
+    ObjectType getResultObjectType();
 }

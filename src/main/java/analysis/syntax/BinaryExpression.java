@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public final class BinaryExpression extends Expression
+public final class BinaryExpression implements Expression
 {
     private final Expression leftTerm;
     private final Token operatorToken;

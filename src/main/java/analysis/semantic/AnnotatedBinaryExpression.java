@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import lombok.Getter;
 
 @Getter
-public final class AnnotatedBinaryExpression extends AnnotatedExpression
+public final class AnnotatedBinaryExpression implements AnnotatedExpression
 {
     private final AnnotatedExpression leftTerm;
     private final AnnotatedBinaryOperator operator;

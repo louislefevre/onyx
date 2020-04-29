@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public final class AssignmentExpression extends Expression
+public final class AssignmentExpression implements Expression
 {
     private final Token identifierToken;
     private final Token equalsToken;

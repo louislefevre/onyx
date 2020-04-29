@@ -4,7 +4,7 @@ import identifiers.AnnotatedStatementType;
 import lombok.Getter;
 
 @Getter
-public final class AnnotatedExpressionStatement extends AnnotatedStatement
+public final class AnnotatedExpressionStatement implements AnnotatedStatement
 {
     private final AnnotatedExpression annotatedExpression;
     private final AnnotatedStatementType annotatedStatementType;

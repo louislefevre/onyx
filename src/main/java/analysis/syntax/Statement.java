@@ -4,9 +4,9 @@ import identifiers.StatementType;
 
 import java.util.List;
 
-public abstract class Statement
+public interface Statement
 {
-    public abstract StatementType getStatementType();
+    StatementType getStatementType();
 
-    public abstract List<Object> getChildren();
+    List<Object> getChildren();
 }

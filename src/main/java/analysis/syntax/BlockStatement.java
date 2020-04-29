@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public final class BlockStatement extends Statement
+public final class BlockStatement implements Statement
 {
     private final Token openBraceToken;
     private final List<Statement> statements;

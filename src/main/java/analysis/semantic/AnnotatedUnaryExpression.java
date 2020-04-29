@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import lombok.Getter;
 
 @Getter
-public final class AnnotatedUnaryExpression extends AnnotatedExpression
+public final class AnnotatedUnaryExpression implements AnnotatedExpression
 {
     private final AnnotatedUnaryOperator operator;
     private final AnnotatedExpression operand;

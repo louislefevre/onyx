@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public final class LiteralExpression extends Expression
+public final class LiteralExpression implements Expression
 {
     private final Token literalToken;
     private final Object value;

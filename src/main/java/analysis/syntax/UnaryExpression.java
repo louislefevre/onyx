@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public final class UnaryExpression extends Expression
+public final class UnaryExpression implements Expression
 {
     private final Token operatorToken;
     private final Expression operand;

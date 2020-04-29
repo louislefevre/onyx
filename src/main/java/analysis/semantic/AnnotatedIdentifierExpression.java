@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 import lombok.Getter;
 
 @Getter
-public final class AnnotatedIdentifierExpression extends AnnotatedExpression
+public final class AnnotatedIdentifierExpression implements AnnotatedExpression
 {
     private final String name;
     private final ObjectType objectType;

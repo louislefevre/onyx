@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public final class ExpressionStatement extends Statement
+public final class ExpressionStatement implements Statement
 {
     private final Expression expression;
     private final StatementType statementType;

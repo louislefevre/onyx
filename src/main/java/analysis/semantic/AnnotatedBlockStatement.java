@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public final class AnnotatedBlockStatement extends AnnotatedStatement
+public final class AnnotatedBlockStatement implements AnnotatedStatement
 {
     private final List<AnnotatedStatement> annotatedStatementList;
     private final AnnotatedStatementType annotatedStatementType;

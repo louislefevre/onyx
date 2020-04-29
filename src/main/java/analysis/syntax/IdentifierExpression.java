@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public final class IdentifierExpression extends Expression
+public final class IdentifierExpression implements Expression
 {
     private final Token identifierToken;
     private final ExpressionType expressionType;
