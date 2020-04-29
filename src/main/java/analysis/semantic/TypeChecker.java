@@ -148,7 +148,7 @@ public final class TypeChecker
         }
         ObjectType type = this.symbolTable.getSymbol(name).getType();
 
-        return new AnnotatedVariableExpression(name, type);
+        return new AnnotatedIdentifierExpression(name, type);
     }
 
     private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression expression)

@@ -78,8 +78,8 @@ public final class Evaluator
         if (type == AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION)
             return this.evaluateBinaryExpression((AnnotatedBinaryExpression) expression);
 
-        if (type == AnnotatedExpressionType.ANNOTATED_VARIABLE_EXPRESSION)
-            return this.evaluateVariableExpression((AnnotatedVariableExpression) expression);
+        if (type == AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION)
+            return this.evaluateVariableExpression((AnnotatedIdentifierExpression) expression);
 
         if (type == AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
@@ -294,7 +294,7 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateVariableExpression(AnnotatedVariableExpression expression) throws Exception
+    private Object evaluateVariableExpression(AnnotatedIdentifierExpression expression) throws Exception
     {
         String name = expression.getName();
         if (this.symbolTable.containsSymbol(name))
