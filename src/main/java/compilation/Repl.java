@@ -9,7 +9,7 @@ public final class Repl
 {
     public void run()
     {
-        Compiler compiler = new Compiler();
+        Pipeline pipeline = new Pipeline();
 
         while (true)
         {
@@ -18,7 +18,7 @@ public final class Repl
             if (input.isBlank())
                 break;
 
-            SourceOutput output = compiler.compile(input);
+            SourceOutput output = pipeline.compile(input);
 
             System.out.println(output.getResult());
         }

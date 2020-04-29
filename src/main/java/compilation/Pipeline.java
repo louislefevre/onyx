@@ -9,11 +9,11 @@ import source.SourceOutput;
 import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 
-public final class Compiler
+public final class Pipeline
 {
     private final SymbolTable symbolTable;
 
-    public Compiler()
+    public Pipeline()
     {
         this.symbolTable = new SymbolTable();
     }
