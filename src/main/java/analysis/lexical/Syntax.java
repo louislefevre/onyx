@@ -2,32 +2,44 @@ package analysis.lexical;
 
 public enum Syntax
 {
-    AND("AND"),
-    CARET("^"),
-    CLOSE_BRACE("}"),
-    CLOSE_PARENTHESIS(")"),
+    // Data Syntax
     DECIMAL_POINT("."),
     DOUBLE_QUOTES("\""),
-    EOF("\0"),
+
+    // Keyword Syntax
+    TRUE("true"),
+    FALSE("false"),
+    AND("AND"),
+    OR("OR"),
+
+    // Separator Syntax
+    OPEN_BRACE("{"),
+    CLOSE_BRACE("}"),
+    OPEN_PARENTHESIS("("),
+    CLOSE_PARENTHESIS(")"),
+
+    // Operator Syntax
+    PLUS("+"),
+    MINUS("-"),
+    STAR("*"),
+    SLASH("/"),
+    PERCENT("%"),
+    CARET("^"),
+    GREATER(">"),
+    LESS("<"),
+    GREATER_EQUALS(">="),
+    LESS_EQUALS("<="),
+    NOT("!"),
     EQUALS("="),
     EQUALS_EQUALS("=="),
-    FALSE("false"),
-    GREATER(">"),
-    GREATER_EQUALS(">="),
-    HASH("#"),
-    LESS("<"),
-    LESS_EQUALS("<="),
-    MINUS("-"),
-    NOT("!"),
     NOT_EQUALS("!="),
-    OPEN_BRACE("{"),
-    OPEN_PARENTHESIS("("),
-    OR("OR"),
-    PERCENT("%"),
-    PLUS("+"),
-    SLASH("/"),
-    STAR("*"),
-    TRUE("true");
+
+    // Break Syntax
+    EOF("\0"),
+
+    // Not-parsed Syntax
+    HASH("#");
+
 
     private final String syntax;
 
