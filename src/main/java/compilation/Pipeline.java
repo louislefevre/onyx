@@ -18,15 +18,16 @@ public final class Pipeline
         this.symbolTable = new SymbolTable();
     }
 
-    public SourceOutput compile(SourceInput sourceInput)
+    public SourceOutput compile(String input)
     {
+        SourceInput sourceInput = new SourceInput(input);
         ErrorHandler errorHandler = new ErrorHandler(sourceInput);
 
-        Lexer lexer = new Lexer(sourceInput, errorHandler);
-        Parser parser = new Parser(lexer, errorHandler);
-        TypeChecker typeChecker = new TypeChecker(parser, errorHandler, this.symbolTable);
-        Evaluator evaluator = new Evaluator(typeChecker, errorHandler, this.symbolTable);
-        SourceOutput sourceOutput = new SourceOutput(evaluator, errorHandler);
+        Lexer lexer = new Lexer(sourceInput, errorHandler, this.symbolTable);
+        Parser parser = new Parser(lexer);
+        TypeChecker typeChecker = new TypeChecker(parser);
+        Evaluator evaluator = new Evaluator(typeChecker);
+        SourceOutput sourceOutput = new SourceOutput(evaluator);
 
         return sourceOutput;
     }

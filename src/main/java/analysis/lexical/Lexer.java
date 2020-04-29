@@ -4,6 +4,7 @@ import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
 import source.SourceInput;
+import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +13,25 @@ public final class Lexer
 {
     private final SourceInput sourceInput;
     private final ErrorHandler errorHandler;
+    private final SymbolTable symbolTable;
     private int position;
 
-    public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
+    public Lexer(SourceInput sourceInput, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.sourceInput = sourceInput;
         this.errorHandler = errorHandler;
+        this.symbolTable = symbolTable;
         this.position = 0;
+    }
+
+    public ErrorHandler getErrorHandler()
+    {
+        return this.errorHandler;
+    }
+
+    public SymbolTable getSymbolTable()
+    {
+        return symbolTable;
     }
 
     public List<Token> getTokens()

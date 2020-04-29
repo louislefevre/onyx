@@ -15,11 +15,21 @@ public final class TypeChecker
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
 
-    public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
-        this.errorHandler = errorHandler;
-        this.symbolTable = symbolTable;
+        this.errorHandler = parser.getErrorHandler();
+        this.symbolTable = parser.getSymbolTable();
+    }
+
+    public ErrorHandler getErrorHandler()
+    {
+        return this.errorHandler;
+    }
+
+    public SymbolTable getSymbolTable()
+    {
+        return symbolTable;
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()

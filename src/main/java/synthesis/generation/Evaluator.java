@@ -15,11 +15,21 @@ public final class Evaluator
     private final SymbolTable symbolTable;
     private Object lastValue;
 
-    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public Evaluator(TypeChecker typeChecker)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
-        this.errorHandler = errorHandler;
-        this.symbolTable = symbolTable;
+        this.errorHandler = typeChecker.getErrorHandler();
+        this.symbolTable = typeChecker.getSymbolTable();
+    }
+
+    public ErrorHandler getErrorHandler()
+    {
+        return this.errorHandler;
+    }
+
+    public SymbolTable getSymbolTable()
+    {
+        return symbolTable;
     }
 
     public Object getEvaluation()

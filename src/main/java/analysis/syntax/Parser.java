@@ -5,6 +5,7 @@ import analysis.lexical.Token;
 import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
+import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,25 @@ public final class Parser
 {
     private final List<Token> tokens;
     private final ErrorHandler errorHandler;
+    private final SymbolTable symbolTable;
     private int position;
 
-    public Parser(Lexer lexer, ErrorHandler errorHandler)
+    public Parser(Lexer lexer)
     {
         this.tokens = lexer.getTokens();
-        this.errorHandler = errorHandler;
+        this.errorHandler = lexer.getErrorHandler();
+        this.symbolTable = lexer.getSymbolTable();
         this.position = 0;
+    }
+
+    public ErrorHandler getErrorHandler()
+    {
+        return this.errorHandler;
+    }
+
+    public SymbolTable getSymbolTable()
+    {
+        return symbolTable;
     }
 
     public ParseTree getParseTree()

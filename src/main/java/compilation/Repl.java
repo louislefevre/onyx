@@ -1,6 +1,5 @@
 package compilation;
 
-import source.SourceInput;
 import source.SourceOutput;
 
 import java.util.Scanner;
@@ -13,7 +12,7 @@ public final class Repl
 
         while (true)
         {
-            SourceInput input = readInput();
+            String input = readInput();
 
             if (input.isBlank())
                 break;
@@ -24,7 +23,7 @@ public final class Repl
         }
     }
 
-    private static SourceInput readInput()
+    private static String readInput()
     {
         StringBuilder builder = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
@@ -43,6 +42,6 @@ public final class Repl
             System.out.print("| ");
         }
 
-        return new SourceInput(builder.toString());
+        return builder.toString();
     }
 }
