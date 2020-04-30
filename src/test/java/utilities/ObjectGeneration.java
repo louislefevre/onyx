@@ -8,7 +8,7 @@ import source.SourceInput;
 import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 
-public class ObjectGeneration
+class ObjectGeneration
 {
     private ObjectGeneration() {}
 

@@ -50,19 +50,6 @@ class ParserTest
     }
 
     @Test
-    public void parserIdentifiesParenthesizedExpression()
-    {
-        String message = "Failed to identify parenthesized expression: ";
-        HashMap<String, Object> parenthesizedCollection = TestHub.parenthesizedCollection();
-
-        parenthesizedCollection.forEach((input, redundant) -> {
-            ExpressionType actual = expressionTypeOf(input);
-            ExpressionType expected = ExpressionType.PARENTHESIZED_EXPRESSION;
-            assertEquals(expected, actual, message + input);
-        });
-    }
-
-    @Test
     public void parserIdentifiesIdentifierExpression()
     {
         String message = "Failed to identify identifier expression: ";
@@ -84,6 +71,19 @@ class ParserTest
         assignmentCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
             ExpressionType expected = ExpressionType.ASSIGNMENT_EXPRESSION;
+            assertEquals(expected, actual, message + input);
+        });
+    }
+
+    @Test
+    public void parserIdentifiesParenthesizedExpression()
+    {
+        String message = "Failed to identify parenthesized expression: ";
+        HashMap<String, Object> parenthesizedCollection = TestHub.parenthesizedCollection();
+
+        parenthesizedCollection.forEach((input, redundant) -> {
+            ExpressionType actual = expressionTypeOf(input);
+            ExpressionType expected = ExpressionType.PARENTHESIZED_EXPRESSION;
             assertEquals(expected, actual, message + input);
         });
     }
