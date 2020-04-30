@@ -3,51 +3,99 @@ package utilities;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
-import errors.ErrorHandler;
-import source.SourceInput;
-import source.SourceOutput;
-import symbols.SymbolTable;
+import identifiers.TokenType;
 import synthesis.generation.Evaluator;
+
+import java.util.HashMap;
 
 public class TestHub
 {
-    private TestHub() { }
+    private TestHub() {}
 
     public static Lexer createLexer(String input)
     {
-        SourceInput sourceInput = new SourceInput(input);
-        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
-        SymbolTable symbolTable = new SymbolTable();
-        return new Lexer(sourceInput, errorHandler, symbolTable);
+        return ObjectGeneration.createLexer(input);
     }
 
     public static Parser createParser(String input)
     {
-        Lexer lexer = createLexer(input);
-        return new Parser(lexer);
+        return ObjectGeneration.createParser(input);
     }
 
     public static TypeChecker createTypeChecker(String input)
     {
-        Parser parser = createParser(input);
-        return new TypeChecker(parser);
+        return ObjectGeneration.createTypeChecker(input);
     }
 
     public static Evaluator createEvaluator(String input)
     {
-        TypeChecker typeChecker = createTypeChecker(input);
-        return new Evaluator(typeChecker);
+        return ObjectGeneration.createEvaluator(input);
     }
 
-    public static SourceOutput createSourceOutput(String input)
+    public static HashMap<String, Object> dataCollections()
     {
-        Evaluator evaluator = createEvaluator(input);
-        return new SourceOutput(evaluator);
+        HashMap<String, Object> data = new HashMap<>();
+        data.putAll(MapGeneration.integerCollection());
+        data.putAll(MapGeneration.doubleCollection());
+        data.putAll(MapGeneration.booleanCollection());
+        data.putAll(MapGeneration.stringCollection());
+
+        return data;
+    }
+
+    public static HashMap<String, Object> unaryCollections()
+    {
+        HashMap<String, Object> unarys = new HashMap<>();
+        unarys.putAll(MapGeneration.unaryIntegerCollection());
+        unarys.putAll(MapGeneration.unaryDoubleCollection());
+        unarys.putAll(MapGeneration.unaryBooleanCollection());
+
+        return unarys;
+    }
+
+    public static HashMap<String, Object> binaryCollections()
+    {
+        HashMap<String, Object> binaries = new HashMap<>();
+        binaries.putAll(MapGeneration.binaryIntegerCollection());
+        binaries.putAll(MapGeneration.binaryDoubleCollection());
+        binaries.putAll(MapGeneration.binaryBooleanCollection());
+        binaries.putAll(MapGeneration.binaryStringCollection());
+
+        return binaries;
+    }
+
+    public static HashMap<String, Object> assignmentCollection()
+    {
+        return MapGeneration.assignmentCollection();
+    }
+
+    public static HashMap<String, Object> identifierCollection()
+    {
+        return MapGeneration.identifierCollection();
+    }
+
+    public static HashMap<String, TokenType> tokenTypeCollection()
+    {
+        return MapGeneration.tokenTypeCollection();
+    }
+
+    public static HashMap<String, Object> parenthesizedCollection()
+    {
+        HashMap<String, Object> allCollections = allCollections();
+        HashMap<String, Object> parenthesizes = new HashMap<>();
+        allCollections.forEach((k, v) -> parenthesizes.put("(" + k + ")", v));
+
+        return parenthesizes;
+    }
+
+    public static HashMap<String, Object> allCollections()
+    {
+        HashMap<String, Object> allCollections = new HashMap<>();
+        allCollections.putAll(dataCollections());
+        allCollections.putAll(unaryCollections());
+        allCollections.putAll(binaryCollections());
+        allCollections.putAll(assignmentCollection());
+
+        return allCollections;
     }
 }
-
-/*
-* TODO: To ensure the testing inputs are consistent, create methods for storing and returning an
-*       array of different inputs. That way by putting a new input into this array, its used in every
-*       single test class.
-*/
