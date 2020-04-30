@@ -21,52 +21,45 @@ public final class EvaluationError extends Error
         int lineNumber = stackTraceElement.getLineNumber();
         String className = stackTraceElement.getClassName();
 
-        String location = String.format("Line %1s: Exception occurred at %2s", lineNumber, className);
+        String location = String.format("Line %1s: Exception occurred at %2s.", lineNumber, className);
         String message = exception.getMessage();
 
         return location + "\n" + message;
     }
 
-    public static Exception unexpectedExpression(String expression)
+    public static String unexpectedExpression(String expression)
     {
-        String message = String.format("Unexpected expression '%s'.", expression);
-        return new Exception(message);
+        return String.format("Unexpected expression '%s'.", expression);
     }
 
-    public static Exception unexpectedStatement(String statement)
+    public static String unexpectedStatement(String statement)
     {
-        String message = String.format("Unexpected statement '%s'.", statement);
-        return new Exception(message);
+        return String.format("Unexpected statement '%s'.", statement);
     }
 
-    public static Exception unexpectedUnaryObjectType(String type)
+    public static String unexpectedUnaryObjectType(String type)
     {
-        String message = String.format("Unexpected unary object type '%s'.", type);
-        return new Exception(message);
+        return String.format("Unexpected unary object type '%s'.", type);
     }
 
-    public static Exception unexpectedBinaryObjectTypes(String leftType, String rightType)
+    public static String unexpectedBinaryObjectTypes(String leftType, String rightType)
     {
-        String message = String.format("Unexpected binary object types '%1s' and '%2s'.", leftType, rightType);
-        return new Exception(message);
+        return String.format("Unexpected binary object types '%1s' and '%2s'.", leftType, rightType);
     }
 
-    public static Exception unexpectedUnaryOperator(String operator)
+    public static String unexpectedUnaryOperator(String operator)
     {
-        String message = String.format("Unexpected unary operator '%s'.", operator);
-        return new Exception(message);
+        return String.format("Unexpected unary operator '%s'.", operator);
     }
 
-    public static Exception unexpectedBinaryOperator(String operator)
+    public static String unexpectedBinaryOperator(String operator)
     {
-        String message = String.format("Unexpected binary operator '%s'.", operator);
-        return new Exception(message);
+        return String.format("Unexpected binary operator '%s'.", operator);
     }
 
-    public static Exception missingSymbol(String name)
+    public static String missingSymbol(String name)
     {
-        String message = String.format("Symbol '%s' does not exist in symbol table.", name);
-        return new Exception(message);
+        return String.format("Symbol '%s' does not exist in symbol table.", name);
     }
 
     @Override

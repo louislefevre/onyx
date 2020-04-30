@@ -22,7 +22,7 @@ public final class SemanticError extends Error
         int lineNumber = stackTraceElement.getLineNumber();
         String className = stackTraceElement.getClassName();
 
-        String location = String.format("Line %1s: Exception occurred at %2s", lineNumber, className);
+        String location = String.format("Line %1s: Exception occurred at %2s.", lineNumber, className);
         String message = exception.getMessage();
 
         return location + "\n" + message;
@@ -48,16 +48,14 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
-    public static Exception undefinedExpression(String syntax)
+    public static String undefinedExpression(String syntax)
     {
-        String message = String.format("Unexpected expression '%s'", syntax);
-        return new Exception(message);
+        return String.format("Unexpected expression '%s'", syntax);
     }
 
-    public static Exception undefinedStatement(String syntax)
+    public static String undefinedStatement(String syntax)
     {
-        String message = String.format("Unexpected statement '%s'", syntax);
-        return new Exception(message);
+        return String.format("Unexpected statement '%s'", syntax);
     }
 
     @Override

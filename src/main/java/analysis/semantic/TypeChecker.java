@@ -59,7 +59,7 @@ public final class TypeChecker
             case EXPRESSION_STATEMENT:
                 return this.annotateExpressionStatement((ExpressionStatement) statement);
             default:
-                throw SemanticError.undefinedStatement(statement.getStatementType().toString());
+                throw new Exception(SemanticError.undefinedStatement(statement.getStatementType().toString()));
         }
     }
 
@@ -99,7 +99,7 @@ public final class TypeChecker
             case ASSIGNMENT_EXPRESSION:
                 return this.annotateAssignmentExpression((AssignmentExpression) expression);
             default:
-                throw SemanticError.undefinedExpression(expression.getExpressionType().toString());
+                throw new Exception(SemanticError.undefinedExpression(expression.getExpressionType().toString()));
         }
     }
 

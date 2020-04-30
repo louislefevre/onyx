@@ -62,7 +62,7 @@ public final class Evaluator
                 this.evaluateExpressionStatement((AnnotatedExpressionStatement) statement);
                 break;
             default:
-                throw EvaluationError.unexpectedStatement(statement.getAnnotatedStatementType().toString());
+                throw new Exception(EvaluationError.unexpectedStatement(statement.getAnnotatedStatementType().toString()));
         }
     }
 
@@ -96,7 +96,7 @@ public final class Evaluator
         if (type == AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
 
-        throw EvaluationError.unexpectedExpression(expression.getAnnotatedExpressionType().toString());
+        throw new Exception(EvaluationError.unexpectedExpression(expression.getAnnotatedExpressionType().toString()));
     }
 
     private Object evaluateNumberExpression(AnnotatedLiteralExpression expression)
@@ -119,7 +119,7 @@ public final class Evaluator
         if (type == ObjectType.BOOLEAN_OBJECT)
             return this.evaluateUnaryBooleanExpression(operand, operatorType);
 
-        throw EvaluationError.unexpectedUnaryObjectType(type.toString());
+        throw new Exception(EvaluationError.unexpectedUnaryObjectType(type.toString()));
     }
 
     private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws Exception
@@ -135,7 +135,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
         }
     }
 
@@ -152,7 +152,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
         }
     }
 
@@ -165,7 +165,7 @@ public final class Evaluator
             case LOGIC_NEGATION_OPERATOR:
                 return !operandBoolean;
             default:
-                throw EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
         }
     }
 
@@ -189,7 +189,7 @@ public final class Evaluator
         if (leftType == ObjectType.STRING_OBJECT && rightType == ObjectType.STRING_OBJECT)
             return this.evaluateBinaryStringExpression(left, right, operatorType);
 
-        throw EvaluationError.unexpectedBinaryObjectTypes(leftType.toString(), rightType.toString());
+        throw new Exception(EvaluationError.unexpectedBinaryObjectTypes(leftType.toString(), rightType.toString()));
     }
 
     private Object evaluateBinaryIntegerExpression(Object left, Object right, OperatorType operatorType) throws Exception
@@ -226,7 +226,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftInt != rightInt;
             default:
-                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
         }
     }
 
@@ -264,7 +264,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftDouble != rightDouble;
             default:
-                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
         }
     }
 
@@ -284,7 +284,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftBool != rightBool;
             default:
-                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
         }
     }
 
@@ -302,7 +302,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return !leftString.equals(rightString);
             default:
-                throw EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
         }
     }
 
@@ -311,7 +311,7 @@ public final class Evaluator
         String name = expression.getName();
         if (this.symbolTable.containsSymbol(name))
             return this.symbolTable.getSymbol(name).getValue();
-        throw EvaluationError.missingSymbol(name);
+        throw new Exception(EvaluationError.missingSymbol(name));
     }
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression expression) throws Exception
