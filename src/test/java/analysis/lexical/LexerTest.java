@@ -14,9 +14,9 @@ class LexerTest
     public void lexerIdentifiesTokens()
     {
         String message = "Failed to return correct inbuilt token - TokenType mismatch at: ";
-        HashMap<String, TokenType> tokenTypes = TestHub.tokenTypeCollection();
+        HashMap<String, TokenType> tokenTypeCollection = TestHub.tokenTypeCollection();
 
-        tokenTypes.forEach((input, expected) -> {
+        tokenTypeCollection.forEach((input, expected) -> {
             TokenType actual = tokenTypeOf(input);
             assertEquals(expected, actual, message + input);
         });
@@ -26,9 +26,9 @@ class LexerTest
     public void lexerReturnsCorrectAmountOfTokens()
     {
         String message = "Failed to return correct token amount - Incorrect amount at: ";
-        HashMap<String, Object> binaries = TestHub.binaryCollections();
+        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
 
-        binaries.forEach((input, redundant) -> {
+        binaryCollection.forEach((input, redundant) -> {
             int actual = amountOfTokens(input);
             int expected = 4;
             assertEquals(expected, actual, message + input);

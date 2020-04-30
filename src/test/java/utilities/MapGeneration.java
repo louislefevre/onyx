@@ -13,7 +13,7 @@ class MapGeneration
     {
         HashMap<String, Object> integers = new HashMap<>();
         integers.put("0", 0);     integers.put("1", 1);
-        integers.put("100", 100); integers.put("12345", 100);
+        integers.put("100", 100); integers.put("12345", 12345);
         integers.put("2147483647", 2147483647);
 
         return integers;
@@ -55,7 +55,7 @@ class MapGeneration
         integerUnarys.put("+0", 0);                   integerUnarys.put("-0", 0);
         integerUnarys.put("+1", 1);                   integerUnarys.put("-1", -1);
         integerUnarys.put("+12345", 12345);           integerUnarys.put("-12345", -12345);
-        integerUnarys.put("+2147483647", 2147483647); integerUnarys.put("-2147483648", -2147483648);
+        integerUnarys.put("+2147483647", 2147483647); integerUnarys.put("-2147483647", -2147483647);
 
         return integerUnarys;
     }
@@ -63,10 +63,10 @@ class MapGeneration
     static HashMap<String, Object> unaryDoubleCollection()
     {
         HashMap<String, Object> doubleUnarys = new HashMap<>();
-        doubleUnarys.put("+0.0", 0.0);                   doubleUnarys.put("-0.0", 0.0);
+        doubleUnarys.put("+0.0", 0.0);                   doubleUnarys.put("-0.0", -0.0);
         doubleUnarys.put("+1.0", 1.0);                   doubleUnarys.put("-1.0", -1.0);
         doubleUnarys.put("+12345.0", 12345.0);           doubleUnarys.put("-12345.0", -12345.0);
-        doubleUnarys.put("+2147483647.0", 2147483647.0); doubleUnarys.put("-2147483648.0", -2147483648.0);
+        doubleUnarys.put("+2147483647.0", 2147483647.0); doubleUnarys.put("-2147483647.0", -2147483647.0);
 
         return doubleUnarys;
     }
@@ -85,13 +85,13 @@ class MapGeneration
         HashMap<String, Object> integerBinaries = new HashMap<>();
         integerBinaries.put("0 + 0", 0);      integerBinaries.put("0 - 0", 0);
         integerBinaries.put("0 * 0", 0);      integerBinaries.put("0 / 0", 0);
-        integerBinaries.put("0 % 0", 0);      integerBinaries.put("0 ^ 0", 0);
+        integerBinaries.put("0 % 0", 0);      integerBinaries.put("0 ^ 0", 1);
         integerBinaries.put("0 > 0", false);  integerBinaries.put("0 < 0", false);
         integerBinaries.put("0 >= 0", true);  integerBinaries.put("0 <= 0", true);
         integerBinaries.put("0 == 0", true);  integerBinaries.put("0 != 0", false);
         integerBinaries.put("10 + 15", 25);   integerBinaries.put("20 - 10", 10);
         integerBinaries.put("10 * 15", 150);  integerBinaries.put("90 / 10", 9);
-        integerBinaries.put("30 % 8", 6);     integerBinaries.put("5 ^ 5", 25);
+        integerBinaries.put("30 % 8", 6);     integerBinaries.put("5 ^ 5", 3125);
         integerBinaries.put("5 > 4", true);   integerBinaries.put("4 > 5", false);
         integerBinaries.put("5 < 4", false);  integerBinaries.put("4 < 5", true);
         integerBinaries.put("4 >= 5", false); integerBinaries.put("5 >= 4", true);
@@ -108,11 +108,11 @@ class MapGeneration
         HashMap<String, Object> doubleBinaries = new HashMap<>();
         doubleBinaries.put("0.0 + 0.0", 0.0);      doubleBinaries.put("0.0 - 0.0", 0.0);
         doubleBinaries.put("0.0 * 0.0", 0.0);      doubleBinaries.put("0.0 / 0.0", 0.0);
-        doubleBinaries.put("0.0 % 0.0", 0.0);      doubleBinaries.put("0.0 ^ 0.0", 0.0);
+        doubleBinaries.put("0.0 % 0.0", 0.0);      doubleBinaries.put("0.0 ^ 0.0", 1.0);
         doubleBinaries.put("0.0 > 0.0", false);    doubleBinaries.put("0.0 < 0.0", false);
         doubleBinaries.put("0.0 >= 0.0", true);    doubleBinaries.put("0.0 <= 0.0", true);
         doubleBinaries.put("0.0 == 0.0", true);    doubleBinaries.put("0.0 != 0.0", false);
-        doubleBinaries.put("10.5 + 10.5", 26);     doubleBinaries.put("20.5 - 10.5", 10.0);
+        doubleBinaries.put("10.5 + 15.5", 26.0);     doubleBinaries.put("20.5 - 10.5", 10.0);
         doubleBinaries.put("10.5 * 15.5", 162.75); doubleBinaries.put("91.8 / 10.2", 9.0);
         doubleBinaries.put("30.2 % 8.6", 4.4);     doubleBinaries.put("5.2 ^ 5.2", 5287.098322295948);
         doubleBinaries.put("5.0 > 4.9", true);     doubleBinaries.put("4.9 > 5.5", false);

@@ -32,7 +32,7 @@ public class TestHub
         return ObjectGeneration.createEvaluator(input);
     }
 
-    public static HashMap<String, Object> dataCollections()
+    public static HashMap<String, Object> literalCollection()
     {
         HashMap<String, Object> data = new HashMap<>();
         data.putAll(MapGeneration.integerCollection());
@@ -43,7 +43,7 @@ public class TestHub
         return data;
     }
 
-    public static HashMap<String, Object> unaryCollections()
+    public static HashMap<String, Object> unaryCollection()
     {
         HashMap<String, Object> unarys = new HashMap<>();
         unarys.putAll(MapGeneration.unaryIntegerCollection());
@@ -53,7 +53,7 @@ public class TestHub
         return unarys;
     }
 
-    public static HashMap<String, Object> binaryCollections()
+    public static HashMap<String, Object> binaryCollection()
     {
         HashMap<String, Object> binaries = new HashMap<>();
         binaries.putAll(MapGeneration.binaryIntegerCollection());
@@ -91,9 +91,9 @@ public class TestHub
     public static HashMap<String, Object> allCollections()
     {
         HashMap<String, Object> allCollections = new HashMap<>();
-        allCollections.putAll(dataCollections());
-        allCollections.putAll(unaryCollections());
-        allCollections.putAll(binaryCollections());
+        allCollections.putAll(literalCollection());
+        allCollections.putAll(unaryCollection());
+        allCollections.putAll(binaryCollection());
         allCollections.putAll(assignmentCollection());
 
         return allCollections;

@@ -14,9 +14,9 @@ class ParserTest
     public void parserIdentifiesLiteralExpression()
     {
         String message = "Failed to identify literal expression: ";
-        HashMap<String, Object> dataCollection = TestHub.dataCollections();
+        HashMap<String, Object> literalCollection = TestHub.literalCollection();
 
-        dataCollection.forEach((input, redundant) -> {
+        literalCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
             ExpressionType expected = ExpressionType.LITERAL_EXPRESSION;
             assertEquals(expected, actual, message + input);
@@ -27,7 +27,7 @@ class ParserTest
     public void parserIdentifiesUnaryExpression()
     {
         String message = "Failed to identify unary expression: ";
-        HashMap<String, Object> unaryCollection = TestHub.unaryCollections();
+        HashMap<String, Object> unaryCollection = TestHub.unaryCollection();
 
         unaryCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -40,7 +40,7 @@ class ParserTest
     public void parserIdentifiesBinaryExpression()
     {
         String message = "Failed to identify binary expression: ";
-        HashMap<String, Object> binaryCollection = TestHub.binaryCollections();
+        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
 
         binaryCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
