@@ -362,7 +362,9 @@ public final class Lexer
     {
         if (str.length() != 1)
             return false;
-        return Character.isLetter(str.charAt(0));
+
+        return Character.isLetter(str.charAt(0)) ||
+               str.equals("_") || str.equals("-");
     }
 
     private static boolean isIntegerParsable(String str)
