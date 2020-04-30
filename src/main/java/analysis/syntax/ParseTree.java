@@ -4,25 +4,27 @@ import analysis.lexical.Token;
 import org.jetbrains.annotations.TestOnly;
 import util.ANSI;
 
+import java.util.List;
+
 public final class ParseTree
 {
-    private final Expression expression;
+    private final Statement statement;
 
-    public ParseTree(Expression expression)
+    public ParseTree(Statement statement)
     {
-        this.expression = expression;
+        this.statement = statement;
     }
 
-    public Expression getExpression()
+    public Statement getStatement()
     {
         this.showTree();
-        return expression;
+        return this.statement;
     }
 
     @TestOnly
     public void showTree()
     {
-        printTree(this.expression, "", true);
+        printTree(this.statement, "", true);
     }
 
     private static void printTree(Object node, String indent, boolean isLast)
@@ -30,7 +32,9 @@ public final class ParseTree
         String marker = ANSI.GREY;
         marker += isLast ? "└──" : "├──";
 
-        if (node instanceof Expression)
+        if (node instanceof Statement)
+            System.out.print(indent + marker + ANSI.CYAN + ((Statement) node).getStatementType());
+        else if (node instanceof Expression)
             System.out.print(indent + marker + ANSI.CYAN + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
             System.out.print(indent + marker + ANSI.BRIGHT_RED + ((Token) node).getTokenType());
@@ -42,7 +46,21 @@ public final class ParseTree
         indent += ANSI.GREY;
         indent += isLast ? "   " : "│   ";
 
-        if (node instanceof Expression)
+        if (node instanceof Statement)
+        {
+            Object lastChild = null;
+
+            for (Object child : ((Statement) node).getChildren())
+                lastChild = child;
+
+            for (Object child : ((Statement) node).getChildren())
+                if (child instanceof List)
+                    for (Object statement : (List) child)
+                        printTree(statement, indent, child == lastChild);
+                else
+                    printTree(child, indent, child == lastChild);
+        }
+        else if (node instanceof Expression)
         {
             Object lastChild = null;
             for (Object child : ((Expression) node).getChildren())
