@@ -6,7 +6,7 @@ public enum TokenType
     INTEGER_TOKEN,
     DOUBLE_TOKEN,
     STRING_TOKEN,
-    IDENTIFIER_KEYWORD_TOKEN,
+    IDENTIFIER_TOKEN,
 
     // Keyword Tokens
     TRUE_KEYWORD_TOKEN,

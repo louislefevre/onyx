@@ -49,22 +49,16 @@ public final class Parser
 
     private Statement parseBlockStatement()
     {
-        Token openBrace = this.currentTokenThenNext();
-
         List<Statement> statements = new ArrayList<>();
+
+        Token openBrace = this.validateToken(TokenType.OPEN_BRACE_TOKEN);
         while (this.currentToken().getTokenType() != TokenType.EOF_TOKEN &&
                this.currentToken().getTokenType() != TokenType.CLOSE_BRACE_TOKEN)
         {
             Statement statement = this.parseStatement();
             statements.add(statement);
         }
-
-        Token closeBrace = this.currentTokenThenNext();
-
-        if (closeBrace.getTokenType() != TokenType.CLOSE_BRACE_TOKEN)
-            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(closeBrace.getSpan(),
-                                                                        closeBrace.getTokenType(),
-                                                                        TokenType.CLOSE_BRACE_TOKEN));
+        Token closeBrace = this.validateToken(TokenType.CLOSE_BRACE_TOKEN);
 
         return new BlockStatement(openBrace, statements, closeBrace);
     }
@@ -77,7 +71,7 @@ public final class Parser
 
     private Expression parseExpression()
     {
-        if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_KEYWORD_TOKEN &&
+        if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_TOKEN &&
             this.nextToken().getTokenType() == TokenType.EQUALS_TOKEN)
             return this.parseAssignmentExpression();
 
@@ -86,10 +80,10 @@ public final class Parser
 
     private Expression parseAssignmentExpression()
     {
-        Token identifierToken = this.currentTokenThenNext();
-        Token operatorToken = this.currentTokenThenNext();
+        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token equalsToken = this.validateToken(TokenType.EQUALS_TOKEN);
         Expression right = this.parseExpression();
-        return new AssignmentExpression(identifierToken, operatorToken, right);
+        return new AssignmentExpression(identifierToken, equalsToken, right);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)
@@ -140,7 +134,7 @@ public final class Parser
             case DOUBLE_TOKEN:
             case STRING_TOKEN:
                 return this.parseLiteralExpression();
-            case IDENTIFIER_KEYWORD_TOKEN:
+            case IDENTIFIER_TOKEN:
                 return this.parseIdentifierExpression();
             case OPEN_PARENTHESIS_TOKEN:
                 return this.parseParenthesizedExpression();
@@ -158,29 +152,34 @@ public final class Parser
 
     private Expression parseIdentifierExpression()
     {
-        Token identifierToken = this.currentTokenThenNext();
+        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
         return new IdentifierExpression(identifierToken);
     }
 
     private Expression parseParenthesizedExpression()
     {
-        Token openParenthesis = this.currentTokenThenNext();
+        Token openParenthesis = this.validateToken(TokenType.OPEN_PARENTHESIS_TOKEN);
         Expression expression = this.parseExpression();
-        Token closeParenthesis = this.currentTokenThenNext();
-
-        if (closeParenthesis.getTokenType() != TokenType.CLOSE_PARENTHESIS_TOKEN)
-            this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(closeParenthesis.getSpan(),
-                                                                        closeParenthesis.getTokenType(),
-                                                                        TokenType.CLOSE_PARENTHESIS_TOKEN));
-
+        Token closeParenthesis = this.validateToken(TokenType.CLOSE_PARENTHESIS_TOKEN);
         return new ParenthesizedExpression(openParenthesis, expression, closeParenthesis);
     }
 
     private Expression parseUnknownExpression()
     {
-        Token token = this.currentTokenThenNext();
-        this.errorHandler.addError(SyntaxError.unexpectedToken(token.getSpan(), token.getTokenType()));
-        return new LiteralExpression(token, null);
+        Token current = this.currentTokenThenNext();
+        this.errorHandler.addError(SyntaxError.unexpectedToken(current.getSpan(), current.getTokenType()));
+        Token placeholder = new Token(TokenType.BAD_TOKEN, current.getSyntax(), current.getValue(),
+                                      current.getPosition());
+        return new LiteralExpression(placeholder, null);
+    }
+
+    private Token validateToken(TokenType type)
+    {
+        Token current = this.currentToken();
+        if (current.getTokenType() == type)
+            return this.currentTokenThenNext();
+        this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(current.getSpan(), current.getTokenType(), type));
+        return new Token(TokenType.BAD_TOKEN, current.getSyntax(), current.getValue(), current.getPosition());
     }
 
     private Token currentToken()

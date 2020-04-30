@@ -180,7 +180,7 @@ class MapGeneration
         tokenTypes.put("10", TokenType.INTEGER_TOKEN);
         tokenTypes.put("10.0", TokenType.DOUBLE_TOKEN);
         tokenTypes.put("\"string\"", TokenType.STRING_TOKEN);
-        tokenTypes.put("var", TokenType.IDENTIFIER_KEYWORD_TOKEN);
+        tokenTypes.put("var", TokenType.IDENTIFIER_TOKEN);
         tokenTypes.put(Syntax.TRUE.getSyntax(), TokenType.TRUE_KEYWORD_TOKEN);
         tokenTypes.put(Syntax.FALSE.getSyntax(), TokenType.FALSE_KEYWORD_TOKEN);
         tokenTypes.put(Syntax.AND.getSyntax(), TokenType.AND_TOKEN);
