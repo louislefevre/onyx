@@ -66,7 +66,7 @@ class TypeCheckerTest
     {
         TypeChecker typeChecker = TestHub.createTypeChecker(input);
         AnnotatedExpressionStatement expression =
-                (AnnotatedExpressionStatement) typeChecker.getAnnotatedParseTree().getAnnotatedStatement();
-        return expression.getAnnotatedExpression().getAnnotatedExpressionType();
+                (AnnotatedExpressionStatement) typeChecker.getAnnotatedParseTree().getStatement();
+        return expression.getExpression().getExpressionType();
     }
 }

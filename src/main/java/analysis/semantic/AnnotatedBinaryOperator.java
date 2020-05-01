@@ -34,9 +34,4 @@ public final class AnnotatedBinaryOperator implements AnnotatedOperator
     {
         this(tokenType, operatorType, objectType, objectType, objectType);
     }
-
-    public ObjectType getResultObjectType()
-    {
-        return resultObjectType;
-    }
 }

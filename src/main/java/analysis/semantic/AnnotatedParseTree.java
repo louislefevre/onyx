@@ -2,15 +2,15 @@ package analysis.semantic;
 
 public final class AnnotatedParseTree
 {
-    private final AnnotatedStatement annotatedStatement;
+    private final AnnotatedStatement statement;
 
-    public AnnotatedParseTree(AnnotatedStatement annotatedStatement)
+    public AnnotatedParseTree(AnnotatedStatement statement)
     {
-        this.annotatedStatement = annotatedStatement;
+        this.statement = statement;
     }
 
-    public AnnotatedStatement getAnnotatedStatement()
+    public AnnotatedStatement getStatement()
     {
-        return this.annotatedStatement;
+        return this.statement;
     }
 }

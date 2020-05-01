@@ -5,7 +5,7 @@ import identifiers.ObjectType;
 
 public interface AnnotatedExpression
 {
-    AnnotatedExpressionType getAnnotatedExpressionType();
+    AnnotatedExpressionType getExpressionType();
 
     ObjectType getObjectType();
 }

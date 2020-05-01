@@ -7,32 +7,27 @@ import org.jetbrains.annotations.Nullable;
 
 public final class TypeBinder
 {
-    private TypeBinder()
-    {
-        throw new UnsupportedOperationException();
-    }
-
     private static final AnnotatedUnaryOperator[] unaryOperators =
     {
         // Integer Objects
         new AnnotatedUnaryOperator(TokenType.PLUS_TOKEN,
-                                   OperatorType.IDENTITY_OPERATOR,
+                                   OperatorType.POSITIVE_OPERATOR,
                                    ObjectType.INTEGER_OBJECT),
         new AnnotatedUnaryOperator(TokenType.MINUS_TOKEN,
-                                   OperatorType.NEGATION_OPERATOR,
+                                   OperatorType.NEGATIVE_OPERATOR,
                                    ObjectType.INTEGER_OBJECT),
 
         // Double Objects
         new AnnotatedUnaryOperator(TokenType.PLUS_TOKEN,
-                                   OperatorType.IDENTITY_OPERATOR,
+                                   OperatorType.POSITIVE_OPERATOR,
                                    ObjectType.DOUBLE_OBJECT),
         new AnnotatedUnaryOperator(TokenType.MINUS_TOKEN,
-                                   OperatorType.NEGATION_OPERATOR,
+                                   OperatorType.NEGATIVE_OPERATOR,
                                    ObjectType.DOUBLE_OBJECT),
 
         // Boolean Objects
         new AnnotatedUnaryOperator(TokenType.NOT_TOKEN,
-                                   OperatorType.LOGIC_NEGATION_OPERATOR,
+                                   OperatorType.NEGATION_OPERATOR,
                                    ObjectType.BOOLEAN_OBJECT)
     };
 

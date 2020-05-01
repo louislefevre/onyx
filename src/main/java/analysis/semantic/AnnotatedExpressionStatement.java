@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public final class AnnotatedExpressionStatement implements AnnotatedStatement
 {
-    private final AnnotatedExpression annotatedExpression;
-    private final AnnotatedStatementType annotatedStatementType;
+    private final AnnotatedExpression expression;
+    private final AnnotatedStatementType statementType;
 
-    public AnnotatedExpressionStatement(AnnotatedExpression annotatedExpression)
+    public AnnotatedExpressionStatement(AnnotatedExpression expression)
     {
-        this.annotatedExpression = annotatedExpression;
-        this.annotatedStatementType = AnnotatedStatementType.ANNOTATED_EXPRESSION_STATEMENT;
+        this.expression = expression;
+        this.statementType = AnnotatedStatementType.ANNOTATED_EXPRESSION_STATEMENT;
     }
 }

@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public final class ExpressionBind
 {
-    private final TokenType type;
+    private final TokenType tokenType;
     private final TokenType[] compatibleTypes;
 
-    public ExpressionBind(TokenType type, TokenType[] compatibleTypes)
+    public ExpressionBind(TokenType tokenType, TokenType[] compatibleTypes)
     {
-        this.type = type;
+        this.tokenType = tokenType;
         this.compatibleTypes = compatibleTypes;
     }
 }

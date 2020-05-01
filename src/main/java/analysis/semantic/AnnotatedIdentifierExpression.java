@@ -9,12 +9,12 @@ public final class AnnotatedIdentifierExpression implements AnnotatedExpression
 {
     private final String name;
     private final ObjectType objectType;
-    private final AnnotatedExpressionType annotatedExpressionType;
+    private final AnnotatedExpressionType expressionType;
 
     public AnnotatedIdentifierExpression(String name, ObjectType type)
     {
         this.name = name;
         this.objectType = type;
-        this.annotatedExpressionType = AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION;
+        this.expressionType = AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION;
     }
 }

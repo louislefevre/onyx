@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public final class Symbol
 {
-    private String name;
+    private final String name;
     @Setter
     private Object value;
     @Setter

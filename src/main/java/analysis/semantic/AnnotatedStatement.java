@@ -4,5 +4,5 @@ import identifiers.AnnotatedStatementType;
 
 public interface AnnotatedStatement
 {
-    AnnotatedStatementType getAnnotatedStatementType();
+    AnnotatedStatementType getStatementType();
 }

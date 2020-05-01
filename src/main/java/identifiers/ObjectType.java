@@ -2,9 +2,9 @@ package identifiers;
 
 public enum ObjectType
 {
-    BOOLEAN_OBJECT,
-    DOUBLE_OBJECT,
     INTEGER_OBJECT,
-    NULL_OBJECT,
-    STRING_OBJECT
+    DOUBLE_OBJECT,
+    BOOLEAN_OBJECT,
+    STRING_OBJECT,
+    NULL_OBJECT
 }

@@ -26,12 +26,12 @@ public enum Syntax
     PERCENT("%"),
     CARET("^"),
     GREATER(">"),
-    LESS("<"),
     GREATER_EQUALS(">="),
+    LESS("<"),
     LESS_EQUALS("<="),
-    NOT("!"),
     EQUALS("="),
     EQUALS_EQUALS("=="),
+    NOT("!"),
     NOT_EQUALS("!="),
 
     // Break Syntax
@@ -39,7 +39,6 @@ public enum Syntax
 
     // Not-parsed Syntax
     HASH("#");
-
 
     private final String syntax;
 

@@ -8,12 +8,12 @@ import java.util.List;
 @Getter
 public final class AnnotatedBlockStatement implements AnnotatedStatement
 {
-    private final List<AnnotatedStatement> annotatedStatementList;
-    private final AnnotatedStatementType annotatedStatementType;
+    private final List<AnnotatedStatement> statements;
+    private final AnnotatedStatementType statementType;
 
-    public AnnotatedBlockStatement(List<AnnotatedStatement> annotatedStatementList)
+    public AnnotatedBlockStatement(List<AnnotatedStatement> statements)
     {
-        this.annotatedStatementList = annotatedStatementList;
-        this.annotatedStatementType = AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
+        this.statements = statements;
+        this.statementType = AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
     }
 }

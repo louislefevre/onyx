@@ -8,13 +8,13 @@ import lombok.Getter;
 public final class AnnotatedLiteralExpression implements AnnotatedExpression
 {
     private final Object value;
-    private final AnnotatedExpressionType annotatedExpressionType;
+    private final AnnotatedExpressionType expressionType;
     private final ObjectType objectType;
 
     public AnnotatedLiteralExpression(Object value)
     {
         this.value = value;
-        this.annotatedExpressionType = AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
+        this.expressionType = AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
         this.objectType = typeOf(value);
     }
 

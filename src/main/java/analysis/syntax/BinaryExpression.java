@@ -11,18 +11,18 @@ import java.util.List;
 @Getter
 public final class BinaryExpression implements Expression
 {
-    private final Expression leftTerm;
+    private final Expression leftOperand;
     private final Token operatorToken;
-    private final Expression rightTerm;
+    private final Expression rightOperand;
     private final ExpressionType expressionType;
     private final List<Object> children;
 
-    public BinaryExpression(Expression leftTerm, Token operatorToken, Expression rightTerm)
+    public BinaryExpression(Expression leftOperand, Token operatorToken, Expression rightOperand)
     {
-        this.leftTerm = leftTerm;
+        this.leftOperand = leftOperand;
         this.operatorToken = operatorToken;
-        this.rightTerm = rightTerm;
+        this.rightOperand = rightOperand;
         this.expressionType = ExpressionType.BINARY_EXPRESSION;
-        this.children = new ArrayList<>(Arrays.asList(leftTerm, operatorToken, rightTerm));
+        this.children = new ArrayList<>(Arrays.asList(leftOperand, operatorToken, rightOperand));
     }
 }

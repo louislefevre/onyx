@@ -81,21 +81,20 @@ public final class ExpressionBinder
                            new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(GREATER_TOKEN,
                            new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
-        new ExpressionBind(LESS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(GREATER_EQUALS_TOKEN,
+                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+        new ExpressionBind(LESS_TOKEN,
                            new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(LESS_EQUALS_TOKEN,
                            new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
-        new ExpressionBind(NOT_TOKEN,
-                           new TokenType[]{FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN, TRUE_KEYWORD_TOKEN}),
         new ExpressionBind(EQUALS_TOKEN,
                            new TokenType[]{DOUBLE_TOKEN, FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN,
-                                           OPEN_PARENTHESIS_TOKEN, TRUE_KEYWORD_TOKEN}),
+                                           OPEN_PARENTHESIS_TOKEN, STRING_TOKEN, TRUE_KEYWORD_TOKEN}),
         new ExpressionBind(EQUALS_EQUALS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN,
-                                           INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN, STRING_TOKEN,
-                                           TRUE_KEYWORD_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN,
+                                           OPEN_PARENTHESIS_TOKEN, STRING_TOKEN, TRUE_KEYWORD_TOKEN}),
+        new ExpressionBind(NOT_TOKEN,
+                           new TokenType[]{FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN, TRUE_KEYWORD_TOKEN}),
         new ExpressionBind(NOT_EQUALS_TOKEN,
                            new TokenType[]{DOUBLE_TOKEN, FALSE_KEYWORD_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN,
                                            OPEN_PARENTHESIS_TOKEN, STRING_TOKEN, TRUE_KEYWORD_TOKEN}),
@@ -104,7 +103,7 @@ public final class ExpressionBinder
     private static boolean isBindable(Token current, Token next)
     {
         for (ExpressionBind bind : binds)
-            if (bind.getType() == current.getTokenType())
+            if (bind.getTokenType() == current.getTokenType())
                 for (TokenType type : bind.getCompatibleTypes())
                     if (type == next.getTokenType())
                         return true;

@@ -2,17 +2,11 @@ package analysis.syntax;
 
 import identifiers.TokenType;
 
-public final class SyntaxPrecedence
+public final class OperatorPrecedence
 {
-    private SyntaxPrecedence()
+    public static int getUnaryOperatorPrecedence(TokenType tokenType)
     {
-        // Prevents class instantiation
-        throw new UnsupportedOperationException();
-    }
-
-    public static int getUnaryOperatorPrecedence(TokenType type)
-    {
-        switch (type)
+        switch (tokenType)
         {
             case PLUS_TOKEN:
             case MINUS_TOKEN:
@@ -23,9 +17,9 @@ public final class SyntaxPrecedence
         }
     }
 
-    public static int getBinaryOperatorPrecedence(TokenType type)
+    public static int getBinaryOperatorPrecedence(TokenType tokenType)
     {
-        switch (type)
+        switch (tokenType)
         {
             case CARET_TOKEN:
                 return 6;

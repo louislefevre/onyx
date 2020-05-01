@@ -65,29 +65,28 @@ public final class TypeChecker
 
     private AnnotatedStatement annotateBlockStatement(BlockStatement blockStatement) throws Exception
     {
-        List<AnnotatedStatement> statementList = new ArrayList<>();
+        List<AnnotatedStatement> statements = new ArrayList<>();
 
-        for (Statement statementSyntax : blockStatement.getStatements())
+        for (Statement statement : blockStatement.getStatements())
         {
-            AnnotatedStatement statement = this.annotateStatement(statementSyntax);
-            statementList.add(statement);
+            AnnotatedStatement annotatedStatement = this.annotateStatement(statement);
+            statements.add(annotatedStatement);
         }
 
-        return new AnnotatedBlockStatement(statementList);
+        return new AnnotatedBlockStatement(statements);
     }
 
-    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement statement) throws Exception
+    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement expressionStatement) throws Exception
     {
-        AnnotatedExpression expression = this.annotateExpression(statement.getExpression());
-        return new AnnotatedExpressionStatement(expression);
+        Expression expression = expressionStatement.getExpression();
+        AnnotatedExpression annotatedExpression = this.annotateExpression(expression);
+        return new AnnotatedExpressionStatement(annotatedExpression);
     }
 
     private AnnotatedExpression annotateExpression(Expression expression) throws Exception
     {
         switch (expression.getExpressionType())
         {
-            case PARENTHESIZED_EXPRESSION:
-                return this.annotateParenthesizedExpression((ParenthesizedExpression) expression);
             case LITERAL_EXPRESSION:
                 return this.annotateLiteralExpression((LiteralExpression) expression);
             case UNARY_EXPRESSION:
@@ -98,33 +97,36 @@ public final class TypeChecker
                 return this.annotateIdentifierExpression((IdentifierExpression) expression);
             case ASSIGNMENT_EXPRESSION:
                 return this.annotateAssignmentExpression((AssignmentExpression) expression);
+            case PARENTHESIZED_EXPRESSION:
+                return this.annotateParenthesizedExpression((ParenthesizedExpression) expression);
             default:
                 throw new Exception(SemanticError.undefinedExpression(expression.getExpressionType().toString()));
         }
     }
 
-    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression expression) throws Exception
+    private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression parenthesizedExpression) throws Exception
     {
-        return this.annotateExpression(expression.getExpression());
+        Expression expression = parenthesizedExpression.getExpression();
+        return this.annotateExpression(expression);
     }
 
-    private AnnotatedExpression annotateLiteralExpression(LiteralExpression expression)
+    private AnnotatedExpression annotateLiteralExpression(LiteralExpression literalExpression)
     {
-        Object value = expression.getValue();
+        Object value = literalExpression.getValue();
         return new AnnotatedLiteralExpression(value);
     }
 
-    private AnnotatedExpression annotateUnaryExpression(UnaryExpression expression) throws Exception
+    private AnnotatedExpression annotateUnaryExpression(UnaryExpression unaryExpression) throws Exception
     {
-        AnnotatedExpression annotatedOperand = this.annotateExpression(expression.getOperand());
+        AnnotatedExpression annotatedOperand = this.annotateExpression(unaryExpression.getOperand());
         AnnotatedUnaryOperator annotatedOperator =
-                TypeBinder.bindUnaryOperators(expression.getOperatorToken().getTokenType(),
+                TypeBinder.bindUnaryOperators(unaryExpression.getOperatorToken().getTokenType(),
                                               annotatedOperand.getObjectType());
 
         if (annotatedOperator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(expression.getOperatorToken().getSpan(),
-                                                                            expression.getOperatorToken().getSyntax(),
+            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(unaryExpression.getOperatorToken().getSpan(),
+                                                                            unaryExpression.getOperatorToken().getSyntax(),
                                                                             annotatedOperand.getObjectType()));
             return new AnnotatedLiteralExpression(null);
         }
@@ -132,34 +134,34 @@ public final class TypeChecker
         return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
     }
 
-    private AnnotatedExpression annotateBinaryExpression(BinaryExpression expression) throws Exception
+    private AnnotatedExpression annotateBinaryExpression(BinaryExpression binaryExpression) throws Exception
     {
-        AnnotatedExpression annotatedLeft = this.annotateExpression(expression.getLeftTerm());
-        AnnotatedExpression annotatedRight = this.annotateExpression(expression.getRightTerm());
+        AnnotatedExpression annotatedLeftOperand = this.annotateExpression(binaryExpression.getLeftOperand());
+        AnnotatedExpression annotatedRightOperand = this.annotateExpression(binaryExpression.getRightOperand());
         AnnotatedBinaryOperator annotatedOperator =
-                TypeBinder.bindBinaryOperators(expression.getOperatorToken().getTokenType(),
-                                               annotatedLeft.getObjectType(),
-                                               annotatedRight.getObjectType());
+                TypeBinder.bindBinaryOperators(binaryExpression.getOperatorToken().getTokenType(),
+                                               annotatedLeftOperand.getObjectType(),
+                                               annotatedRightOperand.getObjectType());
 
         if (annotatedOperator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(expression.getOperatorToken().getSpan(),
-                                                                             expression.getOperatorToken().getSyntax(),
-                                                                             annotatedLeft.getObjectType(),
-                                                                             annotatedRight.getObjectType()));
+            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(binaryExpression.getOperatorToken().getSpan(),
+                                                                             binaryExpression.getOperatorToken().getSyntax(),
+                                                                             annotatedLeftOperand.getObjectType(),
+                                                                             annotatedRightOperand.getObjectType()));
             return new AnnotatedLiteralExpression(null);
         }
 
-        return new AnnotatedBinaryExpression(annotatedLeft, annotatedOperator, annotatedRight);
+        return new AnnotatedBinaryExpression(annotatedLeftOperand, annotatedOperator, annotatedRightOperand);
     }
 
-    private AnnotatedExpression annotateIdentifierExpression(IdentifierExpression expression)
+    private AnnotatedExpression annotateIdentifierExpression(IdentifierExpression identifierExpression)
     {
-        String name = expression.getIdentifierToken().getSyntax();
+        String name = identifierExpression.getIdentifierToken().getSyntax();
 
         if (!this.symbolTable.containsSymbol(name))
         {
-            this.errorHandler.addError(SemanticError.undefinedIdentifier(expression.getIdentifierToken().getSpan(),
+            this.errorHandler.addError(SemanticError.undefinedIdentifier(identifierExpression.getIdentifierToken().getSpan(),
                                                                          name));
             return new AnnotatedLiteralExpression(null);
         }
@@ -168,10 +170,10 @@ public final class TypeChecker
         return new AnnotatedIdentifierExpression(name, type);
     }
 
-    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression expression) throws Exception
+    private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression assignmentExpression) throws Exception
     {
-        String name = expression.getIdentifierToken().getSyntax();
-        AnnotatedExpression annotatedExpression = this.annotateExpression(expression.getExpression());
-        return new AnnotatedAssignmentExpression(name, annotatedExpression);
+        String name = assignmentExpression.getIdentifierToken().getSyntax();
+        AnnotatedExpression expression = this.annotateExpression(assignmentExpression.getExpression());
+        return new AnnotatedAssignmentExpression(name, expression);
     }
 }

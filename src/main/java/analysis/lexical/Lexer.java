@@ -31,7 +31,7 @@ public final class Lexer
 
     public SymbolTable getSymbolTable()
     {
-        return symbolTable;
+        return this.symbolTable;
     }
 
     public List<Token> getTokens()
@@ -79,9 +79,9 @@ public final class Lexer
         while (isWhitespace(this.currentChar()))
             this.nextPosition();
 
-        String text = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceInput.substring(startPos, this.position);
 
-        return new Token(TokenType.WHITE_SPACE_TOKEN, text, startPos);
+        return new Token(TokenType.WHITE_SPACE_TOKEN, syntax, startPos);
     }
 
     private Token integerToken()
@@ -94,15 +94,15 @@ public final class Lexer
         if (this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
             return this.doubleToken(startPos);
 
-        String text = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceInput.substring(startPos, this.position);
         int value = 0;
 
-        if (isIntegerParsable(text))
-            value = Integer.parseInt(text);
+        if (isIntegerParsable(syntax))
+            value = Integer.parseInt(syntax);
         else
-            this.errorHandler.addError(LexicalError.invalidInt(text, startPos, this.position - startPos));
+            this.errorHandler.addError(LexicalError.invalidInt(syntax, startPos, this.position - startPos));
 
-        return new Token(TokenType.INTEGER_TOKEN, text, value, startPos);
+        return new Token(TokenType.INTEGER_TOKEN, syntax, value, startPos);
     }
 
     private Token doubleToken(int startPos)
@@ -113,15 +113,15 @@ public final class Lexer
         }
         while (isDigit(this.currentChar()));
 
-        String text = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceInput.substring(startPos, this.position);
         double value = 0;
 
-        if (isDoubleParsable(text))
-            value = Double.parseDouble(text);
+        if (isDoubleParsable(syntax))
+            value = Double.parseDouble(syntax);
         else
-            this.errorHandler.addError(LexicalError.invalidDouble(text, startPos, this.position - startPos));
+            this.errorHandler.addError(LexicalError.invalidDouble(syntax, startPos, this.position - startPos));
 
-        return new Token(TokenType.DOUBLE_TOKEN, text, value, startPos);
+        return new Token(TokenType.DOUBLE_TOKEN, syntax, value, startPos);
     }
 
     private Token letterToken()
@@ -131,9 +131,9 @@ public final class Lexer
         while (isLetter(this.currentChar()))
             this.nextPosition();
 
-        String text = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceInput.substring(startPos, this.position);
 
-        return getKeywordToken(text, startPos);
+        return getKeywordToken(syntax, startPos);
     }
 
     private static Token getKeywordToken(String text, int pos)
@@ -362,7 +362,6 @@ public final class Lexer
     {
         if (str.length() != 1)
             return false;
-
         return Character.isLetter(str.charAt(0)) ||
                str.equals("_") || str.equals("-");
     }
