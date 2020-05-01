@@ -71,17 +71,37 @@ public final class Parser
 
     private Expression parseExpression()
     {
-        if (this.currentToken().getTokenType() == TokenType.IDENTIFIER_TOKEN &&
-            this.nextToken().getTokenType() == TokenType.EQUALS_TOKEN)
-            return this.parseAssignmentExpression();
+        TokenType currentTokenType = this.currentToken().getTokenType();
+        TokenType nextTokenType = this.nextToken().getTokenType();
+
+        if (currentTokenType == TokenType.IDENTIFIER_TOKEN)
+        {
+            switch (nextTokenType)
+            {
+                case EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.EQUALS_TOKEN);
+                case PLUS_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.PLUS_EQUALS_TOKEN);
+                case MINUS_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.MINUS_EQUALS_TOKEN);
+                case STAR_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.STAR_EQUALS_TOKEN);
+                case SLASH_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.SLASH_EQUALS_TOKEN);
+                case PERCENT_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.PERCENT_EQUALS_TOKEN);
+                case CARET_EQUALS_TOKEN:
+                    return this.parseAssignmentExpression(TokenType.CARET_EQUALS_TOKEN);
+            }
+        }
 
         return this.parseBinaryExpression(0);
     }
 
-    private Expression parseAssignmentExpression()
+    private Expression parseAssignmentExpression(TokenType tokenType)
     {
         Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
-        Token equalsToken = this.validateToken(TokenType.EQUALS_TOKEN);
+        Token equalsToken = this.validateToken(tokenType);
         Expression expression = this.parseExpression();
         return new AssignmentExpression(identifierToken, equalsToken, expression);
     }

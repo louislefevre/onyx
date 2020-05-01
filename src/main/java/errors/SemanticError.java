@@ -42,6 +42,14 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
+    public static SemanticError undefinedAssignmentOperator(SourceSpan span, String syntax, ObjectType symbolType,
+                                                            ObjectType assignmentType)
+    {
+        String message = String.format("Assignment operator '%1s' is not defined for type '%2s' and '%3s'.", syntax,
+                                       symbolType, assignmentType);
+        return new SemanticError(span, message);
+    }
+
     public static SemanticError undefinedIdentifier(SourceSpan span, String syntax)
     {
         String message = String.format("Variable '%s' does not exist.", syntax);

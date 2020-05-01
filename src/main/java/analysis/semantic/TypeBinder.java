@@ -46,11 +46,11 @@ public final class TypeBinder
         new AnnotatedBinaryOperator(TokenType.SLASH_TOKEN,
                                     OperatorType.DIVISION_OPERATOR,
                                     ObjectType.INTEGER_OBJECT),
-        new AnnotatedBinaryOperator(TokenType.CARET_TOKEN,
-                                    OperatorType.POWER_OPERATOR,
-                                    ObjectType.INTEGER_OBJECT),
         new AnnotatedBinaryOperator(TokenType.PERCENT_TOKEN,
                                     OperatorType.MODULO_OPERATOR,
+                                    ObjectType.INTEGER_OBJECT),
+        new AnnotatedBinaryOperator(TokenType.CARET_TOKEN,
+                                    OperatorType.POWER_OPERATOR,
                                     ObjectType.INTEGER_OBJECT),
         new AnnotatedBinaryOperator(TokenType.GREATER_TOKEN,
                                     OperatorType.GREATER_OPERATOR,
@@ -90,11 +90,11 @@ public final class TypeBinder
         new AnnotatedBinaryOperator(TokenType.SLASH_TOKEN,
                                     OperatorType.DIVISION_OPERATOR,
                                     ObjectType.DOUBLE_OBJECT),
-        new AnnotatedBinaryOperator(TokenType.CARET_TOKEN,
-                                    OperatorType.POWER_OPERATOR,
-                                    ObjectType.DOUBLE_OBJECT),
         new AnnotatedBinaryOperator(TokenType.PERCENT_TOKEN,
                                     OperatorType.MODULO_OPERATOR,
+                                    ObjectType.DOUBLE_OBJECT),
+        new AnnotatedBinaryOperator(TokenType.CARET_TOKEN,
+                                    OperatorType.POWER_OPERATOR,
                                     ObjectType.DOUBLE_OBJECT),
         new AnnotatedBinaryOperator(TokenType.GREATER_TOKEN,
                                     OperatorType.GREATER_OPERATOR,
@@ -149,24 +149,98 @@ public final class TypeBinder
                                     ObjectType.BOOLEAN_OBJECT)
     };
 
+    private static final AnnotatedAssignmentOperator[] assignmentOperators =
+    {
+        // Integer Objects
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
+                                        OperatorType.ADDITION_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.MINUS_EQUALS_TOKEN,
+                                        OperatorType.SUBTRACTION_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.STAR_EQUALS_TOKEN,
+                                        OperatorType.MULTIPLICATION_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.SLASH_EQUALS_TOKEN,
+                                        OperatorType.DIVISION_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PERCENT_EQUALS_TOKEN,
+                                        OperatorType.MODULO_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.CARET_EQUALS_TOKEN,
+                                        OperatorType.POWER_OPERATOR,
+                                        ObjectType.INTEGER_OBJECT),
+
+        // Double Objects
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
+                                        OperatorType.ADDITION_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.MINUS_EQUALS_TOKEN,
+                                        OperatorType.SUBTRACTION_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.STAR_EQUALS_TOKEN,
+                                        OperatorType.MULTIPLICATION_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.SLASH_EQUALS_TOKEN,
+                                        OperatorType.DIVISION_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PERCENT_EQUALS_TOKEN,
+                                        OperatorType.MODULO_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.CARET_EQUALS_TOKEN,
+                                        OperatorType.POWER_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+
+        // Boolean Objects
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.BOOLEAN_OBJECT),
+
+        // String Objects
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.STRING_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.STRING_OBJECT)
+    };
+
     @Nullable
-    public static AnnotatedUnaryOperator bindUnaryOperators(TokenType tokenType, ObjectType operandObjectType)
+    public static AnnotatedUnaryOperator bindUnaryOperators(TokenType operatorType, ObjectType operandType)
     {
         for (AnnotatedUnaryOperator operator : unaryOperators)
-            if (operator.getTokenType() == tokenType && operator.getOperandObjectType() == operandObjectType)
+            if (operator.getTokenType() == operatorType && operator.getOperandObjectType() == operandType)
                 return operator;
 
         return null;
     }
 
     @Nullable
-    public static AnnotatedBinaryOperator bindBinaryOperators(TokenType tokenType, ObjectType leftObjectType,
-                                                              ObjectType rightObjectType)
+    public static AnnotatedBinaryOperator bindBinaryOperators(TokenType operatorType, ObjectType leftOperandType,
+                                                              ObjectType rightOperandType)
     {
         for (AnnotatedBinaryOperator operator : binaryOperators)
-            if (operator.getTokenType() == tokenType &&
-                operator.getLeftObjectType() == leftObjectType &&
-                operator.getRightObjectType() == rightObjectType)
+            if (operator.getTokenType() == operatorType &&
+                operator.getLeftObjectType() == leftOperandType &&
+                operator.getRightObjectType() == rightOperandType)
+                return operator;
+
+        return null;
+    }
+
+    @Nullable
+    public static AnnotatedAssignmentOperator bindAssignmentOperators(TokenType operatorType, ObjectType symbolType,
+                                                                      ObjectType valueType)
+    {
+        for (AnnotatedAssignmentOperator operator : assignmentOperators)
+            if (operator.getTokenType() == operatorType && operator.getIdentifierObjectType() == symbolType &&
+                operator.getAssignmentObjectType() == valueType)
                 return operator;
 
         return null;

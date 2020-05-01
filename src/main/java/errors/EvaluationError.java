@@ -47,6 +47,11 @@ public final class EvaluationError extends Error
         return String.format("Unexpected binary object types '%1s' and '%2s'.", leftType, rightType);
     }
 
+    public static String unexpectedAssignmentObjectTypes(String leftType, String rightType)
+    {
+        return String.format("Unexpected assignment object types '%1s' and '%2s'.", leftType, rightType);
+    }
+
     public static String unexpectedUnaryOperator(String operator)
     {
         return String.format("Unexpected unary operator '%s'.", operator);
@@ -55,6 +60,11 @@ public final class EvaluationError extends Error
     public static String unexpectedBinaryOperator(String operator)
     {
         return String.format("Unexpected binary operator '%s'.", operator);
+    }
+
+    public static String unexpectedAssignmentOperator(String operator)
+    {
+        return String.format("Unexpected assignment operator '%s'.", operator);
     }
 
     public static String missingSymbol(String name)

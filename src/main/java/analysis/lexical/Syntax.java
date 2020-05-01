@@ -33,6 +33,12 @@ public enum Syntax
     EQUALS_EQUALS("=="),
     NOT("!"),
     NOT_EQUALS("!="),
+    PLUS_EQUALS("+="),
+    MINUS_EQUALS("-="),
+    STAR_EQUALS("*="),
+    SLASH_EQUALS("/="),
+    PERCENT_EQUALS("%="),
+    CARET_EQUALS("^="),
 
     // Break Syntax
     EOF("\0"),

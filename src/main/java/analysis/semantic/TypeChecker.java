@@ -1,9 +1,12 @@
 package analysis.semantic;
 
+import analysis.lexical.Token;
 import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
+import identifiers.OperatorType;
+import identifiers.TokenType;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -173,7 +176,32 @@ public final class TypeChecker
     private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression assignmentExpression) throws Exception
     {
         String name = assignmentExpression.getIdentifierToken().getSyntax();
+        Token equalsToken = assignmentExpression.getEqualsToken();
         AnnotatedExpression expression = this.annotateExpression(assignmentExpression.getExpression());
-        return new AnnotatedAssignmentExpression(name, expression);
+
+        if (this.symbolTable.containsSymbol(name) && equalsToken.getTokenType() != TokenType.EQUALS_TOKEN)
+        {
+            ObjectType symbolType = this.symbolTable.getSymbol(name).getType();
+            ObjectType valueType = expression.getObjectType();
+
+            AnnotatedAssignmentOperator annotatedOperator =
+                    TypeBinder.bindAssignmentOperators(assignmentExpression.getEqualsToken().getTokenType(), symbolType, valueType);
+
+            if(annotatedOperator == null)
+            {
+                this.errorHandler.addError(SemanticError.undefinedAssignmentOperator(assignmentExpression.getEqualsToken().getSpan(),
+                                                                                     assignmentExpression.getEqualsToken().getSyntax(),
+                                                                                     symbolType, valueType));
+
+                return new AnnotatedLiteralExpression(null);
+            }
+
+            return new AnnotatedAssignmentExpression(name, annotatedOperator, expression);
+        }
+
+        AnnotatedAssignmentOperator annotatedOperator = new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN, OperatorType.EQUALS_OPERATOR,
+                                                                                        expression.getObjectType());
+
+        return new AnnotatedAssignmentExpression(name, annotatedOperator, expression);
     }
 }

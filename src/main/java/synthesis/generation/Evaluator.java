@@ -6,6 +6,7 @@ import errors.EvaluationError;
 import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
+import identifiers.TokenType;
 import symbols.SymbolTable;
 
 public final class Evaluator
@@ -92,7 +93,7 @@ public final class Evaluator
             return this.evaluateBinaryExpression((AnnotatedBinaryExpression) annotatedExpression);
 
         if (expressionType == AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION)
-            return this.evaluateVariableExpression((AnnotatedIdentifierExpression) annotatedExpression);
+            return this.evaluateIdentifierExpression((AnnotatedIdentifierExpression) annotatedExpression);
 
         if (expressionType == AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION)
             return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) annotatedExpression);
@@ -310,20 +311,100 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateVariableExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws Exception
+    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws Exception
+    {
+        String name = annotatedAssignmentExpression.getName();
+        Object value = this.evaluateExpression(annotatedAssignmentExpression.getExpression());
+        ObjectType valueType = annotatedAssignmentExpression.getObjectType();
+        TokenType tokenType = annotatedAssignmentExpression.getOperator().getTokenType();
+        OperatorType operatorType = annotatedAssignmentExpression.getOperator().getOperatorType();
+
+        if (this.symbolTable.containsSymbol(name) && tokenType != TokenType.EQUALS_TOKEN)
+        {
+            Object symbolValue = this.symbolTable.getSymbol(name).getValue();
+            ObjectType symbolType = this.symbolTable.getSymbol(name).getType();
+
+            if (valueType == ObjectType.INTEGER_OBJECT)
+                value = evaluateAssignmentIntegerExpression(operatorType, symbolValue, value);
+            else if (valueType == ObjectType.DOUBLE_OBJECT)
+                value = evaluateAssignmentDoubleExpression(operatorType, symbolValue, value);
+            else if (valueType == ObjectType.STRING_OBJECT)
+                value = evaluateAssignmentStringExpression(operatorType, symbolValue, value);
+            else
+                throw new Exception(EvaluationError.unexpectedAssignmentObjectTypes(symbolType.toString(),
+                                                                                    valueType.toString()));
+        }
+        this.symbolTable.addSymbol(name, value, valueType);
+        return value;
+    }
+
+    private Object evaluateAssignmentIntegerExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    {
+        int symbolInteger = (int) symbolValue;
+        int valueInteger = (int) value;
+
+        switch (operatorType)
+        {
+            case ADDITION_OPERATOR:
+                return symbolInteger + valueInteger;
+            case SUBTRACTION_OPERATOR:
+                return symbolInteger - valueInteger;
+            case MULTIPLICATION_OPERATOR:
+                return symbolInteger * valueInteger;
+            case DIVISION_OPERATOR:
+                return symbolInteger / valueInteger;
+            case MODULO_OPERATOR:
+                return symbolInteger % valueInteger;
+            case POWER_OPERATOR:
+                return (int) Math.pow(symbolInteger, valueInteger);
+            default:
+                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+        }
+    }
+
+    private Object evaluateAssignmentDoubleExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    {
+        double symbolDouble = (double) symbolValue;
+        double valueDouble = (double) value;
+
+        switch (operatorType)
+        {
+            case ADDITION_OPERATOR:
+                return symbolDouble + valueDouble;
+            case SUBTRACTION_OPERATOR:
+                return symbolDouble - valueDouble;
+            case MULTIPLICATION_OPERATOR:
+                return symbolDouble * valueDouble;
+            case DIVISION_OPERATOR:
+                return symbolDouble / valueDouble;
+            case MODULO_OPERATOR:
+                return symbolDouble % valueDouble;
+            case POWER_OPERATOR:
+                return Math.pow(symbolDouble, valueDouble);
+            default:
+                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+        }
+    }
+
+    private Object evaluateAssignmentStringExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    {
+        String symbolString = (String) symbolValue;
+        String valueString = (String) value;
+
+        switch (operatorType)
+        {
+            case ADDITION_OPERATOR:
+                return symbolString + valueString;
+            default:
+                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+        }
+    }
+
+    private Object evaluateIdentifierExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws Exception
     {
         String name = annotatedIdentifierExpression.getName();
         if (this.symbolTable.containsSymbol(name))
             return this.symbolTable.getSymbol(name).getValue();
         throw new Exception(EvaluationError.missingSymbol(name));
-    }
-
-    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws Exception
-    {
-        Object value = this.evaluateExpression(annotatedAssignmentExpression.getExpression());
-        if (annotatedAssignmentExpression.getObjectType() != ObjectType.NULL_OBJECT)
-            this.symbolTable.addSymbol(annotatedAssignmentExpression.getName(), value,
-                                       annotatedAssignmentExpression.getObjectType());
-        return value;
     }
 }
