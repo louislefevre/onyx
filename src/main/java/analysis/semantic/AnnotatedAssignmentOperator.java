@@ -24,6 +24,12 @@ public final class AnnotatedAssignmentOperator implements AnnotatedOperator
         this.resultObjectType = resultObjectType;
     }
 
+    public AnnotatedAssignmentOperator(TokenType tokenType, OperatorType operatorType, ObjectType identifierObjectType,
+                                       ObjectType objectType)
+    {
+        this(tokenType, operatorType, identifierObjectType, objectType, objectType);
+    }
+
     public AnnotatedAssignmentOperator(TokenType tokenType, OperatorType operatorType, ObjectType objectType)
     {
         this(tokenType, operatorType, objectType, objectType, objectType);

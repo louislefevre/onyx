@@ -30,7 +30,7 @@ public final class Evaluator
 
     public SymbolTable getSymbolTable()
     {
-        return symbolTable;
+        return this.symbolTable;
     }
 
     public Object getEvaluation()

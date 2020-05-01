@@ -155,6 +155,10 @@ public final class TypeBinder
         new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
                                         OperatorType.EQUALS_OPERATOR,
                                         ObjectType.INTEGER_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.NULL_OBJECT,
+                                        ObjectType.INTEGER_OBJECT),
         new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
                                         OperatorType.ADDITION_OPERATOR,
                                         ObjectType.INTEGER_OBJECT),
@@ -177,6 +181,10 @@ public final class TypeBinder
         // Double Objects
         new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
                                         OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.DOUBLE_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.NULL_OBJECT,
                                         ObjectType.DOUBLE_OBJECT),
         new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
                                         OperatorType.ADDITION_OPERATOR,
@@ -201,13 +209,21 @@ public final class TypeBinder
         new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
                                         OperatorType.EQUALS_OPERATOR,
                                         ObjectType.BOOLEAN_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
+                                        OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.NULL_OBJECT,
+                                        ObjectType.BOOLEAN_OBJECT),
 
         // String Objects
         new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
                                         OperatorType.EQUALS_OPERATOR,
                                         ObjectType.STRING_OBJECT),
-        new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
+        new AnnotatedAssignmentOperator(TokenType.EQUALS_TOKEN,
                                         OperatorType.EQUALS_OPERATOR,
+                                        ObjectType.NULL_OBJECT,
+                                        ObjectType.STRING_OBJECT),
+        new AnnotatedAssignmentOperator(TokenType.PLUS_EQUALS_TOKEN,
+                                        OperatorType.ADDITION_OPERATOR,
                                         ObjectType.STRING_OBJECT)
     };
 
@@ -236,11 +252,11 @@ public final class TypeBinder
 
     @Nullable
     public static AnnotatedAssignmentOperator bindAssignmentOperators(TokenType operatorType, ObjectType symbolType,
-                                                                      ObjectType valueType)
+                                                                      ObjectType assignmentType)
     {
         for (AnnotatedAssignmentOperator operator : assignmentOperators)
             if (operator.getTokenType() == operatorType && operator.getIdentifierObjectType() == symbolType &&
-                operator.getAssignmentObjectType() == valueType)
+                operator.getAssignmentObjectType() == assignmentType)
                 return operator;
 
         return null;

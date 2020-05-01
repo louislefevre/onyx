@@ -12,17 +12,17 @@ import java.util.List;
 public final class AssignmentExpression implements Expression
 {
     private final Token identifierToken;
-    private final Token equalsToken;
+    private final Token assignmentToken;
     private final Expression expression;
     private final ExpressionType expressionType;
     private final List<Object> children;
 
-    public AssignmentExpression(Token identifierToken, Token equalsToken, Expression expression)
+    public AssignmentExpression(Token identifierToken, Token assignmentToken, Expression expression)
     {
         this.identifierToken = identifierToken;
-        this.equalsToken = equalsToken;
+        this.assignmentToken = assignmentToken;
         this.expression = expression;
         this.expressionType = ExpressionType.ASSIGNMENT_EXPRESSION;
-        this.children = new ArrayList<>(Arrays.asList(identifierToken, equalsToken, expression));
+        this.children = new ArrayList<>(Arrays.asList(identifierToken, assignmentToken, expression));
     }
 }

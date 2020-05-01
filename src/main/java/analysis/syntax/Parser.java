@@ -101,9 +101,9 @@ public final class Parser
     private Expression parseAssignmentExpression(TokenType tokenType)
     {
         Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
-        Token equalsToken = this.validateToken(tokenType);
+        Token assignmentToken = this.validateToken(tokenType);
         Expression expression = this.parseExpression();
-        return new AssignmentExpression(identifierToken, equalsToken, expression);
+        return new AssignmentExpression(identifierToken, assignmentToken, expression);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)
