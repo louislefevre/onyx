@@ -61,6 +61,7 @@ public final class ErrorHandler
             fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
 
             builder.append(errorMessage);
+            builder.append(System.getProperty("line.separator"));
             builder.append(fullSyntax);
         }
         return builder.toString();
