@@ -4,9 +4,9 @@ import analysis.lexical.Token;
 import identifiers.ExpressionType;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @Getter
 public final class AssignmentExpression implements Expression
@@ -15,7 +15,7 @@ public final class AssignmentExpression implements Expression
     private final Token assignmentToken;
     private final Expression expression;
     private final ExpressionType expressionType;
-    private final List<Object> children;
+    private final Queue<Object> children;
 
     public AssignmentExpression(Token identifierToken, Token assignmentToken, Expression expression)
     {
@@ -23,6 +23,6 @@ public final class AssignmentExpression implements Expression
         this.assignmentToken = assignmentToken;
         this.expression = expression;
         this.expressionType = ExpressionType.ASSIGNMENT_EXPRESSION;
-        this.children = new ArrayList<>(Arrays.asList(identifierToken, assignmentToken, expression));
+        this.children = new LinkedList<>(Arrays.asList(identifierToken, assignmentToken, expression));
     }
 }

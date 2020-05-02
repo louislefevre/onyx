@@ -2,11 +2,11 @@ package analysis.syntax;
 
 import identifiers.StatementType;
 
-import java.util.List;
+import java.util.Queue;
 
 public interface Statement
 {
     StatementType getStatementType();
 
-    List<Object> getChildren();
+    Queue<Object> getChildren();
 }

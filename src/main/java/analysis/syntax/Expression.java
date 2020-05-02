@@ -2,11 +2,11 @@ package analysis.syntax;
 
 import identifiers.ExpressionType;
 
-import java.util.List;
+import java.util.Queue;
 
 public interface Expression
 {
     ExpressionType getExpressionType();
 
-    List<Object> getChildren();
+    Queue<Object> getChildren();
 }

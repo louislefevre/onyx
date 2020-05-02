@@ -4,9 +4,9 @@ import analysis.lexical.Token;
 import identifiers.ExpressionType;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @Getter
 public final class BinaryExpression implements Expression
@@ -15,7 +15,7 @@ public final class BinaryExpression implements Expression
     private final Token operatorToken;
     private final Expression rightOperand;
     private final ExpressionType expressionType;
-    private final List<Object> children;
+    private final Queue<Object> children;
 
     public BinaryExpression(Expression leftOperand, Token operatorToken, Expression rightOperand)
     {
@@ -23,6 +23,6 @@ public final class BinaryExpression implements Expression
         this.operatorToken = operatorToken;
         this.rightOperand = rightOperand;
         this.expressionType = ExpressionType.BINARY_EXPRESSION;
-        this.children = new ArrayList<>(Arrays.asList(leftOperand, operatorToken, rightOperand));
+        this.children = new LinkedList<>(Arrays.asList(leftOperand, operatorToken, rightOperand));
     }
 }
