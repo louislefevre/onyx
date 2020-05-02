@@ -23,13 +23,14 @@ public final class ErrorHandler
         this.errorsLog.add(error);
     }
 
-    public boolean errorsPresent()
+    public boolean containsErrors()
     {
         return !this.errorsLog.isEmpty();
     }
 
-    public void outputErrors()
+    public String getErrors()
     {
+        StringBuilder builder = new StringBuilder();
         for (Error error : this.errorsLog)
         {
             int errorStart = error.getSpan().getStart();
@@ -59,8 +60,9 @@ public final class ErrorHandler
             }
             fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
 
-            System.out.println(errorMessage);
-            System.out.println(fullSyntax);
+            builder.append(errorMessage);
+            builder.append(fullSyntax);
         }
+        return builder.toString();
     }
 }

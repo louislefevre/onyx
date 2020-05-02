@@ -20,6 +20,7 @@ public final class Repl
             SourceOutput output = pipeline.compile(input);
 
             System.out.println(output.getResult());
+            System.out.println();
         }
     }
 
