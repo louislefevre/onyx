@@ -352,8 +352,10 @@ public final class Evaluator
             case MULTIPLICATION_OPERATOR:
                 return symbolInteger * valueInteger;
             case DIVISION_OPERATOR:
+                if (symbolInteger == 0) return 0;
                 return symbolInteger / valueInteger;
             case MODULO_OPERATOR:
+                if (symbolInteger == 0) return 0;
                 return symbolInteger % valueInteger;
             case POWER_OPERATOR:
                 return (int) Math.pow(symbolInteger, valueInteger);
@@ -376,8 +378,10 @@ public final class Evaluator
             case MULTIPLICATION_OPERATOR:
                 return symbolDouble * valueDouble;
             case DIVISION_OPERATOR:
+                if (valueDouble == 0) return 0.0;
                 return symbolDouble / valueDouble;
             case MODULO_OPERATOR:
+                if (valueDouble == 0) return 0.0;
                 return symbolDouble % valueDouble;
             case POWER_OPERATOR:
                 return Math.pow(symbolDouble, valueDouble);
