@@ -3,6 +3,7 @@ package utilities;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
+import compilation.Pipeline;
 import identifiers.TokenType;
 import synthesis.generation.Evaluator;
 
@@ -30,6 +31,11 @@ public class TestHub
     public static Evaluator createEvaluator(String input)
     {
         return ObjectGeneration.createEvaluator(input);
+    }
+
+    public static Pipeline createPipeline()
+    {
+        return ObjectGeneration.createPipeline();
     }
 
     public static HashMap<String, Object> literalCollection()
@@ -64,14 +70,24 @@ public class TestHub
         return binaries;
     }
 
+    public static HashMap<String, Object> identifierCollection()
+    {
+        return MapGeneration.identifierCollection();
+    }
+
     public static HashMap<String, Object> assignmentCollection()
     {
         return MapGeneration.assignmentCollection();
     }
 
-    public static HashMap<String, Object> identifierCollection()
+    public static HashMap<String[], Object> assignmentOperatorsCollection()
     {
-        return MapGeneration.identifierCollection();
+        return MapGeneration.assignmentOperatorsCollection();
+    }
+
+    public static HashMap<String[], Object> reassignmentCollection()
+    {
+        return MapGeneration.reassignmentCollection();
     }
 
     public static HashMap<String, TokenType> tokenTypeCollection()

@@ -3,6 +3,7 @@ package utilities;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
+import compilation.Pipeline;
 import errors.ErrorHandler;
 import source.SourceInput;
 import symbols.SymbolTable;
@@ -36,5 +37,10 @@ class ObjectGeneration
     {
         TypeChecker typeChecker = createTypeChecker(input);
         return new Evaluator(typeChecker);
+    }
+
+    static Pipeline createPipeline()
+    {
+        return new Pipeline();
     }
 }

@@ -150,6 +150,18 @@ class MapGeneration
         return stringBinaries;
     }
 
+    static HashMap<String, Object> identifierCollection()
+    {
+        HashMap<String, Object> identifiers = new HashMap<>();
+        identifiers.put("a", "a");
+        identifiers.put("variable", "variable");
+        identifiers.put("my_var", "my_var");
+        identifiers.put("camelCaseVariable", "camelCaseVariable");
+        identifiers.put("CAPITALVARIABLE", "CAPITALVARIABLE");
+
+        return identifiers;
+    }
+
     static HashMap<String, Object> assignmentCollection()
     {
         HashMap<String, Object> assignments = new HashMap<>();
@@ -163,15 +175,47 @@ class MapGeneration
         return assignments;
     }
 
-    static HashMap<String, Object> identifierCollection()
+    static HashMap<String[], Object> assignmentOperatorsCollection()
     {
-        HashMap<String, Object> identifiers = new HashMap<>();
-        identifiers.put("a", "a");
-        identifiers.put("variable", "variable");
-        identifiers.put("camelCaseVariable", "camelCaseVariable");
-        identifiers.put("CAPITALVARIABLE", "CAPITALVARIABLE");
+        HashMap<String[], Object> assignmentOperators = new HashMap<>();
+        assignmentOperators.put(new String[]{"a=20", "a+=10"}, 30);
+        assignmentOperators.put(new String[]{"a=20", "a-=10"}, 10);
+        assignmentOperators.put(new String[]{"a=20", "a*=10"}, 200);
+        assignmentOperators.put(new String[]{"a=20", "a/=10"}, 2);
+        assignmentOperators.put(new String[]{"a=20", "a%=12"}, 8);
+        assignmentOperators.put(new String[]{"a=10", "a^=2"}, 100);
+        assignmentOperators.put(new String[]{"a=20.5", "a+=10.5"}, 31.0);
+        assignmentOperators.put(new String[]{"a=20.5", "a-=10.5"}, 10.0);
+        assignmentOperators.put(new String[]{"a=20.0", "a*=10.0"}, 200.0);
+        assignmentOperators.put(new String[]{"a=20.0", "a/=10.0"}, 2.0);
+        assignmentOperators.put(new String[]{"a=20.0", "a%=12.0"}, 8.0);
+        assignmentOperators.put(new String[]{"a=10.0", "a^=2.0"}, 100.0);
+        assignmentOperators.put(new String[]{"a=\"string\"", "a+=\" string\""}, "string string");
 
-        return identifiers;
+        return assignmentOperators;
+    }
+
+    static HashMap<String[], Object> reassignmentCollection()
+    {
+        HashMap<String[], Object> reassignmentCollection = new HashMap<>();
+        reassignmentCollection.put(new String[]{"a=20", "a=10"}, 10);
+        reassignmentCollection.put(new String[]{"a=20", "a=10.0"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=20", "a=false"}, false);
+        reassignmentCollection.put(new String[]{"a=20", "a=\"string\""}, "string");
+        reassignmentCollection.put(new String[]{"a=20.0", "a=10"}, 10);
+        reassignmentCollection.put(new String[]{"a=20.0", "a=10.0"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=20.0", "a=false"}, false);
+        reassignmentCollection.put(new String[]{"a=20.0", "a=\"string\""}, "string");
+        reassignmentCollection.put(new String[]{"a=true", "a=10"}, 10);
+        reassignmentCollection.put(new String[]{"a=true", "a=10.0"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=true", "a=false"}, false);
+        reassignmentCollection.put(new String[]{"a=true", "a=\"string\""}, "string");
+        reassignmentCollection.put(new String[]{"a=\"string\"", "a=10"}, 10);
+        reassignmentCollection.put(new String[]{"a=\"string\"", "a=10.0"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=\"string\"", "a=false"}, false);
+        reassignmentCollection.put(new String[]{"a=\"string\"", "a=\"string\""}, "string");
+
+        return reassignmentCollection;
     }
 
     static HashMap<String, TokenType> tokenTypeCollection()
