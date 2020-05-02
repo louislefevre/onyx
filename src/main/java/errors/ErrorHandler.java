@@ -63,6 +63,7 @@ public final class ErrorHandler
             builder.append(errorMessage);
             builder.append(System.getProperty("line.separator"));
             builder.append(fullSyntax);
+            builder.append(System.getProperty("line.separator"));
         }
         return builder.toString();
     }
