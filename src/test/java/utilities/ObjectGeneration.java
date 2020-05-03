@@ -14,33 +14,23 @@ class ObjectGeneration
 {
     private ObjectGeneration() {}
 
-    static SymbolTable createSymbolTable()
+    static ErrorHandler createErrorHandler(String sourceText)
     {
-        return new SymbolTable();
+        SourceInput sourceInput = createSourceInput(sourceText);
+        return sourceInput.getErrorHandler();
     }
 
     static SourceInput createSourceInput(String input)
     {
-        return new SourceInput(input);
-    }
-
-    static ErrorHandler createErrorHandler(String input)
-    {
-        SourceInput sourceInput = new SourceInput(input);
-        return new ErrorHandler(sourceInput);
-    }
-
-    static ErrorHandler createErrorHandler(SourceInput sourceInput)
-    {
-        return new ErrorHandler(sourceInput);
+        ErrorHandler errorHandler = new ErrorHandler();
+        SymbolTable symbolTable = new SymbolTable();
+        return new SourceInput(input, symbolTable, errorHandler);
     }
 
     static Lexer createLexer(String input)
     {
         SourceInput sourceInput = createSourceInput(input);
-        ErrorHandler errorHandler = createErrorHandler(sourceInput);
-        SymbolTable symbolTable = createSymbolTable();
-        return new Lexer(sourceInput, errorHandler, symbolTable);
+        return new Lexer(sourceInput);
     }
 
     static Parser createParser(String input)

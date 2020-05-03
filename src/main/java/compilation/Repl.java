@@ -12,12 +12,12 @@ public final class Repl
 
         while (true)
         {
-            String input = readInput();
+            String sourceText = readInput();
 
-            if (input.isBlank())
+            if (sourceText.isBlank())
                 break;
 
-            SourceOutput output = pipeline.compile(input);
+            SourceOutput output = pipeline.compile(sourceText);
 
             System.out.println(output.getResult());
             System.out.println();
@@ -28,12 +28,11 @@ public final class Repl
     {
         StringBuilder builder = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
-
         System.out.print("> ");
-        String line;
+
         while (true)
         {
-            line = scanner.nextLine();
+            String line = scanner.nextLine();
 
             if (line.isBlank())
                 break;

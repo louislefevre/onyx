@@ -3,6 +3,7 @@ package analysis.lexical;
 import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
+import lombok.Getter;
 import source.SourceInput;
 import symbols.SymbolTable;
 
@@ -11,27 +12,17 @@ import java.util.List;
 
 public final class Lexer
 {
-    private final SourceInput sourceInput;
-    private final ErrorHandler errorHandler;
-    private final SymbolTable symbolTable;
+    private final String sourceText;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
     private int position;
 
-    public Lexer(SourceInput sourceInput, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public Lexer(SourceInput sourceText)
     {
-        this.sourceInput = sourceInput;
-        this.errorHandler = errorHandler;
-        this.symbolTable = symbolTable;
+        this.sourceText = sourceText.getSourceText();
+        this.errorHandler = sourceText.getErrorHandler();
+        this.symbolTable = sourceText.getSymbolTable();
         this.position = 0;
-    }
-
-    public ErrorHandler getErrorHandler()
-    {
-        return this.errorHandler;
-    }
-
-    public SymbolTable getSymbolTable()
-    {
-        return this.symbolTable;
     }
 
     public List<Token> getTokens()
@@ -56,7 +47,7 @@ public final class Lexer
 
     private Token nextToken()
     {
-        if (this.position >= this.sourceInput.length())
+        if (this.position >= this.sourceText.length())
             return this.endToken();
         else if (isWhitespace(this.currentChar()))
             return this.whitespaceToken();
@@ -79,7 +70,7 @@ public final class Lexer
         while (isWhitespace(this.currentChar()))
             this.nextPosition();
 
-        String syntax = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceText.substring(startPos, this.position);
 
         return new Token(TokenType.WHITE_SPACE_TOKEN, syntax, startPos);
     }
@@ -94,7 +85,7 @@ public final class Lexer
         if (this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
             return this.doubleToken(startPos);
 
-        String syntax = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceText.substring(startPos, this.position);
         int value = 0;
 
         if (isIntegerParsable(syntax))
@@ -113,7 +104,7 @@ public final class Lexer
         }
         while (isDigit(this.currentChar()));
 
-        String syntax = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceText.substring(startPos, this.position);
         double value = 0;
 
         if (isDoubleParsable(syntax))
@@ -131,7 +122,7 @@ public final class Lexer
         while (isLetter(this.currentChar()))
             this.nextPosition();
 
-        String syntax = this.sourceInput.substring(startPos, this.position);
+        String syntax = this.sourceText.substring(startPos, this.position);
 
         return getKeywordToken(syntax, startPos);
     }
@@ -305,7 +296,7 @@ public final class Lexer
     {
         this.errorHandler.addError(LexicalError.badCharacter(this.currentChar(), this.position, 1));
         return new Token(TokenType.BAD_TOKEN,
-                         sourceInput.substring(minimumZero(this.position - 1), this.position),
+                         sourceText.substring(minimumZero(this.position - 1), this.position),
                          this.currentPositionThenNext(1));
     }
 
@@ -323,9 +314,9 @@ public final class Lexer
     {
         int index = this.position + offset;
 
-        if (index >= this.sourceInput.length() || index < 0)
+        if (index >= this.sourceText.length() || index < 0)
             return Syntax.EOF.getSyntax();
-        return Character.toString(this.sourceInput.charAt(index));
+        return Character.toString(this.sourceText.charAt(index));
     }
 
     private void nextPosition()

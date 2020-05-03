@@ -5,6 +5,7 @@ import analysis.lexical.Token;
 import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
+import lombok.Getter;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ import java.util.List;
 public final class Parser
 {
     private final List<Token> tokens;
-    private final ErrorHandler errorHandler;
-    private final SymbolTable symbolTable;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
     private int position;
 
     public Parser(Lexer lexer)
@@ -23,16 +24,6 @@ public final class Parser
         this.errorHandler = lexer.getErrorHandler();
         this.symbolTable = lexer.getSymbolTable();
         this.position = 0;
-    }
-
-    public ErrorHandler getErrorHandler()
-    {
-        return this.errorHandler;
-    }
-
-    public SymbolTable getSymbolTable()
-    {
-        return this.symbolTable;
     }
 
     public ParseTree getParseTree()
@@ -110,8 +101,8 @@ public final class Parser
     {
         if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
         {
-            this.nextPosition();
-            return this.parseUnknownExpression();
+            //this.nextPosition();
+            //return this.parseUnknownExpression();
         }
 
         Expression leftOperand = this.parseUnaryExpression(parentPrecedence);

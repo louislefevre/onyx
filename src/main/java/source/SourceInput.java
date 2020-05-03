@@ -1,35 +1,32 @@
 package source;
 
+import errors.ErrorHandler;
 import lombok.Getter;
+import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public final class SourceInput
 {
-    @Getter
     private final List<SourceLine> sourceLines;
     private final String sourceText;
+    private final SymbolTable symbolTable;
+    private final ErrorHandler errorHandler;
 
-    public SourceInput(String sourceText)
+    public SourceInput(String sourceText, SymbolTable symbolTable, ErrorHandler errorHandler)
     {
         this.sourceText = sourceText;
+        this.symbolTable = symbolTable;
+        this.errorHandler = errorHandler;
         this.sourceLines = parseLines(sourceText);
-    }
-
-    public char charAt(int index)
-    {
-        return this.sourceText.charAt(index);
+        this.errorHandler.setSourceInput(this);
     }
 
     public int length()
     {
         return this.sourceText.length();
-    }
-
-    public boolean isBlank()
-    {
-        return this.sourceText.isBlank();
     }
 
     public String substring(int beginIndex, int endIndex)

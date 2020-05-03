@@ -6,9 +6,7 @@ import analysis.syntax.Parser;
 import compilation.Pipeline;
 import errors.ErrorHandler;
 import identifiers.TokenType;
-import source.SourceInput;
 import source.SourceOutput;
-import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 
 import java.util.HashMap;
@@ -17,24 +15,9 @@ public class TestHub
 {
     private TestHub() {}
 
-    public static SymbolTable createSymbolTable()
-    {
-        return ObjectGeneration.createSymbolTable();
-    }
-
-    public static SourceInput createSourceInput(String input)
-    {
-        return ObjectGeneration.createSourceInput(input);
-    }
-
     public static ErrorHandler createErrorHandler(String input)
     {
         return ObjectGeneration.createErrorHandler(input);
-    }
-
-    public static ErrorHandler createErrorHandler(SourceInput sourceInput)
-    {
-        return ObjectGeneration.createErrorHandler(sourceInput);
     }
 
     public static Lexer createLexer(String input)

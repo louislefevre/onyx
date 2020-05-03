@@ -7,13 +7,14 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
+import lombok.Getter;
 import symbols.SymbolTable;
 
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
-    private final ErrorHandler errorHandler;
-    private final SymbolTable symbolTable;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
     private Object lastValue;
 
     public Evaluator(TypeChecker typeChecker)
@@ -21,16 +22,6 @@ public final class Evaluator
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
         this.errorHandler = typeChecker.getErrorHandler();
         this.symbolTable = typeChecker.getSymbolTable();
-    }
-
-    public ErrorHandler getErrorHandler()
-    {
-        return this.errorHandler;
-    }
-
-    public SymbolTable getSymbolTable()
-    {
-        return this.symbolTable;
     }
 
     public Object getEvaluation()

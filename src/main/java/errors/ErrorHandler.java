@@ -10,11 +10,16 @@ import java.util.List;
 public final class ErrorHandler
 {
     private final List<Error> errorsLog;
-    private final SourceInput sourceInput;
+    private SourceInput sourceInput;
 
-    public ErrorHandler(SourceInput sourceInput)
+    public ErrorHandler()
     {
         this.errorsLog = new ArrayList<>();
+    }
+
+    public void setSourceInput(SourceInput sourceInput)
+    {
+        this.errorsLog.clear();
         this.sourceInput = sourceInput;
     }
 
@@ -61,7 +66,7 @@ public final class ErrorHandler
 
             prefixSyntax = ANSI.GREY + prefixSyntax.replaceFirst("^\\s+", "");
             errorSyntax = ANSI.RED + errorSyntax;
-            suffixSyntax = ANSI.GREY+suffixSyntax.replaceFirst("\\s+$", "");
+            suffixSyntax = ANSI.GREY + suffixSyntax.replaceFirst("\\s+$", "");
             fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
 
             builder.append(errorMessage);

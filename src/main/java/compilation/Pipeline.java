@@ -12,18 +12,18 @@ import synthesis.generation.Evaluator;
 public final class Pipeline
 {
     private final SymbolTable symbolTable;
+    private final ErrorHandler errorHandler;
 
     public Pipeline()
     {
         this.symbolTable = new SymbolTable();
+        this.errorHandler = new ErrorHandler();
     }
 
-    public SourceOutput compile(String input)
+    public SourceOutput compile(String sourceText)
     {
-        SourceInput sourceInput = new SourceInput(input);
-        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
-
-        Lexer lexer = new Lexer(sourceInput, errorHandler, this.symbolTable);
+        SourceInput sourceInput = new SourceInput(sourceText, this.symbolTable, this.errorHandler);
+        Lexer lexer = new Lexer(sourceInput);
         Parser parser = new Parser(lexer);
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
