@@ -6,6 +6,7 @@ import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
 import identifiers.TokenType;
+import lombok.Getter;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -14,24 +15,14 @@ import java.util.List;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    private final ErrorHandler errorHandler;
-    private final SymbolTable symbolTable;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
 
     public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
         this.errorHandler = parser.getErrorHandler();
         this.symbolTable = parser.getSymbolTable();
-    }
-
-    public ErrorHandler getErrorHandler()
-    {
-        return this.errorHandler;
-    }
-
-    public SymbolTable getSymbolTable()
-    {
-        return this.symbolTable;
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
@@ -180,13 +171,11 @@ public final class TypeChecker
         AnnotatedExpression expression = this.annotateExpression(assignmentExpression.getExpression());
         ObjectType assignmentType = expression.getObjectType();
 
-        ObjectType symbolType;
-        if (this.symbolTable.containsSymbol(name) && assignmentTokenType != TokenType.EQUALS_TOKEN)
-            symbolType = this.symbolTable.getSymbol(name).getType();
-        else
-            symbolType = ObjectType.NULL_OBJECT;
+        ObjectType symbolType = this.symbolTable.containsSymbol(name) ?
+                                this.symbolTable.getSymbol(name).getType() : ObjectType.NULL_OBJECT;
 
-        AnnotatedAssignmentOperator annotatedOperator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
+        AnnotatedAssignmentOperator annotatedOperator =
+                TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
 
         if (annotatedOperator == null)
         {
