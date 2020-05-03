@@ -1,7 +1,14 @@
 package utilities;
 
 import analysis.lexical.Syntax;
+import errors.Error;
+import errors.ErrorHandler;
+import errors.LexicalError;
+import errors.SemanticError;
+import errors.SyntaxError;
+import identifiers.ObjectType;
 import identifiers.TokenType;
+import source.SourceSpan;
 
 import java.util.HashMap;
 
@@ -250,4 +257,124 @@ class MapGeneration
 
         return tokenTypes;
     }
+
+    static HashMap<String, String> lexicalErrorCollection()
+    {
+        HashMap<String, String> lexicalErrors = new HashMap<>();
+        String input, output;
+        LexicalError error;
+
+        input = "2147483648";
+        error = LexicalError.invalidInt(input, 0, 10);
+        output = getErrorOutput(input, error);
+        lexicalErrors.put(input, output);
+
+        input = "@";
+        error = LexicalError.badCharacter(input, 0, 1);
+        output = getErrorOutput(input, error);
+        lexicalErrors.put(input, output);
+
+        input = "\"string";
+        error = LexicalError.incompleteString(input, 0, 7);
+        output = getErrorOutput(input, error);
+        lexicalErrors.put(input, output);
+
+        return lexicalErrors;
+    }
+
+    static HashMap<String, String> syntaxErrorCollection()
+    {
+        HashMap<String, String> syntaxErrors = new HashMap<>();
+        String input, output;
+        SourceSpan span;
+        SyntaxError error;
+
+        input = "(";
+        span = new SourceSpan(1, 1);
+        error = SyntaxError.unexpectedTokenMatch(span, TokenType.EOF_TOKEN, TokenType.CLOSE_PARENTHESIS_TOKEN);
+        output = getErrorOutput(input, error);
+        syntaxErrors.put(input, output);
+
+        input = "{";
+        span = new SourceSpan(1, 1);
+        error = SyntaxError.unexpectedTokenMatch(span, TokenType.EOF_TOKEN, TokenType.CLOSE_BRACE_TOKEN);
+        output = getErrorOutput(input, error);
+        syntaxErrors.put(input, output);
+
+        return syntaxErrors;
+    }
+
+    static HashMap<String, String> semanticErrorCollection()
+    {
+        HashMap<String, String> semanticErrors = new HashMap<>();
+        String input, output;
+        SourceSpan span;
+        SemanticError error;
+
+        input = "+true";
+        span = new SourceSpan(0, 1);
+        error = SemanticError.undefinedUnaryOperator(span, "+", ObjectType.BOOLEAN_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "!5";
+        span = new SourceSpan(0, 1);
+        error = SemanticError.undefinedUnaryOperator(span, "!", ObjectType.INTEGER_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "!5.0";
+        span = new SourceSpan(0, 1);
+        error = SemanticError.undefinedUnaryOperator(span, "!", ObjectType.DOUBLE_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "true + false";
+        span = new SourceSpan(5, 1);
+        error = SemanticError.undefinedBinaryOperator(span, "+", ObjectType.BOOLEAN_OBJECT, ObjectType.BOOLEAN_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "5 * 5.0";
+        span = new SourceSpan(2, 1);
+        error = SemanticError.undefinedBinaryOperator(span, "*", ObjectType.INTEGER_OBJECT, ObjectType.DOUBLE_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "\"string\" * true";
+        span = new SourceSpan(9, 1);
+        error = SemanticError.undefinedBinaryOperator(span, "*", ObjectType.STRING_OBJECT, ObjectType.BOOLEAN_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "a += 5";
+        span = new SourceSpan(2, 2);
+        error = SemanticError.undefinedAssignmentOperator(span, "+=", ObjectType.NULL_OBJECT, ObjectType.INTEGER_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "a *= true";
+        span = new SourceSpan(2, 2);
+        error = SemanticError.undefinedAssignmentOperator(span, "*=", ObjectType.NULL_OBJECT, ObjectType.BOOLEAN_OBJECT);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        input = "variable";
+        span = new SourceSpan(0, 8);
+        error = SemanticError.undefinedIdentifier(span, input);
+        output = getErrorOutput(input, error);
+        semanticErrors.put(input, output);
+
+        return semanticErrors;
+    }
+
+    private static String getErrorOutput(String input, Error error)
+    {
+        ErrorHandler errorHandler = TestHub.createErrorHandler(input);
+        errorHandler.addError(error);
+        return errorHandler.getErrors();
+    }
 }
+
+
+

@@ -4,7 +4,11 @@ import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import compilation.Pipeline;
+import errors.ErrorHandler;
 import identifiers.TokenType;
+import source.SourceInput;
+import source.SourceOutput;
+import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 
 import java.util.HashMap;
@@ -12,6 +16,26 @@ import java.util.HashMap;
 public class TestHub
 {
     private TestHub() {}
+
+    public static SymbolTable createSymbolTable()
+    {
+        return ObjectGeneration.createSymbolTable();
+    }
+
+    public static SourceInput createSourceInput(String input)
+    {
+        return ObjectGeneration.createSourceInput(input);
+    }
+
+    public static ErrorHandler createErrorHandler(String input)
+    {
+        return ObjectGeneration.createErrorHandler(input);
+    }
+
+    public static ErrorHandler createErrorHandler(SourceInput sourceInput)
+    {
+        return ObjectGeneration.createErrorHandler(sourceInput);
+    }
 
     public static Lexer createLexer(String input)
     {
@@ -31,6 +55,11 @@ public class TestHub
     public static Evaluator createEvaluator(String input)
     {
         return ObjectGeneration.createEvaluator(input);
+    }
+
+    public static SourceOutput createSourceOutput(String input)
+    {
+        return ObjectGeneration.createSourceOutput(input);
     }
 
     public static Pipeline createPipeline()
@@ -93,6 +122,21 @@ public class TestHub
     public static HashMap<String, TokenType> tokenTypeCollection()
     {
         return MapGeneration.tokenTypeCollection();
+    }
+
+    public static HashMap<String, String> lexicalErrorCollection()
+    {
+        return MapGeneration.lexicalErrorCollection();
+    }
+
+    public static HashMap<String, String> syntaxErrorCollection()
+    {
+        return MapGeneration.syntaxErrorCollection();
+    }
+
+    public static HashMap<String, String> semanticErrorCollection()
+    {
+        return MapGeneration.semanticErrorCollection();
     }
 
     public static HashMap<String, Object> parenthesizedCollection()
