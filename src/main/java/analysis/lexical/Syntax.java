@@ -30,8 +30,8 @@ public enum Syntax
     CARET("^"),
 
     // Conditional Binary Operators
-    AND("AND"),
-    OR("OR"),
+    AND("and"),
+    OR("or"),
     GREATER(">"),
     GREATER_EQUALS(">="),
     LESS("<"),

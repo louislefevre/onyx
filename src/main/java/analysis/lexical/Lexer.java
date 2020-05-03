@@ -122,7 +122,7 @@ public final class Lexer
         while (isLetter(this.currentChar()))
             this.nextPosition();
 
-        String syntax = this.sourceText.substring(startPos, this.position);
+        String syntax = this.sourceText.substring(startPos, this.position).toLowerCase();
 
         return getKeywordToken(syntax, startPos);
     }
