@@ -4,7 +4,7 @@ import source.SourceOutput;
 
 import java.util.Scanner;
 
-public class Ide
+public final class Ide
 {
     public void run()
     {

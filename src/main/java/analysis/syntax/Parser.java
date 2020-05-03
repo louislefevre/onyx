@@ -101,8 +101,8 @@ public final class Parser
     {
         if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
         {
-            //this.nextPosition();
-            //return this.parseUnknownExpression();
+            this.nextPosition();
+            return this.parseUnknownExpression();
         }
 
         Expression leftOperand = this.parseUnaryExpression(parentPrecedence);
@@ -140,10 +140,9 @@ public final class Parser
     {
         switch (this.currentToken().getTokenType())
         {
-            case FALSE_KEYWORD_TOKEN:
-            case TRUE_KEYWORD_TOKEN:
             case INTEGER_TOKEN:
             case DOUBLE_TOKEN:
+            case BOOLEAN_TOKEN:
             case STRING_TOKEN:
                 return this.parseLiteralExpression();
             case IDENTIFIER_TOKEN:

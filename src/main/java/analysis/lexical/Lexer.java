@@ -130,9 +130,9 @@ public final class Lexer
     private static Token getKeywordToken(String text, int pos)
     {
         if (Syntax.TRUE.getSyntax().equals(text))
-            return new Token(TokenType.TRUE_KEYWORD_TOKEN, Syntax.TRUE.getSyntax(), true, pos);
+            return new Token(TokenType.BOOLEAN_TOKEN, Syntax.TRUE.getSyntax(), true, pos);
         else if (Syntax.FALSE.getSyntax().equals(text))
-            return new Token(TokenType.FALSE_KEYWORD_TOKEN, Syntax.FALSE.getSyntax(), false, pos);
+            return new Token(TokenType.BOOLEAN_TOKEN, Syntax.FALSE.getSyntax(), false, pos);
         else if (Syntax.AND.getSyntax().equals(text))
             return new Token(TokenType.AND_TOKEN, Syntax.AND.getSyntax(), pos);
         else if (Syntax.OR.getSyntax().equals(text))

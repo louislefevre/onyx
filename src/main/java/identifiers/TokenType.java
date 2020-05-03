@@ -2,38 +2,41 @@ package identifiers;
 
 public enum TokenType
 {
-    // Data Tokens
+    // Data Types
     INTEGER_TOKEN,
     DOUBLE_TOKEN,
+    BOOLEAN_TOKEN,
     STRING_TOKEN,
     IDENTIFIER_TOKEN,
 
-    // Keyword Tokens
-    TRUE_KEYWORD_TOKEN,
-    FALSE_KEYWORD_TOKEN,
-    AND_TOKEN,
-    OR_TOKEN,
-
-    // Separator Tokens
+    // Separators
     OPEN_BRACE_TOKEN,
     CLOSE_BRACE_TOKEN,
     OPEN_PARENTHESIS_TOKEN,
     CLOSE_PARENTHESIS_TOKEN,
 
-    // Operator Tokens
+    // Unary Operators
+    NOT_TOKEN,
+
+    // Mathematical Binary Operators
     PLUS_TOKEN,
     MINUS_TOKEN,
     STAR_TOKEN,
     SLASH_TOKEN,
     PERCENT_TOKEN,
     CARET_TOKEN,
+
+    // Conditional Binary Operators
+    AND_TOKEN,
+    OR_TOKEN,
     GREATER_TOKEN,
     GREATER_EQUALS_TOKEN,
     LESS_TOKEN,
     LESS_EQUALS_TOKEN,
-    EQUALS_TOKEN,
     EQUALS_EQUALS_TOKEN,
-    NOT_TOKEN,
+
+    // Assignment Operators
+    EQUALS_TOKEN,
     NOT_EQUALS_TOKEN,
     PLUS_EQUALS_TOKEN,
     MINUS_EQUALS_TOKEN,
