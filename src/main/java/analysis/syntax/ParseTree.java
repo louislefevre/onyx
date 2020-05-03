@@ -9,22 +9,23 @@ import java.util.List;
 public final class ParseTree
 {
     private final Statement statement;
+    private static Statement staticStatement;
 
     public ParseTree(Statement statement)
     {
         this.statement = statement;
+        staticStatement = statement;
     }
 
     public Statement getStatement()
     {
-        this.showTree();
         return this.statement;
     }
 
     @TestOnly
-    public void showTree()
+    public static void printParseTree()
     {
-        printTree(this.statement, "", true);
+        printTree(staticStatement, "", true);
     }
 
     private static void printTree(Object node, String indent, boolean isLast)

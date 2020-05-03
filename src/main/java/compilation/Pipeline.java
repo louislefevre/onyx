@@ -2,6 +2,7 @@ package compilation;
 
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
+import analysis.syntax.ParseTree;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
 import source.SourceInput;
@@ -28,6 +29,9 @@ public final class Pipeline
         TypeChecker typeChecker = new TypeChecker(parser);
         Evaluator evaluator = new Evaluator(typeChecker);
         SourceOutput sourceOutput = new SourceOutput(evaluator);
+
+        ParseTree.printParseTree();
+        symbolTable.printSymbolTable();
 
         return sourceOutput;
     }
