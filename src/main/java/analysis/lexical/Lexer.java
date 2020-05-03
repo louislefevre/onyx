@@ -166,7 +166,7 @@ public final class Lexer
             if (currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
             {
                 tokenType = TokenType.BAD_TOKEN;
-                this.errorHandler.addError(LexicalError.incompleteString(valueBuilder.toString(), startPos,
+                this.errorHandler.addError(LexicalError.incompleteString(syntaxBuilder.toString(), startPos,
                                                                          this.position - startPos));
                 break;
             }
