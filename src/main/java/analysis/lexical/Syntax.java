@@ -2,36 +2,44 @@ package analysis.lexical;
 
 public enum Syntax
 {
-    // Data Syntax
+    // Data Types
     DECIMAL_POINT("."),
-    DOUBLE_QUOTES("\""),
-
-    // Keyword Syntax
     TRUE("true"),
     FALSE("false"),
-    AND("AND"),
-    OR("OR"),
+    DOUBLE_QUOTES("\""),
 
-    // Separator Syntax
+    // Keywords
+    IF("if"),
+    ELSE("else"),
+
+    // Separators
     OPEN_BRACE("{"),
     CLOSE_BRACE("}"),
     OPEN_PARENTHESIS("("),
     CLOSE_PARENTHESIS(")"),
 
-    // Operator Syntax
+    // Unary Operators
+    NOT("!"),
+
+    // Mathematical Binary Operators
     PLUS("+"),
     MINUS("-"),
     STAR("*"),
     SLASH("/"),
     PERCENT("%"),
     CARET("^"),
+
+    // Conditional Binary Operators
+    AND("AND"),
+    OR("OR"),
     GREATER(">"),
     GREATER_EQUALS(">="),
     LESS("<"),
     LESS_EQUALS("<="),
-    EQUALS("="),
     EQUALS_EQUALS("=="),
-    NOT("!"),
+
+    // Assignment Operators
+    EQUALS("="),
     NOT_EQUALS("!="),
     PLUS_EQUALS("+="),
     MINUS_EQUALS("-="),

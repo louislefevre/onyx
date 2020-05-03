@@ -35,6 +35,9 @@ public final class Parser
     {
         if (this.currentToken().getTokenType() == TokenType.OPEN_BRACE_TOKEN)
             return this.parseBlockStatement();
+        else if (this.currentToken().getTokenType() == TokenType.IF_TOKEN)
+            return this.parseConditionalStatement();
+
         return this.parseExpressionStatement();
     }
 
@@ -52,6 +55,23 @@ public final class Parser
         Token closeBrace = this.validateToken(TokenType.CLOSE_BRACE_TOKEN);
 
         return new BlockStatement(openBrace, statements, closeBrace);
+    }
+
+    private Statement parseConditionalStatement()
+    {
+        Token ifToken = this.validateToken(TokenType.IF_TOKEN);
+        Expression conditionExpression = this.parseExpression();
+        Statement thenStatement = this.parseStatement();
+        ConditionalStatement conditionalStatement = new ConditionalStatement(ifToken, conditionExpression, thenStatement);
+
+        if (this.currentToken().getTokenType() == TokenType.ELSE_TOKEN)
+        {
+            Token elseToken = this.validateToken(TokenType.ELSE_TOKEN);
+            Statement elseStatement = this.parseStatement();
+            conditionalStatement.addElseStatement(elseToken, elseStatement);
+        }
+
+        return conditionalStatement;
     }
 
     private ExpressionStatement parseExpressionStatement()
@@ -101,8 +121,8 @@ public final class Parser
     {
         if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
         {
-            this.nextPosition();
-            return this.parseUnknownExpression();
+            //this.nextPosition();
+            //return this.parseUnknownExpression();
         }
 
         Expression leftOperand = this.parseUnaryExpression(parentPrecedence);

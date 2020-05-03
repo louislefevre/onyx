@@ -19,6 +19,9 @@ public final class Repl
 
             SourceOutput output = pipeline.compile(sourceText);
 
+            //pipeline.printParseTree();
+            //pipeline.printSymbolTable();
+
             System.out.println(output.getResult());
             System.out.println();
         }

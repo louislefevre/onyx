@@ -13,8 +13,10 @@ import symbols.SymbolTable;
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
+    @Getter
+    private final ErrorHandler errorHandler;
+    @Getter
+    private final SymbolTable symbolTable;
     private Object lastValue;
 
     public Evaluator(TypeChecker typeChecker)
@@ -53,6 +55,9 @@ public final class Evaluator
             case ANNOTATED_EXPRESSION_STATEMENT:
                 this.evaluateExpressionStatement((AnnotatedExpressionStatement) annotatedStatement);
                 break;
+            case ANNOTATED_CONDITIONAL_STATEMENT:
+                this.evaluateConditionalStatement((AnnotatedConditionalStatement) annotatedStatement);
+                break;
             default:
                 throw new Exception(EvaluationError.unexpectedStatement(annotatedStatement.getStatementType().toString()));
         }
@@ -68,6 +73,17 @@ public final class Evaluator
     {
         AnnotatedExpression expression = annotatedExpressionStatement.getExpression();
         this.lastValue = this.evaluateExpression(expression);
+    }
+
+    private void evaluateConditionalStatement(AnnotatedConditionalStatement annotatedStatement) throws Exception
+    {
+        Object condition = this.evaluateExpression(annotatedStatement.getAnnotatedCondition());
+
+        if (condition instanceof Boolean)
+            if ((boolean) condition)
+                this.evaluateStatement(annotatedStatement.getAnnotatedThenStatement());
+            else if (annotatedStatement.includesElseStatement())
+                this.evaluateStatement(annotatedStatement.getAnnotatedElseClause());
     }
 
     private Object evaluateExpression(AnnotatedExpression annotatedExpression) throws Exception

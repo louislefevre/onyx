@@ -30,9 +30,16 @@ public final class Pipeline
         Evaluator evaluator = new Evaluator(typeChecker);
         SourceOutput sourceOutput = new SourceOutput(evaluator);
 
-        ParseTree.printParseTree();
-        symbolTable.printSymbolTable();
-
         return sourceOutput;
+    }
+
+    public void printParseTree()
+    {
+        ParseTree.printParseTree();
+    }
+
+    public void printSymbolTable()
+    {
+        this.symbolTable.printSymbolTable();
     }
 }

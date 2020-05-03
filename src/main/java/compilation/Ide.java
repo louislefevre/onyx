@@ -12,25 +12,29 @@ public final class Ide
         StringBuilder builder = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
 
-        while(true)
+        while (true)
         {
-            if(builder.length() == 0)
+            if (builder.length() == 0)
                 System.out.print("> ");
             else
                 System.out.print("| ");
 
             String input = scanner.nextLine();
 
-            if(builder.length() == 0 && input.isBlank())
+            if (builder.length() == 0 && input.isBlank())
                 break;
 
             builder.append(input);
+            builder.append(System.getProperty("line.separator"));
             String sourceText = builder.toString();
 
             SourceOutput sourceOutput = pipeline.compile(sourceText);
 
-            if(!input.isBlank())
+            if (!input.isBlank())
                 continue;
+
+            //pipeline.printParseTree();
+            //pipeline.printSymbolTable();
 
             System.out.println(sourceOutput.getResult());
             builder = new StringBuilder();

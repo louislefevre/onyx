@@ -15,8 +15,10 @@ import java.util.List;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
+    @Getter
+    private final ErrorHandler errorHandler;
+    @Getter
+    private final SymbolTable symbolTable;
 
     public TypeChecker(Parser parser)
     {
@@ -51,6 +53,8 @@ public final class TypeChecker
                 return this.annotateBlockStatement((BlockStatement) statement);
             case EXPRESSION_STATEMENT:
                 return this.annotateExpressionStatement((ExpressionStatement) statement);
+            case CONDITIONAL_STATEMENT:
+                return this.annotatedConditionalStatement((ConditionalStatement) statement);
             default:
                 throw new Exception(SemanticError.undefinedStatement(statement.getStatementType().toString()));
         }
@@ -74,6 +78,26 @@ public final class TypeChecker
         Expression expression = expressionStatement.getExpression();
         AnnotatedExpression annotatedExpression = this.annotateExpression(expression);
         return new AnnotatedExpressionStatement(annotatedExpression);
+    }
+
+    private AnnotatedStatement annotatedConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
+    {
+        AnnotatedExpression annotatedCondition = this.annotateExpression(conditionalStatement.getConditionExpression());
+
+        if (annotatedCondition.getObjectType() != ObjectType.BOOLEAN_OBJECT)
+            this.errorHandler.addError(SemanticError.invalidConditionalTypes(conditionalStatement.getIfToken().getSpan(),
+                                                                             annotatedCondition.getObjectType(),
+                                                                             ObjectType.BOOLEAN_OBJECT));
+
+        AnnotatedStatement annotatedThenStatement = this.annotateStatement(conditionalStatement.getThenStatement());
+
+        AnnotatedStatement annotatedElseClause;
+        if (conditionalStatement.includesElseStatement())
+            annotatedElseClause = this.annotateStatement(conditionalStatement.getElseStatement().getStatement());
+        else
+            annotatedElseClause = null;
+
+        return new AnnotatedConditionalStatement(annotatedCondition, annotatedThenStatement, annotatedElseClause);
     }
 
     private AnnotatedExpression annotateExpression(Expression expression) throws Exception

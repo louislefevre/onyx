@@ -56,6 +56,12 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
+    public static SemanticError invalidConditionalTypes(SourceSpan span, ObjectType resultType, ObjectType targetType)
+    {
+        String message = String.format("Invalid condition type '%1s', expected '%2s'.", resultType, targetType);
+        return new SemanticError(span, message);
+    }
+
     public static String undefinedExpression(String syntax)
     {
         return String.format("Unexpected expression '%s'", syntax);

@@ -9,6 +9,10 @@ public enum TokenType
     STRING_TOKEN,
     IDENTIFIER_TOKEN,
 
+    // Keywords
+    IF_TOKEN,
+    ELSE_TOKEN,
+
     // Separators
     OPEN_BRACE_TOKEN,
     CLOSE_BRACE_TOKEN,

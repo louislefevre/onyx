@@ -137,6 +137,10 @@ public final class Lexer
             return new Token(TokenType.AND_TOKEN, Syntax.AND.getSyntax(), pos);
         else if (Syntax.OR.getSyntax().equals(text))
             return new Token(TokenType.OR_TOKEN, Syntax.OR.getSyntax(), pos);
+        else if (Syntax.IF.getSyntax().equals(text))
+            return new Token(TokenType.IF_TOKEN, Syntax.IF.getSyntax(), pos);
+        else if (Syntax.ELSE.getSyntax().equals(text))
+            return new Token(TokenType.ELSE_TOKEN, Syntax.ELSE.getSyntax(), pos);
 
         return new Token(TokenType.IDENTIFIER_TOKEN, text, text, pos);
     }
