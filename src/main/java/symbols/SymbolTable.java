@@ -29,6 +29,15 @@ public final class SymbolTable
 
     public void addSymbol(String name, Object value, ObjectType type)
     {
+        if (this.containsSymbol(name))
+        {
+            Symbol symbol = this.getSymbol(name);
+            Object oldValue = symbol.getValue();
+            symbol.addHistoryValue(oldValue);
+            symbol.setValue(value);
+            symbol.setType(type);
+            return;
+        }
         Symbol symbol = new Symbol(name, value, type);
         this.symbols.put(name, symbol);
     }
@@ -37,11 +46,11 @@ public final class SymbolTable
     public void printSymbolTable()
     {
         List<List<String>> rows = new ArrayList<>();
-        List<String> headers = Arrays.asList("Name", "Value", "Type");
+        List<String> headers = Arrays.asList("Name", "Type", "Value", "History");
         rows.add(headers);
 
         for (Symbol symbol : this.symbols.values())
-            rows.add(Arrays.asList(symbol.getName(), symbol.getValue().toString(), symbol.getType().toString()));
+            rows.add(Arrays.asList(symbol.getName(), symbol.getType().toString(), symbol.getValue().toString(), symbol.getValueHistory().toString()));
 
         System.out.print(formatAsTable(rows));
     }
@@ -66,7 +75,7 @@ public final class SymbolTable
             result.append(String.format(format, element)).append("\n");
         }
 
-        String frame = "-----------------------------------\n";
+        String frame = "-----------------------------------------------------\n";
 
         return frame + result.toString() + frame;
     }
