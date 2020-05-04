@@ -51,7 +51,7 @@ public final class Parser
         }
     }
 
-    private Statement parseBlockStatement()
+    private BlockStatement parseBlockStatement()
     {
         Token openBrace = validateToken(TokenType.OPEN_BRACE_TOKEN);
 
@@ -67,7 +67,7 @@ public final class Parser
         return new BlockStatement(openBrace, statements, closeBrace);
     }
 
-    private Statement parseConditionalStatement()
+    private ConditionalStatement parseConditionalStatement()
     {
         Token ifToken = validateToken(TokenType.IF_TOKEN);
         Expression condition = parseExpression();
@@ -84,7 +84,7 @@ public final class Parser
         return statement;
     }
 
-    private Statement parseLoopStatement()
+    private LoopStatement parseLoopStatement()
     {
         Token loopToken = validateToken(TokenType.LOOP_TOKEN);
         Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
@@ -129,13 +129,13 @@ public final class Parser
         return parseBinaryExpression(0);
     }
 
-    private Expression parseAssignmentExpression(TokenType tokenType)
+    private AssignmentExpression parseAssignmentExpression(TokenType tokenType)
     {
-        IdentifierExpression identifierExpression = parseIdentifierExpression();
+        IdentifierExpression identifier = parseIdentifierExpression();
         Token assignmentToken = validateToken(tokenType);
-        Expression assignmentExpression = parseExpression();
+        Expression assignment = parseExpression();
 
-        return new AssignmentExpression(identifierExpression, assignmentToken, assignmentExpression);
+        return new AssignmentExpression(identifier, assignmentToken, assignment);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)
@@ -195,7 +195,7 @@ public final class Parser
         }
     }
 
-    private Expression parseLiteralExpression()
+    private LiteralExpression parseLiteralExpression()
     {
         Token literalToken = currentTokenThenNext();
         Object value = literalToken.getValue();
@@ -208,7 +208,7 @@ public final class Parser
         return new IdentifierExpression(identifierToken);
     }
 
-    private Expression parseParenthesizedExpression()
+    private ParenthesizedExpression parseParenthesizedExpression()
     {
         Token openParenthesisToken = validateToken(TokenType.OPEN_PARENTHESIS_TOKEN);
         Expression expression = parseExpression();
@@ -217,7 +217,7 @@ public final class Parser
         return new ParenthesizedExpression(openParenthesisToken, expression, closeParenthesisToken);
     }
 
-    private Expression parseUnknownExpression()
+    private LiteralExpression parseUnknownExpression()
     {
         Token currentToken = currentTokenThenNext();
         Token placeholderToken = new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(),
