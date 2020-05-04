@@ -12,6 +12,8 @@ public enum TokenType
     // Keywords
     IF_TOKEN,
     ELSE_TOKEN,
+    LOOP_TOKEN,
+    TO_TOKEN,
 
     // Separators
     OPEN_BRACE_TOKEN,

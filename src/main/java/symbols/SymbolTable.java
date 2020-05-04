@@ -42,6 +42,22 @@ public final class SymbolTable
         this.symbols.put(name, symbol);
     }
 
+    public void addSymbol(Symbol symbol)
+    {
+        String name = symbol.getName();
+        if (this.containsSymbol(name))
+        {
+            List<Object> oldHistory = this.getSymbol(name).getValueHistory();
+            symbol.setValueHistory(oldHistory);
+        }
+        this.symbols.put(name, symbol);
+    }
+
+    public void removeSymbol(String name)
+    {
+        this.symbols.remove(name);
+    }
+
     @TestOnly
     public void printSymbolTable()
     {

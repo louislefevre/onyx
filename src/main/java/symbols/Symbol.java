@@ -13,7 +13,7 @@ public final class Symbol
     private final String name;
     @Setter private Object value;
     @Setter private ObjectType type;
-    private final List<Object> valueHistory;
+    @Setter private List<Object> valueHistory;
 
     public Symbol(String name, Object value, ObjectType type)
     {

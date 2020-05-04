@@ -58,6 +58,9 @@ public final class Evaluator
             case ANNOTATED_CONDITIONAL_STATEMENT:
                 this.evaluateConditionalStatement((AnnotatedConditionalStatement) annotatedStatement);
                 break;
+            case ANNOTATED_LOOP_STATEMENT:
+                this.evaluateLoopStatement((AnnotatedLoopStatement) annotatedStatement);
+                break;
             default:
                 throw new Exception(EvaluationError.unexpectedStatement(annotatedStatement.getStatementType().toString()));
         }
@@ -84,6 +87,21 @@ public final class Evaluator
                 this.evaluateStatement(annotatedStatement.getAnnotatedThenStatement());
             else if (annotatedStatement.includesElseStatement())
                 this.evaluateStatement(annotatedStatement.getAnnotatedElseClause());
+    }
+
+    private void evaluateLoopStatement(AnnotatedLoopStatement annotatedStatement) throws Exception
+    {
+        Object lowerBoundValue = this.evaluateExpression(annotatedStatement.getLowerBound());
+        Object upperBoundValue = this.evaluateExpression(annotatedStatement.getUpperBound());
+
+        if(lowerBoundValue instanceof Integer && upperBoundValue instanceof Integer)
+        {
+            for (int i = (int)lowerBoundValue; i <= (int)upperBoundValue; i++)
+            {
+                annotatedStatement.getSymbol().setValue(i);
+                this.evaluateStatement(annotatedStatement.getBody());
+            }
+        }
     }
 
     private Object evaluateExpression(AnnotatedExpression annotatedExpression) throws Exception

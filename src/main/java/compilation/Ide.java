@@ -33,8 +33,8 @@ public final class Ide
             if (!input.isBlank())
                 continue;
 
-            //pipeline.printParseTree();
-            //pipeline.printSymbolTable();
+            pipeline.printParseTree();
+            pipeline.printSymbolTable();
 
             System.out.println(sourceOutput.getResult());
             builder = new StringBuilder();

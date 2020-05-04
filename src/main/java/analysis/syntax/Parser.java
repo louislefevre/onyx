@@ -37,6 +37,8 @@ public final class Parser
             return this.parseBlockStatement();
         else if (this.currentToken().getTokenType() == TokenType.IF_TOKEN)
             return this.parseConditionalStatement();
+        else if (this.currentToken().getTokenType() == TokenType.LOOP_TOKEN)
+            return this.parseLoopStatement();
 
         return this.parseExpressionStatement();
     }
@@ -72,6 +74,18 @@ public final class Parser
         }
 
         return conditionalStatement;
+    }
+
+    private Statement parseLoopStatement()
+    {
+        Token loopToken = this.validateToken(TokenType.LOOP_TOKEN);
+        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token equalsToken = this.validateToken(TokenType.EQUALS_TOKEN);
+        Expression lowerBound = this.parseExpression();
+        Token toToken = this.validateToken(TokenType.TO_TOKEN);
+        Expression upperBound = this.parseExpression();
+        Statement body = this.parseStatement();
+        return new LoopStatement(loopToken, identifierToken, equalsToken, lowerBound, toToken, upperBound, body);
     }
 
     private ExpressionStatement parseExpressionStatement()

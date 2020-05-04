@@ -7,6 +7,7 @@ import errors.SemanticError;
 import identifiers.ObjectType;
 import identifiers.TokenType;
 import lombok.Getter;
+import symbols.Symbol;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
@@ -54,7 +55,9 @@ public final class TypeChecker
             case EXPRESSION_STATEMENT:
                 return this.annotateExpressionStatement((ExpressionStatement) statement);
             case CONDITIONAL_STATEMENT:
-                return this.annotatedConditionalStatement((ConditionalStatement) statement);
+                return this.annotateConditionalStatement((ConditionalStatement) statement);
+            case LOOP_STATEMENT:
+                return this.annotateLoopStatement((LoopStatement) statement);
             default:
                 throw new Exception(SemanticError.undefinedStatement(statement.getStatementType().toString()));
         }
@@ -80,7 +83,7 @@ public final class TypeChecker
         return new AnnotatedExpressionStatement(annotatedExpression);
     }
 
-    private AnnotatedStatement annotatedConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
+    private AnnotatedStatement annotateConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
     {
         AnnotatedExpression annotatedCondition = this.annotateExpression(conditionalStatement.getConditionExpression());
 
@@ -98,6 +101,29 @@ public final class TypeChecker
             annotatedElseClause = null;
 
         return new AnnotatedConditionalStatement(annotatedCondition, annotatedThenStatement, annotatedElseClause);
+    }
+
+    private AnnotatedStatement annotateLoopStatement(LoopStatement loopStatement) throws Exception
+    {
+        String name = loopStatement.getIdentifierToken().getSyntax();
+        AnnotatedExpression lowerBound = this.annotateExpression(loopStatement.getLowerBound());
+        AnnotatedExpression upperBound = this.annotateExpression(loopStatement.getUpperBound());
+
+        if(lowerBound.getObjectType() != ObjectType.INTEGER_OBJECT)
+            this.errorHandler.addError(SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
+                                                                             lowerBound.getObjectType(),
+                                                                             ObjectType.INTEGER_OBJECT));
+        if(upperBound.getObjectType() != ObjectType.INTEGER_OBJECT)
+            this.errorHandler.addError(SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
+                                                                             upperBound.getObjectType(),
+                                                                             ObjectType.INTEGER_OBJECT));
+
+        Symbol symbol = new Symbol(name, null, ObjectType.INTEGER_OBJECT);
+        this.symbolTable.addSymbol(symbol);
+
+        AnnotatedStatement body = this.annotateStatement(loopStatement.getBody());
+
+        return new AnnotatedLoopStatement(symbol, lowerBound, upperBound, body);
     }
 
     private AnnotatedExpression annotateExpression(Expression expression) throws Exception

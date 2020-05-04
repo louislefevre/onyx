@@ -11,6 +11,8 @@ public enum Syntax
     // Keywords
     IF("if"),
     ELSE("else"),
+    LOOP("loop"),
+    TO("to"),
 
     // Separators
     OPEN_BRACE("{"),
