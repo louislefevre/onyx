@@ -4,6 +4,8 @@ import identifiers.ErrorType;
 import lombok.Getter;
 import source.SourceSpan;
 
+import static identifiers.ErrorType.LEXICAL_ERROR;
+
 @Getter
 public final class LexicalError extends Error
 {
@@ -12,7 +14,7 @@ public final class LexicalError extends Error
     public LexicalError(SourceSpan span, String errorMessage)
     {
         super(span, errorMessage);
-        this.errorType = ErrorType.LEXICAL_ERROR;
+        this.errorType = LEXICAL_ERROR;
     }
 
     public static LexicalError invalidInt(String syntax, int start, int length)

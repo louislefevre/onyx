@@ -279,7 +279,8 @@ public final class TypeBinder
     public static AnnotatedUnaryOperator bindUnaryOperators(TokenType operatorType, ObjectType operandType)
     {
         for (AnnotatedUnaryOperator operator : unaryOperators)
-            if (operator.getTokenType() == operatorType && operator.getOperandObjectType() == operandType)
+            if (operator.getTokenType() == operatorType &&
+                operator.getOperandObjectType() == operandType)
                 return operator;
 
         return null;
@@ -303,7 +304,8 @@ public final class TypeBinder
                                                                       ObjectType assignmentType)
     {
         for (AnnotatedAssignmentOperator operator : assignmentOperators)
-            if (operator.getTokenType() == operatorType && operator.getIdentifierObjectType() == symbolType &&
+            if (operator.getTokenType() == operatorType &&
+                operator.getIdentifierObjectType() == symbolType &&
                 operator.getAssignmentObjectType() == assignmentType)
                 return operator;
 

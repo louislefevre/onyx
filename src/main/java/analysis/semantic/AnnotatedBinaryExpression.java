@@ -4,6 +4,8 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
+
 @Getter
 public final class AnnotatedBinaryExpression implements AnnotatedExpression
 {
@@ -19,7 +21,7 @@ public final class AnnotatedBinaryExpression implements AnnotatedExpression
         this.leftOperand = leftOperand;
         this.operator = operator;
         this.rightOperand = rightOperand;
-        this.expressionType = AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
+        this.expressionType = ANNOTATED_BINARY_EXPRESSION;
         this.objectType = operator.getResultObjectType();
     }
 }

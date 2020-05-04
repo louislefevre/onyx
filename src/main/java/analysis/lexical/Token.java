@@ -7,23 +7,23 @@ import source.SourceSpan;
 @Getter
 public final class Token
 {
-    private final TokenType tokenType;
+    private final TokenType type;
     private final String syntax;
     private final Object value;
     private final int position;
     private final SourceSpan span;
 
-    public Token(TokenType tokenType, String syntax, Object value, int position)
+    public Token(TokenType type, String syntax, Object value, int position)
     {
-        this.tokenType = tokenType;
+        this.type = type;
         this.syntax = syntax;
         this.value = value;
         this.position = position;
         this.span = new SourceSpan(position, syntax.length());
     }
 
-    public Token(TokenType tokenType, String syntax, int position)
+    public Token(TokenType type, String syntax, int position)
     {
-        this(tokenType, syntax, null, position);
+        this(type, syntax, null, position);
     }
 }

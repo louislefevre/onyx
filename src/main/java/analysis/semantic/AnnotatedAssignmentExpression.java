@@ -4,6 +4,8 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION;
+
 @Getter
 public final class AnnotatedAssignmentExpression implements AnnotatedExpression
 {
@@ -19,6 +21,6 @@ public final class AnnotatedAssignmentExpression implements AnnotatedExpression
         this.operator = operator;
         this.expression = expression;
         this.objectType = expression.getObjectType();
-        this.expressionType = AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION;
+        this.expressionType = ANNOTATED_ASSIGNMENT_EXPRESSION;
     }
 }

@@ -4,6 +4,8 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION;
+
 @Getter
 public final class AnnotatedIdentifierExpression implements AnnotatedExpression
 {
@@ -11,10 +13,10 @@ public final class AnnotatedIdentifierExpression implements AnnotatedExpression
     private final ObjectType objectType;
     private final AnnotatedExpressionType expressionType;
 
-    public AnnotatedIdentifierExpression(String name, ObjectType type)
+    public AnnotatedIdentifierExpression(String name, ObjectType objectType)
     {
         this.name = name;
-        this.objectType = type;
-        this.expressionType = AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION;
+        this.objectType = objectType;
+        this.expressionType = ANNOTATED_IDENTIFIER_EXPRESSION;
     }
 }

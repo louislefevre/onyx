@@ -38,7 +38,7 @@ class LexerTest
     private static TokenType tokenTypeOf(String input)
     {
         Lexer lexer = TestHub.createLexer(input);
-        return lexer.getTokens().get(0).getTokenType();
+        return lexer.getTokens().get(0).getType();
     }
 
     private static int amountOfTokens(String input)

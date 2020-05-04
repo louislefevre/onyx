@@ -3,6 +3,8 @@ package analysis.semantic;
 import identifiers.AnnotatedStatementType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedStatementType.ANNOTATED_EXPRESSION_STATEMENT;
+
 @Getter
 public final class AnnotatedExpressionStatement implements AnnotatedStatement
 {
@@ -12,6 +14,6 @@ public final class AnnotatedExpressionStatement implements AnnotatedStatement
     public AnnotatedExpressionStatement(AnnotatedExpression expression)
     {
         this.expression = expression;
-        this.statementType = AnnotatedStatementType.ANNOTATED_EXPRESSION_STATEMENT;
+        this.statementType = ANNOTATED_EXPRESSION_STATEMENT;
     }
 }

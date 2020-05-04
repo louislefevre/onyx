@@ -19,9 +19,9 @@ public final class SourceOutput
 
     public Object getResult()
     {
-        if(this.errorHandler.containsErrors())
-            return this.errorHandler.getErrors();
+        if(errorHandler.containsErrors())
+            return errorHandler.getErrors();
 
-        return this.result;
+        return result;
     }
 }

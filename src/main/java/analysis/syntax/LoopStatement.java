@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.StatementType.LOOP_STATEMENT;
+
 @Getter
 public final class LoopStatement implements Statement
 {
@@ -30,7 +32,7 @@ public final class LoopStatement implements Statement
         this.toToken = toToken;
         this.upperBound = upperBound;
         this.body = body;
-        this.statementType = StatementType.LOOP_STATEMENT;
+        this.statementType = LOOP_STATEMENT;
         this.children = new LinkedList<>(Arrays.asList(identifierToken, equalsToken, lowerBound, upperBound));
     }
 }

@@ -19,7 +19,7 @@ public final class ParseTree
 
     public Statement getStatement()
     {
-        return this.statement;
+        return statement;
     }
 
     @TestOnly
@@ -38,7 +38,7 @@ public final class ParseTree
         else if (node instanceof Expression)
             System.out.print(indent + marker + ANSI.CYAN + ((Expression) node).getExpressionType());
         else if (node instanceof Token)
-            System.out.print(indent + marker + ANSI.BRIGHT_RED + ((Token) node).getTokenType());
+            System.out.print(indent + marker + ANSI.BRIGHT_RED + ((Token) node).getType());
 
         if (node instanceof Token && ((Token) node).getValue() != null)
             System.out.print(ANSI.RED + " (" + ((Token) node).getValue() + ")");

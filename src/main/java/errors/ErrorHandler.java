@@ -19,30 +19,30 @@ public final class ErrorHandler
 
     public void setSourceInput(SourceInput sourceInput)
     {
-        this.errorsLog.clear();
+        errorsLog.clear();
         this.sourceInput = sourceInput;
     }
 
     public void addError(Error error)
     {
-        this.errorsLog.add(error);
+        errorsLog.add(error);
     }
 
     public boolean containsErrors()
     {
-        return !this.errorsLog.isEmpty();
+        return !errorsLog.isEmpty();
     }
 
     public String getErrors()
     {
         StringBuilder builder = new StringBuilder();
-        for (Error error : this.errorsLog)
+        for (Error error : errorsLog)
         {
             int errorStart = error.getSpan().getStart();
             int errorEnd = error.getSpan().getEnd();
-            int lineIndex = this.sourceInput.getLineIndex(errorStart);
+            int lineIndex = sourceInput.getLineIndex(errorStart);
 
-            SourceLine line = this.sourceInput.getSourceLines().get(lineIndex);
+            SourceLine line = sourceInput.getSourceLines().get(lineIndex);
             int lineStart = line.getStart();
             int lineEnd = line.getEnd();
             int character = errorStart - lineStart + 1;
@@ -51,17 +51,17 @@ public final class ErrorHandler
             String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
             String prefixSyntax, errorSyntax, suffixSyntax, fullSyntax;
 
-            if (errorEnd > this.sourceInput.length()) // Handles unexpected EOF_TOKEN errors
+            if (errorEnd > sourceInput.length()) // Handles unexpected EOF_TOKEN errors
             {
-                prefixSyntax = this.sourceInput.substring(lineStart, lineEnd);
+                prefixSyntax = sourceInput.substring(lineStart, lineEnd);
                 errorSyntax = "_";
                 suffixSyntax = "";
             }
             else // Handles all other errors
             {
-                prefixSyntax = this.sourceInput.substring(lineStart, errorStart);
-                errorSyntax = this.sourceInput.substring(errorStart, errorEnd);
-                suffixSyntax = this.sourceInput.substring(errorEnd, lineEnd);
+                prefixSyntax = sourceInput.substring(lineStart, errorStart);
+                errorSyntax = sourceInput.substring(errorStart, errorEnd);
+                suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
             }
 
             prefixSyntax = ANSI.GREY + prefixSyntax.replaceFirst("^\\s+", "");

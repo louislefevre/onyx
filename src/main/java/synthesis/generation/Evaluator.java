@@ -4,6 +4,7 @@ import analysis.semantic.*;
 import errors.ErrorHandler;
 import errors.EvaluationError;
 import identifiers.AnnotatedExpressionType;
+import identifiers.AnnotatedStatementType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
@@ -28,125 +29,132 @@ public final class Evaluator
 
     public Object getEvaluation()
     {
-        return this.evaluate();
+        return evaluate();
     }
 
     private Object evaluate()
     {
         try
         {
-            this.evaluateStatement(this.annotatedParseTree.getStatement());
-            return this.lastValue;
+            evaluateStatement(annotatedParseTree.getStatement());
+            return lastValue;
         } catch (Exception exception)
         {
-            String message = EvaluationError.exceptionOccurred(exception);
-            System.out.println(message);
+            String errorMessage = EvaluationError.exceptionOccurred(exception);
+            System.out.println(errorMessage);
             return null;
         }
     }
 
-    private void evaluateStatement(AnnotatedStatement annotatedStatement) throws Exception
+    private void evaluateStatement(AnnotatedStatement statement) throws Exception
     {
-        switch (annotatedStatement.getStatementType())
+        AnnotatedStatementType statementType = statement.getStatementType();
+
+        switch (statementType)
         {
             case ANNOTATED_BLOCK_STATEMENT:
-                this.evaluateBlockStatement((AnnotatedBlockStatement) annotatedStatement);
+                evaluateBlockStatement((AnnotatedBlockStatement) statement);
                 break;
             case ANNOTATED_EXPRESSION_STATEMENT:
-                this.evaluateExpressionStatement((AnnotatedExpressionStatement) annotatedStatement);
+                evaluateExpressionStatement((AnnotatedExpressionStatement) statement);
                 break;
             case ANNOTATED_CONDITIONAL_STATEMENT:
-                this.evaluateConditionalStatement((AnnotatedConditionalStatement) annotatedStatement);
+                evaluateConditionalStatement((AnnotatedConditionalStatement) statement);
                 break;
             case ANNOTATED_LOOP_STATEMENT:
-                this.evaluateLoopStatement((AnnotatedLoopStatement) annotatedStatement);
+                evaluateLoopStatement((AnnotatedLoopStatement) statement);
                 break;
             default:
-                throw new Exception(EvaluationError.unexpectedStatement(annotatedStatement.getStatementType().toString()));
+                String errorMessage = EvaluationError.unexpectedStatement(statement.getStatementType().toString());
+                throw new Exception(errorMessage);
         }
     }
 
-    private void evaluateBlockStatement(AnnotatedBlockStatement annotatedBlockStatement) throws Exception
+    private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws Exception
     {
-        for (AnnotatedStatement statement : annotatedBlockStatement.getStatements())
-            this.evaluateStatement(statement);
+        for (AnnotatedStatement statement : blockStatement.getStatements())
+            evaluateStatement(statement);
     }
 
-    private void evaluateExpressionStatement(AnnotatedExpressionStatement annotatedExpressionStatement) throws Exception
+    private void evaluateExpressionStatement(AnnotatedExpressionStatement expressionStatement) throws Exception
     {
-        AnnotatedExpression expression = annotatedExpressionStatement.getExpression();
-        this.lastValue = this.evaluateExpression(expression);
+        AnnotatedExpression expression = expressionStatement.getExpression();
+        lastValue = evaluateExpression(expression);
     }
 
-    private void evaluateConditionalStatement(AnnotatedConditionalStatement annotatedStatement) throws Exception
+    private void evaluateConditionalStatement(AnnotatedConditionalStatement conditionalStatement) throws Exception
     {
-        Object condition = this.evaluateExpression(annotatedStatement.getAnnotatedCondition());
+        Object condition = evaluateExpression(conditionalStatement.getCondition());
 
         if (condition instanceof Boolean)
+        {
             if ((boolean) condition)
-                this.evaluateStatement(annotatedStatement.getAnnotatedThenStatement());
-            else if (annotatedStatement.includesElseStatement())
-                this.evaluateStatement(annotatedStatement.getAnnotatedElseClause());
+                evaluateStatement(conditionalStatement.getThenStatement());
+            else if (conditionalStatement.includesElseStatement())
+                evaluateStatement(conditionalStatement.getElseStatement());
+        }
     }
 
-    private void evaluateLoopStatement(AnnotatedLoopStatement annotatedStatement) throws Exception
+    private void evaluateLoopStatement(AnnotatedLoopStatement loopStatement) throws Exception
     {
-        Object lowerBoundValue = this.evaluateExpression(annotatedStatement.getLowerBound());
-        Object upperBoundValue = this.evaluateExpression(annotatedStatement.getUpperBound());
+        Object lowerBoundValue = evaluateExpression(loopStatement.getLowerBound());
+        Object upperBoundValue = evaluateExpression(loopStatement.getUpperBound());
 
-        if(lowerBoundValue instanceof Integer && upperBoundValue instanceof Integer)
+        if (lowerBoundValue instanceof Integer && upperBoundValue instanceof Integer)
         {
-            for (int i = (int)lowerBoundValue; i <= (int)upperBoundValue; i++)
+            for (int i = (int) lowerBoundValue; i <= (int) upperBoundValue; i++)
             {
-                annotatedStatement.getSymbol().setValue(i);
-                this.evaluateStatement(annotatedStatement.getBody());
+                loopStatement.getSymbol().setValue(i);
+                evaluateStatement(loopStatement.getBody());
             }
         }
     }
 
-    private Object evaluateExpression(AnnotatedExpression annotatedExpression) throws Exception
+    private Object evaluateExpression(AnnotatedExpression expression) throws Exception
     {
-        AnnotatedExpressionType expressionType = annotatedExpression.getExpressionType();
+        AnnotatedExpressionType expressionType = expression.getExpressionType();
 
-        if (expressionType == AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION)
-            return this.evaluateNumberExpression((AnnotatedLiteralExpression) annotatedExpression);
-
-        if (expressionType == AnnotatedExpressionType.ANNOTATED_UNARY_EXPRESSION)
-            return this.evaluateUnaryExpression((AnnotatedUnaryExpression) annotatedExpression);
-
-        if (expressionType == AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION)
-            return this.evaluateBinaryExpression((AnnotatedBinaryExpression) annotatedExpression);
-
-        if (expressionType == AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION)
-            return this.evaluateIdentifierExpression((AnnotatedIdentifierExpression) annotatedExpression);
-
-        if (expressionType == AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION)
-            return this.evaluateAssignmentExpression((AnnotatedAssignmentExpression) annotatedExpression);
-
-        throw new Exception(EvaluationError.unexpectedExpression(annotatedExpression.getExpressionType().toString()));
+        switch (expressionType)
+        {
+            case ANNOTATED_LITERAL_EXPRESSION:
+                return evaluateNumberExpression((AnnotatedLiteralExpression) expression);
+            case ANNOTATED_UNARY_EXPRESSION:
+                return evaluateUnaryExpression((AnnotatedUnaryExpression) expression);
+            case ANNOTATED_BINARY_EXPRESSION:
+                return evaluateBinaryExpression((AnnotatedBinaryExpression) expression);
+            case ANNOTATED_IDENTIFIER_EXPRESSION:
+                return evaluateIdentifierExpression((AnnotatedIdentifierExpression) expression);
+            case ANNOTATED_ASSIGNMENT_EXPRESSION:
+                return evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
+            default:
+                String errorMessage = EvaluationError.unexpectedExpression(expression.getExpressionType().toString());
+                throw new Exception(errorMessage);
+        }
     }
 
-    private Object evaluateNumberExpression(AnnotatedLiteralExpression annotatedLiteralExpression)
+    private Object evaluateNumberExpression(AnnotatedLiteralExpression literalExpression)
     {
-        return annotatedLiteralExpression.getValue();
+        return literalExpression.getValue();
     }
 
-    private Object evaluateUnaryExpression(AnnotatedUnaryExpression annotatedUnaryExpression) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedUnaryExpression unaryExpression) throws Exception
     {
-        Object operand = this.evaluateExpression(annotatedUnaryExpression.getOperand());
-        ObjectType operandType = annotatedUnaryExpression.getObjectType();
-        OperatorType operatorType = annotatedUnaryExpression.getOperator().getOperatorType();
+        Object operand = evaluateExpression(unaryExpression.getOperand());
+        ObjectType operandType = unaryExpression.getObjectType();
+        OperatorType operatorType = unaryExpression.getOperator().getOperatorType();
 
-        if (operandType == ObjectType.INTEGER_OBJECT)
-            return this.evaluateUnaryIntegerExpression(operand, operatorType);
-
-        if (operandType == ObjectType.DOUBLE_OBJECT)
-            return this.evaluateUnaryDoubleExpression(operand, operatorType);
-
-        if (operandType == ObjectType.BOOLEAN_OBJECT)
-            return this.evaluateUnaryBooleanExpression(operand, operatorType);
-
-        throw new Exception(EvaluationError.unexpectedUnaryObjectType(operandType.toString()));
+        switch (operandType)
+        {
+            case INTEGER_OBJECT:
+                return evaluateUnaryIntegerExpression(operand, operatorType);
+            case DOUBLE_OBJECT:
+                return evaluateUnaryDoubleExpression(operand, operatorType);
+            case BOOLEAN_OBJECT:
+                return evaluateUnaryBooleanExpression(operand, operatorType);
+            default:
+                String errorMessage = EvaluationError.unexpectedUnaryObjectType(operandType.toString());
+                throw new Exception(errorMessage);
+        }
     }
 
     private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws Exception
@@ -162,7 +170,8 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -179,7 +188,8 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -192,36 +202,36 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !operandBoolean;
             default:
-                throw new Exception(EvaluationError.unexpectedUnaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
-    private Object evaluateBinaryExpression(AnnotatedBinaryExpression annotatedBinaryExpression) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedBinaryExpression binaryExpression) throws Exception
     {
-        Object leftOperand = this.evaluateExpression(annotatedBinaryExpression.getLeftOperand());
-        Object rightOperand = this.evaluateExpression(annotatedBinaryExpression.getRightOperand());
-        ObjectType leftOperandType = annotatedBinaryExpression.getLeftOperand().getObjectType();
-        ObjectType rightOperandType = annotatedBinaryExpression.getRightOperand().getObjectType();
-        OperatorType operatorType = annotatedBinaryExpression.getOperator().getOperatorType();
+        Object leftOperand = evaluateExpression(binaryExpression.getLeftOperand());
+        Object rightOperand = evaluateExpression(binaryExpression.getRightOperand());
+        ObjectType leftOperandType = binaryExpression.getLeftOperand().getObjectType();
+        ObjectType rightOperandType = binaryExpression.getRightOperand().getObjectType();
+        OperatorType operatorType = binaryExpression.getOperator().getOperatorType();
 
         if (leftOperandType == ObjectType.INTEGER_OBJECT && rightOperandType == ObjectType.INTEGER_OBJECT)
-            return this.evaluateBinaryIntegerExpression(leftOperand, rightOperand, operatorType);
+            return evaluateBinaryIntegerExpression(leftOperand, rightOperand, operatorType);
 
         if (leftOperandType == ObjectType.DOUBLE_OBJECT && rightOperandType == ObjectType.DOUBLE_OBJECT)
-            return this.evaluateBinaryDoubleExpression(leftOperand, rightOperand, operatorType);
+            return evaluateBinaryDoubleExpression(leftOperand, rightOperand, operatorType);
 
         if (leftOperandType == ObjectType.BOOLEAN_OBJECT && rightOperandType == ObjectType.BOOLEAN_OBJECT)
-            return this.evaluateBinaryBooleanExpression(leftOperand, rightOperand, operatorType);
+            return evaluateBinaryBooleanExpression(leftOperand, rightOperand, operatorType);
 
         if (leftOperandType == ObjectType.STRING_OBJECT && rightOperandType == ObjectType.STRING_OBJECT)
-            return this.evaluateBinaryStringExpression(leftOperand, rightOperand, operatorType);
+            return evaluateBinaryStringExpression(leftOperand, rightOperand, operatorType);
 
-        throw new Exception(EvaluationError.unexpectedBinaryObjectTypes(leftOperandType.toString(),
-                                                                        rightOperandType.toString()));
+        String errorMessage = EvaluationError.unexpectedBinaryObjectTypes(leftOperandType.toString(), rightOperandType.toString());
+        throw new Exception(errorMessage);
     }
 
-    private Object evaluateBinaryIntegerExpression(Object leftOperand, Object rightOperand,
-                                                   OperatorType operatorType) throws Exception
+    private Object evaluateBinaryIntegerExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
     {
         int leftInteger = (int) leftOperand;
         int rightInteger = (int) rightOperand;
@@ -255,7 +265,8 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftInteger != rightInteger;
             default:
-                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -293,12 +304,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftDouble != rightDouble;
             default:
-                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
-    private Object evaluateBinaryBooleanExpression(Object leftOperand, Object rightOperand,
-                                                   OperatorType operatorType) throws Exception
+    private Object evaluateBinaryBooleanExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
     {
         boolean leftBool = (boolean) leftOperand;
         boolean rightBool = (boolean) rightOperand;
@@ -314,7 +325,8 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftBool != rightBool;
             default:
-                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -332,34 +344,42 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return !leftString.equals(rightString);
             default:
-                throw new Exception(EvaluationError.unexpectedBinaryOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws Exception
     {
         String name = annotatedAssignmentExpression.getName();
-        Object value = this.evaluateExpression(annotatedAssignmentExpression.getExpression());
+        Object value = evaluateExpression(annotatedAssignmentExpression.getExpression());
         ObjectType valueType = annotatedAssignmentExpression.getObjectType();
         TokenType tokenType = annotatedAssignmentExpression.getOperator().getTokenType();
         OperatorType operatorType = annotatedAssignmentExpression.getOperator().getOperatorType();
 
-        if (this.symbolTable.containsSymbol(name) && tokenType != TokenType.EQUALS_TOKEN)
+        if (symbolTable.containsSymbol(name) && tokenType != TokenType.EQUALS_TOKEN)
         {
-            Object symbolValue = this.symbolTable.getSymbol(name).getValue();
-            ObjectType symbolType = this.symbolTable.getSymbol(name).getType();
+            Object symbolValue = symbolTable.getSymbol(name).getValue();
+            ObjectType symbolType = symbolTable.getSymbol(name).getType();
 
-            if (valueType == ObjectType.INTEGER_OBJECT)
-                value = evaluateAssignmentIntegerExpression(operatorType, symbolValue, value);
-            else if (valueType == ObjectType.DOUBLE_OBJECT)
-                value = evaluateAssignmentDoubleExpression(operatorType, symbolValue, value);
-            else if (valueType == ObjectType.STRING_OBJECT)
-                value = evaluateAssignmentStringExpression(operatorType, symbolValue, value);
-            else
-                throw new Exception(EvaluationError.unexpectedAssignmentObjectTypes(symbolType.toString(),
-                                                                                    valueType.toString()));
+            switch (valueType)
+            {
+                case INTEGER_OBJECT:
+                    value = evaluateAssignmentIntegerExpression(operatorType, symbolValue, value);
+                    break;
+                case DOUBLE_OBJECT:
+                    value = evaluateAssignmentDoubleExpression(operatorType, symbolValue, value);
+                    break;
+                case STRING_OBJECT:
+                    value = evaluateAssignmentStringExpression(operatorType, symbolValue, value);
+                    break;
+                default:
+                    String errorMessage = EvaluationError.unexpectedAssignmentObjectTypes(symbolType.toString(), valueType.toString());
+                    throw new Exception(errorMessage);
+            }
         }
-        this.symbolTable.addSymbol(name, value, valueType);
+        symbolTable.addSymbol(name, value, valueType);
+
         return value;
     }
 
@@ -385,7 +405,8 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return (int) Math.pow(symbolInteger, valueInteger);
             default:
-                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -411,7 +432,8 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return Math.pow(symbolDouble, valueDouble);
             default:
-                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -425,15 +447,18 @@ public final class Evaluator
             case ADDITION_OPERATOR:
                 return symbolString + valueString;
             default:
-                throw new Exception(EvaluationError.unexpectedAssignmentOperator(operatorType.toString()));
+                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
+                throw new Exception(errorMessage);
         }
     }
 
     private Object evaluateIdentifierExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws Exception
     {
         String name = annotatedIdentifierExpression.getName();
-        if (this.symbolTable.containsSymbol(name))
-            return this.symbolTable.getSymbol(name).getValue();
-        throw new Exception(EvaluationError.missingSymbol(name));
+        if (symbolTable.containsSymbol(name))
+            return symbolTable.getSymbol(name).getValue();
+
+        String errorMessage = EvaluationError.missingSymbol(name);
+        throw new Exception(errorMessage);
     }
 }

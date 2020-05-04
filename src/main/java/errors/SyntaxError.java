@@ -5,6 +5,8 @@ import identifiers.TokenType;
 import lombok.Getter;
 import source.SourceSpan;
 
+import static identifiers.ErrorType.SYNTAX_ERROR;
+
 @Getter
 public final class SyntaxError extends Error
 {
@@ -13,7 +15,7 @@ public final class SyntaxError extends Error
     public SyntaxError(SourceSpan span, String errorMessage)
     {
         super(span, errorMessage);
-        this.errorType = ErrorType.SYNTAX_ERROR;
+        this.errorType = SYNTAX_ERROR;
     }
 
     public static SyntaxError unexpectedToken(SourceSpan span, TokenType type)

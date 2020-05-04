@@ -23,7 +23,7 @@ public final class Pipeline
 
     public SourceOutput compile(String sourceText)
     {
-        SourceInput sourceInput = new SourceInput(sourceText, this.symbolTable, this.errorHandler);
+        SourceInput sourceInput = new SourceInput(sourceText, symbolTable, errorHandler);
         Lexer lexer = new Lexer(sourceInput);
         Parser parser = new Parser(lexer);
         TypeChecker typeChecker = new TypeChecker(parser);
@@ -40,6 +40,6 @@ public final class Pipeline
 
     public void printSymbolTable()
     {
-        this.symbolTable.printSymbolTable();
+        symbolTable.printSymbolTable();
     }
 }

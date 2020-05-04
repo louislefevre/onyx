@@ -11,11 +11,16 @@ import symbols.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static errors.SyntaxError.unexpectedToken;
+import static errors.SyntaxError.unexpectedTokenMatch;
+
 public final class Parser
 {
     private final List<Token> tokens;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
+    @Getter
+    private final ErrorHandler errorHandler;
+    @Getter
+    private final SymbolTable symbolTable;
     private int position;
 
     public Parser(Lexer lexer)
@@ -28,128 +33,130 @@ public final class Parser
 
     public ParseTree getParseTree()
     {
-        return new ParseTree(this.parseStatement());
+        return new ParseTree(parseStatement());
     }
 
     private Statement parseStatement()
     {
-        if (this.currentToken().getTokenType() == TokenType.OPEN_BRACE_TOKEN)
-            return this.parseBlockStatement();
-        else if (this.currentToken().getTokenType() == TokenType.IF_TOKEN)
-            return this.parseConditionalStatement();
-        else if (this.currentToken().getTokenType() == TokenType.LOOP_TOKEN)
-            return this.parseLoopStatement();
-
-        return this.parseExpressionStatement();
+        switch (currentTokenType())
+        {
+            case OPEN_BRACE_TOKEN:
+                return parseBlockStatement();
+            case IF_TOKEN:
+                return parseConditionalStatement();
+            case LOOP_TOKEN:
+                return parseLoopStatement();
+            default:
+                return parseExpressionStatement();
+        }
     }
 
     private Statement parseBlockStatement()
     {
-        List<Statement> statements = new ArrayList<>();
+        Token openBrace = validateToken(TokenType.OPEN_BRACE_TOKEN);
 
-        Token openBrace = this.validateToken(TokenType.OPEN_BRACE_TOKEN);
-        while (this.currentToken().getTokenType() != TokenType.EOF_TOKEN &&
-               this.currentToken().getTokenType() != TokenType.CLOSE_BRACE_TOKEN)
+        List<Statement> statements = new ArrayList<>();
+        while (currentTokenType() != TokenType.EOF_TOKEN && currentTokenType() != TokenType.CLOSE_BRACE_TOKEN)
         {
-            Statement statement = this.parseStatement();
+            Statement statement = parseStatement();
             statements.add(statement);
         }
-        Token closeBrace = this.validateToken(TokenType.CLOSE_BRACE_TOKEN);
+
+        Token closeBrace = validateToken(TokenType.CLOSE_BRACE_TOKEN);
 
         return new BlockStatement(openBrace, statements, closeBrace);
     }
 
     private Statement parseConditionalStatement()
     {
-        Token ifToken = this.validateToken(TokenType.IF_TOKEN);
-        Expression conditionExpression = this.parseExpression();
-        Statement thenStatement = this.parseStatement();
-        ConditionalStatement conditionalStatement = new ConditionalStatement(ifToken, conditionExpression, thenStatement);
+        Token ifToken = validateToken(TokenType.IF_TOKEN);
+        Expression condition = parseExpression();
+        Statement thenStatement = parseStatement();
+        ConditionalStatement statement = new ConditionalStatement(ifToken, condition, thenStatement);
 
-        if (this.currentToken().getTokenType() == TokenType.ELSE_TOKEN)
+        if (currentTokenType() == TokenType.ELSE_TOKEN)
         {
-            Token elseToken = this.validateToken(TokenType.ELSE_TOKEN);
-            Statement elseStatement = this.parseStatement();
-            conditionalStatement.addElseStatement(elseToken, elseStatement);
+            Token elseToken = validateToken(TokenType.ELSE_TOKEN);
+            Statement elseStatement = parseStatement();
+            statement.addElseStatement(elseToken, elseStatement);
         }
 
-        return conditionalStatement;
+        return statement;
     }
 
     private Statement parseLoopStatement()
     {
-        Token loopToken = this.validateToken(TokenType.LOOP_TOKEN);
-        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
-        Token equalsToken = this.validateToken(TokenType.EQUALS_TOKEN);
-        Expression lowerBound = this.parseExpression();
-        Token toToken = this.validateToken(TokenType.TO_TOKEN);
-        Expression upperBound = this.parseExpression();
-        Statement body = this.parseStatement();
+        Token loopToken = validateToken(TokenType.LOOP_TOKEN);
+        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token equalsToken = validateToken(TokenType.EQUALS_TOKEN);
+        Expression lowerBound = parseExpression();
+        Token toToken = validateToken(TokenType.TO_TOKEN);
+        Expression upperBound = parseExpression();
+        Statement body = parseStatement();
+
         return new LoopStatement(loopToken, identifierToken, equalsToken, lowerBound, toToken, upperBound, body);
     }
 
     private ExpressionStatement parseExpressionStatement()
     {
-        Expression expression = this.parseExpression();
+        Expression expression = parseExpression();
         return new ExpressionStatement(expression);
     }
 
     private Expression parseExpression()
     {
-        TokenType currentTokenType = this.currentToken().getTokenType();
-        TokenType nextTokenType = this.nextToken().getTokenType();
-
-        if (currentTokenType == TokenType.IDENTIFIER_TOKEN)
+        if (currentTokenType() == TokenType.IDENTIFIER_TOKEN)
         {
-            switch (nextTokenType)
+            switch (nextTokenType())
             {
                 case EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.EQUALS_TOKEN);
                 case PLUS_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.PLUS_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.PLUS_EQUALS_TOKEN);
                 case MINUS_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.MINUS_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.MINUS_EQUALS_TOKEN);
                 case STAR_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.STAR_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.STAR_EQUALS_TOKEN);
                 case SLASH_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.SLASH_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.SLASH_EQUALS_TOKEN);
                 case PERCENT_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.PERCENT_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.PERCENT_EQUALS_TOKEN);
                 case CARET_EQUALS_TOKEN:
-                    return this.parseAssignmentExpression(TokenType.CARET_EQUALS_TOKEN);
+                    return parseAssignmentExpression(TokenType.CARET_EQUALS_TOKEN);
             }
         }
 
-        return this.parseBinaryExpression(0);
+        return parseBinaryExpression(0);
     }
 
     private Expression parseAssignmentExpression(TokenType tokenType)
     {
-        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
-        Token assignmentToken = this.validateToken(tokenType);
-        Expression expression = this.parseExpression();
+        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token assignmentToken = validateToken(tokenType);
+        Expression expression = parseExpression();
+
         return new AssignmentExpression(identifierToken, assignmentToken, expression);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)
     {
-        if (ExpressionBinder.tokensNotBindable(this.currentToken(), this.nextToken()))
+        if (ExpressionBinder.tokensNotBindable(currentToken(), nextToken()))
         {
-            //this.nextPosition();
-            //return this.parseUnknownExpression();
+            //nextPosition();
+            //return parseUnknownExpression();
         }
 
-        Expression leftOperand = this.parseUnaryExpression(parentPrecedence);
+        Expression leftOperand = parseUnaryExpression(parentPrecedence);
 
         while (true)
         {
-            int binaryOperatorPrecedence =
-                    OperatorPrecedence.getBinaryOperatorPrecedence(this.currentToken().getTokenType());
-            if (binaryOperatorPrecedence == 0 || binaryOperatorPrecedence <= parentPrecedence)
+            int operatorPrecedence = OperatorPrecedence.getBinaryOperatorPrecedence(currentToken().getType());
+
+            if (operatorPrecedence == 0 || operatorPrecedence <= parentPrecedence)
                 break;
 
-            Token operatorToken = this.currentTokenThenNext();
-            Expression rightOperand = this.parseBinaryExpression(binaryOperatorPrecedence);
+            Token operatorToken = currentTokenThenNext();
+            Expression rightOperand = parseBinaryExpression(operatorPrecedence);
             leftOperand = new BinaryExpression(leftOperand, operatorToken, rightOperand);
         }
 
@@ -158,104 +165,119 @@ public final class Parser
 
     private Expression parseUnaryExpression(int parentPrecedence)
     {
-        int unaryOperatorPrecedence = OperatorPrecedence.getUnaryOperatorPrecedence(this.currentToken().getTokenType());
+        int operatorPrecedence = OperatorPrecedence.getUnaryOperatorPrecedence(currentToken().getType());
 
-        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+        if (operatorPrecedence != 0 && operatorPrecedence >= parentPrecedence)
         {
-            Token operatorToken = this.currentTokenThenNext();
-            Expression operand = this.parseBinaryExpression(unaryOperatorPrecedence);
+            Token operatorToken = currentTokenThenNext();
+            Expression operand = parseBinaryExpression(operatorPrecedence);
             return new UnaryExpression(operatorToken, operand);
         }
 
-        return this.parsePrimaryExpression();
+        return parsePrimaryExpression();
     }
 
     private Expression parsePrimaryExpression()
     {
-        switch (this.currentToken().getTokenType())
+        switch (currentToken().getType())
         {
             case INTEGER_TOKEN:
             case DOUBLE_TOKEN:
             case BOOLEAN_TOKEN:
             case STRING_TOKEN:
-                return this.parseLiteralExpression();
+                return parseLiteralExpression();
             case IDENTIFIER_TOKEN:
-                return this.parseIdentifierExpression();
+                return parseIdentifierExpression();
             case OPEN_PARENTHESIS_TOKEN:
-                return this.parseParenthesizedExpression();
+                return parseParenthesizedExpression();
             default:
-                return this.parseUnknownExpression();
+                return parseUnknownExpression();
         }
     }
 
     private Expression parseLiteralExpression()
     {
-        Token literalToken = this.currentTokenThenNext();
+        Token literalToken = currentTokenThenNext();
         Object value = literalToken.getValue();
         return new LiteralExpression(literalToken, value);
     }
 
     private Expression parseIdentifierExpression()
     {
-        Token identifierToken = this.validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
         return new IdentifierExpression(identifierToken);
     }
 
     private Expression parseParenthesizedExpression()
     {
-        Token openParenthesisToken = this.validateToken(TokenType.OPEN_PARENTHESIS_TOKEN);
-        Expression expression = this.parseExpression();
-        Token closeParenthesisToken = this.validateToken(TokenType.CLOSE_PARENTHESIS_TOKEN);
+        Token openParenthesisToken = validateToken(TokenType.OPEN_PARENTHESIS_TOKEN);
+        Expression expression = parseExpression();
+        Token closeParenthesisToken = validateToken(TokenType.CLOSE_PARENTHESIS_TOKEN);
+
         return new ParenthesizedExpression(openParenthesisToken, expression, closeParenthesisToken);
     }
 
     private Expression parseUnknownExpression()
     {
-        Token currentToken = this.currentTokenThenNext();
-        Token placeholderToken = new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(),
-                                           currentToken.getPosition());
-        this.errorHandler.addError(SyntaxError.unexpectedToken(currentToken.getSpan(), currentToken.getTokenType()));
+        Token currentToken = currentTokenThenNext();
+        Token placeholderToken = new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(),
+                                           currentToken.getValue(), currentToken.getPosition());
+
+        SyntaxError error = unexpectedToken(currentToken.getSpan(), currentToken.getType());
+        errorHandler.addError(error);
+
         return new LiteralExpression(placeholderToken, null);
     }
 
     private Token validateToken(TokenType type)
     {
-        Token currentToken = this.currentToken();
-        if (currentToken.getTokenType() == type)
-            return this.currentTokenThenNext();
-        this.errorHandler.addError(SyntaxError.unexpectedTokenMatch(currentToken.getSpan(),
-                                                                    currentToken.getTokenType(), type));
-        return new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(),
-                         currentToken.getPosition());
+        Token currentToken = currentToken();
+        if (currentToken.getType() == type)
+            return currentTokenThenNext();
+
+        SyntaxError error = unexpectedTokenMatch(currentToken.getSpan(), currentToken.getType(), type);
+        errorHandler.addError(error);
+
+        return new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
+    }
+
+    private TokenType currentTokenType()
+    {
+        return currentToken().getType();
+    }
+
+    private TokenType nextTokenType()
+    {
+        return nextToken().getType();
     }
 
     private Token currentToken()
     {
-        return this.peek(0);
+        return peek(0);
     }
 
     private Token nextToken()
     {
-        return this.peek(1);
+        return peek(1);
     }
 
     private Token peek(int offset)
     {
-        int index = this.position + offset;
-        if (index >= this.tokens.size())
-            return this.tokens.get(this.tokens.size() - 1);
-        return this.tokens.get(index);
+        int index = position + offset;
+        if (index >= tokens.size())
+            return tokens.get(tokens.size() - 1);
+        return tokens.get(index);
     }
 
     private void nextPosition()
     {
-        this.position++;
+        position++;
     }
 
     private Token currentTokenThenNext()
     {
-        Token token = this.currentToken();
-        this.position++;
+        Token token = currentToken();
+        position++;
         return token;
     }
 }

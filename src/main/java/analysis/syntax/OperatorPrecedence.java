@@ -4,9 +4,9 @@ import identifiers.TokenType;
 
 public final class OperatorPrecedence
 {
-    public static int getUnaryOperatorPrecedence(TokenType tokenType)
+    public static int getUnaryOperatorPrecedence(TokenType type)
     {
-        switch (tokenType)
+        switch (type)
         {
             case PLUS_TOKEN:
             case MINUS_TOKEN:
@@ -17,9 +17,9 @@ public final class OperatorPrecedence
         }
     }
 
-    public static int getBinaryOperatorPrecedence(TokenType tokenType)
+    public static int getBinaryOperatorPrecedence(TokenType type)
     {
-        switch (tokenType)
+        switch (type)
         {
             case CARET_TOKEN:
                 return 6;

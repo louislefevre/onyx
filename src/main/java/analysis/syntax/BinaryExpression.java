@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.ExpressionType.BINARY_EXPRESSION;
+
 @Getter
 public final class BinaryExpression implements Expression
 {
@@ -22,7 +24,7 @@ public final class BinaryExpression implements Expression
         this.leftOperand = leftOperand;
         this.operatorToken = operatorToken;
         this.rightOperand = rightOperand;
-        this.expressionType = ExpressionType.BINARY_EXPRESSION;
+        this.expressionType = BINARY_EXPRESSION;
         this.children = new LinkedList<>(Arrays.asList(leftOperand, operatorToken, rightOperand));
     }
 }

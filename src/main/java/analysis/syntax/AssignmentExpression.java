@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.ExpressionType.ASSIGNMENT_EXPRESSION;
+
 @Getter
 public final class AssignmentExpression implements Expression
 {
@@ -22,7 +24,7 @@ public final class AssignmentExpression implements Expression
         this.identifierToken = identifierToken;
         this.assignmentToken = assignmentToken;
         this.expression = expression;
-        this.expressionType = ExpressionType.ASSIGNMENT_EXPRESSION;
+        this.expressionType = ASSIGNMENT_EXPRESSION;
         this.children = new LinkedList<>(Arrays.asList(identifierToken, assignmentToken, expression));
     }
 }

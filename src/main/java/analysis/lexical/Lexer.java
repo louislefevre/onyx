@@ -10,11 +10,20 @@ import symbols.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static analysis.lexical.Syntax.*;
+import static errors.LexicalError.badCharacter;
+import static errors.LexicalError.incompleteString;
+import static errors.LexicalError.invalidDouble;
+import static errors.LexicalError.invalidInt;
+import static identifiers.TokenType.*;
+
 public final class Lexer
 {
     private final String sourceText;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
+    @Getter
+    private final ErrorHandler errorHandler;
+    @Getter
+    private final SymbolTable symbolTable;
     private int position;
 
     public Lexer(SourceInput sourceText)
@@ -27,126 +36,144 @@ public final class Lexer
 
     public List<Token> getTokens()
     {
-        return this.lexTokens();
+        return lexTokens();
     }
 
     private List<Token> lexTokens()
     {
         List<Token> tokens = new ArrayList<>();
         Token token;
+        TokenType tokenType;
+
         do
         {
-            token = this.nextToken();
-            if (token.getTokenType() != TokenType.BAD_TOKEN &&
-                token.getTokenType() != TokenType.WHITE_SPACE_TOKEN &&
-                token.getTokenType() != TokenType.COMMENT_TOKEN)
+            token = nextToken();
+            tokenType = token.getType();
+
+            if (tokenType != BAD_TOKEN && tokenType != WHITE_SPACE_TOKEN && tokenType != COMMENT_TOKEN)
                 tokens.add(token);
-        } while (token.getTokenType() != TokenType.EOF_TOKEN);
+        }
+        while (token.getType() != EOF_TOKEN);
+
         return tokens;
     }
 
     private Token nextToken()
     {
-        if (this.position >= this.sourceText.length())
-            return this.endToken();
-        else if (isWhitespace(this.currentChar()))
-            return this.whitespaceToken();
-        else if (isDigit(this.currentChar()))
-            return this.integerToken();
-        else if (isLetter(this.currentChar()))
-            return this.letterToken();
-        return this.symbolToken();
+        if (position >= sourceText.length())
+            return endToken();
+        else if (isWhitespace(currentChar()))
+            return whitespaceToken();
+        else if (isDigit(currentChar()))
+            return integerToken();
+        else if (isLetter(currentChar()))
+            return letterToken();
+        return symbolToken();
     }
 
     private Token endToken()
     {
-        return new Token(TokenType.EOF_TOKEN, Syntax.EOF.getSyntax(), this.position);
+        return new Token(EOF_TOKEN, EOF_SYNTAX, position);
     }
 
     private Token whitespaceToken()
     {
-        int startPos = this.position;
+        int startPos = position;
 
-        while (isWhitespace(this.currentChar()))
-            this.nextPosition();
+        while (isWhitespace(currentChar()))
+            nextPosition();
 
-        String syntax = this.sourceText.substring(startPos, this.position);
+        String syntax = sourceText.substring(startPos, position);
 
-        return new Token(TokenType.WHITE_SPACE_TOKEN, syntax, startPos);
+        return new Token(WHITE_SPACE_TOKEN, syntax, startPos);
     }
 
     private Token integerToken()
     {
-        int startPos = this.position;
+        int startPos = position;
 
-        while (isDigit(this.currentChar()))
-            this.currentPositionThenNext(1);
+        while (isDigit(currentChar()))
+            currentPositionThenNext(1);
 
-        if (this.currentChar().equals(Syntax.DECIMAL_POINT.getSyntax()))
-            return this.doubleToken(startPos);
+        if (currentChar().equals(DECIMAL_POINT_SYNTAX))
+            return doubleToken(startPos);
 
-        String syntax = this.sourceText.substring(startPos, this.position);
+        String syntax = sourceText.substring(startPos, position);
         int value = 0;
 
         if (isIntegerParsable(syntax))
+        {
             value = Integer.parseInt(syntax);
+        }
         else
-            this.errorHandler.addError(LexicalError.invalidInt(syntax, startPos, this.position - startPos));
+        {
+            LexicalError error = invalidInt(syntax, startPos, position - startPos);
+            errorHandler.addError(error);
+        }
 
-        return new Token(TokenType.INTEGER_TOKEN, syntax, value, startPos);
+
+        return new Token(INTEGER_TOKEN, syntax, value, startPos);
     }
 
     private Token doubleToken(int startPos)
     {
         do // 'do' to skip the decimal point
         {
-            this.currentPositionThenNext(1);
+            currentPositionThenNext(1);
         }
-        while (isDigit(this.currentChar()));
+        while (isDigit(currentChar()));
 
-        String syntax = this.sourceText.substring(startPos, this.position);
+        String syntax = sourceText.substring(startPos, position);
         double value = 0;
 
         if (isDoubleParsable(syntax))
+        {
             value = Double.parseDouble(syntax);
+        }
         else
-            this.errorHandler.addError(LexicalError.invalidDouble(syntax, startPos, this.position - startPos));
+        {
+            LexicalError error = invalidDouble(syntax, startPos, position - startPos);
+            errorHandler.addError(error);
+        }
 
-        return new Token(TokenType.DOUBLE_TOKEN, syntax, value, startPos);
+        return new Token(DOUBLE_TOKEN, syntax, value, startPos);
     }
 
     private Token letterToken()
     {
-        int startPos = this.position;
+        int startPos = position;
 
-        while (isLetter(this.currentChar()))
-            this.nextPosition();
+        while (isLetter(currentChar()))
+            nextPosition();
 
-        String syntax = this.sourceText.substring(startPos, this.position).toLowerCase();
+        String syntax = sourceText.substring(startPos, position).toLowerCase();
 
         return getKeywordToken(syntax, startPos);
     }
 
     private static Token getKeywordToken(String text, int pos)
     {
-        if (Syntax.TRUE.getSyntax().equals(text))
-            return new Token(TokenType.BOOLEAN_TOKEN, Syntax.TRUE.getSyntax(), true, pos);
-        else if (Syntax.FALSE.getSyntax().equals(text))
-            return new Token(TokenType.BOOLEAN_TOKEN, Syntax.FALSE.getSyntax(), false, pos);
-        else if (Syntax.AND.getSyntax().equals(text))
-            return new Token(TokenType.AND_TOKEN, Syntax.AND.getSyntax(), pos);
-        else if (Syntax.OR.getSyntax().equals(text))
-            return new Token(TokenType.OR_TOKEN, Syntax.OR.getSyntax(), pos);
-        else if (Syntax.IF.getSyntax().equals(text))
-            return new Token(TokenType.IF_TOKEN, Syntax.IF.getSyntax(), pos);
-        else if (Syntax.ELSE.getSyntax().equals(text))
-            return new Token(TokenType.ELSE_TOKEN, Syntax.ELSE.getSyntax(), pos);
-        else if (Syntax.LOOP.getSyntax().equals(text))
-            return new Token(TokenType.LOOP_TOKEN, Syntax.LOOP.getSyntax(), pos);
-        else if (Syntax.TO.getSyntax().equals(text))
-            return new Token(TokenType.TO_TOKEN, Syntax.TO.getSyntax(), pos);
-
-        return new Token(TokenType.IDENTIFIER_TOKEN, text, text, pos);
+        switch (text)
+        {
+            case TRUE_SYNTAX:
+                return new Token(BOOLEAN_TOKEN, TRUE_SYNTAX, true, pos);
+            case FALSE_SYNTAX:
+                return new Token(BOOLEAN_TOKEN, FALSE_SYNTAX, false, pos);
+            case AND_SYNTAX:
+                return new Token(AND_TOKEN, AND_SYNTAX, pos);
+            case OR_SYNTAX:
+                return new Token(OR_TOKEN, OR_SYNTAX, pos);
+            case IF_SYNTAX:
+                return new Token(IF_TOKEN, IF_SYNTAX, pos);
+            case ELSE_SYNTAX:
+                return new Token(ELSE_TOKEN, ELSE_SYNTAX, pos);
+            case LOOP_SYNTAX:
+                return new Token(LOOP_TOKEN, LOOP_SYNTAX, pos);
+            case TO_SYNTAX:
+                return new Token(TO_TOKEN, TO_SYNTAX, pos);
+            default:
+                return new Token(IDENTIFIER_TOKEN, text, text, pos);
+        }
     }
 
     private Token stringToken()
@@ -155,30 +182,30 @@ public final class Lexer
         StringBuilder valueBuilder = new StringBuilder(); // Doesn't include quotes
         TokenType tokenType;
 
-        syntaxBuilder.append(this.currentChar());
-        int startPos = this.currentPositionThenNext(1);
+        syntaxBuilder.append(currentChar());
+        int startPos = currentPositionThenNext(1);
 
         while (true)
         {
-            String currentChar = this.currentChar();
+            String currentChar = currentChar();
 
             if (currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
             {
-                tokenType = TokenType.BAD_TOKEN;
-                this.errorHandler.addError(LexicalError.incompleteString(syntaxBuilder.toString(), startPos,
-                                                                         this.position - startPos));
+                tokenType = BAD_TOKEN;
+                LexicalError error = incompleteString(syntaxBuilder.toString(), startPos, position - startPos);
+                errorHandler.addError(error);
                 break;
             }
             else if (currentChar.equals("\""))
             {
-                tokenType = TokenType.STRING_TOKEN;
+                tokenType = STRING_TOKEN;
                 syntaxBuilder.append(currentChar);
-                this.nextPosition();
+                nextPosition();
                 break;
             }
             syntaxBuilder.append(currentChar);
             valueBuilder.append(currentChar);
-            this.nextPosition();
+            nextPosition();
         }
 
         return new Token(tokenType, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
@@ -189,153 +216,125 @@ public final class Lexer
         StringBuilder syntaxBuilder = new StringBuilder();
         StringBuilder valueBuilder = new StringBuilder();
 
-        syntaxBuilder.append(this.currentChar());
-        int startPos = this.currentPositionThenNext(1);
+        syntaxBuilder.append(currentChar());
+        int startPos = currentPositionThenNext(1);
 
         while (true)
         {
-            String currentChar = this.currentChar();
+            String currentChar = currentChar();
 
             if (currentChar.equals("\0") || currentChar.equals("\r") || currentChar.equals("\n"))
                 break;
 
             syntaxBuilder.append(currentChar);
             valueBuilder.append(currentChar);
-            this.nextPosition();
+            nextPosition();
         }
 
-        return new Token(TokenType.COMMENT_TOKEN, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
+        return new Token(COMMENT_TOKEN, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
     }
 
     private Token symbolToken()
     {
-        String currentChar = this.currentChar();
-        String nextChar = this.nextChar();
+        String currentChar = currentChar();
+        String nextChar = nextChar();
 
-        if (Syntax.HASH.getSyntax().equals(currentChar))
+        switch (currentChar)
         {
-            return this.commentToken();
+            case HASH_SYNTAX:
+                return commentToken();
+            case DOUBLE_QUOTES_SYNTAX:
+                return stringToken();
+            case OPEN_BRACE_SYNTAX:
+                return new Token(OPEN_BRACE_TOKEN, OPEN_BRACE_SYNTAX, currentPositionThenNext(1));
+            case CLOSE_BRACE_SYNTAX:
+                return new Token(CLOSE_BRACE_TOKEN, CLOSE_BRACE_SYNTAX, currentPositionThenNext(1));
+            case OPEN_PARENTHESIS_SYNTAX:
+                return new Token(OPEN_PARENTHESIS_TOKEN, OPEN_PARENTHESIS_SYNTAX, currentPositionThenNext(1));
+            case CLOSE_PARENTHESIS_SYNTAX:
+                return new Token(CLOSE_PARENTHESIS_TOKEN, CLOSE_PARENTHESIS_SYNTAX, currentPositionThenNext(1));
+            case NOT_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(NOT_EQUALS_TOKEN, NOT_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(NOT_TOKEN, NOT_SYNTAX, currentPositionThenNext(1));
+            case PLUS_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(PLUS_EQUALS_TOKEN, PLUS_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(PLUS_TOKEN, PLUS_SYNTAX, currentPositionThenNext(1));
+            case MINUS_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(MINUS_EQUALS_TOKEN, MINUS_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(MINUS_TOKEN, MINUS_SYNTAX, currentPositionThenNext(1));
+            case STAR_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(STAR_EQUALS_TOKEN, STAR_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(STAR_TOKEN, STAR_SYNTAX, currentPositionThenNext(1));
+            case SLASH_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(SLASH_EQUALS_TOKEN, SLASH_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(SLASH_TOKEN, SLASH_SYNTAX, currentPositionThenNext(1));
+            case PERCENT_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(PERCENT_EQUALS_TOKEN, PERCENT_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(PERCENT_TOKEN, PERCENT_SYNTAX, currentPositionThenNext(1));
+            case CARET_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(CARET_EQUALS_TOKEN, CARET_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(CARET_TOKEN, CARET_SYNTAX, currentPositionThenNext(1));
+            case GREATER_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(GREATER_EQUALS_TOKEN, GREATER_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(GREATER_TOKEN, GREATER_SYNTAX, currentPositionThenNext(1));
+            case LESS_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(LESS_EQUALS_TOKEN, LESS_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(LESS_TOKEN, LESS_SYNTAX, currentPositionThenNext(1));
+            case EQUALS_SYNTAX:
+                if (EQUALS_SYNTAX.equals(nextChar))
+                    return new Token(EQUALS_EQUALS_TOKEN, EQUALS_EQUALS_SYNTAX, currentPositionThenNext(2));
+                return new Token(EQUALS_TOKEN, EQUALS_SYNTAX, currentPositionThenNext(1));
+            default:
+                return badToken();
         }
-        else if (Syntax.DOUBLE_QUOTES.getSyntax().equals(currentChar))
-        {
-            return this.stringToken();
-        }
-        else if (Syntax.PLUS.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.PLUS_EQUALS_TOKEN, Syntax.PLUS_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.PLUS_TOKEN, Syntax.PLUS.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.MINUS.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.MINUS_EQUALS_TOKEN, Syntax.MINUS_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.MINUS_TOKEN, Syntax.MINUS.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.STAR.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.STAR_EQUALS_TOKEN, Syntax.STAR_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.STAR_TOKEN, Syntax.STAR.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.SLASH.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.SLASH_EQUALS_TOKEN, Syntax.SLASH_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.SLASH_TOKEN, Syntax.SLASH.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.PERCENT.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.PERCENT_EQUALS_TOKEN, Syntax.PERCENT_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.PERCENT_TOKEN, Syntax.PERCENT.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.CARET.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.CARET_EQUALS_TOKEN, Syntax.CARET_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.CARET_TOKEN, Syntax.CARET.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.OPEN_BRACE.getSyntax().equals(currentChar))
-        {
-            return new Token(TokenType.OPEN_BRACE_TOKEN, Syntax.OPEN_BRACE.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.CLOSE_BRACE.getSyntax().equals(currentChar))
-        {
-            return new Token(TokenType.CLOSE_BRACE_TOKEN, Syntax.CLOSE_BRACE.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.OPEN_PARENTHESIS.getSyntax().equals(currentChar))
-        {
-            return new Token(TokenType.OPEN_PARENTHESIS_TOKEN, Syntax.OPEN_PARENTHESIS.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.CLOSE_PARENTHESIS.getSyntax().equals(currentChar))
-        {
-            return new Token(TokenType.CLOSE_PARENTHESIS_TOKEN, Syntax.CLOSE_PARENTHESIS.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.EQUALS.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.EQUALS_EQUALS_TOKEN, Syntax.EQUALS_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.EQUALS_TOKEN, Syntax.EQUALS.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.NOT.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.NOT_EQUALS_TOKEN, Syntax.NOT_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.NOT_TOKEN, Syntax.NOT.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.GREATER.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.GREATER_EQUALS_TOKEN, Syntax.GREATER_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.GREATER_TOKEN, Syntax.GREATER.getSyntax(), this.currentPositionThenNext(1));
-        }
-        else if (Syntax.LESS.getSyntax().equals(currentChar))
-        {
-            if (Syntax.EQUALS.getSyntax().equals(nextChar))
-                return new Token(TokenType.LESS_EQUALS_TOKEN, Syntax.LESS_EQUALS.getSyntax(), this.currentPositionThenNext(2));
-            return new Token(TokenType.LESS_TOKEN, Syntax.LESS.getSyntax(), this.currentPositionThenNext(1));
-        }
-
-        return this.badToken();
     }
 
     private Token badToken()
     {
-        this.errorHandler.addError(LexicalError.badCharacter(this.currentChar(), this.position, 1));
-        return new Token(TokenType.BAD_TOKEN,
-                         sourceText.substring(minimumZero(this.position - 1), this.position),
-                         this.currentPositionThenNext(1));
+        String syntax = sourceText.substring(minimumZero(position - 1));
+        LexicalError error = badCharacter(currentChar(), position, 1);
+        errorHandler.addError(error);
+
+        return new Token(BAD_TOKEN, syntax, position, currentPositionThenNext(1));
     }
 
     private String currentChar()
     {
-        return this.peek(0);
+        return peek(0);
     }
 
     private String nextChar()
     {
-        return this.peek(1);
+        return peek(1);
     }
 
     private String peek(int offset)
     {
-        int index = this.position + offset;
+        int index = position + offset;
+        if (index >= sourceText.length() || index < 0)
+            return EOF_SYNTAX;
 
-        if (index >= this.sourceText.length() || index < 0)
-            return Syntax.EOF.getSyntax();
-        return Character.toString(this.sourceText.charAt(index));
+        return Character.toString(sourceText.charAt(index));
     }
 
     private void nextPosition()
     {
-        this.position++;
+        position++;
     }
 
     private int currentPositionThenNext(int increment)
     {
-        int currentPos = this.position;
-        this.position += increment;
+        int currentPos = position;
+        position += increment;
         return currentPos;
     }
 
@@ -364,7 +363,8 @@ public final class Lexer
         {
             Integer.parseInt(str);
             return true;
-        } catch (NumberFormatException error)
+        }
+        catch (NumberFormatException error)
         {
             return false;
         }
@@ -376,7 +376,8 @@ public final class Lexer
         {
             Double.parseDouble(str);
             return true;
-        } catch (NumberFormatException error)
+        }
+        catch (NumberFormatException error)
         {
             return false;
         }

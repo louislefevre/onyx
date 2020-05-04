@@ -4,6 +4,8 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedExpressionType.ANNOTATED_UNARY_EXPRESSION;
+
 @Getter
 public final class AnnotatedUnaryExpression implements AnnotatedExpression
 {
@@ -16,7 +18,7 @@ public final class AnnotatedUnaryExpression implements AnnotatedExpression
     {
         this.operator = operator;
         this.operand = operand;
-        this.expressionType = AnnotatedExpressionType.ANNOTATED_UNARY_EXPRESSION;
+        this.expressionType = ANNOTATED_UNARY_EXPRESSION;
         this.objectType = operator.getResultObjectType();
     }
 }

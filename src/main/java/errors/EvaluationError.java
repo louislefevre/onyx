@@ -4,6 +4,8 @@ import identifiers.ErrorType;
 import lombok.Getter;
 import source.SourceSpan;
 
+import static identifiers.ErrorType.EVALUATE_ERROR;
+
 @Getter
 public final class EvaluationError extends Error
 {
@@ -12,7 +14,7 @@ public final class EvaluationError extends Error
     public EvaluationError(SourceSpan span, String errorMessage)
     {
         super(span, errorMessage);
-        this.errorType = ErrorType.EVALUATE_ERROR;
+        this.errorType = EVALUATE_ERROR;
     }
 
     public static String exceptionOccurred(Exception exception)
@@ -21,7 +23,7 @@ public final class EvaluationError extends Error
         int lineNumber = stackTraceElement.getLineNumber();
         String className = stackTraceElement.getClassName();
 
-        String location = String.format("Line %1s: Exception occurred at %2s.", lineNumber, className);
+        String location = String.format("Line %1s: Evaluation exception occurred at %2s.", lineNumber, className);
         String message = exception.getMessage();
 
         return location + "\n" + message;

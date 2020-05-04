@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.StatementType.EXPRESSION_STATEMENT;
+
 @Getter
 public final class ExpressionStatement implements Statement
 {
@@ -17,7 +19,7 @@ public final class ExpressionStatement implements Statement
     public ExpressionStatement(Expression expression)
     {
         this.expression = expression;
-        this.statementType = StatementType.EXPRESSION_STATEMENT;
+        this.statementType = EXPRESSION_STATEMENT;
         this.children = new LinkedList<>(Collections.singletonList(expression));
     }
 }

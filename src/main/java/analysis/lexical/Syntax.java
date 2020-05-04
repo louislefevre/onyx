@@ -1,70 +1,58 @@
 package analysis.lexical;
 
-public enum Syntax
+public class Syntax
 {
     // Data Types
-    DECIMAL_POINT("."),
-    TRUE("true"),
-    FALSE("false"),
-    DOUBLE_QUOTES("\""),
+    public static final String DECIMAL_POINT_SYNTAX = ".";
+    public static final String TRUE_SYNTAX = "true";
+    public static final String FALSE_SYNTAX = "false";
+    public static final String DOUBLE_QUOTES_SYNTAX = "\"";
 
     // Keywords
-    IF("if"),
-    ELSE("else"),
-    LOOP("loop"),
-    TO("to"),
+    public static final String IF_SYNTAX = "if";
+    public static final String ELSE_SYNTAX = "else";
+    public static final String LOOP_SYNTAX = "loop";
+    public static final String TO_SYNTAX = "to";
 
     // Separators
-    OPEN_BRACE("{"),
-    CLOSE_BRACE("}"),
-    OPEN_PARENTHESIS("("),
-    CLOSE_PARENTHESIS(")"),
+    public static final String OPEN_BRACE_SYNTAX = "{";
+    public static final String CLOSE_BRACE_SYNTAX = "}";
+    public static final String OPEN_PARENTHESIS_SYNTAX = "(";
+    public static final String CLOSE_PARENTHESIS_SYNTAX = ")";
 
     // Unary Operators
-    NOT("!"),
+    public static final String NOT_SYNTAX = "!";
 
     // Mathematical Binary Operators
-    PLUS("+"),
-    MINUS("-"),
-    STAR("*"),
-    SLASH("/"),
-    PERCENT("%"),
-    CARET("^"),
+    public static final String PLUS_SYNTAX = "+";
+    public static final String MINUS_SYNTAX = "-";
+    public static final String STAR_SYNTAX = "*";
+    public static final String SLASH_SYNTAX = "/";
+    public static final String PERCENT_SYNTAX = "%";
+    public static final String CARET_SYNTAX = "^";
 
     // Conditional Binary Operators
-    AND("and"),
-    OR("or"),
-    GREATER(">"),
-    GREATER_EQUALS(">="),
-    LESS("<"),
-    LESS_EQUALS("<="),
-    EQUALS_EQUALS("=="),
+    public static final String AND_SYNTAX = "and";
+    public static final String OR_SYNTAX = "or";
+    public static final String GREATER_SYNTAX = ">";
+    public static final String GREATER_EQUALS_SYNTAX = ">=";
+    public static final String LESS_SYNTAX = "<";
+    public static final String LESS_EQUALS_SYNTAX = "<=";
+    public static final String EQUALS_EQUALS_SYNTAX = "==";
 
     // Assignment Operators
-    EQUALS("="),
-    NOT_EQUALS("!="),
-    PLUS_EQUALS("+="),
-    MINUS_EQUALS("-="),
-    STAR_EQUALS("*="),
-    SLASH_EQUALS("/="),
-    PERCENT_EQUALS("%="),
-    CARET_EQUALS("^="),
+    public static final String EQUALS_SYNTAX = "=";
+    public static final String NOT_EQUALS_SYNTAX = "!=";
+    public static final String PLUS_EQUALS_SYNTAX = "+=";
+    public static final String MINUS_EQUALS_SYNTAX = "-=";
+    public static final String STAR_EQUALS_SYNTAX = "*=";
+    public static final String SLASH_EQUALS_SYNTAX = "/=";
+    public static final String PERCENT_EQUALS_SYNTAX = "%=";
+    public static final String CARET_EQUALS_SYNTAX = "^=";
 
     // Break Syntax
-    EOF("\0"),
+    public static final String EOF_SYNTAX = "\0";
 
     // Not-parsed Syntax
-    HASH("#");
-
-    private final String syntax;
-
-    Syntax(String syntax)
-    {
-        this.syntax = syntax;
-    }
-
-    public String getSyntax()
-    {
-        return this.syntax;
-    }
+    public static final String HASH_SYNTAX = "#";
 }

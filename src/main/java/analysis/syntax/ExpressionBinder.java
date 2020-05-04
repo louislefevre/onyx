@@ -120,9 +120,9 @@ public final class ExpressionBinder
     private static boolean isBindable(Token current, Token next)
     {
         for (ExpressionBind bind : binds)
-            if (bind.getTokenType() == current.getTokenType())
+            if (bind.getTokenType() == current.getType())
                 for (TokenType type : bind.getCompatibleTypes())
-                    if (type == next.getTokenType())
+                    if (type == next.getType())
                         return true;
 
         return false;
@@ -130,6 +130,6 @@ public final class ExpressionBinder
 
     public static boolean tokensNotBindable(Token current, Token next)
     {
-        return !ExpressionBinder.isBindable(current, next) && next.getTokenType() != TokenType.EOF_TOKEN;
+        return !ExpressionBinder.isBindable(current, next) && next.getType() != TokenType.EOF_TOKEN;
     }
 }

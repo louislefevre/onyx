@@ -10,10 +10,10 @@ import java.util.List;
 @Getter
 public final class SourceInput
 {
-    private final List<SourceLine> sourceLines;
     private final String sourceText;
     private final SymbolTable symbolTable;
     private final ErrorHandler errorHandler;
+    private final List<SourceLine> sourceLines;
 
     public SourceInput(String sourceText, SymbolTable symbolTable, ErrorHandler errorHandler)
     {
@@ -21,22 +21,22 @@ public final class SourceInput
         this.symbolTable = symbolTable;
         this.errorHandler = errorHandler;
         this.sourceLines = parseLines(sourceText);
-        this.errorHandler.setSourceInput(this);
+        errorHandler.setSourceInput(this);
     }
 
     public int length()
     {
-        return this.sourceText.length();
+        return sourceText.length();
     }
 
     public String substring(int beginIndex, int endIndex)
     {
-        return this.sourceText.substring(beginIndex, endIndex);
+        return sourceText.substring(beginIndex, endIndex);
     }
 
     public int getLineIndex(int position)
     {
-        return searchLineList(this.sourceLines, 0, this.sourceLines.size() - 1, position);
+        return searchLineList(sourceLines, 0, sourceLines.size() - 1, position);
     }
 
     private List<SourceLine> parseLines(String text)

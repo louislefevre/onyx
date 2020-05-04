@@ -5,6 +5,8 @@ import lombok.Getter;
 
 import java.util.List;
 
+import static identifiers.AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
+
 @Getter
 public final class AnnotatedBlockStatement implements AnnotatedStatement
 {
@@ -14,6 +16,6 @@ public final class AnnotatedBlockStatement implements AnnotatedStatement
     public AnnotatedBlockStatement(List<AnnotatedStatement> statements)
     {
         this.statements = statements;
-        this.statementType = AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
+        this.statementType = ANNOTATED_BLOCK_STATEMENT;
     }
 }

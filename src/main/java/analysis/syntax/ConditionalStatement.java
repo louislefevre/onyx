@@ -8,35 +8,38 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.StatementType.CONDITIONAL_STATEMENT;
+import static identifiers.StatementType.ELSE_STATEMENT;
+
 @Getter
 public final class ConditionalStatement implements Statement
 {
     private final Token ifToken;
-    private final Expression conditionExpression;
+    private final Expression condition;
     private final Statement thenStatement;
     private ElseStatement elseStatement;
     private final StatementType statementType;
     private final Queue<Object> children;
 
-    public ConditionalStatement(Token ifToken, Expression conditionExpression, Statement thenStatement)
+    public ConditionalStatement(Token ifToken, Expression condition, Statement thenStatement)
     {
         this.ifToken = ifToken;
-        this.conditionExpression = conditionExpression;
+        this.condition = condition;
         this.thenStatement = thenStatement;
         this.elseStatement = null;
-        this.statementType = StatementType.CONDITIONAL_STATEMENT;
-        this.children = new LinkedList<>(Arrays.asList(ifToken, conditionExpression, thenStatement));
+        this.statementType = CONDITIONAL_STATEMENT;
+        this.children = new LinkedList<>(Arrays.asList(ifToken, condition, thenStatement));
     }
 
-    public void addElseStatement(Token elseToken, Statement elseStatement)
+    public void addElseStatement(Token elseToken, Statement statement)
     {
-        this.elseStatement = new ElseStatement(elseToken, elseStatement);
-        this.children.add(this.elseStatement);
+        elseStatement = new ElseStatement(elseToken, statement);
+        children.add(elseStatement);
     }
 
     public boolean includesElseStatement()
     {
-        return this.elseStatement != null;
+        return elseStatement != null;
     }
 
     @Getter
@@ -51,7 +54,7 @@ public final class ConditionalStatement implements Statement
         {
             this.elseToken = elseToken;
             this.statement = statement;
-            this.statementType = StatementType.ELSE_STATEMENT;
+            this.statementType = ELSE_STATEMENT;
             this.children = new LinkedList<>(Arrays.asList(elseToken, statement));
         }
     }

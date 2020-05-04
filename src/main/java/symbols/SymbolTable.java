@@ -19,19 +19,19 @@ public final class SymbolTable
 
     public boolean containsSymbol(String name)
     {
-        return this.symbols.containsKey(name);
+        return symbols.containsKey(name);
     }
 
     public Symbol getSymbol(String name)
     {
-        return this.symbols.get(name);
+        return symbols.get(name);
     }
 
     public void addSymbol(String name, Object value, ObjectType type)
     {
-        if (this.containsSymbol(name))
+        if (containsSymbol(name))
         {
-            Symbol symbol = this.getSymbol(name);
+            Symbol symbol = getSymbol(name);
             Object oldValue = symbol.getValue();
             symbol.addHistoryValue(oldValue);
             symbol.setValue(value);
@@ -39,23 +39,23 @@ public final class SymbolTable
             return;
         }
         Symbol symbol = new Symbol(name, value, type);
-        this.symbols.put(name, symbol);
+        symbols.put(name, symbol);
     }
 
     public void addSymbol(Symbol symbol)
     {
         String name = symbol.getName();
-        if (this.containsSymbol(name))
+        if (containsSymbol(name))
         {
-            List<Object> oldHistory = this.getSymbol(name).getValueHistory();
+            List<Object> oldHistory = getSymbol(name).getValueHistory();
             symbol.setValueHistory(oldHistory);
         }
-        this.symbols.put(name, symbol);
+        symbols.put(name, symbol);
     }
 
     public void removeSymbol(String name)
     {
-        this.symbols.remove(name);
+        symbols.remove(name);
     }
 
     @TestOnly
@@ -65,7 +65,7 @@ public final class SymbolTable
         List<String> headers = Arrays.asList("Name", "Type", "Value", "History");
         rows.add(headers);
 
-        for (Symbol symbol : this.symbols.values())
+        for (Symbol symbol : symbols.values())
             rows.add(Arrays.asList(symbol.getName(), symbol.getType().toString(), symbol.getValue().toString(), symbol.getValueHistory().toString()));
 
         System.out.print(formatAsTable(rows));

@@ -11,6 +11,6 @@ public final class AnnotatedParseTree
 
     public AnnotatedStatement getStatement()
     {
-        return this.statement;
+        return statement;
     }
 }

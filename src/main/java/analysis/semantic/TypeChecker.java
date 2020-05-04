@@ -16,10 +16,8 @@ import java.util.List;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    @Getter
-    private final ErrorHandler errorHandler;
-    @Getter
-    private final SymbolTable symbolTable;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
 
     public TypeChecker(Parser parser)
     {
@@ -30,18 +28,19 @@ public final class TypeChecker
 
     public AnnotatedParseTree getAnnotatedParseTree()
     {
-        return new AnnotatedParseTree(this.getAnnotatedStatement());
+        return new AnnotatedParseTree(getAnnotatedStatement());
     }
 
     private AnnotatedStatement getAnnotatedStatement()
     {
         try
         {
-            return this.annotateStatement(this.parseTree.getStatement());
-        } catch (Exception exception)
+            return annotateStatement(parseTree.getStatement());
+        }
+        catch (Exception exception)
         {
-            String message = SemanticError.exceptionOccurred(exception);
-            System.out.println(message);
+            String errorMessage = SemanticError.exceptionOccurred(exception);
+            System.out.println(errorMessage);
             return null;
         }
     }
@@ -51,15 +50,16 @@ public final class TypeChecker
         switch (statement.getStatementType())
         {
             case BLOCK_STATEMENT:
-                return this.annotateBlockStatement((BlockStatement) statement);
+                return annotateBlockStatement((BlockStatement) statement);
             case EXPRESSION_STATEMENT:
-                return this.annotateExpressionStatement((ExpressionStatement) statement);
+                return annotateExpressionStatement((ExpressionStatement) statement);
             case CONDITIONAL_STATEMENT:
-                return this.annotateConditionalStatement((ConditionalStatement) statement);
+                return annotateConditionalStatement((ConditionalStatement) statement);
             case LOOP_STATEMENT:
-                return this.annotateLoopStatement((LoopStatement) statement);
+                return annotateLoopStatement((LoopStatement) statement);
             default:
-                throw new Exception(SemanticError.undefinedStatement(statement.getStatementType().toString()));
+                String errorMessage = SemanticError.undefinedStatement(statement.getStatementType().toString());
+                throw new Exception(errorMessage);
         }
     }
 
@@ -69,7 +69,7 @@ public final class TypeChecker
 
         for (Statement statement : blockStatement.getStatements())
         {
-            AnnotatedStatement annotatedStatement = this.annotateStatement(statement);
+            AnnotatedStatement annotatedStatement = annotateStatement(statement);
             statements.add(annotatedStatement);
         }
 
@@ -79,49 +79,59 @@ public final class TypeChecker
     private AnnotatedStatement annotateExpressionStatement(ExpressionStatement expressionStatement) throws Exception
     {
         Expression expression = expressionStatement.getExpression();
-        AnnotatedExpression annotatedExpression = this.annotateExpression(expression);
+        AnnotatedExpression annotatedExpression = annotateExpression(expression);
+
         return new AnnotatedExpressionStatement(annotatedExpression);
     }
 
     private AnnotatedStatement annotateConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
     {
-        AnnotatedExpression annotatedCondition = this.annotateExpression(conditionalStatement.getConditionExpression());
+        AnnotatedExpression condition = annotateExpression(conditionalStatement.getCondition());
 
-        if (annotatedCondition.getObjectType() != ObjectType.BOOLEAN_OBJECT)
-            this.errorHandler.addError(SemanticError.invalidConditionalTypes(conditionalStatement.getIfToken().getSpan(),
-                                                                             annotatedCondition.getObjectType(),
-                                                                             ObjectType.BOOLEAN_OBJECT));
+        if (condition.getObjectType() != ObjectType.BOOLEAN_OBJECT)
+        {
+            SemanticError error = SemanticError.invalidConditionalTypes(conditionalStatement.getIfToken().getSpan(),
+                                                                        condition.getObjectType(),
+                                                                        ObjectType.BOOLEAN_OBJECT);
+            errorHandler.addError(error);
+        }
 
-        AnnotatedStatement annotatedThenStatement = this.annotateStatement(conditionalStatement.getThenStatement());
+        AnnotatedStatement thenStatement = annotateStatement(conditionalStatement.getThenStatement());
 
-        AnnotatedStatement annotatedElseClause;
+        AnnotatedStatement elseStatement;
         if (conditionalStatement.includesElseStatement())
-            annotatedElseClause = this.annotateStatement(conditionalStatement.getElseStatement().getStatement());
+            elseStatement = annotateStatement(conditionalStatement.getElseStatement().getStatement());
         else
-            annotatedElseClause = null;
+            elseStatement = null;
 
-        return new AnnotatedConditionalStatement(annotatedCondition, annotatedThenStatement, annotatedElseClause);
+        return new AnnotatedConditionalStatement(condition, thenStatement, elseStatement);
     }
 
     private AnnotatedStatement annotateLoopStatement(LoopStatement loopStatement) throws Exception
     {
         String name = loopStatement.getIdentifierToken().getSyntax();
-        AnnotatedExpression lowerBound = this.annotateExpression(loopStatement.getLowerBound());
-        AnnotatedExpression upperBound = this.annotateExpression(loopStatement.getUpperBound());
+        AnnotatedExpression lowerBound = annotateExpression(loopStatement.getLowerBound());
+        AnnotatedExpression upperBound = annotateExpression(loopStatement.getUpperBound());
 
-        if(lowerBound.getObjectType() != ObjectType.INTEGER_OBJECT)
-            this.errorHandler.addError(SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
-                                                                             lowerBound.getObjectType(),
-                                                                             ObjectType.INTEGER_OBJECT));
-        if(upperBound.getObjectType() != ObjectType.INTEGER_OBJECT)
-            this.errorHandler.addError(SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
-                                                                             upperBound.getObjectType(),
-                                                                             ObjectType.INTEGER_OBJECT));
+        if (lowerBound.getObjectType() != ObjectType.INTEGER_OBJECT)
+        {
+            SemanticError error = SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
+                                                                        lowerBound.getObjectType(),
+                                                                        ObjectType.INTEGER_OBJECT);
+            errorHandler.addError(error);
+        }
+        if (upperBound.getObjectType() != ObjectType.INTEGER_OBJECT)
+        {
+            SemanticError error = SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
+                                                                        upperBound.getObjectType(),
+                                                                        ObjectType.INTEGER_OBJECT);
+            errorHandler.addError(error);
+        }
 
         Symbol symbol = new Symbol(name, null, ObjectType.INTEGER_OBJECT);
-        this.symbolTable.addSymbol(symbol);
+        symbolTable.addSymbol(symbol);
 
-        AnnotatedStatement body = this.annotateStatement(loopStatement.getBody());
+        AnnotatedStatement body = annotateStatement(loopStatement.getBody());
 
         return new AnnotatedLoopStatement(symbol, lowerBound, upperBound, body);
     }
@@ -131,26 +141,27 @@ public final class TypeChecker
         switch (expression.getExpressionType())
         {
             case LITERAL_EXPRESSION:
-                return this.annotateLiteralExpression((LiteralExpression) expression);
+                return annotateLiteralExpression((LiteralExpression) expression);
             case UNARY_EXPRESSION:
-                return this.annotateUnaryExpression((UnaryExpression) expression);
+                return annotateUnaryExpression((UnaryExpression) expression);
             case BINARY_EXPRESSION:
-                return this.annotateBinaryExpression((BinaryExpression) expression);
+                return annotateBinaryExpression((BinaryExpression) expression);
             case IDENTIFIER_EXPRESSION:
-                return this.annotateIdentifierExpression((IdentifierExpression) expression);
+                return annotateIdentifierExpression((IdentifierExpression) expression);
             case ASSIGNMENT_EXPRESSION:
-                return this.annotateAssignmentExpression((AssignmentExpression) expression);
+                return annotateAssignmentExpression((AssignmentExpression) expression);
             case PARENTHESIZED_EXPRESSION:
-                return this.annotateParenthesizedExpression((ParenthesizedExpression) expression);
+                return annotateParenthesizedExpression((ParenthesizedExpression) expression);
             default:
-                throw new Exception(SemanticError.undefinedExpression(expression.getExpressionType().toString()));
+                String errorMessage = SemanticError.undefinedExpression(expression.getExpressionType().toString());
+                throw new Exception(errorMessage);
         }
     }
 
     private AnnotatedExpression annotateParenthesizedExpression(ParenthesizedExpression parenthesizedExpression) throws Exception
     {
         Expression expression = parenthesizedExpression.getExpression();
-        return this.annotateExpression(expression);
+        return annotateExpression(expression);
     }
 
     private AnnotatedExpression annotateLiteralExpression(LiteralExpression literalExpression)
@@ -161,54 +172,53 @@ public final class TypeChecker
 
     private AnnotatedExpression annotateUnaryExpression(UnaryExpression unaryExpression) throws Exception
     {
-        AnnotatedExpression annotatedOperand = this.annotateExpression(unaryExpression.getOperand());
-        AnnotatedUnaryOperator annotatedOperator =
-                TypeBinder.bindUnaryOperators(unaryExpression.getOperatorToken().getTokenType(),
-                                              annotatedOperand.getObjectType());
+        AnnotatedExpression operand = annotateExpression(unaryExpression.getOperand());
+        AnnotatedUnaryOperator operator = TypeBinder.bindUnaryOperators(unaryExpression.getOperatorToken().getType(),
+                                                                        operand.getObjectType());
 
-        if (annotatedOperator == null)
+        if (operator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedUnaryOperator(unaryExpression.getOperatorToken().getSpan(),
-                                                                            unaryExpression.getOperatorToken().getSyntax(),
-                                                                            annotatedOperand.getObjectType()));
+            SemanticError error = SemanticError.undefinedUnaryOperator(unaryExpression.getOperatorToken().getSpan(),
+                                                                       unaryExpression.getOperatorToken().getSyntax(),
+                                                                       operand.getObjectType());
+            errorHandler.addError(error);
             return new AnnotatedLiteralExpression(null);
         }
 
-        return new AnnotatedUnaryExpression(annotatedOperator, annotatedOperand);
+        return new AnnotatedUnaryExpression(operator, operand);
     }
 
     private AnnotatedExpression annotateBinaryExpression(BinaryExpression binaryExpression) throws Exception
     {
-        AnnotatedExpression annotatedLeftOperand = this.annotateExpression(binaryExpression.getLeftOperand());
-        AnnotatedExpression annotatedRightOperand = this.annotateExpression(binaryExpression.getRightOperand());
-        AnnotatedBinaryOperator annotatedOperator =
-                TypeBinder.bindBinaryOperators(binaryExpression.getOperatorToken().getTokenType(),
-                                               annotatedLeftOperand.getObjectType(),
-                                               annotatedRightOperand.getObjectType());
+        AnnotatedExpression leftOperand = annotateExpression(binaryExpression.getLeftOperand());
+        AnnotatedExpression rightOperand = annotateExpression(binaryExpression.getRightOperand());
+        AnnotatedBinaryOperator operator = TypeBinder.bindBinaryOperators(binaryExpression.getOperatorToken().getType(),
+                                                                          leftOperand.getObjectType(),
+                                                                          rightOperand.getObjectType());
 
-        if (annotatedOperator == null)
+        if (operator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedBinaryOperator(binaryExpression.getOperatorToken().getSpan(),
-                                                                             binaryExpression.getOperatorToken().getSyntax(),
-                                                                             annotatedLeftOperand.getObjectType(),
-                                                                             annotatedRightOperand.getObjectType()));
+            errorHandler.addError(SemanticError.undefinedBinaryOperator(binaryExpression.getOperatorToken().getSpan(),
+                                                                        binaryExpression.getOperatorToken().getSyntax(),
+                                                                        leftOperand.getObjectType(),
+                                                                        rightOperand.getObjectType()));
             return new AnnotatedLiteralExpression(null);
         }
 
-        return new AnnotatedBinaryExpression(annotatedLeftOperand, annotatedOperator, annotatedRightOperand);
+        return new AnnotatedBinaryExpression(leftOperand, operator, rightOperand);
     }
 
     private AnnotatedExpression annotateIdentifierExpression(IdentifierExpression identifierExpression)
     {
         String name = identifierExpression.getIdentifierToken().getSyntax();
 
-        if (!this.symbolTable.containsSymbol(name))
+        if (!symbolTable.containsSymbol(name))
         {
-            this.errorHandler.addError(SemanticError.undefinedIdentifier(identifierExpression.getIdentifierToken().getSpan(),
-                                                                         name));
+            SemanticError error = SemanticError.undefinedIdentifier(identifierExpression.getIdentifierToken().getSpan(), name);
+            errorHandler.addError(error);
             return new AnnotatedLiteralExpression(null);
         }
-        ObjectType type = this.symbolTable.getSymbol(name).getType();
+        ObjectType type = symbolTable.getSymbol(name).getType();
 
         return new AnnotatedIdentifierExpression(name, type);
     }
@@ -216,23 +226,22 @@ public final class TypeChecker
     private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression assignmentExpression) throws Exception
     {
         String name = assignmentExpression.getIdentifierToken().getSyntax();
+        AnnotatedExpression expression = annotateExpression(assignmentExpression.getExpression());
         Token assignmentToken = assignmentExpression.getAssignmentToken();
-        TokenType assignmentTokenType = assignmentToken.getTokenType();
-        AnnotatedExpression expression = this.annotateExpression(assignmentExpression.getExpression());
+        TokenType assignmentTokenType = assignmentToken.getType();
+        ObjectType symbolType = symbolTable.containsSymbol(name) ? symbolTable.getSymbol(name).getType() : ObjectType.NULL_OBJECT;
         ObjectType assignmentType = expression.getObjectType();
+        AnnotatedAssignmentOperator operator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
 
-        ObjectType symbolType = this.symbolTable.containsSymbol(name) ?
-                                this.symbolTable.getSymbol(name).getType() : ObjectType.NULL_OBJECT;
-
-        AnnotatedAssignmentOperator annotatedOperator =
-                TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
-
-        if (annotatedOperator == null)
+        if (operator == null)
         {
-            this.errorHandler.addError(SemanticError.undefinedAssignmentOperator(assignmentToken.getSpan(), assignmentToken.getSyntax(), symbolType, assignmentType));
+            SemanticError error = SemanticError.undefinedAssignmentOperator(assignmentToken.getSpan(),
+                                                                            assignmentToken.getSyntax(),
+                                                                            symbolType, assignmentType);
+            errorHandler.addError(error);
             return new AnnotatedLiteralExpression(null);
         }
 
-        return new AnnotatedAssignmentExpression(name, annotatedOperator, expression);
+        return new AnnotatedAssignmentExpression(name, operator, expression);
     }
 }

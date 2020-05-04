@@ -25,6 +25,6 @@ public final class Symbol
 
     public void addHistoryValue(Object value)
     {
-        this.valueHistory.add(value);
+        valueHistory.add(value);
     }
 }

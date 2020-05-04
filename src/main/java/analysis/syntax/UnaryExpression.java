@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.ExpressionType.UNARY_EXPRESSION;
+
 @Getter
 public final class UnaryExpression implements Expression
 {
@@ -20,7 +22,7 @@ public final class UnaryExpression implements Expression
     {
         this.operatorToken = operatorToken;
         this.operand = operand;
-        this.expressionType = ExpressionType.UNARY_EXPRESSION;
+        this.expressionType = UNARY_EXPRESSION;
         this.children = new LinkedList<>(Arrays.asList(operatorToken, operand));
     }
 }

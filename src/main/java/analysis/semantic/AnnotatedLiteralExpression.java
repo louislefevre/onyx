@@ -4,6 +4,9 @@ import identifiers.AnnotatedExpressionType;
 import identifiers.ObjectType;
 import lombok.Getter;
 
+import static identifiers.AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
+import static identifiers.ObjectType.*;
+
 @Getter
 public final class AnnotatedLiteralExpression implements AnnotatedExpression
 {
@@ -14,21 +17,21 @@ public final class AnnotatedLiteralExpression implements AnnotatedExpression
     public AnnotatedLiteralExpression(Object value)
     {
         this.value = value;
-        this.expressionType = AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
+        this.expressionType = ANNOTATED_LITERAL_EXPRESSION;
         this.objectType = typeOf(value);
     }
 
     private static ObjectType typeOf(Object object)
     {
         if (object instanceof Integer)
-            return ObjectType.INTEGER_OBJECT;
+            return INTEGER_OBJECT;
         else if (object instanceof Double)
-            return ObjectType.DOUBLE_OBJECT;
+            return DOUBLE_OBJECT;
         else if (object instanceof String)
-            return ObjectType.STRING_OBJECT;
+            return STRING_OBJECT;
         else if (object instanceof Boolean)
-            return ObjectType.BOOLEAN_OBJECT;
+            return BOOLEAN_OBJECT;
         else
-            return ObjectType.NULL_OBJECT;
+            return NULL_OBJECT;
     }
 }

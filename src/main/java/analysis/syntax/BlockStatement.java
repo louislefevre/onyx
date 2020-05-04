@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static identifiers.StatementType.BLOCK_STATEMENT;
+
 @Getter
 public final class BlockStatement implements Statement
 {
@@ -23,7 +25,7 @@ public final class BlockStatement implements Statement
         this.openBraceToken = openBraceToken;
         this.statements = statements;
         this.closeBraceToken = closeBraceToken;
-        this.statementType = StatementType.BLOCK_STATEMENT;
+        this.statementType = BLOCK_STATEMENT;
         this.children = new LinkedList<>(Arrays.asList(openBraceToken, statements, closeBraceToken));
     }
 }

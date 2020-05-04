@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static identifiers.ExpressionType.PARENTHESIZED_EXPRESSION;
+
 @Getter
 public final class ParenthesizedExpression implements Expression
 {
@@ -22,7 +24,7 @@ public final class ParenthesizedExpression implements Expression
         this.openParenthesisToken = openParenthesisToken;
         this.expression = expression;
         this.closeParenthesisToken = closeParenthesisToken;
-        this.expressionType = ExpressionType.PARENTHESIZED_EXPRESSION;
+        this.expressionType = PARENTHESIZED_EXPRESSION;
         this.children = new LinkedList<>(Arrays.asList(openParenthesisToken, expression, closeParenthesisToken));
     }
 }
