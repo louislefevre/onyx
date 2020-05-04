@@ -13,18 +13,18 @@ import static identifiers.ExpressionType.ASSIGNMENT_EXPRESSION;
 @Getter
 public final class AssignmentExpression implements Expression
 {
-    private final Token identifierToken;
+    private final IdentifierExpression identifierExpression;
     private final Token assignmentToken;
     private final Expression expression;
     private final ExpressionType expressionType;
     private final Queue<Object> children;
 
-    public AssignmentExpression(Token identifierToken, Token assignmentToken, Expression expression)
+    public AssignmentExpression(IdentifierExpression identifierExpression, Token assignmentToken, Expression expression)
     {
-        this.identifierToken = identifierToken;
+        this.identifierExpression = identifierExpression;
         this.assignmentToken = assignmentToken;
         this.expression = expression;
         this.expressionType = ASSIGNMENT_EXPRESSION;
-        this.children = new LinkedList<>(Arrays.asList(identifierToken, assignmentToken, expression));
+        this.children = new LinkedList<>(Arrays.asList(identifierExpression, assignmentToken, expression));
     }
 }

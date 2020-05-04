@@ -225,7 +225,7 @@ public final class TypeChecker
 
     private AnnotatedExpression annotateAssignmentExpression(AssignmentExpression assignmentExpression) throws Exception
     {
-        String name = assignmentExpression.getIdentifierToken().getSyntax();
+        String name = assignmentExpression.getIdentifierExpression().getIdentifierToken().getSyntax();
         AnnotatedExpression expression = annotateExpression(assignmentExpression.getExpression());
         Token assignmentToken = assignmentExpression.getAssignmentToken();
         TokenType assignmentTokenType = assignmentToken.getType();

@@ -131,11 +131,11 @@ public final class Parser
 
     private Expression parseAssignmentExpression(TokenType tokenType)
     {
-        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
+        IdentifierExpression identifierExpression = parseIdentifierExpression();
         Token assignmentToken = validateToken(tokenType);
-        Expression expression = parseExpression();
+        Expression assignmentExpression = parseExpression();
 
-        return new AssignmentExpression(identifierToken, assignmentToken, expression);
+        return new AssignmentExpression(identifierExpression, assignmentToken, assignmentExpression);
     }
 
     private Expression parseBinaryExpression(int parentPrecedence)
@@ -202,7 +202,7 @@ public final class Parser
         return new LiteralExpression(literalToken, value);
     }
 
-    private Expression parseIdentifierExpression()
+    private IdentifierExpression parseIdentifierExpression()
     {
         Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
         return new IdentifierExpression(identifierToken);
