@@ -2,17 +2,19 @@ package analysis.lexical;
 
 public final class Syntax
 {
-    // Data Types
+    // Data Type Characters
     public static final String DECIMAL_POINT_SYNTAX = ".";
-    public static final String TRUE_SYNTAX = "true";
-    public static final String FALSE_SYNTAX = "false";
     public static final String DOUBLE_QUOTES_SYNTAX = "\"";
 
-    // Keywords
+    // Reserved Words
+    public static final String TRUE_SYNTAX = "true";
+    public static final String FALSE_SYNTAX = "false";
     public static final String IF_SYNTAX = "if";
     public static final String ELSE_SYNTAX = "else";
     public static final String LOOP_SYNTAX = "loop";
     public static final String TO_SYNTAX = "to";
+    public static final String AND_SYNTAX = "and";
+    public static final String OR_SYNTAX = "or";
 
     // Separators
     public static final String OPEN_BRACE_SYNTAX = "{";
@@ -32,8 +34,6 @@ public final class Syntax
     public static final String CARET_SYNTAX = "^";
 
     // Conditional Binary Operators
-    public static final String AND_SYNTAX = "and";
-    public static final String OR_SYNTAX = "or";
     public static final String GREATER_SYNTAX = ">";
     public static final String GREATER_EQUALS_SYNTAX = ">=";
     public static final String LESS_SYNTAX = "<";

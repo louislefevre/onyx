@@ -9,11 +9,13 @@ public enum TokenType
     STRING_TOKEN,
     IDENTIFIER_TOKEN,
 
-    // Keywords
+    // Reserved Words
     IF_TOKEN,
     ELSE_TOKEN,
     LOOP_TOKEN,
     TO_TOKEN,
+    AND_TOKEN,
+    OR_TOKEN,
 
     // Separators
     OPEN_BRACE_TOKEN,
@@ -33,8 +35,6 @@ public enum TokenType
     CARET_TOKEN,
 
     // Conditional Binary Operators
-    AND_TOKEN,
-    OR_TOKEN,
     GREATER_TOKEN,
     GREATER_EQUALS_TOKEN,
     LESS_TOKEN,

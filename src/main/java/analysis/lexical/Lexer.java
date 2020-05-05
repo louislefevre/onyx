@@ -70,7 +70,7 @@ public final class Lexer
             return integerToken();
         else if (isLetter(currentChar()))
             return letterToken();
-        return symbolToken();
+        return operatorToken();
     }
 
     private Token endToken()
@@ -241,7 +241,7 @@ public final class Lexer
         return new Token(COMMENT_TOKEN, syntaxBuilder.toString(), valueBuilder.toString(), startPos);
     }
 
-    private Token symbolToken()
+    private Token operatorToken()
     {
         String currentChar = currentChar();
         String nextChar = nextChar();
