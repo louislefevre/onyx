@@ -38,7 +38,8 @@ public final class Evaluator
         {
             evaluateStatement(annotatedParseTree.getStatement());
             return lastValue;
-        } catch (Exception exception)
+        }
+        catch (Exception exception)
         {
             String errorMessage = EvaluationError.exceptionOccurred(exception);
             System.out.println(errorMessage);

@@ -61,17 +61,18 @@ public final class ExpressionBinder
 
         // Mathematical Binary Operators
         new ExpressionBind(PLUS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN, STRING_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN,
+                                           STRING_TOKEN}),
         new ExpressionBind(MINUS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(STAR_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(SLASH_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(PERCENT_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(CARET_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
 
         // Conditional Binary Operators
         new ExpressionBind(AND_TOKEN,
@@ -79,13 +80,13 @@ public final class ExpressionBinder
         new ExpressionBind(OR_TOKEN,
                            new TokenType[]{BOOLEAN_TOKEN, IDENTIFIER_TOKEN}),
         new ExpressionBind(GREATER_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(GREATER_EQUALS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(LESS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(LESS_EQUALS_TOKEN,
-                           new TokenType[]{DOUBLE_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
+                           new TokenType[]{DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN, OPEN_PARENTHESIS_TOKEN}),
         new ExpressionBind(EQUALS_EQUALS_TOKEN,
                            new TokenType[]{BOOLEAN_TOKEN, DOUBLE_TOKEN, IDENTIFIER_TOKEN, INTEGER_TOKEN,
                                            OPEN_PARENTHESIS_TOKEN, STRING_TOKEN}),
@@ -130,6 +131,8 @@ public final class ExpressionBinder
 
     public static boolean tokensNotBindable(Token current, Token next)
     {
-        return !ExpressionBinder.isBindable(current, next) && next.getType() != TokenType.EOF_TOKEN;
+        return !ExpressionBinder.isBindable(current, next) &&
+               next.getType() != TokenType.EOF_TOKEN &&
+               next.getType() != LINE_BREAK_TOKEN;
     }
 }

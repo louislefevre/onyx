@@ -24,6 +24,12 @@ public final class SyntaxError extends Error
         return new SyntaxError(span, message);
     }
 
+    public static SyntaxError unexpectedTokenPair(SourceSpan span, TokenType nextType, TokenType currentType)
+    {
+        String message = String.format("Unexpected token '%1s', not compatible with '%2s'.", nextType, currentType);
+        return new SyntaxError(span, message);
+    }
+
     public static SyntaxError unexpectedTokenMatch(SourceSpan span, TokenType actualType, TokenType expectedType)
     {
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);

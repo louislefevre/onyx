@@ -13,6 +13,8 @@ import java.util.List;
 
 import static errors.SyntaxError.unexpectedToken;
 import static errors.SyntaxError.unexpectedTokenMatch;
+import static errors.SyntaxError.unexpectedTokenPair;
+import static identifiers.TokenType.*;
 
 public final class Parser
 {
@@ -33,7 +35,9 @@ public final class Parser
 
     public ParseTree getParseTree()
     {
-        return new ParseTree(parseStatement());
+        Statement statement = parseStatement();
+        Token EOF = validateToken(EOF_TOKEN);
+        return new ParseTree(statement);
     }
 
     private Statement parseStatement()
@@ -53,30 +57,30 @@ public final class Parser
 
     private BlockStatement parseBlockStatement()
     {
-        Token openBrace = validateToken(TokenType.OPEN_BRACE_TOKEN);
+        Token openBrace = validateToken(OPEN_BRACE_TOKEN);
 
         List<Statement> statements = new ArrayList<>();
-        while (currentTokenType() != TokenType.EOF_TOKEN && currentTokenType() != TokenType.CLOSE_BRACE_TOKEN)
+        while (currentTokenType() != EOF_TOKEN && currentTokenType() != CLOSE_BRACE_TOKEN)
         {
             Statement statement = parseStatement();
             statements.add(statement);
         }
 
-        Token closeBrace = validateToken(TokenType.CLOSE_BRACE_TOKEN);
+        Token closeBrace = validateToken(CLOSE_BRACE_TOKEN);
 
         return new BlockStatement(openBrace, statements, closeBrace);
     }
 
     private ConditionalStatement parseConditionalStatement()
     {
-        Token ifToken = validateToken(TokenType.IF_TOKEN);
+        Token ifToken = validateToken(IF_TOKEN);
         Expression condition = parseExpression();
         Statement thenStatement = parseStatement();
         ConditionalStatement statement = new ConditionalStatement(ifToken, condition, thenStatement);
 
-        if (currentTokenType() == TokenType.ELSE_TOKEN)
+        if (currentTokenType() == ELSE_TOKEN)
         {
-            Token elseToken = validateToken(TokenType.ELSE_TOKEN);
+            Token elseToken = validateToken(ELSE_TOKEN);
             Statement elseStatement = parseStatement();
             statement.addElseStatement(elseToken, elseStatement);
         }
@@ -86,11 +90,11 @@ public final class Parser
 
     private LoopStatement parseLoopStatement()
     {
-        Token loopToken = validateToken(TokenType.LOOP_TOKEN);
-        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
-        Token equalsToken = validateToken(TokenType.EQUALS_TOKEN);
+        Token loopToken = validateToken(LOOP_TOKEN);
+        Token identifierToken = validateToken(IDENTIFIER_TOKEN);
+        Token equalsToken = validateToken(EQUALS_TOKEN);
         Expression lowerBound = parseExpression();
-        Token toToken = validateToken(TokenType.TO_TOKEN);
+        Token toToken = validateToken(TO_TOKEN);
         Expression upperBound = parseExpression();
         Statement body = parseStatement();
 
@@ -105,24 +109,24 @@ public final class Parser
 
     private Expression parseExpression()
     {
-        if (currentTokenType() == TokenType.IDENTIFIER_TOKEN)
+        if (currentTokenType() == IDENTIFIER_TOKEN)
         {
             switch (nextTokenType())
             {
                 case EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.EQUALS_TOKEN);
+                    return parseAssignmentExpression(EQUALS_TOKEN);
                 case PLUS_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.PLUS_EQUALS_TOKEN);
+                    return parseAssignmentExpression(PLUS_EQUALS_TOKEN);
                 case MINUS_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.MINUS_EQUALS_TOKEN);
+                    return parseAssignmentExpression(MINUS_EQUALS_TOKEN);
                 case STAR_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.STAR_EQUALS_TOKEN);
+                    return parseAssignmentExpression(STAR_EQUALS_TOKEN);
                 case SLASH_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.SLASH_EQUALS_TOKEN);
+                    return parseAssignmentExpression(SLASH_EQUALS_TOKEN);
                 case PERCENT_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.PERCENT_EQUALS_TOKEN);
+                    return parseAssignmentExpression(PERCENT_EQUALS_TOKEN);
                 case CARET_EQUALS_TOKEN:
-                    return parseAssignmentExpression(TokenType.CARET_EQUALS_TOKEN);
+                    return parseAssignmentExpression(CARET_EQUALS_TOKEN);
             }
         }
 
@@ -140,12 +144,6 @@ public final class Parser
 
     private Expression parseBinaryExpression(int parentPrecedence)
     {
-        if (ExpressionBinder.tokensNotBindable(currentToken(), nextToken()))
-        {
-            //nextPosition();
-            //return parseUnknownExpression();
-        }
-
         Expression leftOperand = parseUnaryExpression(parentPrecedence);
 
         while (true)
@@ -204,15 +202,15 @@ public final class Parser
 
     private IdentifierExpression parseIdentifierExpression()
     {
-        Token identifierToken = validateToken(TokenType.IDENTIFIER_TOKEN);
+        Token identifierToken = validateToken(IDENTIFIER_TOKEN);
         return new IdentifierExpression(identifierToken);
     }
 
     private ParenthesizedExpression parseParenthesizedExpression()
     {
-        Token openParenthesisToken = validateToken(TokenType.OPEN_PARENTHESIS_TOKEN);
+        Token openParenthesisToken = validateToken(OPEN_PARENTHESIS_TOKEN);
         Expression expression = parseExpression();
-        Token closeParenthesisToken = validateToken(TokenType.CLOSE_PARENTHESIS_TOKEN);
+        Token closeParenthesisToken = validateToken(CLOSE_PARENTHESIS_TOKEN);
 
         return new ParenthesizedExpression(openParenthesisToken, expression, closeParenthesisToken);
     }
@@ -220,7 +218,7 @@ public final class Parser
     private LiteralExpression parseUnknownExpression()
     {
         Token currentToken = currentTokenThenNext();
-        Token placeholderToken = new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(),
+        Token placeholderToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
                                            currentToken.getValue(), currentToken.getPosition());
 
         SyntaxError error = unexpectedToken(currentToken.getSpan(), currentToken.getType());
@@ -238,7 +236,7 @@ public final class Parser
         SyntaxError error = unexpectedTokenMatch(currentToken.getSpan(), currentToken.getType(), type);
         errorHandler.addError(error);
 
-        return new Token(TokenType.BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
+        return new Token(BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
     }
 
     private TokenType currentTokenType()
@@ -253,7 +251,23 @@ public final class Parser
 
     private Token currentToken()
     {
-        return peek(0);
+        Token current = peek(0);
+
+        while (current.getType() == LINE_BREAK_TOKEN)
+        {
+            nextPosition();
+            current = peek(0);
+        }
+
+        Token next = nextToken();
+        if (ExpressionBinder.tokensNotBindable(current, next))
+        {
+            SyntaxError error = unexpectedTokenPair(next.getSpan(), next.getType(), current.getType());
+            errorHandler.addError(error);
+            nextPosition();
+        }
+
+        return current;
     }
 
     private Token nextToken()

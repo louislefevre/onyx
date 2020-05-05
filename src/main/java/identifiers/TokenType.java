@@ -53,6 +53,7 @@ public enum TokenType
 
     // Break Tokens
     BAD_TOKEN,
+    LINE_BREAK_TOKEN,
     EOF_TOKEN,
 
     // Not-parsed Tokens

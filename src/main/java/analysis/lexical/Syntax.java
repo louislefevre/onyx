@@ -1,6 +1,6 @@
 package analysis.lexical;
 
-public class Syntax
+public final class Syntax
 {
     // Data Types
     public static final String DECIMAL_POINT_SYNTAX = ".";
@@ -51,6 +51,7 @@ public class Syntax
     public static final String CARET_EQUALS_SYNTAX = "^=";
 
     // Break Syntax
+    public static final String LINE_BREAK_SYNTAX = System.getProperty("line.separator");
     public static final String EOF_SYNTAX = "\0";
 
     // Not-parsed Syntax

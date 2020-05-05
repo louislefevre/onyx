@@ -62,6 +62,8 @@ public final class Lexer
     {
         if (position >= sourceText.length())
             return endToken();
+        else if (isLineBreak(currentChar()))
+            return lineBreakToken();
         else if (isWhitespace(currentChar()))
             return whitespaceToken();
         else if (isDigit(currentChar()))
@@ -74,6 +76,11 @@ public final class Lexer
     private Token endToken()
     {
         return new Token(EOF_TOKEN, EOF_SYNTAX, position);
+    }
+
+    private Token lineBreakToken()
+    {
+        return new Token(LINE_BREAK_TOKEN, LINE_BREAK_SYNTAX, currentPositionThenNext(1));
     }
 
     private Token whitespaceToken()
@@ -336,6 +343,11 @@ public final class Lexer
         int currentPos = position;
         position += increment;
         return currentPos;
+    }
+
+    private static boolean isLineBreak(String str)
+    {
+        return str.equals(LINE_BREAK_SYNTAX);
     }
 
     private static boolean isWhitespace(String str)
