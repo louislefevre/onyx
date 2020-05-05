@@ -3,6 +3,7 @@ package analysis.syntax;
 import identifiers.TokenType;
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public final class ExpressionBind
 {

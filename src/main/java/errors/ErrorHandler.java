@@ -51,7 +51,7 @@ public final class ErrorHandler
             String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
             String prefixSyntax, errorSyntax, suffixSyntax, fullSyntax;
 
-            if (errorEnd > sourceInput.length()) // Handles unexpected EOF_TOKEN errors
+            if (errorEnd > sourceInput.length() || lineEnd < errorEnd) // Handles unexpected EOF_TOKEN and LINE_BREAK_TOKEN errors
             {
                 prefixSyntax = sourceInput.substring(lineStart, lineEnd);
                 errorSyntax = "_";

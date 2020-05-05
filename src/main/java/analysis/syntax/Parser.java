@@ -11,9 +11,8 @@ import symbols.SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static errors.SyntaxError.unexpectedToken;
-import static errors.SyntaxError.unexpectedTokenMatch;
-import static errors.SyntaxError.unexpectedTokenPair;
+import static errors.SyntaxError.invalidToken;
+import static errors.SyntaxError.invalidTokenPair;
 import static identifiers.TokenType.*;
 
 public final class Parser
@@ -36,7 +35,8 @@ public final class Parser
     public ParseTree getParseTree()
     {
         Statement statement = parseStatement();
-        Token EOF = validateToken(EOF_TOKEN);
+        validateToken(LINE_BREAK_TOKEN);
+        validateToken(EOF_TOKEN);
         return new ParseTree(statement);
     }
 
@@ -58,6 +58,7 @@ public final class Parser
     private BlockStatement parseBlockStatement()
     {
         Token openBrace = validateToken(OPEN_BRACE_TOKEN);
+        validateToken(LINE_BREAK_TOKEN);
 
         List<Statement> statements = new ArrayList<>();
         while (currentTokenType() != EOF_TOKEN && currentTokenType() != CLOSE_BRACE_TOKEN)
@@ -67,6 +68,7 @@ public final class Parser
         }
 
         Token closeBrace = validateToken(CLOSE_BRACE_TOKEN);
+        validateToken(LINE_BREAK_TOKEN);
 
         return new BlockStatement(openBrace, statements, closeBrace);
     }
@@ -75,12 +77,14 @@ public final class Parser
     {
         Token ifToken = validateToken(IF_TOKEN);
         Expression condition = parseExpression();
+        validateToken(LINE_BREAK_TOKEN);
         Statement thenStatement = parseStatement();
         ConditionalStatement statement = new ConditionalStatement(ifToken, condition, thenStatement);
 
         if (currentTokenType() == ELSE_TOKEN)
         {
             Token elseToken = validateToken(ELSE_TOKEN);
+            validateToken(LINE_BREAK_TOKEN);
             Statement elseStatement = parseStatement();
             statement.addElseStatement(elseToken, elseStatement);
         }
@@ -96,6 +100,7 @@ public final class Parser
         Expression lowerBound = parseExpression();
         Token toToken = validateToken(TO_TOKEN);
         Expression upperBound = parseExpression();
+        validateToken(LINE_BREAK_TOKEN);
         Statement body = parseStatement();
 
         return new LoopStatement(loopToken, identifierToken, equalsToken, lowerBound, toToken, upperBound, body);
@@ -104,6 +109,7 @@ public final class Parser
     private ExpressionStatement parseExpressionStatement()
     {
         Expression expression = parseExpression();
+        validateToken(LINE_BREAK_TOKEN);
         return new ExpressionStatement(expression);
     }
 
@@ -221,7 +227,7 @@ public final class Parser
         Token placeholderToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
                                            currentToken.getValue(), currentToken.getPosition());
 
-        SyntaxError error = unexpectedToken(currentToken.getSpan(), currentToken.getType());
+        SyntaxError error = invalidToken(currentToken.getSpan(), currentToken.getType());
         errorHandler.addError(error);
 
         return new LiteralExpression(placeholderToken, null);
@@ -233,7 +239,7 @@ public final class Parser
         if (currentToken.getType() == type)
             return currentTokenThenNext();
 
-        SyntaxError error = unexpectedTokenMatch(currentToken.getSpan(), currentToken.getType(), type);
+        SyntaxError error = invalidTokenPair(currentToken.getSpan(), currentToken.getType(), type);
         errorHandler.addError(error);
 
         return new Token(BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
@@ -251,23 +257,7 @@ public final class Parser
 
     private Token currentToken()
     {
-        Token current = peek(0);
-
-        while (current.getType() == LINE_BREAK_TOKEN)
-        {
-            nextPosition();
-            current = peek(0);
-        }
-
-        Token next = nextToken();
-        if (ExpressionBinder.tokensNotBindable(current, next))
-        {
-            SyntaxError error = unexpectedTokenPair(next.getSpan(), next.getType(), current.getType());
-            errorHandler.addError(error);
-            nextPosition();
-        }
-
-        return current;
+        return peek(0);
     }
 
     private Token nextToken()
@@ -281,11 +271,6 @@ public final class Parser
         if (index >= tokens.size())
             return tokens.get(tokens.size() - 1);
         return tokens.get(index);
-    }
-
-    private void nextPosition()
-    {
-        position++;
     }
 
     private Token currentTokenThenNext()

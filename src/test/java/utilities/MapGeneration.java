@@ -185,19 +185,19 @@ class MapGeneration
     static HashMap<String[], Object> assignmentOperatorsCollection()
     {
         HashMap<String[], Object> assignmentOperators = new HashMap<>();
-        assignmentOperators.put(new String[]{"a=20", "a+=10"}, 30);
-        assignmentOperators.put(new String[]{"a=20", "a-=10"}, 10);
-        assignmentOperators.put(new String[]{"a=20", "a*=10"}, 200);
-        assignmentOperators.put(new String[]{"a=20", "a/=10"}, 2);
-        assignmentOperators.put(new String[]{"a=20", "a%=12"}, 8);
-        assignmentOperators.put(new String[]{"a=10", "a^=2"}, 100);
-        assignmentOperators.put(new String[]{"a=20.5", "a+=10.5"}, 31.0);
-        assignmentOperators.put(new String[]{"a=20.5", "a-=10.5"}, 10.0);
-        assignmentOperators.put(new String[]{"a=20.0", "a*=10.0"}, 200.0);
-        assignmentOperators.put(new String[]{"a=20.0", "a/=10.0"}, 2.0);
-        assignmentOperators.put(new String[]{"a=20.0", "a%=12.0"}, 8.0);
-        assignmentOperators.put(new String[]{"a=10.0", "a^=2.0"}, 100.0);
-        assignmentOperators.put(new String[]{"a=\"string\"", "a+=\" string\""}, "string string");
+        assignmentOperators.put(new String[]{"a=20\n\n", "a+=10\n\n"}, 30);
+        assignmentOperators.put(new String[]{"a=20\n\n", "a-=10\n\n"}, 10);
+        assignmentOperators.put(new String[]{"a=20\n\n", "a*=10\n\n"}, 200);
+        assignmentOperators.put(new String[]{"a=20\n\n", "a/=10\n\n"}, 2);
+        assignmentOperators.put(new String[]{"a=20\n\n", "a%=12\n\n"}, 8);
+        assignmentOperators.put(new String[]{"a=10\n\n", "a^=2\n\n"}, 100);
+        assignmentOperators.put(new String[]{"a=20.5\n\n", "a+=10.5\n\n"}, 31.0);
+        assignmentOperators.put(new String[]{"a=20.5\n\n", "a-=10.5\n\n"}, 10.0);
+        assignmentOperators.put(new String[]{"a=20.0\n\n", "a*=10.0\n\n"}, 200.0);
+        assignmentOperators.put(new String[]{"a=20.0\n\n", "a/=10.0\n\n"}, 2.0);
+        assignmentOperators.put(new String[]{"a=20.0\n\n", "a%=12.0\n\n"}, 8.0);
+        assignmentOperators.put(new String[]{"a=10.0\n\n", "a^=2.0\n\n"}, 100.0);
+        assignmentOperators.put(new String[]{"a=\"string\"\n\n", "a+=\" string\"\n\n"}, "string string");
 
         return assignmentOperators;
     }
@@ -205,22 +205,22 @@ class MapGeneration
     static HashMap<String[], Object> reassignmentCollection()
     {
         HashMap<String[], Object> reassignmentCollection = new HashMap<>();
-        reassignmentCollection.put(new String[]{"a=20", "a=10"}, 10);
-        reassignmentCollection.put(new String[]{"a=20", "a=10.0"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=20", "a=false"}, false);
-        reassignmentCollection.put(new String[]{"a=20", "a=\"string\""}, "string");
-        reassignmentCollection.put(new String[]{"a=20.0", "a=10"}, 10);
-        reassignmentCollection.put(new String[]{"a=20.0", "a=10.0"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=20.0", "a=false"}, false);
-        reassignmentCollection.put(new String[]{"a=20.0", "a=\"string\""}, "string");
-        reassignmentCollection.put(new String[]{"a=true", "a=10"}, 10);
-        reassignmentCollection.put(new String[]{"a=true", "a=10.0"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=true", "a=false"}, false);
-        reassignmentCollection.put(new String[]{"a=true", "a=\"string\""}, "string");
-        reassignmentCollection.put(new String[]{"a=\"string\"", "a=10"}, 10);
-        reassignmentCollection.put(new String[]{"a=\"string\"", "a=10.0"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=\"string\"", "a=false"}, false);
-        reassignmentCollection.put(new String[]{"a=\"string\"", "a=\"string\""}, "string");
+        reassignmentCollection.put(new String[]{"a=20\n\n", "a=10\n\n"}, 10);
+        reassignmentCollection.put(new String[]{"a=20\n\n", "a=10.0\n\n"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=20\n\n", "a=false\n\n"}, false);
+        reassignmentCollection.put(new String[]{"a=20\n\n", "a=\"string\"\n\n"}, "string");
+        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=10\n\n"}, 10);
+        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=10.0\n\n"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=false\n\n"}, false);
+        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=\"string\"\n\n"}, "string");
+        reassignmentCollection.put(new String[]{"a=true\n\n", "a=10\n\n"}, 10);
+        reassignmentCollection.put(new String[]{"a=true\n\n", "a=10.0\n\n"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=true\n\n", "a=false\n\n"}, false);
+        reassignmentCollection.put(new String[]{"a=true\n\n", "a=\"string\"\n\n"}, "string");
+        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=10\n\n"}, 10);
+        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=10.0\n\n"}, 10.0);
+        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=false\n\n"}, false);
+        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=\"string\"\n\n"}, "string");
 
         return reassignmentCollection;
     }
@@ -291,13 +291,13 @@ class MapGeneration
 
         input = "(";
         span = new SourceSpan(1, 1);
-        error = SyntaxError.unexpectedTokenMatch(span, TokenType.EOF_TOKEN, TokenType.CLOSE_PARENTHESIS_TOKEN);
+        error = SyntaxError.invalidTokenPair(span, TokenType.EOF_TOKEN, TokenType.CLOSE_PARENTHESIS_TOKEN);
         output = getErrorOutput(input, error);
         syntaxErrors.put(input, output);
 
         input = "{";
         span = new SourceSpan(1, 1);
-        error = SyntaxError.unexpectedTokenMatch(span, TokenType.EOF_TOKEN, TokenType.CLOSE_BRACE_TOKEN);
+        error = SyntaxError.invalidTokenPair(span, TokenType.EOF_TOKEN, TokenType.CLOSE_BRACE_TOKEN);
         output = getErrorOutput(input, error);
         syntaxErrors.put(input, output);
 

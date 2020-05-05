@@ -18,19 +18,13 @@ public final class SyntaxError extends Error
         this.errorType = SYNTAX_ERROR;
     }
 
-    public static SyntaxError unexpectedToken(SourceSpan span, TokenType type)
+    public static SyntaxError invalidToken(SourceSpan span, TokenType type)
     {
         String message = String.format("Unexpected token '%s'.", type);
         return new SyntaxError(span, message);
     }
 
-    public static SyntaxError unexpectedTokenPair(SourceSpan span, TokenType nextType, TokenType currentType)
-    {
-        String message = String.format("Unexpected token '%1s', not compatible with '%2s'.", nextType, currentType);
-        return new SyntaxError(span, message);
-    }
-
-    public static SyntaxError unexpectedTokenMatch(SourceSpan span, TokenType actualType, TokenType expectedType)
+    public static SyntaxError invalidTokenPair(SourceSpan span, TokenType actualType, TokenType expectedType)
     {
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
         return new SyntaxError(span, message);
