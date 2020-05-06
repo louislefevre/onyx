@@ -22,6 +22,8 @@ public final class Parser
     private final ErrorHandler errorHandler;
     @Getter
     private final SymbolTable symbolTable;
+    @Getter
+    private final boolean replMode;
     private int position;
 
     public Parser(Lexer lexer)
@@ -29,15 +31,39 @@ public final class Parser
         this.tokens = lexer.getTokens();
         this.errorHandler = lexer.getErrorHandler();
         this.symbolTable = lexer.getSymbolTable();
+        this.replMode = lexer.isReplMode();
         this.position = 0;
     }
 
     public ParseTree getParseTree()
     {
-        Statement statement = parseStatement();
-        validateToken(LINE_BREAK_TOKEN);
-        validateToken(EOF_TOKEN);
+        Statement statement = replMode ? replTree() : ideTree();
         return new ParseTree(statement);
+    }
+
+    private Statement replTree()
+    {
+        Expression expression = parseExpression();
+        return new ExpressionStatement(expression);
+    }
+
+    private Statement ideTree()
+    {
+        List<Statement> statements = new ArrayList<>();
+        while (currentTokenType() != EOF_TOKEN)
+        {
+            if (currentTokenType() == LINE_BREAK_TOKEN)
+            {
+                position++;
+                continue;
+            }
+
+            Statement statement = parseStatement();
+            statements.add(statement);
+        }
+        Token endToken = validateToken(EOF_TOKEN);
+
+        return new SourceStatement(statements, endToken);
     }
 
     private Statement parseStatement()

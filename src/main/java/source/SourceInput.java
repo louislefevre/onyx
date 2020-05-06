@@ -13,13 +13,15 @@ public final class SourceInput
     private final String sourceText;
     private final SymbolTable symbolTable;
     private final ErrorHandler errorHandler;
+    private final boolean replMode;
     private final List<SourceLine> sourceLines;
 
-    public SourceInput(String sourceText, SymbolTable symbolTable, ErrorHandler errorHandler)
+    public SourceInput(String sourceText, SymbolTable symbolTable, ErrorHandler errorHandler, boolean replMode)
     {
         this.sourceText = sourceText;
         this.symbolTable = symbolTable;
         this.errorHandler = errorHandler;
+        this.replMode = replMode;
         this.sourceLines = parseLines(sourceText);
         errorHandler.setSourceInput(this);
     }

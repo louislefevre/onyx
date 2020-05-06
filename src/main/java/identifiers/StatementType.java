@@ -2,6 +2,7 @@ package identifiers;
 
 public enum StatementType
 {
+    SOURCE_STATEMENT,
     EXPRESSION_STATEMENT,
     BLOCK_STATEMENT,
     CONDITIONAL_STATEMENT,

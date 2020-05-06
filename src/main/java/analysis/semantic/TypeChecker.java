@@ -16,14 +16,19 @@ import java.util.List;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
+    @Getter
+    private final ErrorHandler errorHandler;
+    @Getter
+    private final SymbolTable symbolTable;
+    @Getter
+    private final boolean replMode;
 
     public TypeChecker(Parser parser)
     {
         this.parseTree = parser.getParseTree();
         this.errorHandler = parser.getErrorHandler();
         this.symbolTable = parser.getSymbolTable();
+        this.replMode = parser.isReplMode();
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()
@@ -49,10 +54,12 @@ public final class TypeChecker
     {
         switch (statement.getStatementType())
         {
-            case BLOCK_STATEMENT:
-                return annotateBlockStatement((BlockStatement) statement);
+            case SOURCE_STATEMENT:
+                return annotatedSourceStatement((SourceStatement) statement);
             case EXPRESSION_STATEMENT:
                 return annotateExpressionStatement((ExpressionStatement) statement);
+            case BLOCK_STATEMENT:
+                return annotateBlockStatement((BlockStatement) statement);
             case CONDITIONAL_STATEMENT:
                 return annotateConditionalStatement((ConditionalStatement) statement);
             case LOOP_STATEMENT:
@@ -61,6 +68,27 @@ public final class TypeChecker
                 String errorMessage = SemanticError.undefinedStatement(statement.getStatementType().toString());
                 throw new Exception(errorMessage);
         }
+    }
+
+    private AnnotatedStatement annotatedSourceStatement(SourceStatement sourceStatement) throws Exception
+    {
+        List<AnnotatedStatement> statements = new ArrayList<>();
+
+        for (Statement statement : sourceStatement.getStatements())
+        {
+            AnnotatedStatement annotatedStatement = annotateStatement(statement);
+            statements.add(annotatedStatement);
+        }
+
+        return new AnnotatedSourceStatement(statements);
+    }
+
+    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement expressionStatement) throws Exception
+    {
+        Expression expression = expressionStatement.getExpression();
+        AnnotatedExpression annotatedExpression = annotateExpression(expression);
+
+        return new AnnotatedExpressionStatement(annotatedExpression);
     }
 
     private AnnotatedStatement annotateBlockStatement(BlockStatement blockStatement) throws Exception
@@ -74,14 +102,6 @@ public final class TypeChecker
         }
 
         return new AnnotatedBlockStatement(statements);
-    }
-
-    private AnnotatedStatement annotateExpressionStatement(ExpressionStatement expressionStatement) throws Exception
-    {
-        Expression expression = expressionStatement.getExpression();
-        AnnotatedExpression annotatedExpression = annotateExpression(expression);
-
-        return new AnnotatedExpressionStatement(annotatedExpression);
     }
 
     private AnnotatedStatement annotateConditionalStatement(ConditionalStatement conditionalStatement) throws Exception

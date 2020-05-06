@@ -24,13 +24,16 @@ public final class Lexer
     private final ErrorHandler errorHandler;
     @Getter
     private final SymbolTable symbolTable;
+    @Getter
+    private final boolean replMode;
     private int position;
 
-    public Lexer(SourceInput sourceText)
+    public Lexer(SourceInput sourceInput)
     {
-        this.sourceText = sourceText.getSourceText();
-        this.errorHandler = sourceText.getErrorHandler();
-        this.symbolTable = sourceText.getSymbolTable();
+        this.sourceText = sourceInput.getSourceText();
+        this.errorHandler = sourceInput.getErrorHandler();
+        this.symbolTable = sourceInput.getSymbolTable();
+        this.replMode = sourceInput.isReplMode();
         this.position = 0;
     }
 

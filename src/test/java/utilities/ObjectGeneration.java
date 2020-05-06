@@ -24,7 +24,8 @@ class ObjectGeneration
     {
         ErrorHandler errorHandler = new ErrorHandler();
         SymbolTable symbolTable = new SymbolTable();
-        return new SourceInput(input, symbolTable, errorHandler);
+        boolean replMode = false;
+        return new SourceInput(input, symbolTable, errorHandler, false);
     }
 
     static Lexer createLexer(String input)

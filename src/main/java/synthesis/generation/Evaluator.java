@@ -18,6 +18,8 @@ public final class Evaluator
     private final ErrorHandler errorHandler;
     @Getter
     private final SymbolTable symbolTable;
+    @Getter
+    private final boolean replMode;
     private Object lastValue;
 
     public Evaluator(TypeChecker typeChecker)
@@ -25,6 +27,7 @@ public final class Evaluator
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
         this.errorHandler = typeChecker.getErrorHandler();
         this.symbolTable = typeChecker.getSymbolTable();
+        this.replMode = typeChecker.isReplMode();
     }
 
     public Object getEvaluation()
@@ -53,11 +56,14 @@ public final class Evaluator
 
         switch (statementType)
         {
-            case ANNOTATED_BLOCK_STATEMENT:
-                evaluateBlockStatement((AnnotatedBlockStatement) statement);
+            case ANNOTATED_SOURCE_STATEMENT:
+                evaluateSourceStatement((AnnotatedSourceStatement) statement);
                 break;
             case ANNOTATED_EXPRESSION_STATEMENT:
                 evaluateExpressionStatement((AnnotatedExpressionStatement) statement);
+                break;
+            case ANNOTATED_BLOCK_STATEMENT:
+                evaluateBlockStatement((AnnotatedBlockStatement) statement);
                 break;
             case ANNOTATED_CONDITIONAL_STATEMENT:
                 evaluateConditionalStatement((AnnotatedConditionalStatement) statement);
@@ -71,9 +77,9 @@ public final class Evaluator
         }
     }
 
-    private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws Exception
+    private void evaluateSourceStatement(AnnotatedSourceStatement sourceStatement) throws Exception
     {
-        for (AnnotatedStatement statement : blockStatement.getStatements())
+        for (AnnotatedStatement statement : sourceStatement.getStatements())
             evaluateStatement(statement);
     }
 
@@ -81,6 +87,12 @@ public final class Evaluator
     {
         AnnotatedExpression expression = expressionStatement.getExpression();
         lastValue = evaluateExpression(expression);
+    }
+
+    private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws Exception
+    {
+        for (AnnotatedStatement statement : blockStatement.getStatements())
+            evaluateStatement(statement);
     }
 
     private void evaluateConditionalStatement(AnnotatedConditionalStatement conditionalStatement) throws Exception

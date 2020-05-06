@@ -1,21 +1,10 @@
-import compilation.Ide;
-import compilation.Repl;
+import compilation.Compiler;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        boolean replMode = false;
-
-        if (replMode)
-        {
-            Repl repl = new Repl();
-            repl.run();
-        }
-        else
-        {
-            Ide ide = new Ide();
-            ide.run();
-        }
+        Compiler compiler = new Compiler();
+        compiler.run(false);
     }
 }
