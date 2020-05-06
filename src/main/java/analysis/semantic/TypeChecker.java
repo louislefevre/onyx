@@ -111,8 +111,9 @@ public final class TypeChecker
 
     private AnnotatedStatement annotateConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
     {
-        AnnotatedExpression condition = annotateExpression(conditionalStatement.getCondition());
-        validateExpressionType(conditionalStatement.getIfToken().getSpan(), condition.getObjectType(), BOOLEAN_OBJECT);
+        Expression expression = conditionalStatement.getCondition();
+        AnnotatedExpression condition = annotateExpression(expression);
+        validateExpressionType(expression.getSpan(), condition.getObjectType(), BOOLEAN_OBJECT);
 
         AnnotatedStatement thenStatement = annotateStatement(conditionalStatement.getThenStatement());
 
@@ -133,11 +134,9 @@ public final class TypeChecker
         ObjectType upperType = upperBound.getObjectType();
 
         // Both need to be int or double, both need to match
-        validateExpressionType(loopStatement.getLoopToken().getSpan(), lowerType, INTEGER_OBJECT, DOUBLE_OBJECT);
-        validateExpressionType(loopStatement.getLoopToken().getSpan(), upperType, INTEGER_OBJECT, DOUBLE_OBJECT);
-
-        if (lowerType != upperType)
-            validateExpressionType(loopStatement.getLoopToken().getSpan(), upperType, lowerType);
+        validateExpressionType(loopStatement.getLowerBound().getSpan(), lowerType, INTEGER_OBJECT, DOUBLE_OBJECT);
+        validateExpressionType(loopStatement.getUpperBound().getSpan(), upperType, INTEGER_OBJECT, DOUBLE_OBJECT);
+        validateExpressionType(loopStatement.getUpperBound().getSpan(), upperType, lowerType);
 
         AnnotatedStatement body = annotateStatement(loopStatement.getBody());
 

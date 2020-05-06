@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.ExpressionType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ public final class LiteralExpression implements Expression
     private final Token literalToken;
     private final Object value;
     private final ExpressionType expressionType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public LiteralExpression(Token literalToken, Object value)
@@ -23,6 +25,7 @@ public final class LiteralExpression implements Expression
         this.literalToken = literalToken;
         this.value = value;
         this.expressionType = LITERAL_EXPRESSION;
+        this.span = SourceSpan.inRange(literalToken.getSpan().getStart(), literalToken.getSpan().getEnd());
         this.children = new LinkedList<>(Collections.singletonList(literalToken));
     }
 }

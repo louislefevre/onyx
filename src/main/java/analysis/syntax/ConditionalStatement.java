@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.StatementType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ public final class ConditionalStatement implements Statement
     private final Statement thenStatement;
     private ElseStatement elseStatement;
     private final StatementType statementType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public ConditionalStatement(Token ifToken, Expression condition, Statement thenStatement)
@@ -28,6 +30,7 @@ public final class ConditionalStatement implements Statement
         this.thenStatement = thenStatement;
         this.elseStatement = null;
         this.statementType = CONDITIONAL_STATEMENT;
+        this.span = SourceSpan.inRange(ifToken.getSpan().getStart(), condition.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(ifToken, condition, thenStatement));
     }
 
@@ -48,6 +51,7 @@ public final class ConditionalStatement implements Statement
         private final Token elseToken;
         private final Statement statement;
         private final StatementType statementType;
+        private final SourceSpan span;
         private final Queue<Object> children;
 
         public ElseStatement(Token elseToken, Statement statement)
@@ -55,6 +59,7 @@ public final class ConditionalStatement implements Statement
             this.elseToken = elseToken;
             this.statement = statement;
             this.statementType = ELSE_STATEMENT;
+            this.span = SourceSpan.inRange(elseToken.getSpan().getStart(), elseToken.getSpan().getEnd());
             this.children = new LinkedList<>(Arrays.asList(elseToken, statement));
         }
     }

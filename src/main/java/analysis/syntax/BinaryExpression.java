@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.ExpressionType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public final class BinaryExpression implements Expression
     private final Token operatorToken;
     private final Expression rightOperand;
     private final ExpressionType expressionType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public BinaryExpression(Expression leftOperand, Token operatorToken, Expression rightOperand)
@@ -25,6 +27,7 @@ public final class BinaryExpression implements Expression
         this.operatorToken = operatorToken;
         this.rightOperand = rightOperand;
         this.expressionType = BINARY_EXPRESSION;
+        this.span = SourceSpan.inRange(leftOperand.getSpan().getStart(), rightOperand.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(leftOperand, operatorToken, rightOperand));
     }
 }

@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.StatementType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public final class SourceStatement implements Statement
     private final List<Statement> statements;
     private final Token endToken;
     private final StatementType statementType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public SourceStatement(List<Statement> statements, Token endToken)
@@ -24,6 +26,7 @@ public final class SourceStatement implements Statement
         this.statements = statements;
         this.endToken = endToken;
         this.statementType = SOURCE_STATEMENT;
+        this.span = SourceSpan.inRange(statements.get(0).getSpan().getStart(), endToken.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(statements, endToken));
     }
 }

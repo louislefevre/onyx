@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.StatementType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ public final class LoopStatement implements Statement
     private final Expression upperBound;
     private final Statement body;
     private final StatementType statementType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public LoopStatement(Token loopToken, Expression lowerBound, Token toToken, Expression upperBound, Statement body)
@@ -29,6 +31,7 @@ public final class LoopStatement implements Statement
         this.upperBound = upperBound;
         this.body = body;
         this.statementType = LOOP_STATEMENT;
+        this.span = SourceSpan.inRange(loopToken.getSpan().getStart(), upperBound.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(loopToken, lowerBound, toToken, upperBound, body));
     }
 }

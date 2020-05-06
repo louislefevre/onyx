@@ -3,6 +3,7 @@ package analysis.syntax;
 import analysis.lexical.Token;
 import identifiers.ExpressionType;
 import lombok.Getter;
+import source.SourceSpan;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public final class AssignmentExpression implements Expression
     private final Token assignmentToken;
     private final Expression expression;
     private final ExpressionType expressionType;
+    private final SourceSpan span;
     private final Queue<Object> children;
 
     public AssignmentExpression(IdentifierExpression identifierExpression, Token assignmentToken, Expression expression)
@@ -25,6 +27,7 @@ public final class AssignmentExpression implements Expression
         this.assignmentToken = assignmentToken;
         this.expression = expression;
         this.expressionType = ASSIGNMENT_EXPRESSION;
+        this.span = SourceSpan.inRange(identifierExpression.getSpan().getStart(), expression.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(identifierExpression, assignmentToken, expression));
     }
 }

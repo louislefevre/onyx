@@ -180,7 +180,7 @@ public final class Lexer
             case LOOP_SYNTAX:
                 return new Token(LOOP_TOKEN, LOOP_SYNTAX, pos);
             case FROM_SYNTAX: // Pseudo for equals
-                return new Token(EQUALS_TOKEN, EQUALS_SYNTAX, pos);
+                return new Token(EQUALS_TOKEN, FROM_SYNTAX, pos);
             case TO_SYNTAX:
                 return new Token(TO_TOKEN, TO_SYNTAX, pos);
             default:
