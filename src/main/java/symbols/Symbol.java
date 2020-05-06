@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 public final class Symbol
 {
+    private static final int HISTORY_LIMIT = 5;
     private final String name;
     @Setter private Object value;
     @Setter private ObjectType type;
@@ -25,6 +26,8 @@ public final class Symbol
 
     public void addHistoryValue(Object value)
     {
+        if(valueHistory.size() >= HISTORY_LIMIT)
+            valueHistory.remove(0);
         valueHistory.add(value);
     }
 }
