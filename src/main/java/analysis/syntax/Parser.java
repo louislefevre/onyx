@@ -121,15 +121,13 @@ public final class Parser
     private LoopStatement parseLoopStatement()
     {
         Token loopToken = validateToken(LOOP_TOKEN);
-        Token identifierToken = validateToken(IDENTIFIER_TOKEN);
-        Token equalsToken = validateToken(EQUALS_TOKEN);
         Expression lowerBound = parseExpression();
         Token toToken = validateToken(TO_TOKEN);
         Expression upperBound = parseExpression();
         validateToken(LINE_BREAK_TOKEN);
         Statement body = parseStatement();
 
-        return new LoopStatement(loopToken, identifierToken, equalsToken, lowerBound, toToken, upperBound, body);
+        return new LoopStatement(loopToken, lowerBound, toToken, upperBound, body);
     }
 
     private ExpressionStatement parseExpressionStatement()

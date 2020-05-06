@@ -7,11 +7,16 @@ import errors.SemanticError;
 import identifiers.ObjectType;
 import identifiers.TokenType;
 import lombok.Getter;
-import symbols.Symbol;
+import source.SourceSpan;
 import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static identifiers.ObjectType.BOOLEAN_OBJECT;
+import static identifiers.ObjectType.DOUBLE_OBJECT;
+import static identifiers.ObjectType.INTEGER_OBJECT;
+import static identifiers.ObjectType.NULL_OBJECT;
 
 public final class TypeChecker
 {
@@ -107,14 +112,7 @@ public final class TypeChecker
     private AnnotatedStatement annotateConditionalStatement(ConditionalStatement conditionalStatement) throws Exception
     {
         AnnotatedExpression condition = annotateExpression(conditionalStatement.getCondition());
-
-        if (condition.getObjectType() != ObjectType.BOOLEAN_OBJECT)
-        {
-            SemanticError error = SemanticError.invalidConditionalTypes(conditionalStatement.getIfToken().getSpan(),
-                                                                        condition.getObjectType(),
-                                                                        ObjectType.BOOLEAN_OBJECT);
-            errorHandler.addError(error);
-        }
+        validateExpressionType(conditionalStatement.getIfToken().getSpan(), condition.getObjectType(), BOOLEAN_OBJECT);
 
         AnnotatedStatement thenStatement = annotateStatement(conditionalStatement.getThenStatement());
 
@@ -129,31 +127,21 @@ public final class TypeChecker
 
     private AnnotatedStatement annotateLoopStatement(LoopStatement loopStatement) throws Exception
     {
-        String name = loopStatement.getIdentifierToken().getSyntax();
         AnnotatedExpression lowerBound = annotateExpression(loopStatement.getLowerBound());
         AnnotatedExpression upperBound = annotateExpression(loopStatement.getUpperBound());
+        ObjectType lowerType = lowerBound.getObjectType();
+        ObjectType upperType = upperBound.getObjectType();
 
-        if (lowerBound.getObjectType() != ObjectType.INTEGER_OBJECT)
-        {
-            SemanticError error = SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
-                                                                        lowerBound.getObjectType(),
-                                                                        ObjectType.INTEGER_OBJECT);
-            errorHandler.addError(error);
-        }
-        if (upperBound.getObjectType() != ObjectType.INTEGER_OBJECT)
-        {
-            SemanticError error = SemanticError.invalidConditionalTypes(loopStatement.getLoopToken().getSpan(),
-                                                                        upperBound.getObjectType(),
-                                                                        ObjectType.INTEGER_OBJECT);
-            errorHandler.addError(error);
-        }
+        // Both need to be int or double, both need to match
+        validateExpressionType(loopStatement.getLoopToken().getSpan(), lowerType, INTEGER_OBJECT, DOUBLE_OBJECT);
+        validateExpressionType(loopStatement.getLoopToken().getSpan(), upperType, INTEGER_OBJECT, DOUBLE_OBJECT);
 
-        Symbol symbol = new Symbol(name, null, ObjectType.INTEGER_OBJECT);
-        symbolTable.addSymbol(symbol);
+        if (lowerType != upperType)
+            validateExpressionType(loopStatement.getLoopToken().getSpan(), upperType, lowerType);
 
         AnnotatedStatement body = annotateStatement(loopStatement.getBody());
 
-        return new AnnotatedLoopStatement(symbol, lowerBound, upperBound, body);
+        return new AnnotatedLoopStatement(lowerBound, upperBound, body);
     }
 
     private AnnotatedExpression annotateExpression(Expression expression) throws Exception
@@ -249,7 +237,7 @@ public final class TypeChecker
         AnnotatedExpression expression = annotateExpression(assignmentExpression.getExpression());
         Token assignmentToken = assignmentExpression.getAssignmentToken();
         TokenType assignmentTokenType = assignmentToken.getType();
-        ObjectType symbolType = symbolTable.containsSymbol(name) ? symbolTable.getSymbol(name).getType() : ObjectType.NULL_OBJECT;
+        ObjectType symbolType = symbolTable.containsSymbol(name) ? symbolTable.getSymbol(name).getType() : NULL_OBJECT;
         ObjectType assignmentType = expression.getObjectType();
         AnnotatedAssignmentOperator operator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
 
@@ -263,5 +251,15 @@ public final class TypeChecker
         }
 
         return new AnnotatedAssignmentExpression(name, operator, expression);
+    }
+
+    private void validateExpressionType(SourceSpan span, ObjectType actualType, ObjectType... targetTypes)
+    {
+        for (ObjectType type : targetTypes)
+            if (actualType == type)
+                return;
+
+        SemanticError error = SemanticError.invalidExpressionTypes(span, actualType, targetTypes);
+        errorHandler.addError(error);
     }
 }

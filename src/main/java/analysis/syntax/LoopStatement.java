@@ -14,8 +14,6 @@ import static identifiers.StatementType.LOOP_STATEMENT;
 public final class LoopStatement implements Statement
 {
     private final Token loopToken;
-    private final Token identifierToken;
-    private final Token equalsToken;
     private final Expression lowerBound;
     private final Token toToken;
     private final Expression upperBound;
@@ -23,18 +21,14 @@ public final class LoopStatement implements Statement
     private final StatementType statementType;
     private final Queue<Object> children;
 
-    public LoopStatement(Token loopToken, Token identifierToken, Token equalsToken, Expression lowerBound,
-                         Token toToken, Expression upperBound, Statement body)
+    public LoopStatement(Token loopToken, Expression lowerBound, Token toToken, Expression upperBound, Statement body)
     {
         this.loopToken = loopToken;
-        this.identifierToken = identifierToken;
-        this.equalsToken = equalsToken;
         this.lowerBound = lowerBound;
         this.toToken = toToken;
         this.upperBound = upperBound;
         this.body = body;
         this.statementType = LOOP_STATEMENT;
-        this.children = new LinkedList<>(Arrays.asList(loopToken, identifierToken, equalsToken,
-                                                       lowerBound, toToken, upperBound, body));
+        this.children = new LinkedList<>(Arrays.asList(loopToken, lowerBound, toToken, upperBound, body));
     }
 }

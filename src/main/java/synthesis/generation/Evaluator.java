@@ -110,14 +110,24 @@ public final class Evaluator
 
     private void evaluateLoopStatement(AnnotatedLoopStatement loopStatement) throws Exception
     {
-        Object lowerBoundValue = evaluateExpression(loopStatement.getLowerBound());
-        Object upperBoundValue = evaluateExpression(loopStatement.getUpperBound());
+        Object lowerBound = evaluateExpression(loopStatement.getLowerBound());
+        Object upperBound = evaluateExpression(loopStatement.getUpperBound());
 
-        if (lowerBoundValue instanceof Integer && upperBoundValue instanceof Integer)
+        if (lowerBound instanceof Integer && upperBound instanceof Integer)
         {
-            for (int i = (int) lowerBoundValue; i <= (int) upperBoundValue; i++)
+            for (int i = (int) lowerBound; i <= (int) upperBound; i++)
             {
-                loopStatement.getSymbol().setValue(i);
+                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) loopStatement.getLowerBound();
+                symbolTable.getSymbol(expression.getName()).setValue(i);
+                evaluateStatement(loopStatement.getBody());
+            }
+        }
+        else if (lowerBound instanceof Double && upperBound instanceof Double)
+        {
+            for (double i = (double) lowerBound; i <= (double) upperBound; i++)
+            {
+                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) loopStatement.getLowerBound();
+                symbolTable.getSymbol(expression.getName()).setValue(i);
                 evaluateStatement(loopStatement.getBody());
             }
         }

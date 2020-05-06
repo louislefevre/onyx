@@ -12,6 +12,7 @@ public final class Syntax
     public static final String IF_SYNTAX = "if";
     public static final String ELSE_SYNTAX = "else";
     public static final String LOOP_SYNTAX = "loop";
+    public static final String FROM_SYNTAX = "from";
     public static final String TO_SYNTAX = "to";
     public static final String AND_SYNTAX = "and";
     public static final String OR_SYNTAX = "or";

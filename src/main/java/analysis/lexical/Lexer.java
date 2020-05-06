@@ -179,6 +179,8 @@ public final class Lexer
                 return new Token(ELSE_TOKEN, ELSE_SYNTAX, pos);
             case LOOP_SYNTAX:
                 return new Token(LOOP_TOKEN, LOOP_SYNTAX, pos);
+            case FROM_SYNTAX: // Pseudo for equals
+                return new Token(EQUALS_TOKEN, EQUALS_SYNTAX, pos);
             case TO_SYNTAX:
                 return new Token(TO_TOKEN, TO_SYNTAX, pos);
             default:

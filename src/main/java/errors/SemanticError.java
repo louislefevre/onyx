@@ -58,9 +58,9 @@ public final class SemanticError extends Error
         return new SemanticError(span, message);
     }
 
-    public static SemanticError invalidConditionalTypes(SourceSpan span, ObjectType resultType, ObjectType targetType)
+    public static SemanticError invalidExpressionTypes(SourceSpan span, ObjectType actualType, ObjectType[] targetTypes)
     {
-        String message = String.format("Invalid condition type '%1s', expected '%2s'.", resultType, targetType);
+        String message = String.format("Invalid expression type '%1s', expected '%2s'.", actualType, typesToString(targetTypes));
         return new SemanticError(span, message);
     }
 
@@ -78,5 +78,22 @@ public final class SemanticError extends Error
     public String toString()
     {
         return "Semantic Error";
+    }
+
+    private static String typesToString(ObjectType[] types)
+    {
+        ObjectType last = types[0];
+        for (ObjectType type : types)
+            last = type;
+
+        StringBuilder builder = new StringBuilder();
+        for (ObjectType type : types)
+        {
+            builder.append(type.toString());
+            if (type != last)
+                builder.append("/");
+        }
+
+        return builder.toString();
     }
 }
