@@ -9,6 +9,7 @@ import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
 import lombok.Getter;
+import symbols.Symbol;
 import symbols.SymbolTable;
 
 import static identifiers.ObjectType.BOOLEAN_OBJECT;
@@ -126,12 +127,14 @@ public final class Evaluator
         Object lowerValue = evaluateExpression(lowerBound);
         Object upperValue = evaluateExpression(upperBound);
 
+        AnnotatedAssignmentExpression assignment = (AnnotatedAssignmentExpression) lowerBound;
+        Symbol symbol = symbolTable.getSymbol(assignment.getName());
+
         if (lowerType == INTEGER_OBJECT && upperType == INTEGER_OBJECT)
         {
             for (int i = (int) lowerValue; i <= (int) upperValue; i++)
             {
-                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) lowerBound;
-                symbolTable.getSymbol(expression.getName()).setValue(i);
+                symbol.setValue(i);
                 evaluateStatement(loopStatement.getBody());
             }
             return;
@@ -140,8 +143,7 @@ public final class Evaluator
         {
             for (double i = (double) lowerValue; i <= (double) upperValue; i++)
             {
-                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) lowerBound;
-                symbolTable.getSymbol(expression.getName()).setValue(i);
+                symbol.setValue(i);
                 evaluateStatement(loopStatement.getBody());
             }
             return;
