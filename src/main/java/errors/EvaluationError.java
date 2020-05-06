@@ -74,6 +74,16 @@ public final class EvaluationError extends Error
         return String.format("Symbol '%s' does not exist in symbol table.", name);
     }
 
+    public static String invalidLoopTypes(String lowerBound, String upperBound)
+    {
+        return String.format("Invalid loop object types '%1s' and '%2s'.", lowerBound, upperBound);
+    }
+
+    public static String invalidConditionalType(String type)
+    {
+        return String.format("Invalid conditional object type '%s'.", type);
+    }
+
     @Override
     public String toString()
     {

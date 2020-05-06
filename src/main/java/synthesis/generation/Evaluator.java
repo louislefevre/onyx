@@ -11,6 +11,11 @@ import identifiers.TokenType;
 import lombok.Getter;
 import symbols.SymbolTable;
 
+import static identifiers.ObjectType.BOOLEAN_OBJECT;
+import static identifiers.ObjectType.DOUBLE_OBJECT;
+import static identifiers.ObjectType.INTEGER_OBJECT;
+import static identifiers.ObjectType.STRING_OBJECT;
+
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
@@ -44,9 +49,7 @@ public final class Evaluator
         }
         catch (Exception exception)
         {
-            String errorMessage = EvaluationError.exceptionOccurred(exception);
-            System.out.println(errorMessage);
-            return null;
+            return EvaluationError.exceptionOccurred(exception);
         }
     }
 
@@ -97,40 +100,55 @@ public final class Evaluator
 
     private void evaluateConditionalStatement(AnnotatedConditionalStatement conditionalStatement) throws Exception
     {
-        Object condition = evaluateExpression(conditionalStatement.getCondition());
+        AnnotatedExpression condition = conditionalStatement.getCondition();
+        ObjectType conditionType = condition.getObjectType();
+        Object conditionValue = evaluateExpression(conditionalStatement.getCondition());
 
-        if (condition instanceof Boolean)
+        if (conditionType == BOOLEAN_OBJECT)
         {
-            if ((boolean) condition)
+            if ((boolean) conditionValue)
                 evaluateStatement(conditionalStatement.getThenStatement());
             else if (conditionalStatement.includesElseStatement())
                 evaluateStatement(conditionalStatement.getElseStatement());
+            return;
         }
+
+        String errorMessage = EvaluationError.invalidConditionalType(conditionType.toString());
+        throw new Exception(errorMessage);
     }
 
     private void evaluateLoopStatement(AnnotatedLoopStatement loopStatement) throws Exception
     {
-        Object lowerBound = evaluateExpression(loopStatement.getLowerBound());
-        Object upperBound = evaluateExpression(loopStatement.getUpperBound());
+        AnnotatedExpression lowerBound = loopStatement.getLowerBound();
+        AnnotatedExpression upperBound = loopStatement.getUpperBound();
+        ObjectType lowerType = lowerBound.getObjectType();
+        ObjectType upperType = upperBound.getObjectType();
+        Object lowerValue = evaluateExpression(lowerBound);
+        Object upperValue = evaluateExpression(upperBound);
 
-        if (lowerBound instanceof Integer && upperBound instanceof Integer)
+        if (lowerType == INTEGER_OBJECT && upperType == INTEGER_OBJECT)
         {
-            for (int i = (int) lowerBound; i <= (int) upperBound; i++)
+            for (int i = (int) lowerValue; i <= (int) upperValue; i++)
             {
-                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) loopStatement.getLowerBound();
+                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) lowerBound;
                 symbolTable.getSymbol(expression.getName()).setValue(i);
                 evaluateStatement(loopStatement.getBody());
             }
+            return;
         }
-        else if (lowerBound instanceof Double && upperBound instanceof Double)
+        else if (lowerType == DOUBLE_OBJECT && upperType == DOUBLE_OBJECT)
         {
-            for (double i = (double) lowerBound; i <= (double) upperBound; i++)
+            for (double i = (double) lowerValue; i <= (double) upperValue; i++)
             {
-                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) loopStatement.getLowerBound();
+                AnnotatedAssignmentExpression expression = (AnnotatedAssignmentExpression) lowerBound;
                 symbolTable.getSymbol(expression.getName()).setValue(i);
                 evaluateStatement(loopStatement.getBody());
             }
+            return;
         }
+
+        String errorMessage = EvaluationError.invalidLoopTypes(lowerType.toString(), upperType.toString());
+        throw new Exception(errorMessage);
     }
 
     private Object evaluateExpression(AnnotatedExpression expression) throws Exception
@@ -238,16 +256,16 @@ public final class Evaluator
         ObjectType rightOperandType = binaryExpression.getRightOperand().getObjectType();
         OperatorType operatorType = binaryExpression.getOperator().getOperatorType();
 
-        if (leftOperandType == ObjectType.INTEGER_OBJECT && rightOperandType == ObjectType.INTEGER_OBJECT)
+        if (leftOperandType == INTEGER_OBJECT && rightOperandType == INTEGER_OBJECT)
             return evaluateBinaryIntegerExpression(leftOperand, rightOperand, operatorType);
 
-        if (leftOperandType == ObjectType.DOUBLE_OBJECT && rightOperandType == ObjectType.DOUBLE_OBJECT)
+        if (leftOperandType == DOUBLE_OBJECT && rightOperandType == DOUBLE_OBJECT)
             return evaluateBinaryDoubleExpression(leftOperand, rightOperand, operatorType);
 
-        if (leftOperandType == ObjectType.BOOLEAN_OBJECT && rightOperandType == ObjectType.BOOLEAN_OBJECT)
+        if (leftOperandType == BOOLEAN_OBJECT && rightOperandType == BOOLEAN_OBJECT)
             return evaluateBinaryBooleanExpression(leftOperand, rightOperand, operatorType);
 
-        if (leftOperandType == ObjectType.STRING_OBJECT && rightOperandType == ObjectType.STRING_OBJECT)
+        if (leftOperandType == STRING_OBJECT && rightOperandType == STRING_OBJECT)
             return evaluateBinaryStringExpression(leftOperand, rightOperand, operatorType);
 
         String errorMessage = EvaluationError.unexpectedBinaryObjectTypes(leftOperandType.toString(), rightOperandType.toString());
