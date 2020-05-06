@@ -35,7 +35,7 @@ public final class SourceOutput
     public List<Text> getTextResult()
     {
         if (this.errorHandler.containsErrors())
-            return this.errorHandler.outputErrors();
+            return this.errorHandler.getTextErrors();
 
         return stringToText(this.result.toString());
     }

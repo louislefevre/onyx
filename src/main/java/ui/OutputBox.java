@@ -1,7 +1,6 @@
 package ui;
 
 import javafx.scene.layout.Background;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import lombok.Getter;
 
@@ -9,21 +8,18 @@ import lombok.Getter;
 public final class OutputBox
 {
     private final TextFlow textFlow;
-    private final VBox box;
 
     public OutputBox()
     {
-        this.textFlow = new TextFlow();
-        this.box = generateOutputBox(this.textFlow);
+        this.textFlow = createTextFlow();
     }
 
-    private static VBox generateOutputBox(TextFlow textFlow)
+    private static TextFlow createTextFlow()
     {
-        VBox box = new VBox(textFlow);
-        box.setBackground(Background.EMPTY);
+        TextFlow textFlow = new TextFlow();
+        textFlow.setBackground(Background.EMPTY);
         String style = "-fx-background-color: rgba(0, 0, 0, 0.9);";
-        box.setStyle(style);
-
-        return box;
+        textFlow.setStyle(style);
+        return textFlow;
     }
 }

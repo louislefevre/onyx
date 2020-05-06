@@ -3,19 +3,21 @@ package ui;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.fxmisc.flowless.VirtualizedScrollPane;
 
 public final class PrimaryInterface extends Application
 {
     private static final String TITLE = "Onyx Compiler";
 
-    public void launchInterface(String[] args)
+    public void launchInterface()
     {
-        Application.launch(args);
+        Application.launch();
     }
 
     @Override
@@ -34,14 +36,15 @@ public final class PrimaryInterface extends Application
         OutputBox outputBox = new OutputBox();
         MenuBox menuBox = new MenuBox(inputBox, outputBox);
 
-        VBox menu = menuBox.getBox();
-        VBox top = inputBox.getBox();
-        VBox bottom = outputBox.getBox();
+        MenuBar menu = menuBox.getMenuBar();
+        VirtualizedScrollPane input = inputBox.getScrollPane();
+        TextFlow output = outputBox.getTextFlow();
 
-        top.setMinHeight(getWindowHeight() * 0.7);
-        bottom.setMinHeight(getWindowHeight() * 0.3);
+        input.setPrefHeight(getWindowHeight() * 0.7);
+        output.setPrefHeight(getWindowHeight() * 0.3);
 
-        SplitPane splitPane = new SplitPane(top, bottom);
+        SplitPane splitPane = new SplitPane(input, output);
+        splitPane.setDividerPosition(0, 0.7);
         splitPane.setOrientation(Orientation.VERTICAL);
 
         BorderPane borderPane = new BorderPane(splitPane);

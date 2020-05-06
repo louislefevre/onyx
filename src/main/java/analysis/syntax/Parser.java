@@ -89,6 +89,12 @@ public final class Parser
         List<Statement> statements = new ArrayList<>();
         while (currentTokenType() != EOF_TOKEN && currentTokenType() != CLOSE_BRACE_TOKEN)
         {
+            if (currentTokenType() == LINE_BREAK_TOKEN)
+            {
+                position++;
+                continue;
+            }
+
             Statement statement = parseStatement();
             statements.add(statement);
         }

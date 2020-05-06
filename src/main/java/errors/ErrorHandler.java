@@ -40,36 +40,16 @@ public final class ErrorHandler
         StringBuilder builder = new StringBuilder();
         for (Error error : errorsLog)
         {
-            int errorStart = error.getSpan().getStart();
-            int errorEnd = error.getSpan().getEnd();
-            int lineIndex = sourceInput.getLineIndex(errorStart);
-
-            SourceLine line = sourceInput.getSourceLines().get(lineIndex);
-            int lineStart = line.getStart();
-            int lineEnd = line.getEnd();
-            int character = errorStart - lineStart + 1;
-
-            String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
-            String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
-            String prefixSyntax, errorSyntax, suffixSyntax, fullSyntax;
-
-            if (errorEnd > sourceInput.length() || lineEnd < errorEnd) // Handles unexpected EOF_TOKEN and LINE_BREAK_TOKEN errors
-            {
-                prefixSyntax = sourceInput.substring(lineStart, lineEnd);
-                errorSyntax = "_";
-                suffixSyntax = "";
-            }
-            else // Handles all other errors
-            {
-                prefixSyntax = sourceInput.substring(lineStart, errorStart);
-                errorSyntax = sourceInput.substring(errorStart, errorEnd);
-                suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
-            }
+            String[] errorInfo = getErrorInfo(error);
+            String errorMessage = errorInfo[0];
+            String prefixSyntax = errorInfo[1];
+            String errorSyntax = errorInfo[2];
+            String suffixSyntax = errorInfo[3];
 
             prefixSyntax = ANSI.GREY + prefixSyntax.replaceFirst("^\\s+", "");
             errorSyntax = ANSI.RED + errorSyntax;
             suffixSyntax = ANSI.GREY + suffixSyntax.replaceFirst("\\s+$", "");
-            fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
+            String fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax + ANSI.RESET;
 
             builder.append(errorMessage);
             builder.append(System.getProperty("line.separator"));
@@ -79,36 +59,16 @@ public final class ErrorHandler
         return builder.toString();
     }
 
-    public List<Text> outputErrors()
+    public List<Text> getTextErrors()
     {
         List<Text> lines = new ArrayList<>();
         for (Error error : errorsLog)
         {
-            int errorStart = error.getSpan().getStart();
-            int errorEnd = error.getSpan().getEnd();
-            int lineIndex = sourceInput.getLineIndex(errorStart);
-
-            SourceLine line = sourceInput.getSourceLines().get(lineIndex);
-            int lineStart = line.getStart();
-            int lineEnd = line.getEnd();
-            int character = errorStart - lineStart + 1;
-
-            String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
-            String errorMessage = error.toString() + lineInfo + error.getErrorMessage();
-
-            String prefixSyntax, errorSyntax, suffixSyntax;
-            if (errorEnd > sourceInput.length()) // Handles unexpected EOF_TOKEN errors
-            {
-                prefixSyntax = sourceInput.substring(lineStart, lineEnd);
-                errorSyntax = "_";
-                suffixSyntax = "";
-            }
-            else // Handles all other errors
-            {
-                prefixSyntax = sourceInput.substring(lineStart, errorStart);
-                errorSyntax = sourceInput.substring(errorStart, errorEnd);
-                suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
-            }
+            String[] errorInfo = getErrorInfo(error);
+            String errorMessage = errorInfo[0];
+            String prefixSyntax = errorInfo[1];
+            String errorSyntax = errorInfo[2];
+            String suffixSyntax = errorInfo[3];
 
             lines.add(createText(errorMessage + System.getProperty("line.separator") + "    ", Color.RED));
 
@@ -124,6 +84,36 @@ public final class ErrorHandler
             lines.add(new Text(System.getProperty("line.separator")));
         }
         return lines;
+    }
+
+    private String[] getErrorInfo(Error error)
+    {
+        int errorStart = error.getSpan().getStart();
+        int errorEnd = error.getSpan().getEnd();
+        int lineIndex = sourceInput.getLineIndex(errorStart);
+
+        SourceLine line = sourceInput.getSourceLines().get(lineIndex);
+        int lineStart = line.getStart();
+        int lineEnd = line.getEnd();
+        int character = errorStart - lineStart + 1;
+
+        String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
+        String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
+        String prefixSyntax, errorSyntax, suffixSyntax;
+
+        if (errorEnd > sourceInput.length() || lineEnd < errorEnd) // Handles unexpected EOF_TOKEN and LINE_BREAK_TOKEN errors
+        {
+            prefixSyntax = sourceInput.substring(lineStart, lineEnd);
+            errorSyntax = "_";
+            suffixSyntax = "";
+        }
+        else // Handles all other errors
+        {
+            prefixSyntax = sourceInput.substring(lineStart, errorStart);
+            errorSyntax = sourceInput.substring(errorStart, errorEnd);
+            suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
+        }
+        return new String[]{errorMessage, prefixSyntax, errorSyntax, suffixSyntax};
     }
 
     private static Text createText(String str, Color color)

@@ -1,40 +1,32 @@
 package ui;
 
-import compilation.Compiler;
+import compilation.Pipeline;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.VBox;
 import lombok.Getter;
-import source.SourceInput;
 import source.SourceOutput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public final class MenuBox
 {
     private final InputBox inputBox;
     private final OutputBox outputBox;
-    private final VBox box;
 
     public MenuBox(InputBox inputBox, OutputBox outputBox)
     {
         this.inputBox = inputBox;
         this.outputBox = outputBox;
-        this.box = generateMenuBox();
     }
 
-    private VBox generateMenuBox()
-    {
-        return new VBox(generateMenuBar());
-    }
-
-    private MenuBar generateMenuBar()
+    public MenuBar getMenuBar()
     {
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(this.createFileMenu(), this.createEditMenu(),
-                                  this.createFormatMenu(), this.createRunMenu(),
-                                  this.createOptionsMenu(), this.createHelpMenu());
-
+        menuBar.getMenus().addAll(createFileMenu(), createEditMenu(), createFormatMenu(),
+                                  createRunMenu(), createOptionsMenu(), createHelpMenu());
         return menuBar;
     }
 
@@ -68,13 +60,29 @@ public final class MenuBox
         runMenu.getItems().addAll(runProgram);
 
         runProgram.setOnAction(e -> {
-            String input = this.inputBox.getTextArea().getText();
-            SourceInput sourceInput = new SourceInput(input);
-            Compiler compiler = new Compiler();
-            SourceOutput output = compiler.compile(sourceInput);
+            String input = inputBox.getCodeArea().getText() + System.getProperty("line.separator");
+            String[] lines = input.split(System.getProperty("line.separator"));
 
-            this.outputBox.getTextFlow().getChildren().clear();
-            this.outputBox.getTextFlow().getChildren().addAll(output.getResult());
+            List<String> linesList = new ArrayList<>();
+            for (String line : lines)
+                if (!line.isBlank())
+                    linesList.add(line);
+
+            if (linesList.isEmpty())
+                return;
+
+            Pipeline pipeline = new Pipeline();
+            for (String line : linesList)
+                if (!line.isBlank())
+                    pipeline.compile(line);
+
+            SourceOutput sourceOutput = pipeline.compile(input);
+
+            if (sourceOutput.getResult() == null)
+                return;
+
+            outputBox.getTextFlow().getChildren().clear();
+            outputBox.getTextFlow().getChildren().addAll(sourceOutput.getTextResult());
         });
 
         return runMenu;

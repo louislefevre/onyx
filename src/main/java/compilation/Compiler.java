@@ -1,20 +1,35 @@
 package compilation;
 
 import source.SourceOutput;
+import ui.PrimaryInterface;
 
 import java.util.Scanner;
 
 public class Compiler
 {
-    public void run(boolean replMode)
+    public void run(boolean replMode, boolean guiMode)
+    {
+        if (guiMode)
+            guiMode(replMode);
+        else
+            consoleMode(replMode);
+    }
+
+    private void guiMode(boolean replMode)
+    {
+        PrimaryInterface primaryInterface = new PrimaryInterface();
+        primaryInterface.launchInterface();
+    }
+
+    private void consoleMode(boolean replMode)
     {
         Scanner scanner = new Scanner(System.in);
         Pipeline pipeline = new Pipeline();
 
         if (replMode)
-            runREPL(pipeline, scanner);
+            runConsoleREPL(pipeline, scanner);
         else
-            runIDE(pipeline, scanner);
+            runConsoleIDE(pipeline, scanner);
 
         pipeline.printParseTree();
         pipeline.printSymbolTable();
@@ -22,7 +37,7 @@ public class Compiler
         scanner.close();
     }
 
-    private void runIDE(Pipeline pipeline, Scanner scanner)
+    private void runConsoleIDE(Pipeline pipeline, Scanner scanner)
     {
         StringBuilder builder = new StringBuilder();
         Object output = new Object();
@@ -46,7 +61,7 @@ public class Compiler
         System.out.println(output);
     }
 
-    private void runREPL(Pipeline pipeline, Scanner scanner)
+    private void runConsoleREPL(Pipeline pipeline, Scanner scanner)
     {
         pipeline.enableReplMode();
 
