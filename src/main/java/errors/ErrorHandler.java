@@ -46,6 +46,7 @@ public final class ErrorHandler
             String errorSyntax = errorInfo[2];
             String suffixSyntax = errorInfo[3];
 
+            errorMessage = ANSI.RED + errorMessage;
             prefixSyntax = ANSI.GREY + prefixSyntax.replaceFirst("^\\s+", "");
             errorSyntax = ANSI.RED + errorSyntax;
             suffixSyntax = ANSI.GREY + suffixSyntax.replaceFirst("\\s+$", "");
@@ -98,7 +99,7 @@ public final class ErrorHandler
         int character = errorStart - lineStart + 1;
 
         String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
-        String errorMessage = ANSI.RED + error.toString() + lineInfo + error.getErrorMessage();
+        String errorMessage = error.toString() + lineInfo + error.getErrorMessage();
         String prefixSyntax, errorSyntax, suffixSyntax;
 
         if (errorEnd > sourceInput.length() || lineEnd < errorEnd) // Handles unexpected EOF_TOKEN and LINE_BREAK_TOKEN errors

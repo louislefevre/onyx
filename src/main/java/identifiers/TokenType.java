@@ -51,12 +51,12 @@ public enum TokenType
     PERCENT_EQUALS_TOKEN,
     CARET_EQUALS_TOKEN,
 
-    // Break Tokens
-    BAD_TOKEN,
+    // Structure Tokens
     LINE_BREAK_TOKEN,
     EOF_TOKEN,
 
     // Not-parsed Tokens
+    BAD_TOKEN,
     COMMENT_TOKEN,
     WHITE_SPACE_TOKEN
 }

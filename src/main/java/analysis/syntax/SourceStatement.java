@@ -26,7 +26,7 @@ public final class SourceStatement implements Statement
         this.statements = statements;
         this.endToken = endToken;
         this.statementType = SOURCE_STATEMENT;
-        this.span = SourceSpan.inRange(statements.get(0).getSpan().getStart(), endToken.getSpan().getEnd());
+        this.span = SourceSpan.inRange(0, endToken.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(statements, endToken));
     }
 }

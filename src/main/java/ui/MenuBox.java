@@ -60,16 +60,15 @@ public final class MenuBox
         runMenu.getItems().addAll(runProgram);
 
         runProgram.setOnAction(e -> {
-            String input = inputBox.getCodeArea().getText() + System.getProperty("line.separator");
-            String[] lines = input.split(System.getProperty("line.separator"));
+            String input = inputBox.getCodeArea().getText();
+            input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
+            input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
+            String[] lines = input.split(System.getProperty("line.separator")); // Splits each line up to be run individually
 
             List<String> linesList = new ArrayList<>();
             for (String line : lines)
-                if (!line.isBlank())
+                if (!line.isBlank()) // Only adds non-blank lines
                     linesList.add(line);
-
-            if (linesList.isEmpty())
-                return;
 
             Pipeline pipeline = new Pipeline();
             for (String line : linesList)
@@ -78,7 +77,7 @@ public final class MenuBox
 
             SourceOutput sourceOutput = pipeline.compile(input);
 
-            if (sourceOutput.getResult() == null)
+            if (sourceOutput.getResult() == null) // Avoids NullPointerException if input is empty
                 return;
 
             outputBox.getTextFlow().getChildren().clear();
