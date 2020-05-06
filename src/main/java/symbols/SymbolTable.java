@@ -1,6 +1,7 @@
 package symbols;
 
 import identifiers.ObjectType;
+import lombok.Getter;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+@Getter
 public final class SymbolTable
 {
     private final HashMap<String, Symbol> symbols;

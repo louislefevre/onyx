@@ -87,6 +87,26 @@ public final class ErrorHandler
         return lines;
     }
 
+    public String getSimpleErrors()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (Error error : errorsLog)
+        {
+            String[] errorInfo = getErrorInfo(error);
+            String errorMessage = errorInfo[0];
+            String prefixSyntax = errorInfo[1].replaceFirst("^\\s+", "");;
+            String errorSyntax = errorInfo[2];
+            String suffixSyntax = errorInfo[3].replaceFirst("\\s+$", "");;
+            String fullSyntax = "    " + prefixSyntax + errorSyntax + suffixSyntax;
+
+            builder.append(errorMessage);
+            builder.append(System.getProperty("line.separator"));
+            builder.append(fullSyntax);
+            builder.append(System.getProperty("line.separator"));
+        }
+        return builder.toString();
+    }
+
     private String[] getErrorInfo(Error error)
     {
         int errorStart = error.getSpan().getStart();

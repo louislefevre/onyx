@@ -40,6 +40,14 @@ public final class SourceOutput
         return stringToText(this.result.toString());
     }
 
+    public Object getSimpleResult()
+    {
+        if (errorHandler.containsErrors())
+            return errorHandler.getSimpleErrors();
+
+        return result;
+    }
+
     private static List<Text> stringToText(String str)
     {
         List<Text> textList = new ArrayList<>();

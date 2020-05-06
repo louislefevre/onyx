@@ -5,6 +5,7 @@ import analysis.semantic.TypeChecker;
 import analysis.syntax.ParseTree;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
+import lombok.Getter;
 import source.SourceInput;
 import source.SourceOutput;
 import symbols.SymbolTable;
@@ -12,6 +13,7 @@ import synthesis.generation.Evaluator;
 
 public final class Pipeline
 {
+    @Getter
     private final SymbolTable symbolTable;
     private final ErrorHandler errorHandler;
     private boolean replMode;
