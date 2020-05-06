@@ -1,4 +1,5 @@
 import compilation.Compiler;
+import ui.PrimaryInterface;
 
 public class Main
 {
@@ -6,5 +7,7 @@ public class Main
     {
         Compiler compiler = new Compiler();
         compiler.run(false);
+        PrimaryInterface primaryInterface = new PrimaryInterface();
+        primaryInterface.launchInterface(args);
     }
 }

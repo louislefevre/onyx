@@ -1,5 +1,7 @@
 package errors;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import source.SourceInput;
 import source.SourceLine;
 import util.ANSI;
@@ -75,5 +77,59 @@ public final class ErrorHandler
             builder.append(System.getProperty("line.separator"));
         }
         return builder.toString();
+    }
+
+    public List<Text> outputErrors()
+    {
+        List<Text> lines = new ArrayList<>();
+        for (Error error : errorsLog)
+        {
+            int errorStart = error.getSpan().getStart();
+            int errorEnd = error.getSpan().getEnd();
+            int lineIndex = sourceInput.getLineIndex(errorStart);
+
+            SourceLine line = sourceInput.getSourceLines().get(lineIndex);
+            int lineStart = line.getStart();
+            int lineEnd = line.getEnd();
+            int character = errorStart - lineStart + 1;
+
+            String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
+            String errorMessage = error.toString() + lineInfo + error.getErrorMessage();
+
+            String prefixSyntax, errorSyntax, suffixSyntax;
+            if (errorEnd > sourceInput.length()) // Handles unexpected EOF_TOKEN errors
+            {
+                prefixSyntax = sourceInput.substring(lineStart, lineEnd);
+                errorSyntax = "_";
+                suffixSyntax = "";
+            }
+            else // Handles all other errors
+            {
+                prefixSyntax = sourceInput.substring(lineStart, errorStart);
+                errorSyntax = sourceInput.substring(errorStart, errorEnd);
+                suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
+            }
+
+            lines.add(createText(errorMessage + System.getProperty("line.separator") + "    ", Color.RED));
+
+            if (!prefixSyntax.isBlank())
+                lines.add(createText(prefixSyntax, Color.GREY));
+
+            if (!errorSyntax.isBlank())
+                lines.add(createText(errorSyntax, Color.RED));
+
+            if (!suffixSyntax.isBlank())
+                lines.add(createText(suffixSyntax, Color.GREY));
+
+            lines.add(new Text(System.getProperty("line.separator")));
+        }
+        return lines;
+    }
+
+    private static Text createText(String str, Color color)
+    {
+        Text text = new Text(str);
+        text.setFill(color);
+        return text;
     }
 }
