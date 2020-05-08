@@ -17,7 +17,7 @@
                <children>
                    <VirtualizedScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <content>
-                            <CodeArea fx:id="inputCode" onKeyPressed="#updateLineInfo" onKeyTyped="#updateLineInfo" onMouseClicked="#updateLineInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <CodeArea fx:id="codeAreaInput" onKeyPressed="#updateLineInfo" onKeyTyped="#updateLineInfo" onMouseClicked="#updateLineInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         </content>
                    </VirtualizedScrollPane>
                </children>
@@ -26,7 +26,7 @@
                <children>
                   <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <TextFlow fx:id="outputText" minWidth="-Infinity" />
+                        <TextFlow fx:id="textFlowOutput" minWidth="-Infinity" />
                      </content>
                   </ScrollPane>
                </children>
@@ -98,7 +98,7 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </TextField>
-            <Label fx:id="infoLabel" alignment="CENTER" contentDisplay="CENTER" text="0:0">
+            <Label fx:id="lineInfoLabel" alignment="CENTER" contentDisplay="CENTER" text="1:1">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>

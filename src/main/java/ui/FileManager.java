@@ -13,7 +13,7 @@ import java.nio.file.Files;
 
 @Getter
 @Setter
-public final class FileManager
+final class FileManager
 {
     private File currentFile;
     private File initialDirectory;

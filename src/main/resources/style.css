@@ -23,24 +23,24 @@
     -fx-text-fill: black;
 }
 
-#inputCode { /* CodeArea box */
+#codeAreaInput { /* CodeArea box */
     -fx-background-color: #424242;
 }
 
-#inputCode .text { /* CodeArea text */
+#codeAreaInput .text { /* CodeArea text */
     -fx-fill: whitesmoke;
     -fx-font-family: "Liberation Mono";
 }
 
-#inputCode .caret { /* CodeArea caret */
+#codeAreaInput .caret { /* CodeArea caret */
     -fx-stroke: white;
 }
 
-#inputCode .lineno { /* CodeArea line numbers box */
+#codeAreaInput .lineno { /* CodeArea line numbers box */
     -fx-background-color: #3B3B3B;
 }
 
-#inputCode .lineno .text { /* CodeArea line numbers text */
+#codeAreaInput .lineno .text { /* CodeArea line numbers text */
     -fx-fill: white;
     -fx-font-family: "Arial Black";
 }
@@ -49,7 +49,7 @@
     -fx-background-color: transparent;
 }
 
-#outputText { /* TextFlow box */
+#textFlowOutput { /* TextFlow box */
     -fx-background-color: #333333;
 }
 

@@ -36,6 +36,8 @@ public final class SourceOutput
     {
         if (this.errorHandler.containsErrors())
             return this.errorHandler.getTextErrors();
+        if(result == null)
+            return null;
 
         return stringToText(this.result.toString());
     }

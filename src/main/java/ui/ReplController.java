@@ -1,14 +1,10 @@
 package ui;
 
 import compilation.Pipeline;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import source.SourceOutput;
 
@@ -16,116 +12,76 @@ import java.util.LinkedList;
 
 public final class ReplController
 {
-    @FXML private TableView<SymbolElement> symbolTable;
-    @FXML private TableColumn<SymbolElement, String> symbolNamesColumn;
-    @FXML private TableColumn<SymbolElement, String>  symbolTypesColumn;
-    @FXML private TableColumn<SymbolElement, String>  symbolValuesColumn;
+    @FXML private TableView<TableManager.SymbolElement> symbolTableView;
+    @FXML private TableColumn<TableManager.SymbolElement, String> symbolNamesColumn;
+    @FXML private TableColumn<TableManager.SymbolElement, String> symbolTypesColumn;
+    @FXML private TableColumn<TableManager.SymbolElement, String> symbolValuesColumn;
 
     @FXML private TextField inputField;
     @FXML private Text resultText;
     @FXML private Text historyText;
 
+    private Pipeline pipeline;
+    private LinkedList<String> historyLines;
+    private TableManager tableManager;
+
     @FXML
     void initialize()
     {
-        symbolNamesColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        symbolTypesColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        symbolValuesColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        pipeline = new Pipeline();
+        historyLines = new LinkedList<>();
+        tableManager = new TableManager(symbolTableView);
+
+        tableManager.addColumn(symbolNamesColumn, "name");
+        tableManager.addColumn(symbolTypesColumn, "type");
+        tableManager.addColumn(symbolValuesColumn, "value");
 
         pipeline.enableReplMode();
     }
 
-    private LinkedList<String> lines = new LinkedList<>();
-    private Pipeline pipeline = new Pipeline();
-
     @FXML
     void evaluateInput()
     {
-        String input = inputField.getText();
-        if(input.isBlank())
+        String output = getResult();
+
+        if (output == null)
             return;
 
-        SourceOutput sourceOutput = pipeline.compile(input);
-        String output = sourceOutput.getSimpleResult().toString();
-
         resultText.setText(output);
-
-        StringBuilder historyBuilder = new StringBuilder();
-        lines.forEach(historyBuilder::append);
-        historyText.setText(historyBuilder.toString());
-
-        String text = output + System.getProperty("line.separator");
-        lines.addFirst(text);
-
-        StringBuilder symbolBuilder = new StringBuilder();
-        pipeline.getSymbolTable().getSymbols().forEach((k,v) -> {
-            String symbol = String.format("%1s = %2s (%3s)", k, v.getValue(), v.getType());
-            symbolBuilder.append(symbol);
-            symbolBuilder.append(System.getProperty("line.separator"));
-        });
-
-        ObservableList<SymbolElement> symbols = FXCollections.observableArrayList();
-        pipeline.getSymbolTable().getSymbols().forEach((k, v) -> {
-            symbols.add(new SymbolElement(k, v.getType().toString(), v.getValue().toString()));
-        });
-
-        symbolTable.setItems(symbols);
-
+        tableManager.refreshTable(pipeline.getSymbolTable());
         inputField.clear();
+        addToHistory(output);
     }
 
     @FXML
     void clearFields()
     {
         pipeline.getSymbolTable().clearSymbolTable();
-        symbolTable.getItems().clear();
-        lines.clear();
+        historyLines.clear();
+        tableManager.clearTable();
         inputField.clear();
         resultText.setText("");
         historyText.setText("");
     }
 
-    public class SymbolElement
+    private void addToHistory(String output)
     {
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty type;
-        private final SimpleStringProperty value;
+        StringBuilder historyBuilder = new StringBuilder();
+        historyLines.forEach(historyBuilder::append);
+        historyText.setText(historyBuilder.toString());
 
-        public SymbolElement(String name, String type, String value)
-        {
-            this.name = new SimpleStringProperty(name);
-            this.type = new SimpleStringProperty(type);
-            this.value = new SimpleStringProperty(value);
-        }
+        String text = output + System.getProperty("line.separator");
+        historyLines.addFirst(text);
+    }
 
-        public String getName()
-        {
-            return name.get();
-        }
+    private String getResult()
+    {
+        String input = inputField.getText();
 
-        public String getType()
-        {
-            return type.get();
-        }
+        if (input.isBlank())
+            return null;
 
-        public String getValue()
-        {
-            return value.get();
-        }
-
-        public void setName(String name)
-        {
-            this.name.set(name);
-        }
-
-        public void setType(String type)
-        {
-            this.type.set(type);
-        }
-
-        public void setValue(String value)
-        {
-            this.value.set(value);
-        }
+        SourceOutput sourceOutput = pipeline.compile(input);
+        return sourceOutput.getSimpleResult().toString();
     }
 }
