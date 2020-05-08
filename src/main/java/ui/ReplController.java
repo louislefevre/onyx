@@ -14,7 +14,7 @@ import source.SourceOutput;
 
 import java.util.LinkedList;
 
-public class ReplController
+public final class ReplController
 {
     @FXML private TableView<SymbolElement> symbolTable;
     @FXML private TableColumn<SymbolElement, String> symbolNamesColumn;

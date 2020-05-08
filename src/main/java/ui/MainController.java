@@ -12,7 +12,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
@@ -22,26 +21,26 @@ import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
 import source.SourceOutput;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainController
+public final class MainController
 {
     @FXML private CodeArea inputCode;
     @FXML private TextFlow outputText;
     @FXML private Label infoLabel;
     @FXML private TextField tabSizeField;
+    private FileManager fileManager;
     private int tabSize;
 
     @FXML
     void initialize()
     {
+        fileManager = new FileManager();
         tabSize = 4;
         initialiseCodeArea();
         refreshLineInfo();
@@ -90,32 +89,21 @@ public class MainController
         }
     }
 
-    private File currentFile;
     @FXML
     void openFileChooser()
     {
-        Stage stage = new Stage();
-
-        FileChooser fileChooser = new FileChooser();
-        File initialDirectory = new File(System.getProperty("user.home"), "/Documents");
-        if(initialDirectory.exists())
-            fileChooser.setInitialDirectory(initialDirectory);
-
-        File file = fileChooser.showOpenDialog(stage);
-
-        if(file != null && file.canRead())
+        try
         {
-            try
-            {
-                String fileText = Files.readString(file.toPath());
-                inputCode.replaceText(fileText);
-                currentFile = file;
-            }
-            catch(IOException exception)
-            {
-                System.out.println(exception.getMessage());
-                createPopup();
-            }
+            String fileText = fileManager.openFile();
+            inputCode.replaceText(fileText);
+        }
+        catch (IOException | IllegalArgumentException exception)
+        {
+            createPopup(exception.getMessage());
+        }
+        catch(NullPointerException exception)
+        {
+            System.out.println(exception.getMessage());
         }
     }
 
@@ -123,26 +111,17 @@ public class MainController
     void saveFile()
     {
         String text = inputCode.getText();
-
-        File file = currentFile;
-
-        if(file != null && file.exists() && file.isFile() && file.canWrite())
+        try
         {
-            try
-            {
-                PrintWriter writer = new PrintWriter(file);
-                writer.print(text);
-                writer.close();
-            }
-            catch (IOException exception)
-            {
-                System.out.println(exception.getMessage());
-                createPopup();
-            }
+            fileManager.saveFile(text);
         }
-        else
+        catch (FileNotFoundException | IllegalArgumentException exception)
         {
-            saveFileAs();
+            createPopup(exception.getMessage());
+        }
+        catch(NullPointerException exception)
+        {
+            System.out.println(exception.getMessage());
         }
     }
 
@@ -150,41 +129,26 @@ public class MainController
     void saveFileAs()
     {
         String text = inputCode.getText();
-
-        Stage stage = new Stage();
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("new-script.txt");
-        File initialDirectory = new File(System.getProperty("user.home"), "/Documents");
-        if(initialDirectory.exists())
-            fileChooser.setInitialDirectory(initialDirectory);
-
-        File file = fileChooser.showSaveDialog(stage);
-
-        if(file != null)
+        try
         {
-            try
-            {
-                PrintWriter writer = new PrintWriter(file);
-                writer.print(text);
-                writer.close();
-                currentFile = file;
-            }
-            catch (IOException exception)
-            {
-                System.out.println(exception.getMessage());
-                createPopup();
-            }
+            fileManager.saveFileAs(text);
         }
-
+        catch (FileNotFoundException | IllegalArgumentException exception)
+        {
+            createPopup(exception.getMessage());
+        }
+        catch(NullPointerException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
     }
 
-    private void createPopup()
+    private void createPopup(String message)
     {
         Stage window = new Stage();
         window.setTitle("Error");
         window.initModality(Modality.APPLICATION_MODAL);
-        Label label1= new Label("Error Occurred");
+        Label label1= new Label(message);
         Button button1= new Button("Close");
         button1.setOnAction(e -> window.close());
         VBox layout= new VBox();
