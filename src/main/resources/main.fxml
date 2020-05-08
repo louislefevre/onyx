@@ -24,7 +24,7 @@
             </AnchorPane>
           <AnchorPane>
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+                  <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <TextFlow fx:id="outputText" minWidth="-Infinity" />
                      </content>

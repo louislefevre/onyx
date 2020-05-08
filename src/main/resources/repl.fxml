@@ -1,43 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<SplitPane dividerPositions="0.65" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ReplController">
+<SplitPane dividerPositions="0.58" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ReplController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ButtonBar>
+                  <ButtonBar nodeOrientation="RIGHT_TO_LEFT">
                     <buttons>
-                      <Button mnemonicParsing="false" text="Clear" />
+                        <Button layoutX="384.0" layoutY="10.0" mnemonicParsing="false" onAction="#clearFields" text="Clear" />
+                      <Button mnemonicParsing="false" onAction="#evaluateInput" text="Run" />
                     </buttons>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </ButtonBar>
-                  <TextField />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Result" />
-                  <Separator prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="History" />
+                  <TextField fx:id="inputField" onAction="#evaluateInput">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text fx:id="resultText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;">
+                     <content>
+                        <Text fx:id="historyText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </content>
+                  </ScrollPane>
                </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </VBox>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+    <AnchorPane>
          <children>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <TableView prefHeight="400.0" prefWidth="200.0">
-                     <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="Type" />
-                        <TableColumn prefWidth="75.0" text="Value" />
-                     </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-               </children>
-            </AnchorPane>
+            <TableView fx:id="symbolTable" prefHeight="400.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columns>
+                  <TableColumn fx:id="symbolNamesColumn" minWidth="-1.0" prefWidth="-1.0" text="Name" />
+                  <TableColumn fx:id="symbolTypesColumn" minWidth="-1.0" prefWidth="-1.0" text="Type" />
+                  <TableColumn fx:id="symbolValuesColumn" minWidth="-1.0" prefWidth="-1.0" text="Value" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
          </children></AnchorPane>
   </items>
 </SplitPane>

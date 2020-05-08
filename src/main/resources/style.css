@@ -45,6 +45,10 @@
     -fx-font-family: "Arial Black";
 }
 
+#scrollPane { /* Scroll Pane box */
+    -fx-background-color: transparent;
+}
+
 #outputText { /* TextFlow box */
     -fx-background-color: #333333;
 }

@@ -47,6 +47,11 @@ public final class SymbolTable
         symbols.remove(name);
     }
 
+    public void clearSymbolTable()
+    {
+        symbols.clear();
+    }
+
     @TestOnly
     public void printSymbolTable()
     {
