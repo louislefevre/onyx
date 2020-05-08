@@ -1,0 +1,63 @@
+#topBar { /* Header bar */
+    -fx-background-color: #212121;
+}
+
+#runButton, #replButton { /* Run and REPL buttons */
+    -fx-background-color: #424242;
+    -fx-text-fill: white;
+}
+
+#splitPane, .split-pane-divider { /* SplitPane box*/
+    -fx-background-color: #212121;
+}
+
+#menuBar { /* Menu box */
+    -fx-background-color: #212121;
+}
+
+#menuBar .menu .label { /* Menu text */
+    -fx-text-fill: white;
+}
+
+#menuBar .menu-item .label { /* Menu item text */
+    -fx-text-fill: black;
+}
+
+#inputCode { /* CodeArea box */
+    -fx-background-color: #424242;
+}
+
+#inputCode .text { /* CodeArea text */
+    -fx-fill: whitesmoke;
+    -fx-font-family: "Liberation Mono";
+}
+
+#inputCode .caret { /* CodeArea caret */
+    -fx-stroke: white;
+}
+
+#inputCode .lineno { /* CodeArea line numbers box */
+    -fx-background-color: #3B3B3B;
+}
+
+#inputCode .lineno .text { /* CodeArea line numbers text */
+    -fx-fill: white;
+    -fx-font-family: "Arial Black";
+}
+
+#outputText { /* TextFlow box */
+    -fx-background-color: #333333;
+}
+
+#bottomBar { /* Label text */
+    -fx-background-color: #212121;
+}
+
+#bottomBar .label { /* Label text */
+    -fx-text-fill: white;
+}
+
+#tabSizeField { /* Tab size field */
+    -fx-background-color: #212121;
+    -fx-text-fill: white;
+}

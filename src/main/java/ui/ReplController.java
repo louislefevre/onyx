@@ -1,6 +1,7 @@
 package ui;
 
 import compilation.Pipeline;
+import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -11,25 +12,16 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import source.SourceOutput;
 
 import java.util.LinkedList;
 
-
-public final class ReplScene
+public class ReplController
 {
-    private static final String TITLE = "Onyx REPL";
     private static final int LINE_LIMIT = 20;
 
-    public void setStage(Stage stage)
-    {
-        stage.setTitle(TITLE);
-        stage.setWidth(Utilities.getWindowWidth()*0.5);
-        stage.setHeight(Utilities.getWindowHeight()*0.5);
-        stage.setScene(createScene());
-        stage.show();
-    }
+    @FXML
+    void initialize() { }
 
     private Scene createScene()
     {

@@ -1,7 +1,7 @@
 package compilation;
 
 import source.SourceOutput;
-import ui.PrimaryInterface;
+import ui.SceneManager;
 
 import java.util.Scanner;
 
@@ -10,15 +10,14 @@ public class Compiler
     public void run(boolean replMode, boolean guiMode)
     {
         if (guiMode)
-            guiMode(replMode);
+            guiMode();
         else
             consoleMode(replMode);
     }
 
-    private void guiMode(boolean replMode)
+    private void guiMode()
     {
-        PrimaryInterface primaryInterface = new PrimaryInterface();
-        primaryInterface.launchInterface();
+        SceneManager.launchInterface();
     }
 
     private void consoleMode(boolean replMode)

@@ -3,30 +3,44 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
    <center>
-      <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER">
+      <SplitPane fx:id="splitPane" dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane>
                <children>
-                  <CodeArea prefHeight="273.0" prefWidth="598.0" style="-fx-background-color: #424242;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                   <VirtualizedScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <content>
+                            <CodeArea fx:id="inputCode" onKeyPressed="#updateLineInfo" onKeyTyped="#updateLineInfo" onMouseClicked="#updateLineInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </content>
+                   </VirtualizedScrollPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane>
                <children>
-                  <TextFlow prefHeight="88.0" prefWidth="598.0" style="-fx-background-color: #212121;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+                     <content>
+                        <TextFlow fx:id="outputText" minWidth="-Infinity" />
+                     </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
         </items>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </SplitPane>
    </center>
    <top>
-      <HBox style="-fx-background-color: #212121;" BorderPane.alignment="CENTER">
+      <HBox fx:id="topBar" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar style="-fx-background-color: #212121;" HBox.hgrow="ALWAYS">
+            <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                      <items>
@@ -38,13 +52,12 @@
                 <Menu mnemonicParsing="false" text="Edit" />
                   <Menu mnemonicParsing="false" text="Run">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Run Program" />
-                        <MenuItem mnemonicParsing="false" text="Run REPL" />
+                        <MenuItem mnemonicParsing="false" onAction="#openRepl" text="Run REPL" />
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#openHelpInfo" text="About" />
                   </items>
                 </Menu>
               </menus>
@@ -52,18 +65,45 @@
                   <Insets />
                </opaqueInsets>
                <HBox.margin>
-                  <Insets />
+                  <Insets bottom="5.0" top="5.0" />
                </HBox.margin>
             </MenuBar>
-            <Button mnemonicParsing="false" style="-fx-background-color: #424242;" text="  Run  " textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="runButton" mnemonicParsing="false" onAction="#runSource" text="Run" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <HBox.margin>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                  <Insets right="6.0" top="6.0" />
                </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@run-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </HBox>
    </top>
+   <bottom>
+      <HBox fx:id="bottomBar" alignment="BASELINE_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="781.0" layoutY="15.0" text="Tab Size:" />
+            <TextField fx:id="tabSizeField" alignment="TOP_LEFT" onAction="#updateTabSize" onKeyTyped="#limitInputSize" prefHeight="27.0" prefWidth="47.0" promptText="Tab Size" text="4" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </TextField>
+            <Label fx:id="infoLabel" alignment="CENTER" contentDisplay="CENTER" text="0:0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>
