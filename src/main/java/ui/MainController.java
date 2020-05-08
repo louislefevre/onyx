@@ -3,13 +3,17 @@ package ui;
 import compilation.Pipeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -29,8 +33,6 @@ import java.util.regex.Pattern;
 
 public class MainController
 {
-    @FXML private BorderPane mainParent;
-
     @FXML private CodeArea inputCode;
     @FXML private TextFlow outputText;
     @FXML private Label infoLabel;
@@ -92,26 +94,27 @@ public class MainController
     @FXML
     void openFileChooser()
     {
-        Stage stage = (Stage) mainParent.getScene().getWindow();
+        Stage stage = new Stage();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("*.txt", "*.txt"));
+        File initialDirectory = new File(System.getProperty("user.home"), "/Documents");
+        if(initialDirectory.exists())
+            fileChooser.setInitialDirectory(initialDirectory);
 
         File file = fileChooser.showOpenDialog(stage);
 
-        if(file != null)
+        if(file != null && file.canRead())
         {
-            if(file.canRead())
+            try
             {
-                try{
-                    String fileText = Files.readString(file.toPath());
-                    inputCode.replaceText(fileText);
-                    currentFile = file;
-                }
-                catch(IOException exception)
-                {
-                    System.out.println(exception.getMessage());
-                }
+                String fileText = Files.readString(file.toPath());
+                inputCode.replaceText(fileText);
+                currentFile = file;
+            }
+            catch(IOException exception)
+            {
+                System.out.println(exception.getMessage());
+                createPopup();
             }
         }
     }
@@ -123,31 +126,24 @@ public class MainController
 
         File file = currentFile;
 
-        if(file != null)
+        if(file != null && file.exists() && file.isFile() && file.canWrite())
         {
-            if(file.exists() && file.isFile() && file.canWrite())
+            try
             {
-                try
-                {
-                    PrintWriter writer = new PrintWriter(file);
-                    writer.print(text);
-                    writer.close();
-                }
-                catch (IOException exception)
-                {
-                    System.out.println(exception.getMessage());
-                }
+                PrintWriter writer = new PrintWriter(file);
+                writer.print(text);
+                writer.close();
             }
-            else
+            catch (IOException exception)
             {
-                saveFileAs();
+                System.out.println(exception.getMessage());
+                createPopup();
             }
         }
         else
         {
             saveFileAs();
         }
-
     }
 
     @FXML
@@ -155,10 +151,13 @@ public class MainController
     {
         String text = inputCode.getText();
 
-        Stage stage = (Stage) mainParent.getScene().getWindow();
+        Stage stage = new Stage();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        fileChooser.setInitialFileName("new-script.txt");
+        File initialDirectory = new File(System.getProperty("user.home"), "/Documents");
+        if(initialDirectory.exists())
+            fileChooser.setInitialDirectory(initialDirectory);
 
         File file = fileChooser.showSaveDialog(stage);
 
@@ -166,7 +165,7 @@ public class MainController
         {
             try
             {
-                PrintWriter writer = new PrintWriter(file + ".txt");
+                PrintWriter writer = new PrintWriter(file);
                 writer.print(text);
                 writer.close();
                 currentFile = file;
@@ -174,9 +173,26 @@ public class MainController
             catch (IOException exception)
             {
                 System.out.println(exception.getMessage());
+                createPopup();
             }
         }
 
+    }
+
+    private void createPopup()
+    {
+        Stage window = new Stage();
+        window.setTitle("Error");
+        window.initModality(Modality.APPLICATION_MODAL);
+        Label label1= new Label("Error Occurred");
+        Button button1= new Button("Close");
+        button1.setOnAction(e -> window.close());
+        VBox layout= new VBox();
+        layout.getChildren().addAll(label1, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 200, 100);
+        window.setScene(scene1);
+        window.showAndWait();
     }
 
     private void refreshTabSize()
