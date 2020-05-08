@@ -7,7 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.wellbehaved.event.EventPattern;
@@ -15,7 +18,10 @@ import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
 import source.SourceOutput;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,6 +29,8 @@ import java.util.regex.Pattern;
 
 public class MainController
 {
+    @FXML private BorderPane mainParent;
+
     @FXML private CodeArea inputCode;
     @FXML private TextFlow outputText;
     @FXML private Label infoLabel;
@@ -78,6 +86,97 @@ public class MainController
             tabSizeField.setText(s);
             tabSizeField.positionCaret(limit);
         }
+    }
+
+    private File currentFile;
+    @FXML
+    void openFileChooser()
+    {
+        Stage stage = (Stage) mainParent.getScene().getWindow();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("*.txt", "*.txt"));
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        if(file != null)
+        {
+            if(file.canRead())
+            {
+                try{
+                    String fileText = Files.readString(file.toPath());
+                    inputCode.replaceText(fileText);
+                    currentFile = file;
+                }
+                catch(IOException exception)
+                {
+                    System.out.println(exception.getMessage());
+                }
+            }
+        }
+    }
+
+    @FXML
+    void saveFile()
+    {
+        String text = inputCode.getText();
+
+        File file = currentFile;
+
+        if(file != null)
+        {
+            if(file.exists() && file.isFile() && file.canWrite())
+            {
+                try
+                {
+                    PrintWriter writer = new PrintWriter(file);
+                    writer.print(text);
+                    writer.close();
+                }
+                catch (IOException exception)
+                {
+                    System.out.println(exception.getMessage());
+                }
+            }
+            else
+            {
+                saveFileAs();
+            }
+        }
+        else
+        {
+            saveFileAs();
+        }
+
+    }
+
+    @FXML
+    void saveFileAs()
+    {
+        String text = inputCode.getText();
+
+        Stage stage = (Stage) mainParent.getScene().getWindow();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        File file = fileChooser.showSaveDialog(stage);
+
+        if(file != null)
+        {
+            try
+            {
+                PrintWriter writer = new PrintWriter(file + ".txt");
+                writer.print(text);
+                writer.close();
+                currentFile = file;
+            }
+            catch (IOException exception)
+            {
+                System.out.println(exception.getMessage());
+            }
+        }
+
     }
 
     private void refreshTabSize()

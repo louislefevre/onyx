@@ -9,7 +9,7 @@
 <?import javafx.scene.text.TextFlow?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+<BorderPane fx:id="mainParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
    <center>
       <SplitPane fx:id="splitPane" dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
         <items>
@@ -44,9 +44,9 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Open" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As" />
+                        <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save As" />
                      </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit" />
