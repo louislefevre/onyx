@@ -7,12 +7,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.fxmisc.wellbehaved.event.EventPattern;
 import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
 import source.SourceOutput;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,7 +102,10 @@ final class CodeManager
 
     private void initialiseCodeArea()
     {
+        /* Sourced from https://github.com/FXMisc/RichTextFX */
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.multiPlainChanges()
+                .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
 
         InputMap<KeyEvent> inputMap = InputMap.consume(
                 EventPattern.keyPressed(KeyCode.TAB),
@@ -117,5 +124,56 @@ final class CodeManager
                 if (m0.find()) Platform.runLater(() -> codeArea.insertText(caretPosition, m0.group()));
             }
         });
+    }
+
+    private static final String[] KEYWORDS = new String[]{"if", "else", "loop", "from", "to", "and", "or"};
+    private static final String[] OPERATORS = new String[]{"\\+", "\\-", "\\*", "\\/", "\\%", "\\^", "\\>", "\\<", "\\=", "\\!"};
+    private static final String[] BOOLEANS = new String[]{"true", "false"};
+
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEANS) + ")\\b";
+    private static final String OPERATOR_PATTERN = "(" + String.join("|", OPERATORS) + ")";
+    private static final String PAREN_PATTERN = "\\(|\\)";
+    private static final String BRACE_PATTERN = "\\{|\\}";
+    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String COMMENT_PATTERN = "#[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+            + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+            + "|(?<OPERATOR>" + OPERATOR_PATTERN + ")"
+            + "|(?<PAREN>" + PAREN_PATTERN + ")"
+            + "|(?<BRACE>" + BRACE_PATTERN + ")"
+            + "|(?<STRING>" + STRING_PATTERN + ")"
+            + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+    );
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text)
+    {
+        /* Sourced from https://github.com/FXMisc/RichTextFX */
+        int lastKwEnd = 0;
+        Matcher matcher = PATTERN.matcher(text);
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+        while (matcher.find())
+        {
+            String styleClass =
+                    matcher.group("KEYWORD") != null ? "keyword" :
+                    matcher.group("BOOLEAN") != null ? "boolean" :
+                    matcher.group("OPERATOR") != null ? "operator" :
+                    matcher.group("PAREN") != null ? "paren" :
+                    matcher.group("BRACE") != null ? "brace" :
+                    matcher.group("STRING") != null ? "string" :
+                    matcher.group("COMMENT") != null ? "comment" :
+                    null;
+            assert styleClass != null;
+
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+
+        return spansBuilder.create();
     }
 }

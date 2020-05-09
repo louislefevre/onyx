@@ -15,21 +15,20 @@
     -fx-background-color: #212121;
 }
 
-#menuBar .menu .label { /* Menu text */
+#menuBar .menu .label  { /* Menu text */
     -fx-text-fill: white;
 }
 
-#menuBar .menu-item .label { /* Menu item text */
+#menuBar .menu:hover { /* Menu item hover background */
+    -fx-background-color : #303032;
+}
+
+#menuBar .menu-item .label { /* Menu item text */ /*TODO: Currently doesnt work due to .text override in syntax.css*/
     -fx-text-fill: black;
 }
 
 #codeAreaInput { /* CodeArea box */
-    -fx-background-color: #424242;
-}
-
-#codeAreaInput .text { /* CodeArea text */
-    -fx-fill: whitesmoke;
-    -fx-font-family: "Liberation Mono";
+    -fx-background-color: #1B1B1E;
 }
 
 #codeAreaInput .caret { /* CodeArea caret */

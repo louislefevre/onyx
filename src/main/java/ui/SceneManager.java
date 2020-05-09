@@ -28,12 +28,30 @@ public final class SceneManager extends Application
 
     void startMainStage(Stage primaryStage) throws IOException
     {
-        setStage(primaryStage,"/main.fxml", "Onyx Compiler");
+        String title = "Onyx Compiler";
+        String path = "/main.fxml";
+
+        Parent root = FXMLLoader.load(getClass().getResource(path));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(SceneManager.class.getResource("/syntax.css").toExternalForm());
+
+        primaryStage.setTitle(title);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     void startReplStage() throws IOException
     {
-        setStage(new Stage(),"/repl.fxml", "Onyx REPL");
+        String title = "Onyx REPL";
+        String path = "/repl.fxml";
+
+        Parent root = FXMLLoader.load(getClass().getResource(path));
+        Scene scene = new Scene(root);
+
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
     }
 
     void startPopupStage(String message)
@@ -52,13 +70,5 @@ public final class SceneManager extends Application
         window.initModality(Modality.APPLICATION_MODAL);
         window.setScene(scene);
         window.showAndWait();
-    }
-
-    private void setStage(Stage stage, String path, String title) throws IOException
-    {
-        Parent root = FXMLLoader.load(getClass().getResource(path));
-        stage.setTitle(title);
-        stage.setScene(new Scene(root));
-        stage.show();
     }
 }
