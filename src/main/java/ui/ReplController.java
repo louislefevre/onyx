@@ -82,6 +82,6 @@ public final class ReplController
             return null;
 
         SourceOutput sourceOutput = pipeline.compile(input);
-        return sourceOutput.getSimpleResult().toString();
+        return sourceOutput.getOutput().toString();
     }
 }

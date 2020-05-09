@@ -42,7 +42,7 @@ public final class MainController
 
         SourceOutput sourceOutput = codeManager.readInput(input);
 
-        List<Text> result = sourceOutput.getTextResult();
+        List<Text> result = sourceOutput.getTextOutput();
         if (result == null) // Avoids NullPointerException if input is invalid
             return;
 

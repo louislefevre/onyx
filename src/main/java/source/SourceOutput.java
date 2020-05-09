@@ -1,12 +1,10 @@
 package source;
 
 import errors.ErrorHandler;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class SourceOutput
@@ -15,6 +13,7 @@ public final class SourceOutput
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
     private final boolean replMode;
+    private final SourceDisplay sourceDisplay;
 
     public SourceOutput(Evaluator evaluator)
     {
@@ -22,40 +21,30 @@ public final class SourceOutput
         this.errorHandler = evaluator.getErrorHandler();
         this.symbolTable = evaluator.getSymbolTable();
         this.replMode = evaluator.isReplMode();
+        this.sourceDisplay = new SourceDisplay(result, errorHandler.getSourceInput(), errorHandler);
     }
 
-    public Object getResult()
+    public Object getOutput()
     {
         if (errorHandler.containsErrors())
-            return errorHandler.getErrors();
+            return sourceDisplay.getErrors();
 
         return result;
     }
 
-    public List<Text> getTextResult()
-    {
-        if (this.errorHandler.containsErrors())
-            return this.errorHandler.getTextErrors();
-        if(result == null)
-            return null;
-
-        return stringToText(this.result.toString());
-    }
-
-    public Object getSimpleResult()
+    public Object getDecoratedOutput()
     {
         if (errorHandler.containsErrors())
-            return errorHandler.getSimpleErrors();
+            return sourceDisplay.getDecoratedErrors();
 
         return result;
     }
 
-    private static List<Text> stringToText(String str)
+    public List<Text> getTextOutput()
     {
-        List<Text> textList = new ArrayList<>();
-        Text text = new Text(str);
-        text.setFill(Color.WHITE);
-        textList.add(text);
-        return textList;
+        if (errorHandler.containsErrors())
+            return sourceDisplay.getTextErrors();
+
+        return sourceDisplay.getTextResult();
     }
 }
