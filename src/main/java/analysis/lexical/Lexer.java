@@ -20,12 +20,9 @@ import static identifiers.TokenType.*;
 public final class Lexer
 {
     private final String sourceText;
-    @Getter
-    private final ErrorHandler errorHandler;
-    @Getter
-    private final SymbolTable symbolTable;
-    @Getter
-    private final boolean replMode;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
+    @Getter private final boolean replMode;
     private int position;
 
     public Lexer(SourceInput sourceInput)

@@ -20,12 +20,9 @@ import static identifiers.ObjectType.STRING_OBJECT;
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
-    @Getter
-    private final ErrorHandler errorHandler;
-    @Getter
-    private final SymbolTable symbolTable;
-    @Getter
-    private final boolean replMode;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
+    @Getter private final boolean replMode;
     private Object lastValue;
 
     public Evaluator(TypeChecker typeChecker)

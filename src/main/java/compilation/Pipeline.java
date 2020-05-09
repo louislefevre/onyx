@@ -13,8 +13,7 @@ import synthesis.generation.Evaluator;
 
 public final class Pipeline
 {
-    @Getter
-    private final SymbolTable symbolTable;
+    @Getter private final SymbolTable symbolTable;
     private final ErrorHandler errorHandler;
     private boolean replMode;
 

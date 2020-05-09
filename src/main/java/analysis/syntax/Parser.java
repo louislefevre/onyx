@@ -18,12 +18,9 @@ import static identifiers.TokenType.*;
 public final class Parser
 {
     private final List<Token> tokens;
-    @Getter
-    private final ErrorHandler errorHandler;
-    @Getter
-    private final SymbolTable symbolTable;
-    @Getter
-    private final boolean replMode;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
+    @Getter private final boolean replMode;
     private int position;
 
     public Parser(Lexer lexer)
@@ -44,7 +41,9 @@ public final class Parser
     private Statement replTree()
     {
         Expression expression = parseExpression();
-        return new ExpressionStatement(expression);
+        Statement statement = new ExpressionStatement(expression);
+        Token endToken = validateToken(EOF_TOKEN);
+        return new SourceStatement(statement, endToken);
     }
 
     private Statement ideTree()

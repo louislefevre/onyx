@@ -6,6 +6,7 @@ import lombok.Getter;
 import source.SourceSpan;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -28,5 +29,10 @@ public final class SourceStatement implements Statement
         this.statementType = SOURCE_STATEMENT;
         this.span = SourceSpan.inRange(0, endToken.getSpan().getEnd());
         this.children = new LinkedList<>(Arrays.asList(statements, endToken));
+    }
+
+    public SourceStatement(Statement statement, Token endToken)
+    {
+        this(Collections.singletonList(statement), endToken);
     }
 }

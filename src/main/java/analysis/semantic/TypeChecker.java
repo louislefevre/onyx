@@ -21,12 +21,9 @@ import static identifiers.ObjectType.NULL_OBJECT;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    @Getter
-    private final ErrorHandler errorHandler;
-    @Getter
-    private final SymbolTable symbolTable;
-    @Getter
-    private final boolean replMode;
+    @Getter private final ErrorHandler errorHandler;
+    @Getter private final SymbolTable symbolTable;
+    @Getter private final boolean replMode;
 
     public TypeChecker(Parser parser)
     {
