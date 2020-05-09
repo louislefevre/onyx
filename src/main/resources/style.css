@@ -19,12 +19,16 @@
     -fx-text-fill: white;
 }
 
-#menuBar .menu:hover { /* Menu item hover background */
+#menuBar .menu:hover, #menuBar .menu:showing{ /* Menu hover */
     -fx-background-color : #303032;
 }
 
-#menuBar .menu-item .label { /* Menu item text */ /*TODO: Currently doesnt work due to .text override in syntax.css*/
-    -fx-text-fill: black;
+#menuBar .context-menu, #menuBar .menu-item { /* Menu item */
+    -fx-background-color: #212121;
+}
+
+#menuBar .menu-item:hover { /* Menu item hover */
+    -fx-background-color: #333333;
 }
 
 #codeAreaInput { /* CodeArea box */

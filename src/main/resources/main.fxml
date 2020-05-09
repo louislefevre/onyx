@@ -52,6 +52,7 @@
                 <Menu mnemonicParsing="false" text="Edit" />
                   <Menu mnemonicParsing="false" text="Run">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#runSource" text="Run Code" />
                         <MenuItem mnemonicParsing="false" onAction="#openRepl" text="Run REPL" />
                     </items>
                   </Menu>
