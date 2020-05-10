@@ -6,69 +6,92 @@ The goal is that once a user can implement basic programs in this language and u
 # What are the features of the compiler?
 The language is limited to the main features found in common programming languages: functions, variables/data types, operators, conditionals and loops. In order to keep things simple and avoid learning the differences between features with similar functionality, it contains only the primary members of these features. For example:  
 - Variables/Data Types
-  - Does have int, string and boolean.
-  - Doesn't have double, float, char, short, byte, long.
+  - Does have int, double, boolean and string.
+  - Doesn't have float, char, short, byte, long.
 - Operators
-  - Does have equals, plus, minus, divide, multiply.
-  - Doesn't have modulo, increment, decrement.
+  - Does have equals, plus, minus, divide, multiply, modulo, power (and their assignment variations).
+  - Doesn’t have increment and decrement.
 - Conditionals
   - Does have if statements.
   - Doesn't have switch/case statements.
 - Loops
-  - Does have for loops.
-  - Doesn't have while, for each.
+  - Does have for-style loops.
+  - Doesn't have while loops or for each loops.
 
 The following is a brief overview of the syntax for the language:
 - Operators
   - =
-    - is
-    - "Number num is 5"
+    - Assignment operator
+    - ```a = 10```
   - ==
-    - equals
-    - "If num equals 5"
+    - Equality operator
+    - ```a == 10```
   - \+
-    - plus
-    - "num plus 10"
+    - Addition operator
+    - ```a + 10```
   - \-
-    - minus
-    - "num minus 10"
+    - Subtraction operator
+    - ```a - 10```
   - /
-    - divide
-    - "num divide 2"
+    - Division operator
+    - ```a / 10```
+  - %
+    - Modulo operator
+    - ```a % 10```
+  - ^
+    - Power operator
+    - ```a ^ 10```
   - \*
-    - multiply
-    - "num multiply 5"
+    - Multiplication operator
+    - ```a * 10```
   - >
-    - greater than
-    - "If myNum greater than num"
+    - Greater operator
+    - ```a > 10```
   - <
-    - less than
-    - "If myNum less than num"
-- Functions
-  - Task
-  - "Task addNumbers():"
+    - Less operator
+    - ```a < 10```
 - Loops
-  - Loop
-  - "Loop myNumber from 0 to 100"
+  - For loop
+  - ```loop myNumber from 0 to 100```
 - Conditionals
-  - If
-  - "If myNumber equals num"
-- Ints
-  - Number
-  - "Number num is 5"
+  - If statement
+  - ```If a == 10```
+- Integer
+  - Integer number
+  - ```10```
+- Double
+  - Decimal number
+  - ```10.0```
+- Boolean
+  - Boolean value
+  - ```true```
 - Strings
-  - Text
-  - "Text text is "Hello world""
-- Booleans
-  - Bool
-  - "Bool bool is true"
+  - Text string
+  - ```"string"```
 
 Example program written in Onyx:
-<pre>
-Task addNumbers()
+```
+a = 10
+b = 20
+c = true
+d = false
+e = "string"
+var = 0
+
+if a <= b  # if a is less than or equal to b
 {
-  Number myNum is 0
-  Loop loopNum from 0 to 100:
-    myNum plus loopNum
+    loop i from 1 to 10  # inclusive
+    {
+        var += i
+        if i == 10
+            var *= 5
+    }
 }
-</pre>
+else
+{
+    var = 10
+}
+
+var  # prints var
+```
+
