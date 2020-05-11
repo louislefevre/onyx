@@ -5,18 +5,21 @@ The goal is that once a user can implement basic programs in this language and u
 
 # What are the features of the compiler?
 The language is limited to the main features found in common programming languages: functions, variables/data types, operators, conditionals and loops. In order to keep things simple and avoid learning the differences between features with similar functionality, it contains only the primary members of these features. For example:  
-- Variables/Data Types
-  - Does have int, double, boolean and string.
-  - Doesn't have float, char, short, byte, long.
+- Variables
+  - Variables do not need to be declared and may be assigned different types.
+  - Doesn't support use of different types together.
+- Data Types
+  - Supports int, double, boolean and string.
+  - Doesn't support have float, char, short, byte, long.
 - Operators
-  - Does have equals, plus, minus, divide, multiply, modulo, power (and their assignment variations).
-  - Doesn’t have increment and decrement.
+  - Supports equals, plus, minus, divide, multiply, modulo, power (and their assignment variations).
+  - Doesn't support increment and decrement.
 - Conditionals
-  - Does have if statements.
-  - Doesn't have switch/case statements.
+  - Supports if statements.
+  - Doesn't support switch/case statements.
 - Loops
-  - Does have for-style loops.
-  - Doesn't have while loops or for each loops.
+  - Supports for-style loops.
+  - Doesn't support while loops or for each loops.
 
 The following is a brief overview of the syntax for the language:
 - Operators
@@ -32,6 +35,9 @@ The following is a brief overview of the syntax for the language:
   - \-
     - Subtraction operator
     - ```a - 10```
+  - \*
+    - Multiplication operator
+    - ```a * 10```
   - /
     - Division operator
     - ```a / 10```
@@ -41,15 +47,15 @@ The following is a brief overview of the syntax for the language:
   - ^
     - Power operator
     - ```a ^ 10```
-  - \*
-    - Multiplication operator
-    - ```a * 10```
-  - >
+  - \>
     - Greater operator
     - ```a > 10```
   - <
     - Less operator
     - ```a < 10```
+  - +=, -=, *=, /=, %=, ^=
+    - Assignment operators
+    - ```a += 10```
 - Loops
   - For loop
   - ```loop myNumber from 0 to 100```
