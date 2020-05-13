@@ -94,8 +94,7 @@ final class CodeManager
 
         Pipeline pipeline = new Pipeline();
         for (String line : linesList)
-            if (!line.isBlank())
-                pipeline.compile(line);
+            pipeline.compile(line);
 
         return pipeline.compile(input);
     }
