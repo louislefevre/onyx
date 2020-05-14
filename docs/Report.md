@@ -17,10 +17,10 @@ The compiler also removes a number of features typically built into languages, s
 
 
 ## Chapter 4 - Design
-Designing of the project involved planning in two areas: the layout and structure of the compilers source code, and the syntax of the language. Its important that considerable consideration was taken for both of these aspects, as it made objectives far clearer and removed the need for consistent revisions during development.
+Designing of the project involved planning in two areas: the layout and structure of the compilers source code, and the syntax of the language (also known as the language specification). Its important that considerable consideration was taken for both of these aspects, as it made objectives far clearer and removed the need for consistent revisions during development.
 
 ### 4.1 Compiler Design
-A compiler goes through various stages when processing syntax, with each stage transforming the source programs representation in some way. In the form of a pipeline, each component takes input from its predecessor, transforms it, and feeds the output forward to the next component [1]. The amount of stages within a compiler can vary, but in the case of Onyx contains the following.
+The goal of the compiler is to translate between the original syntax and Java, which means primarily focusing on front-end compiler construction. The middle-end and back-end portions are instead handled by Java, with such a design allowing the development of a language with unique syntax and functionality, without having to worry about the tricky implementation of close-to-machine-level aspects. A compiler goes through various stages when processing syntax, with each stage transforming the source programs representation in some way. In the form of a pipeline, each component takes input from its predecessor, transforms it, and feeds the output forward to the next component [1]. The amount of stages within a compiler can vary, but in the case of Onyx contains the following.
 
 #### 4.1.1 Lexical Analysis
 Any compiler will always start with lexical analysis, which is performed by the lexer. It takes the source code as input and scans over it, typically left to right, and groups the characters into lexemes [1]. The lexer represents these lexemes in the form of tokens [2], with each token containing information about the type of data it holds. For example, given the input of an integer, the lexer would output a token that identifies the characters location in the text, its type (e.g. an integer token), and its value. This process is performed for all the characters in a given text, and the lexer outputs a stream of tokens [3]. During this phase, the lexer would also be responsible for reporting any invalid characters located in the source code.
@@ -47,7 +47,7 @@ The second stage of compilation is syntax analysis, also known as parsing, and i
 
 The parser is designed as a recursive descent parser, which adopts a top-down parsing strategy where it begins at the highest level of the parse tree and works its way down, building the parse tree as it goes [4]. The input is read from left to right, taking in tokens until it reaches the end of the file. Each token would be identified by its type, sending the parser flow in a different direction depending on the result. The following tokens would then be checked to ensure they appear as expected, such as an equals operator token appearing after an identifier token, and an expression would be returned. This expression would contain all its relevant tokens, such as in the case of the previous example: an identifier, an equals operator, and the assignment. In the original design the parser was only able to handle expressions, but this was later extended to also process statements so that full programs could be written all at once since the former only allowed REPL-like behaviour.
 
-Another aspect that had to be considered is precedence for operators. Most parsers define a priority value for each operator, and during parsing they are shuffled around with the parser being data driven by those priorities, providing an indicator for which expressions to parse next. This makes the adding of additional operators much easier, as it provides the ability to view operators and see their priority order.
+Another aspect that had to be considered is precedence for operators. Parsers sometimes define a priority value for each operator, and during parsing they are shuffled around with the parser being data driven by those priorities, providing an indicator for which expressions to parse next. This makes the adding of additional operators much easier, as it provides the ability to view operators and see their priority order.
 
 In summary, the primary functions of this phase is to:
 - Retrieve the tokens from the lexer.
@@ -105,7 +105,7 @@ x * y
 ```
 
 #### 4.1.5 Symbol Table
-The symbol table is a data structure that is maintained throughout every phase of a compilers lifecycle, responsible for storing the names of identifiers, as well as their respective values and data types [2]. It is also often used for scope management, but this is not present in Onyx due to the fact it only implements global variables.
+The symbol table is a data structure that is maintained throughout every phase of a compilers life-cycle, responsible for storing the names of identifiers, as well as their respective values and data types [2]. It is also often used for scope management, but this is not present in Onyx due to the fact it only implements global variables.
 
 The symbol table is designed to be implemented in the form of a hash map, with the name of the identifier as the key and the value and type as the value. Each of the previous stages has access to the symbol table, and are able to use it to check whether or not a symbol is contained within the table, as well as retrieve any information about a particular one. This is most prominent during the type checker and evaluator, as during these two stages is when types begin to become relevant for the reasons previously described.
 
@@ -133,7 +133,7 @@ y = {
 ```
 
 #### 4.1.6 Error Handler
-The error handler is responsible for handling errors before continuing with the compilation process, and like the symbol table is also accessible to every stage. Throughout each phase should an error occur, it is reported to the error handler and reported to the user in the form of an appropriately formated error message. Errors are capable of occurring in every stage of the compiler with the exception of the evaluator, where only exceptions can occur.
+The error handler is responsible for handling errors before continuing with the compilation process, and like the symbol table is also accessible to every stage. Throughout each phase should an error occur, it is reported to the error handler and reported to the user in the form of an appropriately formatted error message. Errors are capable of occurring in every stage of the compiler with the exception of the evaluator, where only exceptions can occur.
 
 In order to prevent interruption, Onyx is designed so that it may continue should an error occur. While this makes no difference in terms of the output (as only the error message is returned rather than any calculated result), it allows certain processes to continue being performed. For example during the generation of the parse tree, when an error occurs the invalid element is replaced by a placeholder (holding a null value), allowing the parse tree to still be built despite the invalid syntax. This means the compiler can still provide information regarding the tree for the rest of the syntax, as well as things like data types. By not having the compiler quit dead in its tracks during compilation it opens up the possibility to gather more information, as well as potentially provide tooling in the future.
 
@@ -149,6 +149,84 @@ x * 10
 Error (2, 2): Binary operator '*' is not defined for type 'boolean' and 'integer'.
 	x * 10
 ```
+
+### 4.2 Language Specification
+The language specification is what defines a programming language, detailing what valid syntax is and the behaviour comes from it. Onyx was designed with simplicity in mind, so the requirement for maintaining a simple specification was perhaps the most vital aspect during design. The main idea was to ensure each piece of functionality would be written and work as intuitively as possible, in order to leave little room for the user to be confused as to why something was working the way it was.
+
+#### 4.2.1 Data Types
+Onyx was designed to use only the most basic and necessary data types. Languages such as Java include a large amount of variations for essentially what is the same data type, except with varying amounts of memory. For example, integers along with bytes, shorts, and longs. It was prudent to not consider these redundancies for use, due to the fact that their benefit of using less memory would not prove useful in the context of learning. Instead the compiler only contains the following types: integer, double, boolean, string. This allows the compiler to still provide all the necessary functionality typically found in most languages, except without the extra cruft that would do nothing except make learning more difficult.
+
+Its worth noting that the compiler does not allow different data types to be used together. For example, an integer cannot be used with a double in any operations. The purpose of this is to help provide a clear distinction between data types and avoid unexpected results that are difficult to debug for novices, since type errors are not always obvious particularly when used with variables.
+
+##### Example
+```
+a = 10     (integer)
+b = 20.0   (double)
+c = true   (boolean)
+d = "text" (string)
+```
+
+#### 4.2.2 Variables
+In the original design it was thought that the language would be statically typed, requiring all variables to have their data types declared before use. This was later changed, however, so that the language was dynamically typed. The reason for this is that it made things far more simple from a user perspective, as variables could be reassigned at will without having to be concerned about the declared type, whilst also avoiding the worry of unexpected results due to the fact different types are incompatible with one enough when operated on. Not requiring users to declare variables before use was a good method of simplifying the language even further, since it removed the need to understand why declaring is necessary.
+
+Variable scope in Onyx is also always kept global, no matter where a variable is declared. This design choice was primarily made due to the fact it removed the need for users to learn about scoping, and thus avoiding issues related to variables being out of bounds. In a much larger language this would of course be a major issue, but due to the fact programs written in Onyx will typically be very short in length and its purpose is simply to learn basic programming functionality, its not expected to cause problems.
+
+##### Example
+```
+a = 10   (a is an integer)
+b = true (a is now a boolean)
+```
+
+#### 4.2.3 Operators
+The compiler specifies use for all the standard mathematical operators you would typically require to write expressions, but also includes some extra ones such as modulo and power. These two were not going to be provided initially, but was later added since they could provide significantly more functionality without being too overbearing for the user. What was not implemented, however, was the use of increment and decrements operators. This is mainly due to the difference between having the unary operators as a prefix and post-fix, which changes the order in which a value is incremented and returned. Also it is not as intuitive to recognise for beginners unlike other operators, so its use would likely lead to confusion all round.
+
+As a slight remedy for the lack of the previously mentioned, various assignment operators were specified instead. These would allow variables to use operators on themselves, providing a shorthand form to prevent users being required to write out the full expression that includes the identifier name. It was originally unclear whether this would be added at all since the same operation is still possible with the longhand form, but it was decided to be intuitive enough to keep in.
+
+##### Example
+```
+a = 10
+a = a + 15 (longhand form)
+a += 15    (shorthand form using plus-assignment operator)
+```
+
+#### 4.2.4 Conditionals
+Conditional statements in Onyx are not too different from traditional languages and combines attributes from both Python and Java. For example, the specification doesn't require the use of parentheses for the condition but still allows them, giving the user the opportunity to use whichever they feel most comfortable with. However, a more imperative property is the presence of braces; they are required when declaring a block statement (code greater than 1 line), but can be avoided when encompassing only a single statement. In the former case the entire block will be executed, but in the latter only the next statement is executed. It was made a point that Onyx would not feature block statements that lack the use of braces, which is allowed in Python. The reason for this is that it can become very unclear which code belongs where, particularly when block groupings depend solely on indentation as in indicator. Whilst this is not an issue when only a single statement is involved, more than that can become confusing for users and thus has been disallowed entirely.
+
+Another notable design feature is the enforcement of Allman style indentation, which means open braces must begin on a new line and the use of single-line conditional statements is disallowed. This is intended to encourage the use of writing clearer, more modular code, whilst also providing the additional benefit of having all code written in Onyx look the same, allowing for easier reviewing of other users work.
+
+##### Example
+```
+a = 0
+
+if 1 < 2
+    a = 10
+else
+    a = 20
+
+if a < 20
+{
+    a = 30
+    a *= 5
+}
+```
+
+#### 4.2.5 Loops
+Loops are designed with intuition in mind, and attempts to adopt Pythons style of looping by having the syntax read more as a sentence. The purpose is to have loops be clearer in their functionality just by reading the syntax, unlike in Java where its not easily understandable to the untrained eye how loops are working without a detailed explanation. Many of the other properties of loops are the same as conditionals, such as the enforcement of Allman style indentation and the use of braces in block statements, the reasons for which were explained in the previous section. Though a feat unique to Onyx loops is the inclusion of the upper bound value, which is uncommon in traditional language specifications. When looping it is often the case that the final upper bound value is not executed in the loops body, which is one of the more unintuitive aspects of programming. However, the compiler remedies this by always including the upper value in the execution of the code.
+
+##### Example
+```
+var = 0
+
+loop i from 1 to 10
+{
+    var += i
+    var *= 2
+}
+```
+
+## Chapter 5 - Implementation
+
+
 
 ## References
 1. https://www.guru99.com/compiler-design-phases-of-compiler.html
@@ -185,3 +263,12 @@ Error (2, 2): Binary operator '*' is not defined for type 'boolean' and 'integer
 - Variable
 - Error
 - Exception
+- Syntax
+- Java
+- Machine level
+- Pipeline
+- Source code/program
+- Static typing
+- Dynamic typing
+- Allman style
+- Block statement
