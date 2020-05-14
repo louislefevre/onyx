@@ -14,10 +14,8 @@ import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
 import source.SourceOutput;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,16 +85,18 @@ final class CodeManager
         input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
         String[] lines = input.split(System.getProperty("line.separator")); // Splits each line up to be run individually
 
-        List<String> linesList = new ArrayList<>();
-        for (String line : lines)
-            if (!line.isBlank()) // Only adds non-blank lines
-                linesList.add(line);
-
         Pipeline pipeline = new Pipeline();
-        for (String line : linesList)
+        for (String line : lines)
+        {
+            if (line.isBlank())
+                continue;
             pipeline.compile(line);
+        }
 
-        return pipeline.compile(input);
+        SourceOutput sourceOutput = pipeline.compile(input);
+        pipeline.printParseTree();
+
+        return sourceOutput;
     }
 
     private void initialiseCodeArea()
