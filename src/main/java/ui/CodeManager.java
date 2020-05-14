@@ -104,7 +104,7 @@ final class CodeManager
         /* Sourced from https://github.com/FXMisc/RichTextFX */
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.multiPlainChanges()
-                .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
+                .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText().toLowerCase())));
 
         InputMap<KeyEvent> inputMap = InputMap.consume(
                 EventPattern.keyPressed(KeyCode.TAB),
