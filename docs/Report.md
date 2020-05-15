@@ -224,9 +224,36 @@ loop i from 1 to 10
 }
 ```
 
-## Chapter 5 - Implementation
 
+## Chapter 6 - Testing
+To test that Onyx successfully meets the requirements and specifications originally set, the independent procedures of verification and validation were used as a means of quality assurance.
 
+### 6.1 Validation
+"Validation. The assurance that a product, service, or system meets the needs of the customer and other identified stakeholders. It often involves acceptance and suitability with external customers. Contrast with verification." - Project Management Body of Knowledge [7]
+
+The objective of this procedure is to discover whether or not the compiler is successfully able to meet the needs and requirements previously defined, in order to prove itself as a useful product amongst its stakeholders.
+
+### 6.2 Verification
+"Verification. The evaluation of whether or not a product, service, or system complies with a regulation, requirement, specification, or imposed condition. It is often an internal process. Contrast with validation." - Project Management Body of Knowledge [7]
+
+The objective of this procedure is to discover whether or not the compiler successfully meets the requirements set in terms of functionality, design and quality, demonstrating that its goals have been met and is capable of performing to a high standard. To help achieve this objective unit tests have been developed for the major components of the compilers pipeline, each one using specialised inputs that help identify errors specific to section being tested. The following explains the testing that took place, and identifies how it ensures requirements have been met.
+
+#### 6.2.1 Lexer Testing
+In the original design of the lexer its primary requirement was to be capable of taking a string as input, inspecting each character and categorising it into a token with the corresponding type, and then outputting a list of tokens. Since all of the tests assess by default the input of strings and output of tokens, the main focus becomes the categorising of tokens. This was rather trivial as it simply required the input of single character or word, and then examining the type of the single token found within the returned list, seeing if it matched what was expected. This was repeated for every character that was defined within the language, and the tests passing successfully meant that they were all being identified correctly.
+
+#### 6.2.2 Parser Testing
+The parsers function is to check if the source code is syntactically correct by comparing it against the grammatical rules of the language. Given the large amount of possibilities in terms of combinations of tokens, the first step was to break down the tests into different expression categories: literal, unary, binary, identifier, assignment, and parenthesised expressions. Each one would be responsible for implementing tests for its assigned expression type, making it easy to discover which expression failed and the location the issue occurred in the parser. The tests would simply run the input through the parser and examine the type of expression that was returned, and check that it matched against the expected outcome.
+
+In order to expand these test cases they were also used in conjunction with one another, for example all the tests were wrapped in parentheses and then passed as parenthesised expressions, allowing the amount of inputs to expand massively without the need to manually add extra cases. This was rather vital to include, as otherwise it would have meant either a lot of boilerplate code or lack of edge case testing. In any case, the passing of the tests provided clarity in the fact that the parser would correctly verify the syntactic precision of the source code.
+
+#### 6.2.3 Type Checker Testing
+Validating the type checker was rather similar to the parser in terms of how it was implemented, as not much changes outside of data types. Again each test was compartmentalised into various categories, with the result being compared against the expected expression type. Though since the role of the type checker is to validate type compatibility between operands and operators, the successful return of the correct expression type meant that type validation was achieved and its function was performed correctly.
+
+#### 6.2.4 Evaluator Testing
+The evaluators main job is to evaluate each expression and statement, returning the resulting values. This was particularly simple to test since it only required surveying the final result. Each unit test would take expressions of a particular type, same as previously, and evaluate the results by running them through the evaluator. The values returned were then compared against the expected outcome, and if they matched the tests passed. It was again rather imperative that this stage used a large pool of inputs for testing, as the amount of possibilities is extremely large and would potentially reveal a significant number of edge case issues.
+
+#### 6.2.5 Error Handler Testing
+The final stage of unit testing takes place within the error handler, whose primary responsibility is to receive errors and output them to the user. Up until this point the unit tests have focused on correct inputs rather than incorrect ones, so this is where invalid syntax is purposely passed to see if the expected error message is returned. This was broken down into three categories: lexical errors occurring in the lexer, syntax errors occurring in the parser, and semantic errors occurring in the type checker. If the broken syntax resulted in the expected error occurring, it can be verified that the compiler successfully handles errors should they transpire.
 
 ## References
 1. https://www.guru99.com/compiler-design-phases-of-compiler.html
@@ -235,12 +262,11 @@ loop i from 1 to 10
 4. https://www.geeksforgeeks.org/recursive-descent-parser/
 5. https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)
 6. https://en.wikipedia.org/wiki/Compiler
+7. https://ieeexplore.ieee.org/document/5937011
 
 ## Glossary of Terms
 - Token
-- Lexer
 - Lexemes
-- Source code
 - Integer
 - Parse tree
 - Expression
@@ -272,3 +298,4 @@ loop i from 1 to 10
 - Dynamic typing
 - Allman style
 - Block statement
+- Unit test(ing)
