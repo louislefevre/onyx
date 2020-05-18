@@ -1,9 +1,9 @@
 <div style="text-align: center; margin-bottom: 100px;">
-  <img src="../assets/goldsmiths-logo.png" alt="Goldsmiths logo">
-  <p>
-      <h2 style="border-bottom: none;">The Onyx Compiler</h2>
-      <h3>Louis Lefevre</h3>
-      <h4>BSc Computer Science</h4>
+  <p align="center"> 
+	  <img src="../assets/goldsmiths-logo.png" alt="Goldsmiths logo" />
+    <h3 align="center" style="border-bottom: none;">The Onyx Compiler</h3>
+    <h4 align="center">Louis Lefevre</h4>
+    <h4 align="center">BSc Computer Science</h4>
   </p>
 </div>
 
@@ -281,13 +281,13 @@ The objective of this procedure is to discover whether or not the compiler is su
 ### 6.1.1 User Testing
 There are two primary stakeholders to be considered for the Onyx compiler: the users and the clients. An example of a potential client would be a business that deals in personalised tutoring for prospective programmers, with the users being their students. At the time of writing it is currently difficult for user testing to take place due to the fact the country is currently experiencing a lock-down due to the ensuing pandemic. As a result, gathering people for testing has proved difficult and resulted in a limited sample. However, despite not being able to test users directly it has been possible to get in touch with Atikah, a coding tutor who works for the computer training school Spark4Kids and has experience in helping young children to learn basic programming skills.
 
-**Question 1: How do you feel about the scope of the compiler? Does it have too many or too little features for its intended purpose?**
+**Question 1: How do you feel about the scope of the compiler? Does it have too many or too little features for its intended purpose?**  
 Atikah explained that she felt the scope of the compiler was just right; it covered all the basics without going into too much of the more complex features, which she often found were confusing for beginners to deal with. By keeping it limited it made it easier to focus on each individual aspect and create clearer goals in terms of learning. 
 
-**Question 2: Do you think that the insightful error messages will be useful for students in helping them figure out problems for themselves?**
+**Question 2: Do you think that the insightful error messages will be useful for students in helping them figure out problems for themselves?**  
 She explained that in her experience, students of a young age struggle to make much sense of error messages and often will simply ask for help rather than attempt to understand the meaning. This is mostly due to the verbose and confusing nature of the error messages, but also because they are younger in age and more unable or unwilling to figure out the problem for themselves. As a result, despite the clearer error messages they may still not make use of them. However, she did explain that it would still be useful as it would make it easier for tutors to figure out the problem themselves and explain it to the student. It was also noted that older students wouldn't have this issue and would be more capable of understanding the error messages themselves.
 
-**Question 3: Do you feel that the compiler would be a useful tool for students learning programming for the first time?**
+**Question 3: Do you feel that the compiler would be a useful tool for students learning programming for the first time?**  
 Due to the well-defined scope of functionality and insightful error messages, Atikah agreed that it would prove as a valuable learning tool for novice programmers. Most modern languages aren't designed for learning and come with a lot of extra functionality that can be confusing for beginners to get around, so having a language designed with learners in mind would make things far easier from a teaching standpoint. 
 
 ### 6.2 Verification
