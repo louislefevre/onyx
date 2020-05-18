@@ -1,10 +1,9 @@
-<div style="text-align: center; padding-bottom: 300px;">
-  <h1>The Onyx Compiler</h1>
+<div style="text-align: center; margin-bottom: 100px;">
+  <img src="../assets/goldsmiths-logo.png" alt="Goldsmiths logo">
   <p>
-      <img src="../assets/goldsmiths-logo.png" alt="Goldsmiths logo">
+      <h2 style="border-bottom: none;">The Onyx Compiler</h2>
       <h3>Louis Lefevre</h3>
       <h4>BSc Computer Science</h4>
-      <h4>Goldsmiths, University of London</h4>
   </p>
 </div>
 
@@ -28,7 +27,7 @@ The compiler also removes a number of features typically built into languages, s
 
 
 ## Chapter 4 - Design
-Designing of the project involved planning in two areas: the layout and structure of the compilers source code, and the syntax of the language (also known as the language specification). Its important that considerable consideration was taken for both of these aspects, as it made objectives far clearer and removed the need for consistent revisions during development.
+Designing of the project involved planning in three areas: the layout and structure of the compilers source code, the syntax of the language (also known as the language specification), and the graphical user interface (the GUI). Its important that each of these aspects were targetted individually, as it made objectives far clearer and removed the need for consistent revisions during development.
 
 ### 4.1 Compiler Design
 The goal of the compiler is to translate between the original syntax and Java, which means primarily focusing on front-end compiler construction. The middle-end and back-end portions are instead handled by Java, with such a design allowing the development of a language with unique syntax and functionality, without having to worry about the tricky implementation of close-to-machine-level aspects. A compiler goes through various stages when processing syntax, with each stage transforming the source programs representation in some way. In the form of a pipeline, each component takes input from its predecessor, transforms it, and feeds the output forward to the next component [1]. The amount of stages within a compiler can vary, but in the case of Onyx contains the following.
@@ -143,7 +142,7 @@ y = {
 }
 ```
 
-#### 4.1.6 Error Handler
+#### 4.1.6 Error Handling
 The error handler is responsible for handling errors before continuing with the compilation process, and like the symbol table is also accessible to every stage. Throughout each phase should an error occur, it is reported to the error handler and reported to the user in the form of an appropriately formatted error message. Errors are capable of occurring in every stage of the compiler with the exception of the evaluator, where only exceptions can occur.
 
 In order to prevent interruption, Onyx is designed so that it may continue should an error occur. While this makes no difference in terms of the output (as only the error message is returned rather than any calculated result), it allows certain processes to continue being performed. For example during the generation of the parse tree, when an error occurs the invalid element is replaced by a placeholder (holding a null value), allowing the parse tree to still be built despite the invalid syntax. This means the compiler can still provide information regarding the tree for the rest of the syntax, as well as things like data types. By not having the compiler quit dead in its tracks during compilation it opens up the possibility to gather more information, as well as potentially provide tooling in the future.
@@ -235,6 +234,41 @@ loop i from 1 to 10
 }
 ```
 
+### 4.3 Graphical User Interface
+The GUI was designed with minimalism in mind as it had to be clear how to use immediately on first use, whilst also not being too daunting for beginners. The main tools needed for regular use also had to be in clear sight all the time, whilst extra functionality would be somewhat hidden out the way until required. Essentially, a sort of abstraction was kept in mind during its planning.
+
+#### 4.3.1 Integrated Development Environment
+The main portion of the GUI would be the IDE, which houses the main components for entering code, running the program, and examining the output. Aside from a menu, these three things are the only elements found within the main interface. The purpose of this is to keep it simple, with only the most necessary components found in plain sight. As previously mentioned the design will also include a menu bar at the top of the IDE, which will be responsible for housing an array of extra functionality. Some of this extra functionality included in the menu bar is file management (e.g. opening and saving files), links for help documentation, and opening the REPL (discussed in the next section). The IDE also has its own syntax highlighting, designed with complimentary colours in mind that make it easy to distinguish between syntax and their associated functionality.
+
+#### 4.3.2 Read Evaluate Print Loop
+An extra feature that comes with the IDE is the REPL; a simple program that reads input one line at a time and returns a result. It contains a system for tracking variables, including information about their type, value, and name. The purpose is to provide a simplier, more visual method for understanding the basics of writing mathematical expressions and declaring variables. It essentially acts a dumbed-down version of the compiler and is provided for learners who are struggling to take in entire programs at once, since instead it gives them the opportunity to do things one line of code at a time. Its also worth noting that the REPL doesn't include the use of conditionals or loops, as it is intended for single-line statements rather than multiline ones.
+
+
+## Chapter 5 - Implementation
+The implementation portion of the project involved completing both a compiler and a GUI individually, the details for which is discussed in the following sections.
+
+### 5.1 Compiler Implementation
+Implementation of the compiler meant following the design from the previous chapter and finding a way to apply it in Java. It has been built in a way where the components are as modular as possible, with each stage feeding into the next. This structure made it rather trivial to isolate each aspect and then implement the functionality individually, so exploring the source code isn't too challenging.
+
+#### 5.1.1 Lexer
+
+#### 5.1.2 Parser
+
+#### 5.1.3 Type Checker
+
+#### 5.1.4 Evaluator
+
+#### 5.1.5 Symbol Table
+
+#### 5.1.6 Error Handler
+
+### 5.2 Graphical User Interface
+The GUI has also been built entirely separate from the compiler, with the only link between them being the user input and the resulting output. Whilst technically being implemented in Java, the GUI was made using JavaFX - a software platform for creating desktop applications. This was further assisted through the use of the JavaFX tool Scene Builder that provides a visual layout for designing user interfaces without the need for coding, instead creating the interface with FXML, which is a XML format used specifically for designing JavaFX GUIs.
+
+#### 5.2.1 Integrated Development Environment
+
+
+#### 5.2.2 Read Evaluate Print Loop
 
 ## Chapter 6 - Testing
 To test that Onyx successfully meets the requirements and specifications originally set, the independent procedures of verification and validation were used as a means of quality assurance.
@@ -294,7 +328,6 @@ The final stage of unit testing takes place within the error handler, whose prim
 - Parse tree
 - Expression
 - Statement
-- REPL
 - Identifier
 - Data driven
 - Recursive Descent Parser
@@ -322,3 +355,6 @@ The final stage of unit testing takes place within the error handler, whose prim
 - Allman style
 - Block statement
 - Unit test(ing)
+- Abstraction
+- Integrated development environment (IDE)
+- Real evaluate print loop (REPL)
