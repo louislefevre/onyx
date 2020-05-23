@@ -92,11 +92,11 @@ public final class MainController
     @FXML
     void saveFile()
     {
-        String text = codeAreaInput.getText();
         try {
+            String text = codeAreaInput.getText();
             fileManager.saveFile(text);
         }
-        catch (FileNotFoundException | IllegalArgumentException exception) {
+        catch (IOException | IllegalArgumentException exception) {
             openPopupWindow(exception.getMessage());
         }
         catch (NullPointerException exception) {
@@ -111,7 +111,7 @@ public final class MainController
         try {
             fileManager.saveFileAs(text);
         }
-        catch (FileNotFoundException | IllegalArgumentException exception) {
+        catch (IOException | IllegalArgumentException exception) {
             openPopupWindow(exception.getMessage());
         }
         catch (NullPointerException exception) {

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 
 @Getter
@@ -40,21 +41,23 @@ final class FileManager
         File file = fileChooser.showOpenDialog(new Stage());
         if (file == null)
             throw new NullPointerException("No file was selected");
+        else if (isNonExistentFile(file))
+            throw new FileNotFoundException("Selected file doesn't exist: " + file.getPath());
+        else if (isInvalidReadFile(file))
+            throw new AccessDeniedException("Access denied - you do not have permission to read this file");
         else if (isInvalidFileExtension(file))
             throw new IllegalArgumentException("Invalid file extension");
-        else if (isValidReadFile(file))
-            return readFile(file);
         else
-            throw new FileNotFoundException("Selected file doesn't exist: " + file.getPath());
+            return readFile(file);
     }
 
-    public void saveFileAs(String text) throws FileNotFoundException
+    public void saveFileAs(String text) throws IOException
     {
         String initialFileName = "new-script.txt";
         saveFileAs(text, initialFileName);
     }
 
-    public void saveFileAs(String text, String initialFileName) throws FileNotFoundException, NullPointerException, IllegalArgumentException
+    public void saveFileAs(String text, String initialFileName) throws IOException, NullPointerException, IllegalArgumentException
     {
         FileChooser fileChooser = new FileChooser();
         addInitialDirectory(fileChooser);
@@ -64,16 +67,20 @@ final class FileManager
         File file = fileChooser.showSaveDialog(new Stage());
         if (file == null)
             throw new NullPointerException("No file was selected");
-        else if (!isValidFileExtension(file))
+        else if (isNonExistentFile(file))
+            throw new FileNotFoundException("Selected file doesn't exist: " + file.getPath());
+        else if (isInvalidWriteFile(file))
+            throw new AccessDeniedException("Access denied - you do not have permission to write to this file");
+        else if (isInvalidFileExtension(file))
             throw new IllegalArgumentException("Invalid file extension");
         else
             writeFile(file, text);
     }
 
-    public void saveFile(String text) throws FileNotFoundException
+    public void saveFile(String text) throws IOException
     {
         File file = currentFile;
-        if (isValidWriteFile(file))
+        if (isValidSaveFile(file))
             writeFile(file, text);
         else
             saveFileAs(text);
@@ -112,19 +119,24 @@ final class FileManager
         currentFile = file;
     }
 
-    private boolean isValidReadFile(File file)
+    private boolean isNonExistentFile(File file)
     {
-        return isValidFile(file) && file.canRead();
+        return !file.exists();
     }
 
-    private boolean isValidWriteFile(File file)
+    private boolean isInvalidReadFile(File file)
     {
-        return isValidFile(file) && file.canWrite();
+        return !file.canRead();
     }
 
-    private boolean isValidFile(File file)
+    private boolean isInvalidWriteFile(File file)
     {
-        return file != null && file.exists() && file.isFile();
+        return !file.canWrite();
+    }
+
+    private boolean isValidSaveFile(File file)
+    {
+        return file != null && file.exists() && file.isFile() && file.canWrite() && isValidFileExtension(file);
     }
 
     private boolean isInvalidFileExtension(File file)
