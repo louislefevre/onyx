@@ -26,7 +26,7 @@ final class FileManager
         this.initialDirectory = initialDirectory;
         this.validFileExtensions = validFileExtensions;
         this.currentFile = null;
-        this.originalText = null;
+        this.originalText = "";
     }
 
     public FileManager()
@@ -90,8 +90,6 @@ final class FileManager
 
     public boolean checkIfSaved(String text)
     {
-        if (originalText == null)
-            return true;
         return originalText.equals(text);
     }
 
