@@ -8,7 +8,6 @@ import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 import source.SourceOutput;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,14 +18,16 @@ public final class MainController
     @FXML private Label lineInfoLabel;
     @FXML private TextField tabSizeField;
 
-    private SceneManager sceneManager;
+    private StageManager stageManager;
+    private AlertManager alertManager;
     private FileManager fileManager;
     private CodeManager codeManager;
 
     @FXML
     void initialize()
     {
-        sceneManager = new SceneManager();
+        stageManager = new StageManager();
+        alertManager = new AlertManager();
         fileManager = new FileManager();
         codeManager = new CodeManager(codeAreaInput, tabSizeField, 4);
     }
@@ -52,7 +53,7 @@ public final class MainController
     @FXML
     void openRepl() throws IOException
     {
-        sceneManager.startReplStage();
+        stageManager.startReplStage();
     }
 
     @FXML
@@ -86,7 +87,7 @@ public final class MainController
             {
                 String message = "You have unsaved changes that will be lost if you open another file.\n" +
                                  "Are you sure you want to continue?";
-                boolean confirmation = openConfirmationWindow(message);
+                boolean confirmation = openConfirmationAlert(message);
                 if (!confirmation)
                     return;
             }
@@ -96,7 +97,7 @@ public final class MainController
         }
         catch (IOException | IllegalArgumentException exception)
         {
-            openPopupWindow(exception.getMessage());
+            openPopupAlert(exception.getMessage());
         }
         catch (NullPointerException exception)
         {
@@ -114,7 +115,7 @@ public final class MainController
         }
         catch (IOException | IllegalArgumentException exception)
         {
-            openPopupWindow(exception.getMessage());
+            openPopupAlert(exception.getMessage());
         }
         catch (NullPointerException exception)
         {
@@ -132,7 +133,7 @@ public final class MainController
         }
         catch (IOException | IllegalArgumentException exception)
         {
-            openPopupWindow(exception.getMessage());
+            openPopupAlert(exception.getMessage());
         }
         catch (NullPointerException exception)
         {
@@ -149,13 +150,13 @@ public final class MainController
         runtime.exec("xdg-open " + url);
     }
 
-    private void openPopupWindow(String message)
+    private void openPopupAlert(String message)
     {
-        sceneManager.startPopupStage(message);
+        alertManager.startErrorAlert(message);
     }
 
-    private boolean openConfirmationWindow(String message)
+    private boolean openConfirmationAlert(String message)
     {
-        return sceneManager.startConfirmationWindow(message);
+        return alertManager.startConfirmationAlert(message);
     }
 }

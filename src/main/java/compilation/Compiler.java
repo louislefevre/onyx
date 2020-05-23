@@ -1,7 +1,7 @@
 package compilation;
 
 import source.SourceOutput;
-import ui.SceneManager;
+import ui.StageManager;
 
 import java.util.Scanner;
 
@@ -17,7 +17,7 @@ public class Compiler
 
     private void guiMode()
     {
-        SceneManager.launchInterface();
+        StageManager.launchInterface();
     }
 
     private void consoleMode(boolean replMode)
