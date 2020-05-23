@@ -16,15 +16,17 @@ import java.nio.file.Files;
 @Setter
 final class FileManager
 {
-    private File currentFile;
     private File initialDirectory;
     private String[] validFileExtensions;
+    private File currentFile;
+    private String originalText;
 
     public FileManager(File initialDirectory, String... validFileExtensions)
     {
-        this.currentFile = null;
         this.initialDirectory = initialDirectory;
         this.validFileExtensions = validFileExtensions;
+        this.currentFile = null;
+        this.originalText = null;
     }
 
     public FileManager()
@@ -86,6 +88,13 @@ final class FileManager
             saveFileAs(text);
     }
 
+    public boolean checkIfSaved(String text)
+    {
+        if (originalText == null)
+            return true;
+        return originalText.equals(text);
+    }
+
     private void addInitialDirectory(FileChooser fileChooser)
     {
         if (initialDirectory.exists())
@@ -108,6 +117,7 @@ final class FileManager
     {
         String fileText = Files.readString(file.toPath());
         currentFile = file;
+        originalText = fileText;
         return fileText;
     }
 
@@ -117,6 +127,7 @@ final class FileManager
         writer.print(text);
         writer.close();
         currentFile = file;
+        originalText = text;
     }
 
     private boolean isNonExistentFile(File file)

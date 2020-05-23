@@ -5,13 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class SceneManager extends Application
 {
@@ -56,9 +60,9 @@ public final class SceneManager extends Application
 
     void startPopupStage(String message)
     {
-        VBox layout= new VBox();
+        VBox layout = new VBox();
         Label messageLabel = new Label(message);
-        Button closeButton= new Button("Close");
+        Button closeButton = new Button("Close");
         Scene scene = new Scene(layout, 200, 100);
         Stage window = new Stage();
 
@@ -70,5 +74,26 @@ public final class SceneManager extends Application
         window.initModality(Modality.APPLICATION_MODAL);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    boolean startConfirmationWindow(String message)
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setContentText(message);
+
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+
+        AtomicBoolean confirm = new AtomicBoolean(false);
+        alert.showAndWait().ifPresent(type -> {
+            if (type.getButtonData() == ButtonBar.ButtonData.YES)
+                confirm.set(true);
+        });
+
+        alert.close();
+        return confirm.get();
     }
 }

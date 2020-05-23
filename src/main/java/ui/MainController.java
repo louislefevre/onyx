@@ -77,14 +77,29 @@ public final class MainController
     @FXML
     void openFileChooser()
     {
-        try {
+        try
+        {
+            String text = codeAreaInput.getText();
+            boolean saved = fileManager.checkIfSaved(text);
+
+            if (!saved)
+            {
+                String message = "You have unsaved changes that will be lost if you open another file.\n" +
+                                 "Are you sure you want to continue?";
+                boolean confirmation = openConfirmationWindow(message);
+                if (!confirmation)
+                    return;
+            }
+
             String fileText = fileManager.openFile();
             codeAreaInput.replaceText(fileText);
         }
-        catch (IOException | IllegalArgumentException exception) {
+        catch (IOException | IllegalArgumentException exception)
+        {
             openPopupWindow(exception.getMessage());
         }
-        catch (NullPointerException exception) {
+        catch (NullPointerException exception)
+        {
             System.out.println(exception.getMessage());
         }
     }
@@ -92,14 +107,17 @@ public final class MainController
     @FXML
     void saveFile()
     {
-        try {
+        try
+        {
             String text = codeAreaInput.getText();
             fileManager.saveFile(text);
         }
-        catch (IOException | IllegalArgumentException exception) {
+        catch (IOException | IllegalArgumentException exception)
+        {
             openPopupWindow(exception.getMessage());
         }
-        catch (NullPointerException exception) {
+        catch (NullPointerException exception)
+        {
             System.out.println(exception.getMessage());
         }
     }
@@ -108,13 +126,16 @@ public final class MainController
     void saveFileAs()
     {
         String text = codeAreaInput.getText();
-        try {
+        try
+        {
             fileManager.saveFileAs(text);
         }
-        catch (IOException | IllegalArgumentException exception) {
+        catch (IOException | IllegalArgumentException exception)
+        {
             openPopupWindow(exception.getMessage());
         }
-        catch (NullPointerException exception) {
+        catch (NullPointerException exception)
+        {
             System.out.println(exception.getMessage());
         }
     }
@@ -131,5 +152,10 @@ public final class MainController
     private void openPopupWindow(String message)
     {
         sceneManager.startPopupStage(message);
+    }
+
+    private boolean openConfirmationWindow(String message)
+    {
+        return sceneManager.startConfirmationWindow(message);
     }
 }
