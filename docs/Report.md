@@ -16,12 +16,12 @@ A great deal of time and effort was required during the development of this proj
 ## Contents
 1. [Introduction](#1)  
 2. [Background Study](#2)  
-	2.1 [The Problem](#2.1)
-	2.2 [Existing Compilers](#2.2)
+	2.1 [The Problem](#2.1)  
+	2.2 [Existing Compilers](#2.2)  
 	&nbsp;	2.2.1 [Python ](#2.2.1)  
 	&nbsp;	2.2.2 [JavaScript](#2.2.2)  
 	&nbsp;	2.2.3 [GitHub Projects](#2.2.3)  
-	2.3 [Aims & Objectives](#2.3)
+	2.3 [Aims & Objectives](#2.3)  
 	&nbsp;	2.3.1 [Insightful Error Messages](#2.3.1)  
 	&nbsp;	2.3.2 [Intuitive Syntax](#2.3.2)  
 	&nbsp;	2.3.3 [Basic Functionality](#2.3.3)  
@@ -459,6 +459,9 @@ The final stage of unit testing takes place within the error handler, whose prim
 19. https://insights.stackoverflow.com/survey/2019
 20. https://www.simplilearn.com/best-programming-languages-start-learning-today-article
 21. https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
+
+## Appendices <a name="appendices"></a>
+
 
 ## Glossary of Terms <a name="terms"></a>
 <dl>
