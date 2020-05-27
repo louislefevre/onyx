@@ -72,6 +72,12 @@ A great deal of time and effort was required during the development of this proj
 	7.4 [Insightful Error Messages](#7.4)  
 	7.5 [Simple Setup](#7.5)  
 8. [Conclusions](#8)  
+	8.1 [Overall Assessment](#8.1)  
+	8.2 [Future Development](#8.2)  
+	&nbsp;	8.2.1 [Compiler Correctness](#8.2.1)  
+	&nbsp;	8.2.2 [GUI Cleanup](#8.2.2)  
+	&nbsp;	8.2.3 [Implementing Functions](#8.2.3)  
+	8.3 [Self Evaluation](#8.3)  
 9. [References](#references)  
 10. [Appendices](#appendices)  
 11. [Glossary of Terms](#terms)  
@@ -435,7 +441,7 @@ The final stage of unit testing takes place within the error handler, whose prim
 The success of the project is largely based on whether or not the requirements previously discussed in chapter 3 have been met, with each of the primary pieces of functionality from the original plans being reviewed.
 
 ### 7.1 Basic Functionality <a name="7.1"></a>
-The goal for implementing only the bare minimum amount of features was successful, with variables, operators, conditonals, and loops being include. Each of these is kept simple and they are capable of working together in order to form an overall working compiler. The only missing piece is functions, as they were not prioritised and ended up not being complete. However, this is not of great concern since they are not vital in regards to overall functionality and in some regards could begin to complicate the system unneccessarily as it may be seen as out of scope. As previously discussed with users, it was also clarified that they agreed the scope was on point and avoided being too simple or too complex.
+The goal for implementing only the bare minimum amount of features was successful, with variables, operators, conditionals, and loops being include. Each of these is kept simple and they are capable of working together in order to form an overall working compiler. The only missing piece is functions, as they were not prioritised and ended up not being complete. However, this is not of great concern since they are not vital in regards to overall functionality and in some regards could begin to complicate the system unnecessarily as it may be seen as out of scope. As previously discussed with users, it was also clarified that they agreed the scope was on point and avoided being too simple or too complex.
 
 ### 7.2 Data Types, Variables, & Scope <a name="7.2"></a>
 The four data types originally planned were integers, doubles, booleans and strings, with each one being added successfully. Whilst none of the types are compatible, there was a plan during development to allow the use of doubles and integers together. However, it was deemed that this would be too inconsistent and raise confusion with users over type compatibility, whilst also producing unexpected results. The main limitation is that users can only store integer values up to a maximum of 2^31-1, though this is unlikely to be a common problem as they will typically be working with smaller numbers for learning. In any case, its possible this will be changed so that integers are automatically converted to longs whenever a number exceeds the limit (with this process being hidden from the user).
@@ -443,7 +449,7 @@ The four data types originally planned were integers, doubles, booleans and stri
 Variables are implicitly defined, not requiring any kind of type declaration. Whenever a variable is assigned with a new value of a different type, this conversion is allowed so long as no other operation is being performed at the same (e.g. adding, subtracting, etc). All variables are also accessible on the global scope, making it possible to declare them within loops and conditionals.
 
 ### 7.3 Intuitive Syntax <a name="7.3"></a>
-For the syntax there was a plan to use English words for nearly everything in order to make it as intuitive as possible, an example being ```var equals 10```. Though from user testing it became apparent that the main audience this was thought to benefit (young children) would not find it very helpful, and were perfectly capable of understanding regular mathemetical syntax. As a result the language is written to use English for variables, conditionals and loops, and operators for any kind of data manipulation. This is essentially a good middleground where any written code is not complex and easy to understand, whilst also not being too verbose.
+For the syntax there was a plan to use English words for nearly everything in order to make it as intuitive as possible, an example being ```var equals 10```. Though from user testing it became apparent that the main audience this was thought to benefit (young children) would not find it very helpful, and were perfectly capable of understanding regular mathematical syntax. As a result the language is written to use English for variables, conditionals and loops, and operators for any kind of data manipulation. This is essentially a good middle ground where any written code is not complex and easy to understand, whilst also not being too verbose.
 
 ### 7.4 Insightful Error Messages <a name="7.4"></a>
 Error messages have been made as simple as possible, and include line numbers, coloured markings, description of the error, and a possible solution. An effort was made to remove use of any jargon and have the problem explained in a clear manner that keeps beginners in mind; an attempt to remove confusion and frustration during learning experiences.
@@ -452,7 +458,31 @@ Error messages have been made as simple as possible, and include line numbers, c
 To satisfy the objectives for having a program compatible with all operating systems whilst also being easy to run, the project was developed with Java and built as a JAR artifact using IntelliJ IDEA. Since Java runs within the JVM the project only requires Java 11 to be installed for compatibility, and requires no installation as only the JAR/EXE file needs to be run. Furthermore, Onyx does not have its own specific file type for opening files, and instead just uses basic text files. This further was to again improve compatibility (as all operating systems use text files) and allow users to use a familar file type instead of a new one.
 
 ## Chapter 8 - Conclusions <a name="8"></a>
+With the completion of any project comes its assessment; reviewing how successful or unsuccessful it was, and discovering how much of the original goals were achieved. Here will be discussed the overall evaluation of the project, its future prospects, and self-reflection.
 
+### 8.1 Overall Assessment <a name="8.1"></a>
+Overall, the project has achieved the majority of its goals. As discussed in chapter 7, all of the functionality defined in the requirements has been successfully implemented (with the exception of functions) and the compiler is capable of fulfilling its purpose as a learning tool. Its completely stable and doesn't crash at any known point, with a large unit testing infrastructure in place for maintaining integrity. The GUI has been completed with all the core features, and has been fitted with a well designed appearance including colour coding for syntax and error messages. Users are capable of interfacting with the file system for opening or saving work, and program execution is very quick. The compiler is compatible with multiple operating systems, and is able to run without an installation process.
+
+However as mentioned, functions were not implemented in the final version of the compiler. The GUI also lacks extra features non-essential features which users may find useful for editing code, and doesn't include a light theme. There are also some bugs still present for niche input cases, which would need to be fixed before it could be used by a large userbase. More testing also needs to take place on alternative operating systems to verify that everything works on each platform.
+
+Furthermore, based on the background study in chapter 2, the compiler is successful in solving the initial problem presented; Onyx is a language designed purely for learning and keeps beginners in mind the entire time, adopting a minimalistic attitude and presenting itself as a user friendly alternative to learners. It fills an unoccupied space when compared to existing compilers, and enhances the field by focusing on an aspect none others have.
+
+### 8.2 Future Development <a name="8.2"></a>
+While the majority of features were implemented successfully, not everything was able to be completed in time. The following discusses what the future may hold for Onyx.
+
+#### 8.2.1 Compiler Correctness <a name="8.2.1"></a>
+Improving the compiler correctness, which is a a branch of computer science that deals with attempting to show that a compiler behaves according to its language specification[22], would be the primary improvement prospect. Given that the project was undertaken alone, its difficult to test and fix every possible scenario within the timeframe, particularly in the case of compilers where testing is rigorous and thorough. Nonetheless, more unit tests are to be added with a wider array of cases to be covered, with the intention being to reduce the amount of bugs present within the compilers functionality.
+
+#### 8.2.2 GUI Cleanup <a name="8.2.2"></a>
+Cleaning up the code base for the GUI portion is also planned for the future, as currently its rather messy and isn't easy to understand. The reason for this is that it was built without prior knowledge of common practices or conventions, and was just configured until it worked. Whilst this isn't much of an issue now considering everything functions as expected, over time it will become more difficult to implement more features if the foundations are shaky, likely leading to unexpected results and hard to track down bugs. The sooner the issue is dealt with, the easier it will be to fix. Extending the GUI with extra features is also a prospect, as currently it only contains the most basic functionality. Filling in the 'Edit' menu would be priority since it is currently empty, and would include options for searching for text, replacing text, undo/redo changes, copy/pasting, and formatting. 
+
+#### 8.2.3 Implementing Functions <a name="8.2.3"></a>
+Functions were included in the original requirements but never added, though implementing them in the future may be useful. Whilst its a concern that functions may be out of scope for Onyx, this issue could be avoided if built in such a way that its not too intrusive or complex. Plus its possible they could be seen as optional to use rather than required, in which case the extra layer of complexity may be avoided by users if they wish. 
+
+### 8.3 Self Evaluation <a name="8.3"></a>
+If I were to do the project again with the knowledge I now have, I would have spent more time planning the structure of the program out beforehand; too much time was spent changing things around, redoing functionality, and cleaning up code. If strict and well-thoughout planning for the class structure was done, it could've been avoided and a lot of time would have been saved. I would also spend more time researching technologies that could be used to help build the project, such as Scene Builder. Originally, I was unaware of its existence and wasted a lot of time trying to build the GUI using raw JavaFX code. If I spent more time investigating other methods, I would have quickly discovered alternative methods and sped up development dramatically.
+
+Going into this project I had no knowledge or experience working with compilers, but was fascinated by their complexity and felt confident in my ability to learn. I've learned a great deal about compiler construction and each of the individual components that going into building them, and have improved my skills in programming greatly throughout development. Though what I am most proud of is the level to which I completed the project; I'm satisfied that its met the criteria and standards I originally set for myself, and that I've been able to produce a strong piece of software that I'll be able to use as a demonstration for my talents in the future.
 
 ## References <a name="references"></a>
 1. https://www.guru99.com/compiler-design-phases-of-compiler.html
@@ -476,6 +506,7 @@ To satisfy the objectives for having a program compatible with all operating sys
 19. https://insights.stackoverflow.com/survey/2019
 20. https://www.simplilearn.com/best-programming-languages-start-learning-today-article
 21. https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
+22. https://en.wikipedia.org/wiki/Compiler_correctness
 
 ## Appendices <a name="appendices"></a>
 
