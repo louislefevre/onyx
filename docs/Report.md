@@ -473,6 +473,9 @@ The emphasis on simplicity and minimalism has been emphasized throughout the rep
 20. https://www.simplilearn.com/best-programming-languages-start-learning-today-article
 21. https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
 
+## Appendices <a name="appendices"></a>
+
+
 ## Glossary of Terms <a name="terms"></a>
 <dl>
   <dt>Abstraction</dt>
