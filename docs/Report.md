@@ -16,8 +16,8 @@ A great deal of time and effort was required during the development of this proj
 ## Contents
 1. [Introduction](#1)  
 2. [Background Study](#2)  
-	2.1 [The Problem](#2.1)
-	2.2 [Existing Compilers](#2.2)
+	2.1 [The Problem](#2.1)  
+	2.2 [Existing Compilers](#2.2)  
 	&nbsp;	2.2.1 [Python ](#2.2.1)  
 	&nbsp;	2.2.2 [JavaScript](#2.2.2)  
 	&nbsp;	2.2.3 [GitHub Projects](#2.2.3)  
@@ -66,6 +66,11 @@ A great deal of time and effort was required during the development of this proj
 	&nbsp;	6.2.4 [Evaluator Testing](#6.2.4)  
 	&nbsp;	6.2.5 [Error Handler Testing](#6.2.5)  
 7. [Evaluation](#7)  
+	7.1 [Basic Functionality](#7.1)  
+	7.2 [Data Types, Variables, & Scope](#7.2)  
+	7.3 [Intuitive Syntax](#7.3)  
+	7.4 [Insightful Error Messages](#7.4)  
+	7.5 [Simple Setup](#7.5)  
 8. [Conclusions](#8)  
 9. [References](#references)  
 10. [Appendices](#appendices)  
@@ -401,6 +406,9 @@ She explained that in her experience, students of a young age struggle to make m
 **Question 3: Do you feel that the compiler would be a useful tool for students learning programming for the first time?**  
 Due to the well-defined scope of functionality and insightful error messages, Atikah agreed that it would prove as a valuable learning tool for novice programmers. Most modern languages aren't designed for learning and come with a lot of extra functionality that can be confusing for beginners to get around, so having a language designed with learners in mind would make things far easier from a teaching standpoint. 
 
+**Question 4: Do you think having the syntax being written completely in English would be easier for students to understand, rather than using standard mathematical expressions?**  
+She came to the conclusion that whilst it would still make sense, students of a young age wouldn't have any more difficultly understanding basic maths than they would English, and would only serve to making writing more verbose. If there was an improvement in code readability, it would be suppressed by the excess use of characters.
+
 ### 6.2 Verification <a name="6.2"></a>
 "Verification. The evaluation of whether or not a product, service, or system complies with a regulation, requirement, specification, or imposed condition. It is often an internal process. Contrast with validation." - Project Management Body of Knowledge [7]
 
@@ -426,26 +434,22 @@ The final stage of unit testing takes place within the error handler, whose prim
 ## Chapter 7 - Evaluation <a name="7"></a>
 The success of the project is largely based on whether or not the requirements previously discussed in chapter 3 have been met, with each of the primary pieces of functionality from the original plans being reviewed.
 
-- how it matches requirements
-- Appraises the system developed with the original requirements and evaluates whether those requirements were appropriate.
+### 7.1 Basic Functionality <a name="7.1"></a>
+The goal for implementing only the bare minimum amount of features was successful, with variables, operators, conditonals, and loops being include. Each of these is kept simple and they are capable of working together in order to form an overall working compiler. The only missing piece is functions, as they were not prioritised and ended up not being complete. However, this is not of great concern since they are not vital in regards to overall functionality and in some regards could begin to complicate the system unneccessarily as it may be seen as out of scope. As previously discussed with users, it was also clarified that they agreed the scope was on point and avoided being too simple or too complex.
 
-### 7.1 Basic Functionality
-The emphasis on simplicity and minimalism has been emphasized throughout the report, with the main five features to include being: variables, operators, conditionals, loops, and functions. Whilst the first four were successfully implemented, functions were not. This is a result of other tasks being prioritised, as functions are not vital for having a working compiler and were not necessary in the long run. However, each of the other features were completed fully and work as expected, both on their own and together. The syntax was also successfully made to be as intuitive and simple as possible based on testing and other popular languages, with this being verified with users as discussed in chapter 6.
+### 7.2 Data Types, Variables, & Scope <a name="7.2"></a>
+The four data types originally planned were integers, doubles, booleans and strings, with each one being added successfully. Whilst none of the types are compatible, there was a plan during development to allow the use of doubles and integers together. However, it was deemed that this would be too inconsistent and raise confusion with users over type compatibility, whilst also producing unexpected results. The main limitation is that users can only store integer values up to a maximum of 2^31-1, though this is unlikely to be a common problem as they will typically be working with smaller numbers for learning. In any case, its possible this will be changed so that integers are automatically converted to longs whenever a number exceeds the limit (with this process being hidden from the user).
 
-### 7.2 Data Types, Variables, & Scope
-- All global scope.
-- Implicit variables with data types (variables can be reassigned of different type, but are incompatible to be used together)
+Variables are implicitly defined, not requiring any kind of type declaration. Whenever a variable is assigned with a new value of a different type, this conversion is allowed so long as no other operation is being performed at the same (e.g. adding, subtracting, etc). All variables are also accessible on the global scope, making it possible to declare them within loops and conditionals.
 
-### 7.3 Intuitive Syntax
+### 7.3 Intuitive Syntax <a name="7.3"></a>
+For the syntax there was a plan to use English words for nearly everything in order to make it as intuitive as possible, an example being ```var equals 10```. Though from user testing it became apparent that the main audience this was thought to benefit (young children) would not find it very helpful, and were perfectly capable of understanding regular mathemetical syntax. As a result the language is written to use English for variables, conditionals and loops, and operators for any kind of data manipulation. This is essentially a good middleground where any written code is not complex and easy to understand, whilst also not being too verbose.
 
+### 7.4 Insightful Error Messages <a name="7.4"></a>
+Error messages have been made as simple as possible, and include line numbers, coloured markings, description of the error, and a possible solution. An effort was made to remove use of any jargon and have the problem explained in a clear manner that keeps beginners in mind; an attempt to remove confusion and frustration during learning experiences.
 
-### 7.4 Insightful Error Messages
-- Detailed error messages with explanations for fixes.
-
-### 7.5 Simple Setup
-- Simple setup and compatibility
-- JVM, Java, no specific file type
-
+### 7.5 Simple Setup <a name="7.5"></a>
+To satisfy the objectives for having a program compatible with all operating systems whilst also being easy to run, the project was developed with Java and built as a JAR artifact using IntelliJ IDEA. Since Java runs within the JVM the project only requires Java 11 to be installed for compatibility, and requires no installation as only the JAR/EXE file needs to be run. Furthermore, Onyx does not have its own specific file type for opening files, and instead just uses basic text files. This further was to again improve compatibility (as all operating systems use text files) and allow users to use a familar file type instead of a new one.
 
 ## Chapter 8 - Conclusions <a name="8"></a>
 
