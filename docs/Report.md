@@ -21,12 +21,12 @@ A great deal of time and effort was required during the development of this proj
 	&nbsp;	2.2.1 [Python ](#2.2.1)  
 	&nbsp;	2.2.2 [JavaScript](#2.2.2)  
 	&nbsp;	2.2.3 [GitHub Projects](#2.2.3)  
-	2.3 [Aims & Objectives](#2.3)
-	&nbsp;	2.3.1 [Insightful Error Messages](#2.3.1)  
-	&nbsp;	2.3.2 [Intuitive Syntax](#2.3.2)  
-	&nbsp;	2.3.3 [Basic Functionality](#2.3.3)  
-	&nbsp;	2.3.4 [Simple Setup](#2.3.4)  
 3. [Requirements](#3)  
+	3.1 [Basic Functionality](#3.1)  
+	3.2 [Data Types, Variables, & Scope](#3.2)  
+	3.3 [Intuitive Syntax](#3.3)  
+	3.4 [Insightful Error Messages](#3.4)  
+	3.5 [Simple Setup](#3.5)  
 4. [Design](#4)  
 	4.1 [Compiler Design](#4.1)  
 	&nbsp;	4.1.1 [Lexical Analysis](#4.1.1)  
@@ -100,35 +100,27 @@ JavaScript is another common choice, particularly when it comes to web developme
 #### 2.2.3 GitHub Projects <a name="2.2.3"></a>
 The GitHub repository known as [Awesome Compilers](https://github.com/rsumner31/awesome-compilers) includes a list of compilers and interpreters composed by various users[18], making it useful to review a large selection of projects all at once. Based on the descriptions and features lists for the 36 repositories included, not a single one was designed to target an audience of beginners nor specifically solve the discussed issues.
 
-### 2.3 Aims & Objectives <a name="2.3"></a>
-The primary purpose of The Onyx Compiler is to fill the void caused by the lack of learning-based languages, and is designed solely with beginners in mind. The compiler is not meant to be complex, and is instead designed to be as simple as possible in order to teach the foundations of programming. Each of the problems previously discussed this project aims to solve, with the following detailing the main goals hoped to be achieved.
-
-#### 2.3.1 Insightful Error Messages <a name="2.3.1"></a>
-The compiler will provided detailed, easy to read error messages for the user. The information will be presented in plain English without the use of jargon, and give a clear indication as to where the error occurred using coloured markings, syntax returns, and line numbers. Coupled with this will be information that guides the user on how the issue may have come about, how it may be solved, and links to the appropriate Onyx documentation.
-
-#### 2.3.2 Intuitive Syntax <a name="2.3.2"></a>
-Syntax will be designed so it reads similarly to regular English, uses intuitive mathematical expressions, and reduces the amount of syntax required for certain expressions (e.g. dynamic  typing to remove the need to declare variable types). The objective is to make it at easy as possible for users to understand what each line of code is doing just by reading through the source code.
-
-#### 2.3.3 Basic Functionality <a name="2.3.3"></a>
-Given that the compiler is aimed solely at learners, the amount of functionality required is not great. The intention is to only focus on the basics, and so it will only include as much. These are the five main concepts that Onyx intends to teach its users about:
-- Data types
-- Variables
-- Expressions/Statements
-- Conditionals
-- Loops
-By only including the core components it reduces the amount of information users are presented with, preventing information overload and stopping them from feeling overwhelmed.
-
-#### 2.3.4 Simple Setup <a name="2.3.4"></a>
-A sad truth is that there are a portion of users, particularly non tech-savy ones, who get stuck on the setup and that alone can be enough to dissuade someone from continuing. That is why Onyx aims to make setup as easy as possible through the use of Java, as the JVM provides the opportunity for cross-compatibility amongst platforms to remove the need for using a specific operating system. Its even feasible that it could run on phones, reducing the technological requirement away from computers. Furthermore, Onyx will be capable of running from an executable file without any installation, only requiring the user to download the program to begin.
-
 ## Chapter 3 - Requirements <a name="3"></a>
-Before planning the project, it needed to be decided what functionality the compiler would actually include. The original goal was to keep the language simple with only the bare minimum amount of features, typically those taught in introductory programming courses, so that precondition had to be kept in mind. After reviewing such courses and consulting with tutors, there were five main features to be included: variables, operators, conditionals, loops, and functions. These were perhaps the most common pieces of functionality taught to beginners in a learning environment, so it become vital that the compiler contained these components.
+The primary purpose of The Onyx Compiler is to fill the void caused by the lack of learning-based languages, and is designed solely with beginners in mind. The compiler is not meant to be complex, and is instead designed to be as simple as possible in order to teach the foundations of programming. This project aims to solve each of the problems previously discussed, with the following detailing the main goals hoped to be achieved.
 
-To compliment this it was required to include data types. Originally the goal was to only allow explicit variable declarations, where the user would have to define the type of a variable during declaration before it could be used. However, this idea was abandoned as providing the user with another thing to be concerned with was outside the boundaries of the projects goal of minimalism. Instead variables are implicit and do not need to be declared or given a type, only assigned. It would be possible for variables to be assigned values of different data types regardless of the type the previous value was, though it would not be possible to use contrasting data types with one another.
+### 3.1 Basic Functionality <a name="3.1"></a>
+The original goal was to keep the language simple with only the bare minimum amount of features, typically those taught in introductory programming courses. After reviewing such courses and consulting with tutors, there were five main features to be included: variables, operators, conditionals, loops, and functions. Given that the compiler is aimed solely at learners, the amount of functionality required is not great. The intention is to only focus on the basics, and so it will only include as much. These are the five main concepts that Onyx intends to teach its users about, and is essentially the ultimate goal for users to meet. The purpose of only including the core components is that it reduces the amount of information users are presented with, preventing information overload and stopping them from feeling overwhelmed.
 
-A greatly important feature was the addition of detailed error messages. One of the greatest pitfalls among novice programmers is their inability to read and understand error messages, often due to their verbose and jargon-filled nature. It is common among popular languages for error messages to be returned as a long and confusing mess, which while useful for experienced users, can be devastatingly difficult to decipher for learners. Its a goal of Onyx to instead provide the user with simple yet explanatory error messages; giving a clear indication for where the error occurred, what caused it, and a possible explanation for how to fix it.
+### 3.2 Data Types, Variables, & Scope <a name="3.2"></a>
+Data types to be included are: integers, doubles, booleans and strings. The purpose of this selection is provide the common data types only for a wide selection of use cases, whilst avoiding the more niche types that rarely see use and would not typically be used by beginners. To also avoid unexpected results and remove the need for understanding type compatibility, only values of the same type can be used together in expressions or an error will be returned.
 
-The compiler also removes a number of features typically built into languages, such as that of scope. All variables can be accessed globally, with no such thing as local variables. Whilst this would be an issue in a more large scale language, the simple nature of Onyx makes this viable whilst removing the need for the user to learn about scoping at this level. 
+Originally the goal was to only allow explicit variable declarations, where the user would have to define the type of a variable during declaration before it could be used. However, this idea was abandoned as providing the user with another thing to be concerned with was outside the boundaries of the projects goal of minimalism. Instead variables are implicit and do not need to be declared or given a type, only assigned. It would be possible for variables to be assigned values of different data types regardless of the type the previous value was, though it would not be possible to use variables containing contradictory data types with one another.
+
+The compiler also removes a number of features typically found in languages, such as that of scope. All variables can be accessed globally, with no such thing as local variables. Whilst this would be an issue in a more large scale language, the simple nature of Onyx makes this viable whilst removing the need for the user to learn about scoping at this level. 
+
+### 3.3 Intuitive Syntax <a name="3.3"></a>
+Syntax will be designed so it reads similarly to regular English, uses intuitive mathematical expressions, and reduces the amount of characters required for certain expressions (e.g. dynamic typing to remove the need to declare data types). The objective is to make it at easy as possible for users to understand what each line is doing just by reading through the source code. For example, a loop would be written as ```loop myVar from 0 to 100 (inclusive)```. 
+
+### 3.4 Insightful Error Messages <a name="3.4"></a>
+One of the greatest pitfalls among novice programmers is their inability to read and understand error messages, often due to their verbose and jargon-filled nature. It is common among popular languages for error messages to be returned as a long and confusing mess, which while useful for experienced users, can be devastatingly difficult to decipher for learners. Its a goal of Onyx to instead provide detailed, easy to read error messages for the user. Information will be presented in plain English without the use of jargon, and show where the error occurred using coloured markings, syntax returns, and line numbers. The simple yet explanatory error messages are intended to give a clear indication for where the errors location, what caused it, and a possible explanation for how to fix it.
+
+### 3.5 Simple Setup <a name="3.5"></a>
+An unfortunate truth is that there are a portion of users, particularly non tech-savy ones, who get stuck on the setup and that alone can be enough to dissuade someone from continuing. That is why Onyx aims to make setup as easy as possible through the use of Java, as the JVM provides the opportunity for cross-compatibility amongst platforms to remove the need for using a specific operating system. Its even feasible that it could run on phones, reducing the technological requirement away from computers. Furthermore, Onyx will be capable of running from an executable file without any installation, only requiring the user to download the program to begin.
 
 ## Chapter 4 - Design <a name="4"></a>
 Designing of the project involved planning in three areas: the layout and structure of the compilers source code, the syntax of the language (also known as the language specification), and the graphical user interface (the GUI). Its important that each of these aspects were targetted individually, as it made objectives far clearer and removed the need for consistent revisions during development.
@@ -432,6 +424,27 @@ The evaluators main job is to evaluate each expression and statement, returning 
 The final stage of unit testing takes place within the error handler, whose primary responsibility is to receive errors and output them to the user. Up until this point the unit tests have focused on correct inputs rather than incorrect ones, so this is where invalid syntax is purposely passed to see if the expected error message is returned. This was broken down into three categories: lexical errors occurring in the lexer, syntax errors occurring in the parser, and semantic errors occurring in the type checker. If the broken syntax resulted in the expected error occurring, it can be verified that the compiler successfully handles errors should they transpire.
 
 ## Chapter 7 - Evaluation <a name="7"></a>
+The success of the project is largely based on whether or not the requirements previously discussed in chapter 3 have been met, with each of the primary pieces of functionality from the original plans being reviewed.
+
+- how it matches requirements
+- Appraises the system developed with the original requirements and evaluates whether those requirements were appropriate.
+
+### 7.1 Basic Functionality
+The emphasis on simplicity and minimalism has been emphasized throughout the report, with the main five features to include being: variables, operators, conditionals, loops, and functions. Whilst the first four were successfully implemented, functions were not. This is a result of other tasks being prioritised, as functions are not vital for having a working compiler and were not necessary in the long run. However, each of the other features were completed fully and work as expected, both on their own and together. The syntax was also successfully made to be as intuitive and simple as possible based on testing and other popular languages, with this being verified with users as discussed in chapter 6.
+
+### 7.2 Data Types, Variables, & Scope
+- All global scope.
+- Implicit variables with data types (variables can be reassigned of different type, but are incompatible to be used together)
+
+### 7.3 Intuitive Syntax
+
+
+### 7.4 Insightful Error Messages
+- Detailed error messages with explanations for fixes.
+
+### 7.5 Simple Setup
+- Simple setup and compatibility
+- JVM, Java, no specific file type
 
 
 ## Chapter 8 - Conclusions <a name="8"></a>
