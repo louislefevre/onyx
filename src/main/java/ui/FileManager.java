@@ -173,7 +173,6 @@ final class FileManager
     private boolean isValidFileExtension(File file)
     {
         String extension = getFileExtension(file);
-        System.out.println(extension);
         for (String ext : validFileExtensions)
             if (extension.equals(ext))
                 return true;

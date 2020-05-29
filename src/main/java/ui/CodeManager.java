@@ -87,11 +87,7 @@ final class CodeManager
 
         Pipeline pipeline = new Pipeline();
         for (String line : lines)
-        {
-            if (line.isBlank())
-                continue;
             pipeline.compile(line);
-        }
 
         SourceOutput sourceOutput = pipeline.compile(input);
         pipeline.printParseTree();
