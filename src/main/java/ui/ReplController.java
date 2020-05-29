@@ -6,9 +6,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import source.SourceOutput;
-
-import java.util.LinkedList;
 
 public final class ReplController
 {
@@ -18,70 +17,46 @@ public final class ReplController
     @FXML private TableColumn<TableManager.SymbolElement, String> symbolValuesColumn;
 
     @FXML private TextField inputField;
-    @FXML private Text resultText;
-    @FXML private Text historyText;
+    @FXML private TextFlow resultTextFlow;
 
     private Pipeline pipeline;
-    private LinkedList<String> historyLines;
     private TableManager tableManager;
 
     @FXML
     void initialize()
     {
         pipeline = new Pipeline();
-        historyLines = new LinkedList<>();
-        tableManager = new TableManager(symbolTableView);
+        pipeline.enableReplMode();
 
+        tableManager = new TableManager(symbolTableView);
         tableManager.addColumn(symbolNamesColumn, "name");
         tableManager.addColumn(symbolTypesColumn, "type");
         tableManager.addColumn(symbolValuesColumn, "value");
-
-        pipeline.enableReplMode();
     }
 
     @FXML
     void evaluateInput()
     {
-        String output = getResult();
-
-        if (output == null)
+        String input = inputField.getText();
+        if (input.isBlank())
             return;
 
-        resultText.setText(output);
+        SourceOutput sourceOutput = pipeline.compile(input);
+        TextFlow output = sourceOutput.getTextOutput();
+
+        resultTextFlow.getChildren().add(0, output);
+        resultTextFlow.getChildren().add(1, new Text(System.getProperty("line.separator")));
+
         tableManager.refreshTable(pipeline.getSymbolTable());
         inputField.clear();
-        addToHistory(output);
     }
 
     @FXML
     void clearFields()
     {
-        pipeline.getSymbolTable().clearSymbolTable();
-        historyLines.clear();
-        tableManager.clearTable();
         inputField.clear();
-        resultText.setText("");
-        historyText.setText("");
-    }
-
-    private void addToHistory(String output)
-    {
-        StringBuilder historyBuilder = new StringBuilder();
-        historyLines.forEach(historyBuilder::append);
-        historyText.setText(historyBuilder.toString());
-
-        String text = output + System.getProperty("line.separator");
-        historyLines.addFirst(text);
-    }
-
-    private String getResult()
-    {
-        String input = inputField.getText();
-
-        if (input.isBlank())
-            return null;
-
-        SourceOutput sourceOutput = pipeline.compile(input);
-        return sourceOutput.getOutput().toString();
+        tableManager.clearTable();
+        resultTextFlow.getChildren().clear();
+        pipeline.getSymbolTable().clearSymbolTable();
     }
 }

@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 <SplitPane dividerPositions="0.58" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ReplController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -24,17 +24,11 @@
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>
                   </TextField>
-                  <Text fx:id="resultText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Separator prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="5.0" />
-                     </VBox.margin>
-                  </Separator>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-                     <content>
-                        <Text fx:id="historyText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </content>
-                  </ScrollPane>
+                   <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                       <content>
+                           <TextFlow fx:id="resultTextFlow" />
+                       </content>
+                   </ScrollPane>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
