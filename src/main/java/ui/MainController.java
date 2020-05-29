@@ -76,21 +76,26 @@ public final class MainController
     }
 
     @FXML
+    void newFile()
+    {
+        String text = codeAreaInput.getText();
+
+        if (containsUnsavedWork(text))
+            return;
+
+        String fileText = fileManager.openNewFile();
+        codeAreaInput.replaceText(fileText);
+    }
+
+    @FXML
     void openFileChooser()
     {
         try
         {
             String text = codeAreaInput.getText();
-            boolean saved = fileManager.checkIfSaved(text);
 
-            if (!saved)
-            {
-                String message = "You have unsaved changes that will be lost if you open another file.\n" +
-                                 "Are you sure you want to continue?";
-                boolean confirmation = openConfirmationAlert(message);
-                if (!confirmation)
-                    return;
-            }
+            if (containsUnsavedWork(text))
+                return;
 
             String fileText = fileManager.openFile();
             codeAreaInput.replaceText(fileText);
@@ -158,5 +163,19 @@ public final class MainController
     private boolean openConfirmationAlert(String message)
     {
         return alertManager.startConfirmationAlert(message);
+    }
+
+    private boolean containsUnsavedWork(String text)
+    {
+        boolean saved = fileManager.checkIfSaved(text);
+
+        if (saved)
+            return false;
+
+        String message = "You have unsaved changes that will be lost if you open another file.\n" +
+                         "Are you sure you want to continue?";
+        boolean confirmation = openConfirmationAlert(message);
+
+        return !confirmation;
     }
 }

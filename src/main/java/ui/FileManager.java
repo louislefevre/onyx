@@ -31,14 +31,17 @@ final class FileManager
 
     public FileManager()
     {
-        this(new File(System.getProperty("user.home"), "/Documents"), ".txt", ".*");
+        this(new File(System.getProperty("user.home"), "/Documents"), "txt");
+    }
+
+    public String openNewFile()
+    {
+        return newFile();
     }
 
     public String openFile() throws IOException, NullPointerException, IllegalArgumentException
     {
-        FileChooser fileChooser = new FileChooser();
-        addInitialDirectory(fileChooser);
-        addExtensionFilters(fileChooser);
+        FileChooser fileChooser = createFileChooser();
 
         File file = fileChooser.showOpenDialog(new Stage());
         if (file == null)
@@ -61,9 +64,7 @@ final class FileManager
 
     public void saveFileAs(String text, String initialFileName) throws IOException, NullPointerException, IllegalArgumentException
     {
-        FileChooser fileChooser = new FileChooser();
-        addInitialDirectory(fileChooser);
-        addExtensionFilters(fileChooser);
+        FileChooser fileChooser = createFileChooser();
         fileChooser.setInitialFileName(initialFileName);
 
         File file = fileChooser.showSaveDialog(new Stage());
@@ -93,6 +94,14 @@ final class FileManager
         return originalText.equals(text);
     }
 
+    private FileChooser createFileChooser()
+    {
+        FileChooser fileChooser = new FileChooser();
+        addInitialDirectory(fileChooser);
+        addExtensionFilters(fileChooser);
+        return fileChooser;
+    }
+
     private void addInitialDirectory(FileChooser fileChooser)
     {
         if (initialDirectory.exists())
@@ -106,9 +115,17 @@ final class FileManager
         for (String extension : validFileExtensions)
         {
             fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter(extension, "*" + extension)
+                    new FileChooser.ExtensionFilter(extension, "*." + extension)
             );
         }
+    }
+
+    private String newFile()
+    {
+        String text = "";
+        currentFile = null;
+        originalText = text;
+        return text;
     }
 
     private String readFile(File file) throws IOException
@@ -156,6 +173,7 @@ final class FileManager
     private boolean isValidFileExtension(File file)
     {
         String extension = getFileExtension(file);
+        System.out.println(extension);
         for (String ext : validFileExtensions)
             if (extension.equals(ext))
                 return true;
@@ -169,6 +187,6 @@ final class FileManager
         if (lastIndexOf == -1)
             return "";
 
-        return name.substring(lastIndexOf);
+        return name.substring(lastIndexOf + 1);
     }
 }
