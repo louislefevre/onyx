@@ -91,6 +91,7 @@ final class CodeManager
 
         SourceOutput sourceOutput = pipeline.compile(input);
         pipeline.printParseTree();
+        pipeline.printSymbolTable();
 
         return sourceOutput;
     }

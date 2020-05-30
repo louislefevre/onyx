@@ -5,48 +5,59 @@ import ui.StageManager;
 
 import java.util.Scanner;
 
-public class Compiler
+public class Compilation
 {
-    public void run(boolean replMode, boolean guiMode)
+    public void run(boolean developerMode)
     {
-        if (guiMode)
-            guiMode();
+        if (developerMode)
+            startConsole();
         else
-            consoleMode(replMode);
+            startGUI();
     }
 
-    private void guiMode()
+    private void startConsole()
     {
-        StageManager.launchInterface();
-    }
-
-    private void consoleMode(boolean replMode)
-    {
+        System.out.print("COMMANDS: ");
         Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine().toLowerCase();
+
+        if (input.contains("gui") || input.contains("g"))
+        {
+            scanner.close();
+            startGUI();
+            return;
+        }
+
         Pipeline pipeline = new Pipeline();
-
-        if (replMode)
-            runConsoleREPL(pipeline, scanner);
+        if (input.contains("repl") || input.contains("r"))
+            runREPL(pipeline, scanner);
         else
-            runConsoleIDE(pipeline, scanner);
+            runCompiler(pipeline, scanner);
 
-        pipeline.printParseTree();
-        pipeline.printSymbolTable();
+        if (input.contains("parsetree") || input.contains("pt"))
+            pipeline.printParseTree();
+        if (input.contains("symboltable") || input.contains("st"))
+            pipeline.printSymbolTable();
 
         scanner.close();
     }
 
-    private void runConsoleIDE(Pipeline pipeline, Scanner scanner)
+    private void startGUI()
+    {
+        StageManager.launchInterface();
+    }
+
+    private void runCompiler(Pipeline pipeline, Scanner scanner)
     {
         StringBuilder builder = new StringBuilder();
-        Object output = new Object();
+        Object output = "";
 
         while (true)
         {
             System.out.print("| ");
             String input = scanner.nextLine();
 
-            if (input.equals("END"))
+            if (input.isBlank())
                 break;
 
             builder.append(input);
@@ -60,7 +71,7 @@ public class Compiler
         System.out.println(output);
     }
 
-    private void runConsoleREPL(Pipeline pipeline, Scanner scanner)
+    private void runREPL(Pipeline pipeline, Scanner scanner)
     {
         pipeline.enableReplMode();
 
