@@ -2,10 +2,9 @@ package source;
 
 import errors.ErrorHandler;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import symbols.SymbolTable;
 import synthesis.generation.Evaluator;
-
-import java.util.List;
 
 public final class SourceOutput
 {
@@ -13,7 +12,6 @@ public final class SourceOutput
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
     private final boolean replMode;
-    private final SourceDisplay sourceDisplay;
 
     public SourceOutput(Evaluator evaluator)
     {
@@ -21,30 +19,21 @@ public final class SourceOutput
         this.errorHandler = evaluator.getErrorHandler();
         this.symbolTable = evaluator.getSymbolTable();
         this.replMode = evaluator.isReplMode();
-        this.sourceDisplay = new SourceDisplay(result, errorHandler.getSourceInput(), errorHandler);
     }
 
     public Object getOutput()
     {
         if (errorHandler.containsErrors())
-            return sourceDisplay.getErrors();
+            return errorHandler.getErrors();
 
-        return result;
+        return result.toString();
     }
 
-    public Object getDecoratedOutput()
+    public TextFlow getTextOutput()
     {
         if (errorHandler.containsErrors())
-            return sourceDisplay.getDecoratedErrors();
+            return errorHandler.getPrimaryError();
 
-        return result;
-    }
-
-    public List<Text> getTextOutput()
-    {
-        if (errorHandler.containsErrors())
-            return sourceDisplay.getTextErrors();
-
-        return sourceDisplay.getTextResult();
+        return new TextFlow(new Text(result.toString()));
     }
 }

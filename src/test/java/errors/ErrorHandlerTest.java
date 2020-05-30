@@ -49,7 +49,7 @@ class ErrorHandlerTest
     private boolean containsError(String input, String expected)
     {
         SourceOutput sourceOutput = TestHub.createSourceOutput(input);
-        String actual = sourceOutput.getDecoratedOutput().toString();
+        String actual = sourceOutput.getOutput().toString();
         return actual.contains(expected);
     }
 }

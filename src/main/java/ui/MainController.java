@@ -3,13 +3,11 @@ package ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 import source.SourceOutput;
 
 import java.io.IOException;
-import java.util.List;
 
 public final class MainController
 {
@@ -42,12 +40,7 @@ public final class MainController
             return;
 
         SourceOutput sourceOutput = codeManager.readInput(input);
-
-        List<Text> result = sourceOutput.getTextOutput();
-        if (result == null) // Avoids NullPointerException if input is invalid
-            return;
-
-        textFlowOutput.getChildren().addAll(result);
+        textFlowOutput.getChildren().addAll(sourceOutput.getTextOutput());
     }
 
     @FXML

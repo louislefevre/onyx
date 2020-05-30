@@ -42,9 +42,7 @@ public final class ReplController
             return;
 
         SourceOutput sourceOutput = pipeline.compile(input);
-        TextFlow output = sourceOutput.getTextOutput();
-
-        resultTextFlow.getChildren().add(0, output);
+        resultTextFlow.getChildren().add(0, sourceOutput.getTextOutput());
         resultTextFlow.getChildren().add(1, new Text(System.getProperty("line.separator")));
 
         tableManager.refreshTable(pipeline.getSymbolTable());

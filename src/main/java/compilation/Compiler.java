@@ -54,7 +54,7 @@ public class Compiler
             String sourceText = builder.toString();
 
             SourceOutput sourceOutput = pipeline.compile(sourceText);
-            output = sourceOutput.getDecoratedOutput();
+            output = sourceOutput.getOutput();
         }
 
         System.out.println(output);
@@ -73,7 +73,7 @@ public class Compiler
                 break;
 
             SourceOutput sourceOutput = pipeline.compile(input);
-            Object output = sourceOutput.getDecoratedOutput();
+            Object output = sourceOutput.getOutput();
             System.out.println(output);
         }
     }

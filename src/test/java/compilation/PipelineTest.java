@@ -23,7 +23,7 @@ class PipelineTest
             for (String text : inputArray)
             {
                 input = text;
-                actual = pipeline.compile(text).getDecoratedOutput();
+                actual = pipeline.compile(text).getOutput();
             }
 
             assertEquals(expected, actual, message + input);
@@ -44,7 +44,7 @@ class PipelineTest
             for (String text : inputArray)
             {
                 input = text;
-                actual = pipeline.compile(text).getDecoratedOutput();
+                actual = pipeline.compile(text).getOutput();
             }
 
             assertEquals(expected, actual, message + input);
