@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
-import source.SourceOutput;
 
 import java.io.IOException;
 
@@ -33,14 +32,9 @@ public final class MainController
     @FXML
     void runSource()
     {
+        TextFlow output = codeManager.compileInputTest();
         textFlowOutput.getChildren().clear();
-        String input = codeManager.getCodeInput();
-
-        if (input.isBlank())
-            return;
-
-        SourceOutput sourceOutput = codeManager.readInput(input);
-        textFlowOutput.getChildren().addAll(sourceOutput.getTextOutput());
+        textFlowOutput.getChildren().addAll(output);
     }
 
     @FXML

@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -12,12 +13,14 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.fxmisc.wellbehaved.event.EventPattern;
 import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
+import org.jetbrains.annotations.TestOnly;
 import source.SourceOutput;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 final class CodeManager
 {
@@ -31,11 +34,6 @@ final class CodeManager
         this.tabSizeField = tabSizeField;
         this.tabSize = tabSize;
         initialiseCodeArea();
-    }
-
-    public String getCodeInput()
-    {
-        return codeArea.getText();
     }
 
     public String getLineInfo()
@@ -79,21 +77,51 @@ final class CodeManager
         }
     }
 
-    public SourceOutput readInput(String input)
+    public TextFlow compileInput()
     {
+        String input = codeArea.getText();
+
+        if(input.isBlank())
+            return new TextFlow();
+
         input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
         input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
-        String[] lines = input.split(System.getProperty("line.separator")); // Splits each line up to be run individually
+        Stream<String> lines = input.lines(); // Splits each line up to be run individually
 
         Pipeline pipeline = new Pipeline();
-        for (String line : lines)
-            pipeline.compile(line);
+        lines.forEach(pipeline::compile);
 
         SourceOutput sourceOutput = pipeline.compile(input);
         pipeline.printParseTree();
         pipeline.printSymbolTable();
 
-        return sourceOutput;
+        return sourceOutput.getTextOutput();
+    }
+
+    @TestOnly
+    public TextFlow compileInputTest()
+    {
+        String input = codeArea.getText();
+
+        if(input.isBlank())
+            return new TextFlow();
+
+        input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
+        input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
+        Stream<String> lines = input.lines(); // Splits each line up to be run individually
+
+        StringBuilder builder = new StringBuilder();
+        Pipeline pipeline = new Pipeline();
+        lines.forEach(line -> {
+            builder.append(line);
+            pipeline.compile(builder.toString());
+        });
+
+        SourceOutput sourceOutput = pipeline.compile(input);
+        pipeline.printParseTree();
+        pipeline.printSymbolTable();
+
+        return sourceOutput.getTextOutput();
     }
 
     private void initialiseCodeArea()
