@@ -5,11 +5,11 @@ import analysis.semantic.TypeChecker;
 import analysis.syntax.ParseTree;
 import analysis.syntax.Parser;
 import errors.ErrorHandler;
+import generation.Evaluator;
 import lombok.Getter;
 import source.SourceInput;
 import source.SourceOutput;
 import symbols.SymbolTable;
-import synthesis.generation.Evaluator;
 
 public final class Pipeline
 {

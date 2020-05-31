@@ -5,9 +5,9 @@ import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import compilation.Pipeline;
 import errors.ErrorHandler;
+import generation.Evaluator;
 import identifiers.TokenType;
 import source.SourceOutput;
-import synthesis.generation.Evaluator;
 
 import java.util.HashMap;
 

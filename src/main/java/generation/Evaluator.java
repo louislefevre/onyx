@@ -1,4 +1,4 @@
-package synthesis.generation;
+package generation;
 
 import analysis.semantic.*;
 import errors.ErrorHandler;

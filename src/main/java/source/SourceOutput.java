@@ -1,11 +1,11 @@
 package source;
 
 import errors.ErrorHandler;
+import generation.Evaluator;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import symbols.SymbolTable;
-import synthesis.generation.Evaluator;
 
 public final class SourceOutput
 {

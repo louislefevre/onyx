@@ -1,4 +1,4 @@
-package synthesis.generation;
+package generation;
 
 import org.junit.jupiter.api.Test;
 import utilities.TestHub;

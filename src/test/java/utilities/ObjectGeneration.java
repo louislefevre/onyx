@@ -5,10 +5,10 @@ import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import compilation.Pipeline;
 import errors.ErrorHandler;
+import generation.Evaluator;
 import source.SourceInput;
 import source.SourceOutput;
 import symbols.SymbolTable;
-import synthesis.generation.Evaluator;
 
 class ObjectGeneration
 {
