@@ -1,0 +1,74 @@
+/*********** Top Box *************/
+#top-box { /* Top HBox container */
+    -fx-background-color: #212121;
+}
+#top-box .button { /* Run button */
+    -fx-background-color: #424242;
+}
+/*********************************/
+
+
+/*********** Menu Bar ************/
+#menu-bar { /* Menu bar container */
+    -fx-background-color: #212121;
+}
+#menu-bar .menu:hover, /* Menu bar hover */
+#menu-bar .menu:showing{
+    -fx-background-color: #303032;
+}
+#menu-bar .context-menu, /* Menu item */
+#menu-bar .menu-item {
+    -fx-background-color: #212121;
+}
+#menu-bar .menu-item:hover { /* Menu item hover */
+    -fx-background-color: #333333;
+}
+/*********************************/
+
+
+/*********** Main Pane ***********/
+#main-pane { /* SplitPane container */
+    -fx-background-color: #212121;
+}
+#main-pane .split-pane-divider { /* SplitPane divider */
+    -fx-background-color: #212121;
+}
+/*********************************/
+
+
+/*********** Input Pane **********/
+#input-pane .code-area { /* CodeArea input field */
+    -fx-background-color: #1B1B1E;
+}
+#input-pane .code-area .caret { /* CodeArea caret */
+    -fx-stroke: white;
+}
+#input-pane .code-area .lineno { /* CodeArea line numbers container */
+    -fx-background-color: #3B3B3B;
+}
+#input-pane .code-area .lineno .text { /* CodeArea line numbers text */
+    -fx-fill: white;
+    -fx-font-family: "Arial Black";
+}
+/*********************************/
+
+
+/*********** Output Pane **********/
+#output-pane { /* ScrollPane container */
+    -fx-background-color: transparent;
+}
+#output-pane .text-flow { /* TextFlow container */
+    -fx-background-color: #333333;
+}
+/*********************************/
+
+
+/*********** Bottom Box **********/
+#bottom-box { /* Bottom HBox container */
+    -fx-background-color: #212121;
+}
+#bottom-box .text-field { /* Tab size field */
+    -fx-background-color: #212121;
+    -fx-text-fill: white;
+}
+/*********************************/
