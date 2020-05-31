@@ -1,6 +1,7 @@
 package source;
 
 import errors.ErrorHandler;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import symbols.SymbolTable;
@@ -34,6 +35,9 @@ public final class SourceOutput
         if (errorHandler.containsErrors())
             return errorHandler.getPrimaryError();
 
-        return new TextFlow(new Text(result.toString()));
+        Text text = new Text(result.toString());
+        text.setFill(Color.WHITE);
+
+        return new TextFlow(text);
     }
 }

@@ -5,7 +5,7 @@ import ui.StageManager;
 
 import java.util.Scanner;
 
-public class Compilation
+public final class Compilation
 {
     public void run(boolean developerMode)
     {

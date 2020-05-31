@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
-<SplitPane dividerPositions="0.58" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ReplController">
+<SplitPane dividerPositions="0.58" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" stylesheets="@repl.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ReplController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -13,7 +13,7 @@
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT">
                     <buttons>
                         <Button layoutX="384.0" layoutY="10.0" mnemonicParsing="false" onAction="#clearFields" text="Clear" />
-                      <Button mnemonicParsing="false" onAction="#evaluateInput" text="Run" />
+                        <Button mnemonicParsing="false" onAction="#evaluateInput" text="Run" />
                     </buttons>
                      <VBox.margin>
                         <Insets />
@@ -24,9 +24,9 @@
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>
                   </TextField>
-                   <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                   <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
                        <content>
-                           <TextFlow fx:id="resultTextFlow" />
+                           <TextFlow fx:id="resultTextFlow" styleClass="text-flow" />
                        </content>
                    </ScrollPane>
                </children>
@@ -47,6 +47,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-         </children></AnchorPane>
+         </children>
+    </AnchorPane>
   </items>
 </SplitPane>

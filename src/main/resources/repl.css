@@ -1,0 +1,54 @@
+/*********** SplitPane ***********/
+.split-pane { /* Main container */
+    -fx-background-color: #212121;
+}
+.split-pane-divider { /* Container divider */
+    -fx-background-color: #212121;
+}
+/*********************************/
+
+
+/*********** VBox ****************/
+.button-bar { /* Button bar */
+    -fx-background-color: #212121;
+}
+.button { /* Run and clear buttons */
+    -fx-background-color: #424242;
+    -fx-text-fill: white;
+}
+
+.text-field { /* Input field */
+    -fx-background-color: #1B1B1E;
+    -fx-text-fill: white;
+}
+
+.text-flow { /* Output text */
+    -fx-background-color: #333333;
+}
+.scroll-pane { /* Output text container */
+    -fx-background-color: transparent;
+}
+/*********************************/
+
+
+/*********** TableView ***********/
+.table-view { /* Table */
+    -fx-background-color: #333333;
+}
+
+.column-header { /* Column headers */
+    -fx-background-color: #212121;
+}
+.column-header .label { /* Column header titles */
+    -fx-text-fill: white;
+}
+
+.table-cell { /* Cells */
+    -fx-text-fill: white;
+    -fx-background-color: #333333;
+    -fx-table-cell-border-color: #333333;
+}
+.table-row-cell:selected .table-cell { /* Selected row */
+    -fx-background-color: #303032;
+}
+/*********************************/
