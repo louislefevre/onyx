@@ -1,54 +1,58 @@
-/*********** SplitPane ***********/
-.split-pane { /* Main container */
+/*********** Main Pane ***********/
+#main-pane { /* SplitPane container */
     -fx-background-color: #212121;
 }
-.split-pane-divider { /* Container divider */
+#main-pane .split-pane-divider { /* SplitPane divider */
     -fx-background-color: #212121;
 }
 /*********************************/
 
 
-/*********** VBox ****************/
-.button-bar { /* Button bar */
+/*********** Button Bar **********/
+#button-bar { /* Button bar container */
     -fx-background-color: #212121;
 }
-.button { /* Run and clear buttons */
+#button-bar .button { /* Run and clear buttons */
     -fx-background-color: #424242;
     -fx-text-fill: white;
 }
+/*********************************/
 
-.text-field { /* Input field */
+
+/*********** Input ***************/
+#input-field { /* TextField input field */
     -fx-background-color: #1B1B1E;
     -fx-text-fill: white;
-}
-
-.text-flow { /* Output text */
-    -fx-background-color: #333333;
-}
-.scroll-pane { /* Output text container */
-    -fx-background-color: transparent;
 }
 /*********************************/
 
 
-/*********** TableView ***********/
-.table-view { /* Table */
+/*********** Output **************/
+#output-pane { /* ScrollPane container */
+    -fx-background-color: transparent;
+}
+#output-pane .text-flow { /* TextFlow container */
     -fx-background-color: #333333;
 }
+/*********************************/
 
-.column-header { /* Column headers */
+
+/*********** Table ***************/
+#table { /* TableView container */
+    -fx-background-color: #333333;
+}
+#table .column-header { /* Column header containers */
     -fx-background-color: #212121;
 }
-.column-header .label { /* Column header titles */
+#table .column-header .label { /* Column header text */
     -fx-text-fill: white;
 }
-
-.table-cell { /* Cells */
+#table .table-cell { /* Cell containers */
     -fx-text-fill: white;
     -fx-background-color: #333333;
     -fx-table-cell-border-color: #333333;
 }
-.table-row-cell:selected .table-cell { /* Selected row */
+#table .table-row-cell:selected .table-cell { /* Selected row */
     -fx-background-color: #303032;
 }
 /*********************************/
