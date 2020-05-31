@@ -1,7 +1,7 @@
 package generation;
 
 import org.junit.jupiter.api.Test;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ class EvaluatorTest
     public void evaluatorEvaluatesLiterals()
     {
         String message = "Failed to evaluate literal expression: ";
-        HashMap<String, Object> literalCollection = TestHub.literalCollection();
+        HashMap<String, Object> literalCollection = TestFactory.literalCollection();
 
         literalCollection.forEach((input, expected) -> {
             Object actual = evaluationOf(input);
@@ -25,7 +25,7 @@ class EvaluatorTest
     public void evaluatorEvaluatesUnary()
     {
         String message = "Failed to evaluate unary expression: ";
-        HashMap<String, Object> unaryCollection = TestHub.unaryCollection();
+        HashMap<String, Object> unaryCollection = TestFactory.unaryCollection();
 
         unaryCollection.forEach((input, expected) -> {
             Object actual = evaluationOf(input);
@@ -37,7 +37,7 @@ class EvaluatorTest
     public void evaluatorEvaluatesBinaries()
     {
         String message = "Failed to evaluate binary expression: ";
-        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
+        HashMap<String, Object> binaryCollection = TestFactory.binaryCollection();
 
         binaryCollection.forEach((input, expected) -> {
             Object actual = evaluationOf(input);
@@ -49,7 +49,7 @@ class EvaluatorTest
     public void evaluatorEvaluatesParameters()
     {
         String message = "Failed to evaluate parenthesized expression: ";
-        HashMap<String, Object> parenthesizedCollection = TestHub.parenthesizedCollection();
+        HashMap<String, Object> parenthesizedCollection = TestFactory.parenthesizedCollection();
 
         parenthesizedCollection.forEach((input, expected) -> {
             Object actual = evaluationOf(input);
@@ -61,7 +61,7 @@ class EvaluatorTest
     public void evaluatorEvaluatesAssignment()
     {
         String message = "Failed to evaluate assignment expression: ";
-        HashMap<String, Object> assignmentCollection = TestHub.assignmentCollection();
+        HashMap<String, Object> assignmentCollection = TestFactory.assignmentCollection();
 
         assignmentCollection.forEach((input, expected) -> {
             Object actual = evaluationOf(input);
@@ -71,7 +71,7 @@ class EvaluatorTest
 
     private static Object evaluationOf(String input)
     {
-        Evaluator evaluator = TestHub.createEvaluator(input);
+        Evaluator evaluator = TestFactory.createEvaluator(input);
         return evaluator.getEvaluation();
     }
 }

@@ -12,9 +12,9 @@ import source.SourceSpan;
 
 import java.util.HashMap;
 
-class MapGeneration
+class DataFactory
 {
-    private MapGeneration() {}
+    private DataFactory() {}
 
     static HashMap<String, Object> integerCollection()
     {
@@ -370,7 +370,7 @@ class MapGeneration
 
     private static String getErrorOutput(String input, Error error)
     {
-        ErrorHandler errorHandler = TestHub.createErrorHandler(input);
+        ErrorHandler errorHandler = TestFactory.createErrorHandler(input);
         errorHandler.addError(error);
         return errorHandler.getErrors();
     }

@@ -2,7 +2,7 @@ package errors;
 
 import org.junit.jupiter.api.Test;
 import source.SourceOutput;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -14,7 +14,7 @@ class ErrorHandlerTest
     public void errorHandlerCatchesLexerErrors()
     {
         String message = "Failed to catch lexical error: ";
-        HashMap<String, String> lexicalErrorCollection = TestHub.lexicalErrorCollection();
+        HashMap<String, String> lexicalErrorCollection = TestFactory.lexicalErrorCollection();
 
         lexicalErrorCollection.forEach((input, expected) -> {
             boolean actual = containsError(input, expected);
@@ -26,7 +26,7 @@ class ErrorHandlerTest
     public void errorHandlerCatchesSyntaxErrors()
     {
         String message = "Failed to catch syntax error: ";
-        HashMap<String, String> syntaxErrorCollection = TestHub.syntaxErrorCollection();
+        HashMap<String, String> syntaxErrorCollection = TestFactory.syntaxErrorCollection();
 
         syntaxErrorCollection.forEach((input, expected) -> {
             boolean actual = containsError(input, expected);
@@ -38,7 +38,7 @@ class ErrorHandlerTest
     public void errorHandlerCatchesSemanticErrors()
     {
         String message = "Failed to catch semantic error: ";
-        HashMap<String, String> semanticErrorCollection = TestHub.semanticErrorCollection();
+        HashMap<String, String> semanticErrorCollection = TestFactory.semanticErrorCollection();
 
         semanticErrorCollection.forEach((input, expected) -> {
             boolean actual = containsError(input, expected);
@@ -48,7 +48,7 @@ class ErrorHandlerTest
 
     private boolean containsError(String input, String expected)
     {
-        SourceOutput sourceOutput = TestHub.createSourceOutput(input);
+        SourceOutput sourceOutput = TestFactory.createSourceOutput(input);
         String actual = sourceOutput.getOutput().toString();
         return actual.contains(expected);
     }

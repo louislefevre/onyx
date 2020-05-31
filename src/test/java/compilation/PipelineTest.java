@@ -1,7 +1,7 @@
 package compilation;
 
 import org.junit.jupiter.api.Test;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ class PipelineTest
     public void pipelineCompilesAssignmentOperators()
     {
         String message = "Failed to compile variable assignment operator: ";
-        HashMap<String[], Object> assignmentOperatorsCollection = TestHub.assignmentOperatorsCollection();
+        HashMap<String[], Object> assignmentOperatorsCollection = TestFactory.assignmentOperatorsCollection();
 
         assignmentOperatorsCollection.forEach((inputArray, expected) -> {
             Pipeline pipeline = createPipeline();
@@ -34,7 +34,7 @@ class PipelineTest
     public void pipelineCompilesReassignment()
     {
         String message = "Failed to compile variable reassignment: ";
-        HashMap<String[], Object> reassignmentCollectionCollection = TestHub.reassignmentCollection();
+        HashMap<String[], Object> reassignmentCollectionCollection = TestFactory.reassignmentCollection();
 
         reassignmentCollectionCollection.forEach((inputArray, expected) -> {
             Pipeline pipeline = createPipeline();
@@ -53,6 +53,6 @@ class PipelineTest
 
     private Pipeline createPipeline()
     {
-        return TestHub.createPipeline();
+        return TestFactory.createPipeline();
     }
 }

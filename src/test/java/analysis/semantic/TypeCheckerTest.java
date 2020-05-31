@@ -2,7 +2,7 @@ package analysis.semantic;
 
 import identifiers.AnnotatedExpressionType;
 import org.junit.jupiter.api.Test;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -14,7 +14,7 @@ class TypeCheckerTest
     public void parserIdentifiesLiteralExpression()
     {
         String message = "Failed to identify annotated literal expression: ";
-        HashMap<String, Object> literalCollection = TestHub.literalCollection();
+        HashMap<String, Object> literalCollection = TestFactory.literalCollection();
 
         literalCollection.forEach((input, redundant) -> {
             AnnotatedExpressionType actual = annotatedExpressionTypeOf(input);
@@ -27,7 +27,7 @@ class TypeCheckerTest
     public void parserIdentifiesUnaryExpression()
     {
         String message = "Failed to identify annotated unary expression: ";
-        HashMap<String, Object> unaryCollection = TestHub.unaryCollection();
+        HashMap<String, Object> unaryCollection = TestFactory.unaryCollection();
 
         unaryCollection.forEach((input, redundant) -> {
             AnnotatedExpressionType actual = annotatedExpressionTypeOf(input);
@@ -40,7 +40,7 @@ class TypeCheckerTest
     public void parserIdentifiesBinaryExpression()
     {
         String message = "Failed to identify annotated binary expression: ";
-        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
+        HashMap<String, Object> binaryCollection = TestFactory.binaryCollection();
 
         binaryCollection.forEach((input, redundant) -> {
             AnnotatedExpressionType actual = annotatedExpressionTypeOf(input);
@@ -53,7 +53,7 @@ class TypeCheckerTest
     public void parserIdentifiesAssignmentExpression()
     {
         String message = "Failed to identify annotated assignment expression: ";
-        HashMap<String, Object> assignmentCollection = TestHub.assignmentCollection();
+        HashMap<String, Object> assignmentCollection = TestFactory.assignmentCollection();
 
         assignmentCollection.forEach((input, redundant) -> {
             AnnotatedExpressionType actual = annotatedExpressionTypeOf(input);
@@ -64,7 +64,7 @@ class TypeCheckerTest
 
     private static AnnotatedExpressionType annotatedExpressionTypeOf(String input)
     {
-        TypeChecker typeChecker = TestHub.createTypeChecker(input);
+        TypeChecker typeChecker = TestFactory.createTypeChecker(input);
         AnnotatedExpressionStatement expression =
                 (AnnotatedExpressionStatement) typeChecker.getAnnotatedParseTree().getStatement();
         return expression.getExpression().getExpressionType();

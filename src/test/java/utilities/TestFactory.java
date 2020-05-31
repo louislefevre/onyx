@@ -11,52 +11,52 @@ import source.SourceOutput;
 
 import java.util.HashMap;
 
-public class TestHub
+public class TestFactory
 {
-    private TestHub() {}
+    private TestFactory() {}
 
     public static ErrorHandler createErrorHandler(String input)
     {
-        return ObjectGeneration.createErrorHandler(input);
+        return CompilerFactory.createErrorHandler(input);
     }
 
     public static Lexer createLexer(String input)
     {
-        return ObjectGeneration.createLexer(input);
+        return CompilerFactory.createLexer(input);
     }
 
     public static Parser createParser(String input)
     {
-        return ObjectGeneration.createParser(input);
+        return CompilerFactory.createParser(input);
     }
 
     public static TypeChecker createTypeChecker(String input)
     {
-        return ObjectGeneration.createTypeChecker(input);
+        return CompilerFactory.createTypeChecker(input);
     }
 
     public static Evaluator createEvaluator(String input)
     {
-        return ObjectGeneration.createEvaluator(input);
+        return CompilerFactory.createEvaluator(input);
     }
 
     public static SourceOutput createSourceOutput(String input)
     {
-        return ObjectGeneration.createSourceOutput(input);
+        return CompilerFactory.createSourceOutput(input);
     }
 
     public static Pipeline createPipeline()
     {
-        return ObjectGeneration.createPipeline();
+        return CompilerFactory.createPipeline();
     }
 
     public static HashMap<String, Object> literalCollection()
     {
         HashMap<String, Object> data = new HashMap<>();
-        data.putAll(MapGeneration.integerCollection());
-        data.putAll(MapGeneration.doubleCollection());
-        data.putAll(MapGeneration.booleanCollection());
-        data.putAll(MapGeneration.stringCollection());
+        data.putAll(DataFactory.integerCollection());
+        data.putAll(DataFactory.doubleCollection());
+        data.putAll(DataFactory.booleanCollection());
+        data.putAll(DataFactory.stringCollection());
 
         return data;
     }
@@ -64,9 +64,9 @@ public class TestHub
     public static HashMap<String, Object> unaryCollection()
     {
         HashMap<String, Object> unarys = new HashMap<>();
-        unarys.putAll(MapGeneration.unaryIntegerCollection());
-        unarys.putAll(MapGeneration.unaryDoubleCollection());
-        unarys.putAll(MapGeneration.unaryBooleanCollection());
+        unarys.putAll(DataFactory.unaryIntegerCollection());
+        unarys.putAll(DataFactory.unaryDoubleCollection());
+        unarys.putAll(DataFactory.unaryBooleanCollection());
 
         return unarys;
     }
@@ -74,52 +74,52 @@ public class TestHub
     public static HashMap<String, Object> binaryCollection()
     {
         HashMap<String, Object> binaries = new HashMap<>();
-        binaries.putAll(MapGeneration.binaryIntegerCollection());
-        binaries.putAll(MapGeneration.binaryDoubleCollection());
-        binaries.putAll(MapGeneration.binaryBooleanCollection());
-        binaries.putAll(MapGeneration.binaryStringCollection());
+        binaries.putAll(DataFactory.binaryIntegerCollection());
+        binaries.putAll(DataFactory.binaryDoubleCollection());
+        binaries.putAll(DataFactory.binaryBooleanCollection());
+        binaries.putAll(DataFactory.binaryStringCollection());
 
         return binaries;
     }
 
     public static HashMap<String, Object> identifierCollection()
     {
-        return MapGeneration.identifierCollection();
+        return DataFactory.identifierCollection();
     }
 
     public static HashMap<String, Object> assignmentCollection()
     {
-        return MapGeneration.assignmentCollection();
+        return DataFactory.assignmentCollection();
     }
 
     public static HashMap<String[], Object> assignmentOperatorsCollection()
     {
-        return MapGeneration.assignmentOperatorsCollection();
+        return DataFactory.assignmentOperatorsCollection();
     }
 
     public static HashMap<String[], Object> reassignmentCollection()
     {
-        return MapGeneration.reassignmentCollection();
+        return DataFactory.reassignmentCollection();
     }
 
     public static HashMap<String, TokenType> tokenTypeCollection()
     {
-        return MapGeneration.tokenTypeCollection();
+        return DataFactory.tokenTypeCollection();
     }
 
     public static HashMap<String, String> lexicalErrorCollection()
     {
-        return MapGeneration.lexicalErrorCollection();
+        return DataFactory.lexicalErrorCollection();
     }
 
     public static HashMap<String, String> syntaxErrorCollection()
     {
-        return MapGeneration.syntaxErrorCollection();
+        return DataFactory.syntaxErrorCollection();
     }
 
     public static HashMap<String, String> semanticErrorCollection()
     {
-        return MapGeneration.semanticErrorCollection();
+        return DataFactory.semanticErrorCollection();
     }
 
     public static HashMap<String, Object> parenthesizedCollection()

@@ -10,9 +10,9 @@ import source.SourceInput;
 import source.SourceOutput;
 import symbols.SymbolTable;
 
-class ObjectGeneration
+class CompilerFactory
 {
-    private ObjectGeneration() {}
+    private CompilerFactory() {}
 
     static ErrorHandler createErrorHandler(String sourceText)
     {
@@ -24,7 +24,6 @@ class ObjectGeneration
     {
         ErrorHandler errorHandler = new ErrorHandler();
         SymbolTable symbolTable = new SymbolTable();
-        boolean replMode = false;
         return new SourceInput(input, symbolTable, errorHandler, false);
     }
 

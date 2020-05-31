@@ -2,7 +2,7 @@ package analysis.syntax;
 
 import identifiers.ExpressionType;
 import org.junit.jupiter.api.Test;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -14,7 +14,7 @@ class ParserTest
     public void parserIdentifiesLiteralExpression()
     {
         String message = "Failed to identify literal expression: ";
-        HashMap<String, Object> literalCollection = TestHub.literalCollection();
+        HashMap<String, Object> literalCollection = TestFactory.literalCollection();
 
         literalCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -27,7 +27,7 @@ class ParserTest
     public void parserIdentifiesUnaryExpression()
     {
         String message = "Failed to identify unary expression: ";
-        HashMap<String, Object> unaryCollection = TestHub.unaryCollection();
+        HashMap<String, Object> unaryCollection = TestFactory.unaryCollection();
 
         unaryCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -40,7 +40,7 @@ class ParserTest
     public void parserIdentifiesBinaryExpression()
     {
         String message = "Failed to identify binary expression: ";
-        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
+        HashMap<String, Object> binaryCollection = TestFactory.binaryCollection();
 
         binaryCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -53,7 +53,7 @@ class ParserTest
     public void parserIdentifiesIdentifierExpression()
     {
         String message = "Failed to identify identifier expression: ";
-        HashMap<String, Object> identifierCollection = TestHub.identifierCollection();
+        HashMap<String, Object> identifierCollection = TestFactory.identifierCollection();
 
         identifierCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -66,7 +66,7 @@ class ParserTest
     public void parserIdentifiesAssignmentExpression()
     {
         String message = "Failed to identify assignment expression: ";
-        HashMap<String, Object> assignmentCollection = TestHub.assignmentCollection();
+        HashMap<String, Object> assignmentCollection = TestFactory.assignmentCollection();
 
         assignmentCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -79,7 +79,7 @@ class ParserTest
     public void parserIdentifiesParenthesizedExpression()
     {
         String message = "Failed to identify parenthesized expression: ";
-        HashMap<String, Object> parenthesizedCollection = TestHub.parenthesizedCollection();
+        HashMap<String, Object> parenthesizedCollection = TestFactory.parenthesizedCollection();
 
         parenthesizedCollection.forEach((input, redundant) -> {
             ExpressionType actual = expressionTypeOf(input);
@@ -90,7 +90,7 @@ class ParserTest
 
     private static ExpressionType expressionTypeOf(String input)
     {
-        Parser parser = TestHub.createParser(input);
+        Parser parser = TestFactory.createParser(input);
         ExpressionStatement expression = (ExpressionStatement) parser.getParseTree().getStatement();
         return expression.getExpression().getExpressionType();
     }

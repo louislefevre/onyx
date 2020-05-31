@@ -2,7 +2,7 @@ package analysis.lexical;
 
 import identifiers.TokenType;
 import org.junit.jupiter.api.Test;
-import utilities.TestHub;
+import utilities.TestFactory;
 
 import java.util.HashMap;
 
@@ -14,7 +14,7 @@ class LexerTest
     public void lexerIdentifiesTokens()
     {
         String message = "Failed to return correct inbuilt token - TokenType mismatch at: ";
-        HashMap<String, TokenType> tokenTypeCollection = TestHub.tokenTypeCollection();
+        HashMap<String, TokenType> tokenTypeCollection = TestFactory.tokenTypeCollection();
 
         tokenTypeCollection.forEach((input, expected) -> {
             TokenType actual = tokenTypeOf(input);
@@ -26,7 +26,7 @@ class LexerTest
     public void lexerReturnsCorrectAmountOfTokens()
     {
         String message = "Failed to return correct token amount - Incorrect amount at: ";
-        HashMap<String, Object> binaryCollection = TestHub.binaryCollection();
+        HashMap<String, Object> binaryCollection = TestFactory.binaryCollection();
 
         binaryCollection.forEach((input, redundant) -> {
             int actual = amountOfTokens(input);
@@ -37,13 +37,13 @@ class LexerTest
 
     private static TokenType tokenTypeOf(String input)
     {
-        Lexer lexer = TestHub.createLexer(input);
+        Lexer lexer = TestFactory.createLexer(input);
         return lexer.getTokens().get(0).getType();
     }
 
     private static int amountOfTokens(String input)
     {
-        Lexer lexer = TestHub.createLexer(input);
+        Lexer lexer = TestFactory.createLexer(input);
         return lexer.getTokens().size();
     }
 }
