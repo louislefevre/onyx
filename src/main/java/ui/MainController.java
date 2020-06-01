@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.IOException;
@@ -15,7 +16,6 @@ public final class MainController
     @FXML private Label lineInfoLabel;
     @FXML private TextField tabSizeField;
 
-    private StageManager stageManager;
     private AlertManager alertManager;
     private FileManager fileManager;
     private CodeManager codeManager;
@@ -23,7 +23,6 @@ public final class MainController
     @FXML
     void initialize()
     {
-        stageManager = new StageManager();
         alertManager = new AlertManager();
         fileManager = new FileManager();
         codeManager = new CodeManager(codeAreaInput, tabSizeField, 4);
@@ -40,7 +39,8 @@ public final class MainController
     @FXML
     void openRepl() throws IOException
     {
-        stageManager.startReplStage();
+        StageManager stageManager = new StageManager();
+        stageManager.startReplStage(new Stage());
     }
 
     @FXML
