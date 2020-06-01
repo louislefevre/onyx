@@ -87,7 +87,7 @@ public final class Lexer
     {
         int startPos = position;
 
-        while (isWhitespace(currentChar()))
+        while (isWhitespace(currentChar()) && !isLineBreak(currentChar()))
             nextPosition();
 
         String syntax = sourceText.substring(startPos, position);
