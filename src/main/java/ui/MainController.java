@@ -32,7 +32,7 @@ public final class MainController
     @FXML
     void runSource()
     {
-        TextFlow output = codeManager.compileInputTest();
+        TextFlow output = codeManager.compileInput();
         textFlowOutput.getChildren().clear();
         textFlowOutput.getChildren().addAll(output);
     }

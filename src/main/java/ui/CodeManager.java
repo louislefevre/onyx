@@ -13,7 +13,6 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.fxmisc.wellbehaved.event.EventPattern;
 import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
-import org.jetbrains.annotations.TestOnly;
 import source.SourceOutput;
 
 import java.util.Collection;
@@ -81,29 +80,7 @@ final class CodeManager
     {
         String input = codeArea.getText();
 
-        if(input.isBlank())
-            return new TextFlow();
-
-        input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
-        input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
-        Stream<String> lines = input.lines(); // Splits each line up to be run individually
-
-        Pipeline pipeline = new Pipeline();
-        lines.forEach(pipeline::compile);
-
-        SourceOutput sourceOutput = pipeline.compile(input);
-        pipeline.printParseTree();
-        pipeline.printSymbolTable();
-
-        return sourceOutput.getTextOutput();
-    }
-
-    @TestOnly
-    public TextFlow compileInputTest()
-    {
-        String input = codeArea.getText();
-
-        if(input.isBlank())
+        if (input.isBlank())
             return new TextFlow();
 
         input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
@@ -114,6 +91,7 @@ final class CodeManager
         Pipeline pipeline = new Pipeline();
         lines.forEach(line -> {
             builder.append(line);
+            builder.append(System.getProperty("line.separator"));
             pipeline.compile(builder.toString());
         });
 
