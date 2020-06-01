@@ -70,10 +70,6 @@ final class FileManager
         File file = fileChooser.showSaveDialog(new Stage());
         if (file == null)
             throw new NullPointerException("No file was selected");
-        else if (isNonExistentFile(file))
-            throw new FileNotFoundException("Selected file doesn't exist: " + file.getPath());
-        else if (isInvalidWriteFile(file))
-            throw new AccessDeniedException("Access denied - you do not have permission to write to this file");
         else if (isInvalidFileExtension(file))
             throw new IllegalArgumentException("Invalid file extension");
         else
