@@ -1,21 +1,20 @@
 package utilities;
 
-import analysis.lexical.Syntax;
 import errors.Error;
-import errors.ErrorHandler;
 import errors.LexicalError;
 import errors.SemanticError;
 import errors.SyntaxError;
-import identifiers.ObjectType;
 import identifiers.TokenType;
 import source.SourceSpan;
 
 import java.util.HashMap;
 
-class DataFactory
-{
-    private DataFactory() {}
+import static analysis.lexical.Syntax.*;
+import static identifiers.ObjectType.*;
+import static identifiers.TokenType.*;
 
+final class DataFactory
+{
     static HashMap<String, Object> integerCollection()
     {
         HashMap<String, Object> integers = new HashMap<>();
@@ -182,45 +181,45 @@ class DataFactory
         return assignments;
     }
 
-    static HashMap<String[], Object> assignmentOperatorsCollection()
+    static HashMap<String, Object> assignmentOperatorsCollection()
     {
-        HashMap<String[], Object> assignmentOperators = new HashMap<>();
-        assignmentOperators.put(new String[]{"a=20\n\n", "a+=10\n\n"}, 30);
-        assignmentOperators.put(new String[]{"a=20\n\n", "a-=10\n\n"}, 10);
-        assignmentOperators.put(new String[]{"a=20\n\n", "a*=10\n\n"}, 200);
-        assignmentOperators.put(new String[]{"a=20\n\n", "a/=10\n\n"}, 2);
-        assignmentOperators.put(new String[]{"a=20\n\n", "a%=12\n\n"}, 8);
-        assignmentOperators.put(new String[]{"a=10\n\n", "a^=2\n\n"}, 100);
-        assignmentOperators.put(new String[]{"a=20.5\n\n", "a+=10.5\n\n"}, 31.0);
-        assignmentOperators.put(new String[]{"a=20.5\n\n", "a-=10.5\n\n"}, 10.0);
-        assignmentOperators.put(new String[]{"a=20.0\n\n", "a*=10.0\n\n"}, 200.0);
-        assignmentOperators.put(new String[]{"a=20.0\n\n", "a/=10.0\n\n"}, 2.0);
-        assignmentOperators.put(new String[]{"a=20.0\n\n", "a%=12.0\n\n"}, 8.0);
-        assignmentOperators.put(new String[]{"a=10.0\n\n", "a^=2.0\n\n"}, 100.0);
-        assignmentOperators.put(new String[]{"a=\"string\"\n\n", "a+=\" string\"\n\n"}, "string string");
+        HashMap<String, Object> assignmentOperators = new HashMap<>();
+        assignmentOperators.put("a=20\na+=10", 30);
+        assignmentOperators.put("a=20\na-=10", 10);
+        assignmentOperators.put("a=20\na*=10", 200);
+        assignmentOperators.put("a=20\na/=10", 2);
+        assignmentOperators.put("a=20\na%=12", 8);
+        assignmentOperators.put("a=10\na^=2", 100);
+        assignmentOperators.put("a=20.5\na+=10.5", 31.0);
+        assignmentOperators.put("a=20.5\na-=10.5", 10.0);
+        assignmentOperators.put("a=20.0\na*=10.0", 200.0);
+        assignmentOperators.put("a=20.0\na/=10.0", 2.0);
+        assignmentOperators.put("a=20.0\na%=12.0", 8.0);
+        assignmentOperators.put("a=10.0\na^=2.0", 100.0);
+        assignmentOperators.put("a=\"string\"\na+=\" string\"", "string string");
 
         return assignmentOperators;
     }
 
-    static HashMap<String[], Object> reassignmentCollection()
+    static HashMap<String, Object> reassignmentCollection()
     {
-        HashMap<String[], Object> reassignmentCollection = new HashMap<>();
-        reassignmentCollection.put(new String[]{"a=20\n\n", "a=10\n\n"}, 10);
-        reassignmentCollection.put(new String[]{"a=20\n\n", "a=10.0\n\n"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=20\n\n", "a=false\n\n"}, false);
-        reassignmentCollection.put(new String[]{"a=20\n\n", "a=\"string\"\n\n"}, "string");
-        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=10\n\n"}, 10);
-        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=10.0\n\n"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=false\n\n"}, false);
-        reassignmentCollection.put(new String[]{"a=20.0\n\n", "a=\"string\"\n\n"}, "string");
-        reassignmentCollection.put(new String[]{"a=true\n\n", "a=10\n\n"}, 10);
-        reassignmentCollection.put(new String[]{"a=true\n\n", "a=10.0\n\n"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=true\n\n", "a=false\n\n"}, false);
-        reassignmentCollection.put(new String[]{"a=true\n\n", "a=\"string\"\n\n"}, "string");
-        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=10\n\n"}, 10);
-        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=10.0\n\n"}, 10.0);
-        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=false\n\n"}, false);
-        reassignmentCollection.put(new String[]{"a=\"string\"\n\n", "a=\"string\"\n\n"}, "string");
+        HashMap<String, Object> reassignmentCollection = new HashMap<>();
+        reassignmentCollection.put("a=20\na=10", 10);
+        reassignmentCollection.put("a=20\na=10.0", 10.0);
+        reassignmentCollection.put("a=20\na=false", false);
+        reassignmentCollection.put("a=20\na=\"string\"", "string");
+        reassignmentCollection.put("a=20.0\na=10", 10);
+        reassignmentCollection.put("a=20.0\na=10.0", 10.0);
+        reassignmentCollection.put("a=20.0\na=false", false);
+        reassignmentCollection.put("a=20.0\na=\"string\"", "string");
+        reassignmentCollection.put("a=true\na=10", 10);
+        reassignmentCollection.put("a=true\na=10.0", 10.0);
+        reassignmentCollection.put("a=true\na=false", false);
+        reassignmentCollection.put("a=true\na=\"string\"", "string");
+        reassignmentCollection.put("a=\"string\"\na=10", 10);
+        reassignmentCollection.put("a=\"string\"\na=10.0", 10.0);
+        reassignmentCollection.put("a=\"string\"\na=false", false);
+        reassignmentCollection.put("a=\"string\"\na=\"string\"", "string");
 
         return reassignmentCollection;
     }
@@ -228,153 +227,129 @@ class DataFactory
     static HashMap<String, TokenType> tokenTypeCollection()
     {
         HashMap<String, TokenType> tokenTypes = new HashMap<>();
-        tokenTypes.put("10", TokenType.INTEGER_TOKEN);
-        tokenTypes.put("10.0", TokenType.DOUBLE_TOKEN);
-        tokenTypes.put("\"string\"", TokenType.STRING_TOKEN);
-        tokenTypes.put("var", TokenType.IDENTIFIER_TOKEN);
-        tokenTypes.put(Syntax.TRUE_SYNTAX, TokenType.BOOLEAN_TOKEN);
-        tokenTypes.put(Syntax.FALSE_SYNTAX, TokenType.BOOLEAN_TOKEN);
-        tokenTypes.put(Syntax.AND_SYNTAX, TokenType.AND_TOKEN);
-        tokenTypes.put(Syntax.OR_SYNTAX, TokenType.OR_TOKEN);
-        tokenTypes.put(Syntax.OPEN_BRACE_SYNTAX, TokenType.OPEN_BRACE_TOKEN);
-        tokenTypes.put(Syntax.CLOSE_BRACE_SYNTAX, TokenType.CLOSE_BRACE_TOKEN);
-        tokenTypes.put(Syntax.OPEN_PARENTHESIS_SYNTAX, TokenType.OPEN_PARENTHESIS_TOKEN);
-        tokenTypes.put(Syntax.CLOSE_PARENTHESIS_SYNTAX, TokenType.CLOSE_PARENTHESIS_TOKEN);
-        tokenTypes.put(Syntax.PLUS_SYNTAX, TokenType.PLUS_TOKEN);
-        tokenTypes.put(Syntax.MINUS_SYNTAX, TokenType.MINUS_TOKEN);
-        tokenTypes.put(Syntax.STAR_SYNTAX, TokenType.STAR_TOKEN);
-        tokenTypes.put(Syntax.SLASH_SYNTAX, TokenType.SLASH_TOKEN);
-        tokenTypes.put(Syntax.PERCENT_SYNTAX, TokenType.PERCENT_TOKEN);
-        tokenTypes.put(Syntax.CARET_SYNTAX, TokenType.CARET_TOKEN);
-        tokenTypes.put(Syntax.GREATER_SYNTAX, TokenType.GREATER_TOKEN);
-        tokenTypes.put(Syntax.LESS_SYNTAX, TokenType.LESS_TOKEN);
-        tokenTypes.put(Syntax.GREATER_EQUALS_SYNTAX, TokenType.GREATER_EQUALS_TOKEN);
-        tokenTypes.put(Syntax.LESS_EQUALS_SYNTAX, TokenType.LESS_EQUALS_TOKEN);
-        tokenTypes.put(Syntax.NOT_SYNTAX, TokenType.NOT_TOKEN);
-        tokenTypes.put(Syntax.EQUALS_SYNTAX, TokenType.EQUALS_TOKEN);
-        tokenTypes.put(Syntax.EQUALS_EQUALS_SYNTAX, TokenType.EQUALS_EQUALS_TOKEN);
-        tokenTypes.put(Syntax.NOT_EQUALS_SYNTAX, TokenType.NOT_EQUALS_TOKEN);
+        tokenTypes.put("10", INTEGER_TOKEN);
+        tokenTypes.put("10.0", DOUBLE_TOKEN);
+        tokenTypes.put("\"string\"", STRING_TOKEN);
+        tokenTypes.put("var", IDENTIFIER_TOKEN);
+        tokenTypes.put(TRUE_SYNTAX, BOOLEAN_TOKEN);
+        tokenTypes.put(FALSE_SYNTAX, BOOLEAN_TOKEN);
+        tokenTypes.put(AND_SYNTAX, AND_TOKEN);
+        tokenTypes.put(OR_SYNTAX, OR_TOKEN);
+        tokenTypes.put(OPEN_BRACE_SYNTAX, OPEN_BRACE_TOKEN);
+        tokenTypes.put(CLOSE_BRACE_SYNTAX, CLOSE_BRACE_TOKEN);
+        tokenTypes.put(OPEN_PARENTHESIS_SYNTAX, OPEN_PARENTHESIS_TOKEN);
+        tokenTypes.put(CLOSE_PARENTHESIS_SYNTAX, CLOSE_PARENTHESIS_TOKEN);
+        tokenTypes.put(PLUS_SYNTAX, PLUS_TOKEN);
+        tokenTypes.put(MINUS_SYNTAX, MINUS_TOKEN);
+        tokenTypes.put(STAR_SYNTAX, STAR_TOKEN);
+        tokenTypes.put(SLASH_SYNTAX, SLASH_TOKEN);
+        tokenTypes.put(PERCENT_SYNTAX, PERCENT_TOKEN);
+        tokenTypes.put(CARET_SYNTAX, CARET_TOKEN);
+        tokenTypes.put(GREATER_SYNTAX, GREATER_TOKEN);
+        tokenTypes.put(LESS_SYNTAX, LESS_TOKEN);
+        tokenTypes.put(GREATER_EQUALS_SYNTAX, GREATER_EQUALS_TOKEN);
+        tokenTypes.put(LESS_EQUALS_SYNTAX, LESS_EQUALS_TOKEN);
+        tokenTypes.put(NOT_SYNTAX, NOT_TOKEN);
+        tokenTypes.put(EQUALS_SYNTAX, EQUALS_TOKEN);
+        tokenTypes.put(EQUALS_EQUALS_SYNTAX, EQUALS_EQUALS_TOKEN);
+        tokenTypes.put(NOT_EQUALS_SYNTAX, NOT_EQUALS_TOKEN);
 
         return tokenTypes;
     }
 
-    static HashMap<String, String> lexicalErrorCollection()
+    static HashMap<String, Error> lexicalErrorCollection()
     {
-        HashMap<String, String> lexicalErrors = new HashMap<>();
-        String input, output;
+        HashMap<String, Error> lexicalErrors = new HashMap<>();
+        String input;
         LexicalError error;
 
         input = "2147483648";
         error = LexicalError.invalidInt(input, 0, 10);
-        output = getErrorOutput(input, error);
-        lexicalErrors.put(input, output);
+        lexicalErrors.put(input, error);
 
         input = "@";
         error = LexicalError.badCharacter(input, 0, 1);
-        output = getErrorOutput(input, error);
-        lexicalErrors.put(input, output);
+        lexicalErrors.put(input, error);
 
         input = "\"string";
         error = LexicalError.incompleteString(input, 0, 7);
-        output = getErrorOutput(input, error);
-        lexicalErrors.put(input, output);
+        lexicalErrors.put(input, error);
 
         return lexicalErrors;
     }
 
-    static HashMap<String, String> syntaxErrorCollection()
+    static HashMap<String, Error> syntaxErrorCollection()
     {
-        HashMap<String, String> syntaxErrors = new HashMap<>();
-        String input, output;
+        HashMap<String, Error> syntaxErrors = new HashMap<>();
+        String input;
         SourceSpan span;
         SyntaxError error;
 
         input = "(";
         span = new SourceSpan(1, 1);
-        error = SyntaxError.invalidTokenPair(span, TokenType.EOF_TOKEN, TokenType.CLOSE_PARENTHESIS_TOKEN);
-        output = getErrorOutput(input, error);
-        syntaxErrors.put(input, output);
+        error = SyntaxError.invalidTokenPair(span, EOF_TOKEN, CLOSE_PARENTHESIS_TOKEN);
+        syntaxErrors.put(input, error);
 
         input = "{";
         span = new SourceSpan(1, 1);
-        error = SyntaxError.invalidTokenPair(span, TokenType.EOF_TOKEN, TokenType.CLOSE_BRACE_TOKEN);
-        output = getErrorOutput(input, error);
-        syntaxErrors.put(input, output);
+        error = SyntaxError.invalidTokenPair(span, EOF_TOKEN, CLOSE_BRACE_TOKEN);
+        syntaxErrors.put(input, error);
 
         return syntaxErrors;
     }
 
-    static HashMap<String, String> semanticErrorCollection()
+    static HashMap<String, Error> semanticErrorCollection()
     {
-        HashMap<String, String> semanticErrors = new HashMap<>();
-        String input, output;
+        HashMap<String, Error> semanticErrors = new HashMap<>();
+        String input;
         SourceSpan span;
         SemanticError error;
 
         input = "+true";
         span = new SourceSpan(0, 1);
-        error = SemanticError.undefinedUnaryOperator(span, "+", ObjectType.BOOLEAN_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedUnaryOperator(span, "+", BOOLEAN_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "!5";
         span = new SourceSpan(0, 1);
-        error = SemanticError.undefinedUnaryOperator(span, "!", ObjectType.INTEGER_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedUnaryOperator(span, "!", INTEGER_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "!5.0";
         span = new SourceSpan(0, 1);
-        error = SemanticError.undefinedUnaryOperator(span, "!", ObjectType.DOUBLE_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedUnaryOperator(span, "!", DOUBLE_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "true + false";
         span = new SourceSpan(5, 1);
-        error = SemanticError.undefinedBinaryOperator(span, "+", ObjectType.BOOLEAN_OBJECT, ObjectType.BOOLEAN_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedBinaryOperator(span, "+", BOOLEAN_OBJECT, BOOLEAN_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "5 * 5.0";
         span = new SourceSpan(2, 1);
-        error = SemanticError.undefinedBinaryOperator(span, "*", ObjectType.INTEGER_OBJECT, ObjectType.DOUBLE_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedBinaryOperator(span, "*", INTEGER_OBJECT, DOUBLE_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "\"string\" * true";
         span = new SourceSpan(9, 1);
-        error = SemanticError.undefinedBinaryOperator(span, "*", ObjectType.STRING_OBJECT, ObjectType.BOOLEAN_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedBinaryOperator(span, "*", STRING_OBJECT, BOOLEAN_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "a += 5";
         span = new SourceSpan(2, 2);
-        error = SemanticError.undefinedAssignmentOperator(span, "+=", ObjectType.NULL_OBJECT, ObjectType.INTEGER_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedAssignmentOperator(span, "+=", NULL_OBJECT, INTEGER_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "a *= true";
         span = new SourceSpan(2, 2);
-        error = SemanticError.undefinedAssignmentOperator(span, "*=", ObjectType.NULL_OBJECT, ObjectType.BOOLEAN_OBJECT);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        error = SemanticError.undefinedAssignmentOperator(span, "*=", NULL_OBJECT, BOOLEAN_OBJECT);
+        semanticErrors.put(input, error);
 
         input = "variable";
         span = new SourceSpan(0, 8);
         error = SemanticError.undefinedIdentifier(span, input);
-        output = getErrorOutput(input, error);
-        semanticErrors.put(input, output);
+        semanticErrors.put(input, error);
 
         return semanticErrors;
     }
-
-    private static String getErrorOutput(String input, Error error)
-    {
-        ErrorHandler errorHandler = TestFactory.createErrorHandler(input);
-        errorHandler.addError(error);
-        return errorHandler.getErrors();
-    }
 }
-
-
-

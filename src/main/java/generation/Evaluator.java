@@ -8,7 +8,6 @@ import identifiers.AnnotatedStatementType;
 import identifiers.ObjectType;
 import identifiers.OperatorType;
 import identifiers.TokenType;
-import lombok.Getter;
 import symbols.Symbol;
 import symbols.SymbolTable;
 
@@ -20,17 +19,15 @@ import static identifiers.ObjectType.STRING_OBJECT;
 public final class Evaluator
 {
     private final AnnotatedParseTree annotatedParseTree;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
-    @Getter private final boolean replMode;
+    private final ErrorHandler errorHandler;
+    private final SymbolTable symbolTable;
     private Object lastValue;
 
-    public Evaluator(TypeChecker typeChecker)
+    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
-        this.errorHandler = typeChecker.getErrorHandler();
-        this.symbolTable = typeChecker.getSymbolTable();
-        this.replMode = typeChecker.isReplMode();
+        this.errorHandler = errorHandler;
+        this.symbolTable = symbolTable;
     }
 
     public Object getEvaluation()

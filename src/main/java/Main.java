@@ -1,6 +1,5 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
-import ui.ConsoleManager;
 import ui.StageManager;
 
 import java.io.IOException;
@@ -9,12 +8,7 @@ public class Main extends Application
 {
     public static void main(String[] args)
     {
-        boolean consoleMode = args.length > 0 && args[0].equals("console");
-
-        if (consoleMode)
-            ConsoleManager.startConsole();
-        else
-            Application.launch();
+        Application.launch();
     }
 
     @Override

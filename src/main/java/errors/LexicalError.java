@@ -1,20 +1,14 @@
 package errors;
 
-import identifiers.ErrorType;
-import lombok.Getter;
 import source.SourceSpan;
 
 import static identifiers.ErrorType.LEXICAL_ERROR;
 
-@Getter
 public final class LexicalError extends Error
 {
-    private final ErrorType errorType;
-
     public LexicalError(SourceSpan span, String errorMessage)
     {
-        super(span, errorMessage);
-        this.errorType = LEXICAL_ERROR;
+        super(span, LEXICAL_ERROR, errorMessage);
     }
 
     public static LexicalError invalidInt(String syntax, int start, int length)
@@ -43,11 +37,5 @@ public final class LexicalError extends Error
         SourceSpan span = new SourceSpan(start, length);
         String message = String.format("Incomplete string '%s'.", syntax);
         return new LexicalError(span, message);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Lexical Error";
     }
 }

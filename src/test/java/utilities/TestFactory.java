@@ -4,22 +4,14 @@ import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
 import compilation.Compiler;
-import errors.ErrorHandler;
+import errors.Error;
 import generation.Evaluator;
 import identifiers.TokenType;
-import source.SourceOutput;
 
 import java.util.HashMap;
 
-public class TestFactory
+public final class TestFactory
 {
-    private TestFactory() {}
-
-    public static ErrorHandler createErrorHandler(String input)
-    {
-        return CompilerFactory.createErrorHandler(input);
-    }
-
     public static Lexer createLexer(String input)
     {
         return CompilerFactory.createLexer(input);
@@ -40,14 +32,9 @@ public class TestFactory
         return CompilerFactory.createEvaluator(input);
     }
 
-    public static SourceOutput createSourceOutput(String input)
+    public static Compiler createCompiler()
     {
-        return CompilerFactory.createSourceOutput(input);
-    }
-
-    public static Compiler createPipeline()
-    {
-        return CompilerFactory.createPipeline();
+        return CompilerFactory.createCompiler();
     }
 
     public static HashMap<String, Object> literalCollection()
@@ -92,12 +79,12 @@ public class TestFactory
         return DataFactory.assignmentCollection();
     }
 
-    public static HashMap<String[], Object> assignmentOperatorsCollection()
+    public static HashMap<String, Object> assignmentOperatorsCollection()
     {
         return DataFactory.assignmentOperatorsCollection();
     }
 
-    public static HashMap<String[], Object> reassignmentCollection()
+    public static HashMap<String, Object> reassignmentCollection()
     {
         return DataFactory.reassignmentCollection();
     }
@@ -107,17 +94,17 @@ public class TestFactory
         return DataFactory.tokenTypeCollection();
     }
 
-    public static HashMap<String, String> lexicalErrorCollection()
+    public static HashMap<String, Error> lexicalErrorCollection()
     {
         return DataFactory.lexicalErrorCollection();
     }
 
-    public static HashMap<String, String> syntaxErrorCollection()
+    public static HashMap<String, Error> syntaxErrorCollection()
     {
         return DataFactory.syntaxErrorCollection();
     }
 
-    public static HashMap<String, String> semanticErrorCollection()
+    public static HashMap<String, Error> semanticErrorCollection()
     {
         return DataFactory.semanticErrorCollection();
     }

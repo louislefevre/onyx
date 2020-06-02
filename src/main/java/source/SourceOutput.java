@@ -2,35 +2,23 @@ package source;
 
 import errors.ErrorHandler;
 import generation.Evaluator;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import symbols.SymbolTable;
 
 public final class SourceOutput
 {
     private final Object result;
     private final ErrorHandler errorHandler;
-    private final SymbolTable symbolTable;
-    private final boolean replMode;
 
-    public SourceOutput(Evaluator evaluator)
+    public SourceOutput(Evaluator evaluator, ErrorHandler errorHandler)
     {
         this.result = evaluator.getEvaluation();
-        this.errorHandler = evaluator.getErrorHandler();
-        this.symbolTable = evaluator.getSymbolTable();
-        this.replMode = evaluator.isReplMode();
+        this.errorHandler = errorHandler;
     }
 
-    public Object getOutput()
-    {
-        if (errorHandler.containsErrors())
-            return errorHandler.getErrors();
-
-        return result.toString();
-    }
-
-    public TextFlow getTextOutput()
+    public TextFlow getOutput()
     {
         if (errorHandler.containsErrors())
             return errorHandler.getPrimaryError();
@@ -39,5 +27,16 @@ public final class SourceOutput
         text.setFill(Color.WHITE);
 
         return new TextFlow(text);
+    }
+
+    public String getRawOutput()
+    {
+        TextFlow textFlow = getOutput();
+        StringBuilder builder = new StringBuilder();
+
+        for (Node child : textFlow.getChildren())
+            builder.append(((Text) child).getText());
+
+        return builder.toString();
     }
 }

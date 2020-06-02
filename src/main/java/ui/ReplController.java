@@ -27,7 +27,7 @@ public final class ReplController
     void initialize()
     {
         compiler = new Compiler();
-        compiler.toggleReplMode();
+        compiler.setReplMode(true);
 
         symbolTableView.setPlaceholder(new Label());
         tableManager = new TableManager(symbolTableView);
@@ -44,7 +44,7 @@ public final class ReplController
             return;
 
         SourceOutput sourceOutput = compiler.compileInput(input);
-        resultTextFlow.getChildren().add(0, sourceOutput.getTextOutput());
+        resultTextFlow.getChildren().add(0, sourceOutput.getOutput());
         resultTextFlow.getChildren().add(1, new Text(System.lineSeparator()));
 
         tableManager.refreshTable(compiler.getSymbolTable());

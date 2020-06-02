@@ -1,21 +1,15 @@
 package errors;
 
-import identifiers.ErrorType;
 import identifiers.ObjectType;
-import lombok.Getter;
 import source.SourceSpan;
 
 import static identifiers.ErrorType.SEMANTIC_ERROR;
 
-@Getter
 public final class SemanticError extends Error
 {
-    private final ErrorType errorType;
-
     public SemanticError(SourceSpan span, String errorMessage)
     {
-        super(span, errorMessage);
-        this.errorType = SEMANTIC_ERROR;
+        super(span, SEMANTIC_ERROR, errorMessage);
     }
 
     public static String exceptionOccurred(Exception exception)
@@ -72,12 +66,6 @@ public final class SemanticError extends Error
     public static String undefinedStatement(String syntax)
     {
         return String.format("Unexpected statement '%s'", syntax);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Semantic Error";
     }
 
     private static String typesToString(ObjectType[] types)

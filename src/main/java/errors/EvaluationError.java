@@ -1,20 +1,14 @@
 package errors;
 
-import identifiers.ErrorType;
-import lombok.Getter;
 import source.SourceSpan;
 
 import static identifiers.ErrorType.EVALUATE_ERROR;
 
-@Getter
 public final class EvaluationError extends Error
 {
-    private final ErrorType errorType;
-
     public EvaluationError(SourceSpan span, String errorMessage)
     {
-        super(span, errorMessage);
-        this.errorType = EVALUATE_ERROR;
+        super(span, EVALUATE_ERROR, errorMessage);
     }
 
     public static String exceptionOccurred(Exception exception)
@@ -82,11 +76,5 @@ public final class EvaluationError extends Error
     public static String invalidConditionalType(String type)
     {
         return String.format("Invalid conditional object type '%s'.", type);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Evaluate Error";
     }
 }

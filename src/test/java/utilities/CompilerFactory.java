@@ -7,57 +7,47 @@ import compilation.Compiler;
 import errors.ErrorHandler;
 import generation.Evaluator;
 import source.SourceInput;
-import source.SourceOutput;
 import symbols.SymbolTable;
 
-class CompilerFactory
+final class CompilerFactory
 {
-    private CompilerFactory() {}
-
-    static ErrorHandler createErrorHandler(String sourceText)
-    {
-        SourceInput sourceInput = createSourceInput(sourceText);
-        return sourceInput.getErrorHandler();
-    }
-
-    static SourceInput createSourceInput(String input)
-    {
-        ErrorHandler errorHandler = new ErrorHandler();
-        SymbolTable symbolTable = new SymbolTable();
-        return new SourceInput(input, symbolTable, errorHandler, false);
-    }
-
     static Lexer createLexer(String input)
     {
-        SourceInput sourceInput = createSourceInput(input);
-        return new Lexer(sourceInput);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        return new Lexer(sourceInput, errorHandler);
     }
 
     static Parser createParser(String input)
     {
-        Lexer lexer = createLexer(input);
-        return new Parser(lexer);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
+        return new Parser(lexer, errorHandler, false);
     }
 
     static TypeChecker createTypeChecker(String input)
     {
-        Parser parser = createParser(input);
-        return new TypeChecker(parser);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
+        Parser parser = new Parser(lexer, errorHandler, false);
+        SymbolTable symbolTable = new SymbolTable();
+        return new TypeChecker(parser, errorHandler, symbolTable);
     }
 
     static Evaluator createEvaluator(String input)
     {
-        TypeChecker typeChecker = createTypeChecker(input);
-        return new Evaluator(typeChecker);
+        SourceInput sourceInput = new SourceInput(input);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
+        Parser parser = new Parser(lexer, errorHandler, false);
+        SymbolTable symbolTable = new SymbolTable();
+        TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
+        return new Evaluator(typeChecker, errorHandler, symbolTable);
     }
 
-    static SourceOutput createSourceOutput(String input)
-    {
-        Evaluator evaluator = createEvaluator(input);
-        return new SourceOutput(evaluator);
-    }
-
-    static Compiler createPipeline()
+    static Compiler createCompiler()
     {
         return new Compiler();
     }

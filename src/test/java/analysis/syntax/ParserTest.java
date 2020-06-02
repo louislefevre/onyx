@@ -91,7 +91,9 @@ class ParserTest
     private static ExpressionType expressionTypeOf(String input)
     {
         Parser parser = TestFactory.createParser(input);
-        ExpressionStatement expression = (ExpressionStatement) parser.getParseTree().getStatement();
+        SourceStatement statement = (SourceStatement) parser.getParseTree().getStatement();
+        ExpressionStatement expression = (ExpressionStatement) statement.getStatements().get(0);
+
         return expression.getExpression().getExpressionType();
     }
 }

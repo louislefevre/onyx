@@ -1,21 +1,15 @@
 package errors;
 
-import identifiers.ErrorType;
 import identifiers.TokenType;
-import lombok.Getter;
 import source.SourceSpan;
 
 import static identifiers.ErrorType.SYNTAX_ERROR;
 
-@Getter
 public final class SyntaxError extends Error
 {
-    private final ErrorType errorType;
-
     public SyntaxError(SourceSpan span, String errorMessage)
     {
-        super(span, errorMessage);
-        this.errorType = SYNTAX_ERROR;
+        super(span, SYNTAX_ERROR, errorMessage);
     }
 
     public static SyntaxError invalidToken(SourceSpan span, TokenType type)
@@ -28,11 +22,5 @@ public final class SyntaxError extends Error
     {
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
         return new SyntaxError(span, message);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Syntax Error";
     }
 }

@@ -7,28 +7,24 @@ import analysis.syntax.Parser;
 import errors.ErrorHandler;
 import generation.Evaluator;
 import lombok.Getter;
+import lombok.Setter;
 import source.SourceInput;
 import source.SourceOutput;
 import symbols.SymbolTable;
 
 import java.util.stream.Stream;
 
+@Setter
+@Getter
 public final class Compiler
 {
-    @Getter private final SymbolTable symbolTable;
-    private final ErrorHandler errorHandler;
+    private final SymbolTable symbolTable;
     private boolean replMode;
 
     public Compiler()
     {
         this.symbolTable = new SymbolTable();
-        this.errorHandler = new ErrorHandler();
         this.replMode = false;
-    }
-
-    public void toggleReplMode()
-    {
-        replMode = !replMode;
     }
 
     public void printParseTree()
@@ -71,12 +67,14 @@ public final class Compiler
 
     private SourceOutput compile(String sourceText)
     {
-        SourceInput sourceInput = new SourceInput(sourceText, symbolTable, errorHandler, replMode);
-        Lexer lexer = new Lexer(sourceInput);
-        Parser parser = new Parser(lexer);
-        TypeChecker typeChecker = new TypeChecker(parser);
-        Evaluator evaluator = new Evaluator(typeChecker);
-        SourceOutput sourceOutput = new SourceOutput(evaluator);
+        SourceInput sourceInput = new SourceInput(sourceText);
+        ErrorHandler errorHandler = new ErrorHandler(sourceInput);
+
+        Lexer lexer = new Lexer(sourceInput, errorHandler);
+        Parser parser = new Parser(lexer, errorHandler, replMode);
+        TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
+        Evaluator evaluator = new Evaluator(typeChecker, errorHandler, symbolTable);
+        SourceOutput sourceOutput = new SourceOutput(evaluator, errorHandler);
 
         return sourceOutput;
     }

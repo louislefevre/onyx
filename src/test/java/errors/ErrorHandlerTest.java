@@ -1,12 +1,13 @@
 package errors;
 
 import org.junit.jupiter.api.Test;
+import source.SourceInput;
 import source.SourceOutput;
 import utilities.TestFactory;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ErrorHandlerTest
 {
@@ -14,11 +15,12 @@ class ErrorHandlerTest
     public void errorHandlerCatchesLexerErrors()
     {
         String message = "Failed to catch lexical error: ";
-        HashMap<String, String> lexicalErrorCollection = TestFactory.lexicalErrorCollection();
+        HashMap<String, Error> lexicalErrorCollection = TestFactory.lexicalErrorCollection();
 
-        lexicalErrorCollection.forEach((input, expected) -> {
-            boolean actual = containsError(input, expected);
-            assertTrue(actual, message + input);
+        lexicalErrorCollection.forEach((input, error) -> {
+            String actual = compile(input);
+            String expected = getErrorMessage(input, error);
+            assertEquals(expected, actual, message + input);
         });
     }
 
@@ -26,11 +28,12 @@ class ErrorHandlerTest
     public void errorHandlerCatchesSyntaxErrors()
     {
         String message = "Failed to catch syntax error: ";
-        HashMap<String, String> syntaxErrorCollection = TestFactory.syntaxErrorCollection();
+        HashMap<String, Error> syntaxErrorCollection = TestFactory.syntaxErrorCollection();
 
-        syntaxErrorCollection.forEach((input, expected) -> {
-            boolean actual = containsError(input, expected);
-            assertTrue(actual, message + input);
+        syntaxErrorCollection.forEach((input, error) -> {
+            String actual = compile(input);
+            String expected = getErrorMessage(input, error);
+            assertEquals(expected, actual, message + input);
         });
     }
 
@@ -38,18 +41,24 @@ class ErrorHandlerTest
     public void errorHandlerCatchesSemanticErrors()
     {
         String message = "Failed to catch semantic error: ";
-        HashMap<String, String> semanticErrorCollection = TestFactory.semanticErrorCollection();
+        HashMap<String, Error> semanticErrorCollection = TestFactory.semanticErrorCollection();
 
-        semanticErrorCollection.forEach((input, expected) -> {
-            boolean actual = containsError(input, expected);
-            assertTrue(actual, message + input);
+        semanticErrorCollection.forEach((input, error) -> {
+            String actual = compile(input);
+            String expected = getErrorMessage(input, error);
+            assertEquals(expected, actual, message + input);
         });
     }
 
-    private boolean containsError(String input, String expected)
+    private String compile(String input)
     {
-        SourceOutput sourceOutput = TestFactory.createSourceOutput(input);
-        String actual = sourceOutput.getOutput().toString();
-        return actual.contains(expected);
+        SourceOutput sourceOutput = TestFactory.createCompiler().compileInput(input);
+        return sourceOutput.getRawOutput();
+    }
+
+    private String getErrorMessage(String input, Error error)
+    {
+        SourceInput sourceInput = new SourceInput(input);
+        return error.getErrorMessage(sourceInput).toString();
     }
 }

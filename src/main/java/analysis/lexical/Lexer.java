@@ -3,9 +3,7 @@ package analysis.lexical;
 import errors.ErrorHandler;
 import errors.LexicalError;
 import identifiers.TokenType;
-import lombok.Getter;
 import source.SourceInput;
-import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +18,13 @@ import static identifiers.TokenType.*;
 public final class Lexer
 {
     private final String sourceText;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
-    @Getter private final boolean replMode;
+    private final ErrorHandler errorHandler;
     private int position;
 
-    public Lexer(SourceInput sourceInput)
+    public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
     {
         this.sourceText = sourceInput.getSourceText();
-        this.errorHandler = sourceInput.getErrorHandler();
-        this.symbolTable = sourceInput.getSymbolTable();
-        this.replMode = sourceInput.isReplMode();
+        this.errorHandler = errorHandler;
         this.position = 0;
     }
 

@@ -6,7 +6,6 @@ import errors.ErrorHandler;
 import errors.SemanticError;
 import identifiers.ObjectType;
 import identifiers.TokenType;
-import lombok.Getter;
 import source.SourceSpan;
 import symbols.SymbolTable;
 
@@ -21,16 +20,14 @@ import static identifiers.ObjectType.NULL_OBJECT;
 public final class TypeChecker
 {
     private final ParseTree parseTree;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
-    @Getter private final boolean replMode;
+    private final ErrorHandler errorHandler;
+    private final SymbolTable symbolTable;
 
-    public TypeChecker(Parser parser)
+    public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
         this.parseTree = parser.getParseTree();
-        this.errorHandler = parser.getErrorHandler();
-        this.symbolTable = parser.getSymbolTable();
-        this.replMode = parser.isReplMode();
+        this.errorHandler = errorHandler;
+        this.symbolTable = symbolTable;
     }
 
     public AnnotatedParseTree getAnnotatedParseTree()

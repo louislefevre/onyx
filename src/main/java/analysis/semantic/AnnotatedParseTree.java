@@ -1,5 +1,8 @@
 package analysis.semantic;
 
+import lombok.Getter;
+
+@Getter
 public final class AnnotatedParseTree
 {
     private final AnnotatedStatement statement;
@@ -7,10 +10,5 @@ public final class AnnotatedParseTree
     public AnnotatedParseTree(AnnotatedStatement statement)
     {
         this.statement = statement;
-    }
-
-    public AnnotatedStatement getStatement()
-    {
-        return statement;
     }
 }

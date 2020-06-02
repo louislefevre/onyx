@@ -1,8 +1,6 @@
 package source;
 
-import errors.ErrorHandler;
 import lombok.Getter;
-import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +9,12 @@ import java.util.List;
 public final class SourceInput
 {
     private final String sourceText;
-    private final SymbolTable symbolTable;
-    private final ErrorHandler errorHandler;
-    private final boolean replMode;
     private final List<SourceLine> sourceLines;
 
-    public SourceInput(String sourceText, SymbolTable symbolTable, ErrorHandler errorHandler, boolean replMode)
+    public SourceInput(String sourceText)
     {
         this.sourceText = sourceText;
-        this.symbolTable = symbolTable;
-        this.errorHandler = errorHandler;
-        this.replMode = replMode;
         this.sourceLines = parseLines(sourceText);
-        errorHandler.setSourceInput(this);
     }
 
     public int length()

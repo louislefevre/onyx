@@ -5,8 +5,6 @@ import analysis.lexical.Token;
 import errors.ErrorHandler;
 import errors.SyntaxError;
 import identifiers.TokenType;
-import lombok.Getter;
-import symbols.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +16,15 @@ import static identifiers.TokenType.*;
 public final class Parser
 {
     private final List<Token> tokens;
-    @Getter private final ErrorHandler errorHandler;
-    @Getter private final SymbolTable symbolTable;
-    @Getter private final boolean replMode;
+    private final ErrorHandler errorHandler;
+    private final boolean replMode;
     private int position;
 
-    public Parser(Lexer lexer)
+    public Parser(Lexer lexer, ErrorHandler errorHandler, boolean replMode)
     {
         this.tokens = lexer.getTokens();
-        this.errorHandler = lexer.getErrorHandler();
-        this.symbolTable = lexer.getSymbolTable();
-        this.replMode = lexer.isReplMode();
+        this.errorHandler = errorHandler;
+        this.replMode = replMode;
         this.position = 0;
     }
 

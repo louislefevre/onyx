@@ -88,7 +88,7 @@ final class CodeManager
         compiler.printParseTree();
         compiler.printSymbolTable();
 
-        return output.getTextOutput();
+        return output.getOutput();
     }
 
     private void initialiseCodeArea()
