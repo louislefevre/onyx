@@ -85,9 +85,7 @@ public final class SymbolTable
             result.append(String.format(format, element)).append("\n");
         }
 
-        String frame = "-----------------------------------------------------\n";
-
-        return frame + result.toString() + frame;
+        return result.toString();
     }
 }
 

@@ -87,6 +87,7 @@ final class CodeManager
 
         compiler.printParseTree();
         compiler.printSymbolTable();
+        System.out.println();
 
         return output.getOutput();
     }
