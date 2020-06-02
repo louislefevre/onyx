@@ -3,7 +3,7 @@ package utilities;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
-import compilation.Pipeline;
+import compilation.Compiler;
 import errors.ErrorHandler;
 import generation.Evaluator;
 import source.SourceInput;
@@ -57,8 +57,8 @@ class CompilerFactory
         return new SourceOutput(evaluator);
     }
 
-    static Pipeline createPipeline()
+    static Compiler createPipeline()
     {
-        return new Pipeline();
+        return new Compiler();
     }
 }

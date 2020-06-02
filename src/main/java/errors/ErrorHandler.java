@@ -108,7 +108,7 @@ public final class ErrorHandler
             int lineEnd = line.getEnd();
             int character = errorStart - lineStart + 1;
 
-            String lineBreak = System.getProperty("line.separator");
+            String lineBreak = System.lineSeparator();
             String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
             String errorMessage = error.toString() + lineInfo + error.getErrorMessage();
             String prefixSyntax, errorSyntax, suffixSyntax;

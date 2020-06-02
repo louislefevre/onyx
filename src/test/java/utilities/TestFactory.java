@@ -3,7 +3,7 @@ package utilities;
 import analysis.lexical.Lexer;
 import analysis.semantic.TypeChecker;
 import analysis.syntax.Parser;
-import compilation.Pipeline;
+import compilation.Compiler;
 import errors.ErrorHandler;
 import generation.Evaluator;
 import identifiers.TokenType;
@@ -45,7 +45,7 @@ public class TestFactory
         return CompilerFactory.createSourceOutput(input);
     }
 
-    public static Pipeline createPipeline()
+    public static Compiler createPipeline()
     {
         return CompilerFactory.createPipeline();
     }

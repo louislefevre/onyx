@@ -1,6 +1,6 @@
 package ui;
 
-import compilation.Pipeline;
+import compilation.Compiler;
 import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 final class CodeManager
 {
@@ -83,23 +82,13 @@ final class CodeManager
         if (input.isBlank())
             return new TextFlow();
 
-        input += System.getProperty("line.separator"); // Adds extra line separator at end to avoid collision with EOF
-        input = input.replaceAll("\011", ""); // Ignores horizontal tabs, breaks line separators otherwise
-        Stream<String> lines = input.lines(); // Splits each line up to be run individually
+        Compiler compiler = new Compiler();
+        SourceOutput output = compiler.compileInput(input);
 
-        StringBuilder builder = new StringBuilder();
-        Pipeline pipeline = new Pipeline();
-        lines.forEach(line -> {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
-            pipeline.compile(builder.toString());
-        });
+        compiler.printParseTree();
+        compiler.printSymbolTable();
 
-        SourceOutput sourceOutput = pipeline.compile(input);
-        pipeline.printParseTree();
-        pipeline.printSymbolTable();
-
-        return sourceOutput.getTextOutput();
+        return output.getTextOutput();
     }
 
     private void initialiseCodeArea()

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PipelineTest
+class CompilerTest
 {
     @Test
     public void pipelineCompilesAssignmentOperators()
@@ -16,14 +16,14 @@ class PipelineTest
         HashMap<String[], Object> assignmentOperatorsCollection = TestFactory.assignmentOperatorsCollection();
 
         assignmentOperatorsCollection.forEach((inputArray, expected) -> {
-            Pipeline pipeline = createPipeline();
+            Compiler compiler = createPipeline();
             String input = null;
             Object actual = null;
 
             for (String text : inputArray)
             {
                 input = text;
-                actual = pipeline.compile(text).getOutput();
+                actual = compiler.compileInput(text).getOutput();
             }
 
             assertEquals(expected, actual, message + input);
@@ -37,21 +37,21 @@ class PipelineTest
         HashMap<String[], Object> reassignmentCollectionCollection = TestFactory.reassignmentCollection();
 
         reassignmentCollectionCollection.forEach((inputArray, expected) -> {
-            Pipeline pipeline = createPipeline();
+            Compiler compiler = createPipeline();
             String input = null;
             Object actual = null;
 
             for (String text : inputArray)
             {
                 input = text;
-                actual = pipeline.compile(text).getOutput();
+                actual = compiler.compileInput(text).getOutput();
             }
 
             assertEquals(expected, actual, message + input);
         });
     }
 
-    private Pipeline createPipeline()
+    private Compiler createPipeline()
     {
         return TestFactory.createPipeline();
     }

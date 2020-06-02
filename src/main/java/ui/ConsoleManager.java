@@ -1,6 +1,6 @@
 package ui;
 
-import compilation.Pipeline;
+import compilation.Compiler;
 import source.SourceOutput;
 
 import java.util.Scanner;
@@ -13,24 +13,24 @@ public final class ConsoleManager
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine().toLowerCase();
 
-        Pipeline pipeline = new Pipeline();
+        Compiler compiler = new Compiler();
+
         if (input.contains("repl") || input.contains("r"))
-            runREPL(pipeline, scanner);
+            runREPL(compiler, scanner);
         else
-            runCompiler(pipeline, scanner);
+            runCompiler(compiler, scanner);
 
         if (input.contains("parsetree") || input.contains("pt"))
-            pipeline.printParseTree();
+            compiler.printParseTree();
         if (input.contains("symboltable") || input.contains("st"))
-            pipeline.printSymbolTable();
+            compiler.printSymbolTable();
 
         scanner.close();
     }
 
-    private static void runCompiler(Pipeline pipeline, Scanner scanner)
+    private static void runCompiler(Compiler compiler, Scanner scanner)
     {
         StringBuilder builder = new StringBuilder();
-        Object output = "";
 
         while (true)
         {
@@ -41,19 +41,18 @@ public final class ConsoleManager
                 break;
 
             builder.append(input);
-            builder.append(System.getProperty("line.separator"));
-            String sourceText = builder.toString();
-
-            SourceOutput sourceOutput = pipeline.compile(sourceText);
-            output = sourceOutput.getOutput();
+            builder.append(System.lineSeparator());
         }
 
-        System.out.println(output);
+        String input = builder.toString();
+        SourceOutput output = compiler.compileInput(input);
+
+        System.out.println(output.getOutput());
     }
 
-    private static void runREPL(Pipeline pipeline, Scanner scanner)
+    private static void runREPL(Compiler compiler, Scanner scanner)
     {
-        pipeline.enableReplMode();
+        compiler.toggleReplMode();
 
         while (true)
         {
@@ -63,9 +62,8 @@ public final class ConsoleManager
             if (input.isBlank())
                 break;
 
-            SourceOutput sourceOutput = pipeline.compile(input);
-            Object output = sourceOutput.getOutput();
-            System.out.println(output);
+            SourceOutput output = compiler.compileInput(input);
+            System.out.println(output.getOutput());
         }
     }
 }

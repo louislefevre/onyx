@@ -1,6 +1,6 @@
 package ui;
 
-import compilation.Pipeline;
+import compilation.Compiler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -20,14 +20,14 @@ public final class ReplController
     @FXML private TextField inputField;
     @FXML private TextFlow resultTextFlow;
 
-    private Pipeline pipeline;
+    private Compiler compiler;
     private TableManager tableManager;
 
     @FXML
     void initialize()
     {
-        pipeline = new Pipeline();
-        pipeline.enableReplMode();
+        compiler = new Compiler();
+        compiler.toggleReplMode();
 
         symbolTableView.setPlaceholder(new Label());
         tableManager = new TableManager(symbolTableView);
@@ -43,11 +43,11 @@ public final class ReplController
         if (input.isBlank())
             return;
 
-        SourceOutput sourceOutput = pipeline.compile(input);
+        SourceOutput sourceOutput = compiler.compileInput(input);
         resultTextFlow.getChildren().add(0, sourceOutput.getTextOutput());
-        resultTextFlow.getChildren().add(1, new Text(System.getProperty("line.separator")));
+        resultTextFlow.getChildren().add(1, new Text(System.lineSeparator()));
 
-        tableManager.refreshTable(pipeline.getSymbolTable());
+        tableManager.refreshTable(compiler.getSymbolTable());
         inputField.clear();
     }
 
@@ -57,6 +57,6 @@ public final class ReplController
         inputField.clear();
         tableManager.clearTable();
         resultTextFlow.getChildren().clear();
-        pipeline.getSymbolTable().clearSymbolTable();
+        compiler.getSymbolTable().clearSymbolTable();
     }
 }
