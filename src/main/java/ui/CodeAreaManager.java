@@ -84,8 +84,8 @@ final class CodeAreaManager
     {
         if (tabSizeField.getText().length() > charLimit)
         {
-            String s = tabSizeField.getText().substring(0, charLimit);
-            tabSizeField.setText(s);
+            String subText = tabSizeField.getText().substring(0, charLimit);
+            tabSizeField.setText(subText);
             tabSizeField.positionCaret(charLimit);
         }
     }

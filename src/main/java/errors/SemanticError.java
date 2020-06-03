@@ -9,7 +9,7 @@ public final class SemanticError extends Error
 {
     public SemanticError(SourceSpan span, String errorMessage)
     {
-        super(span, SEMANTIC_ERROR, errorMessage);
+        super(SEMANTIC_ERROR, span, errorMessage);
     }
 
     public static String exceptionOccurred(Exception exception)

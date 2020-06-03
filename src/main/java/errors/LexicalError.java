@@ -8,7 +8,7 @@ public final class LexicalError extends Error
 {
     public LexicalError(SourceSpan span, String errorMessage)
     {
-        super(span, LEXICAL_ERROR, errorMessage);
+        super(LEXICAL_ERROR, span, errorMessage);
     }
 
     public static LexicalError invalidInt(String syntax, int start, int length)

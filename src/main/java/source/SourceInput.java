@@ -32,7 +32,7 @@ public final class SourceInput
         return searchLineList(sourceLines, 0, sourceLines.size() - 1, position);
     }
 
-    private List<SourceLine> parseLines(String text)
+    private static List<SourceLine> parseLines(String text)
     {
         return splitLines(new ArrayList<>(), text, 0, 0);
     }
@@ -79,14 +79,14 @@ public final class SourceInput
         return lineList;
     }
 
-    private static int getLineBreakWidth(String text, int i)
+    private static int getLineBreakWidth(String text, int position)
     {
-        char c = text.charAt(i);
-        char l = i + 1 >= text.length() ? '\0' : text.charAt(i + 1);
+        char escChar1 = text.charAt(position);
+        char escChar2 = position + 1 >= text.length() ? '\0' : text.charAt(position + 1);
 
-        if (c == '\r' && l == '\n')
+        if (escChar1 == '\r' && escChar2 == '\n') // Windows newline escape sequence
             return 2;
-        if (c == '\r' || c == '\n')
+        if (escChar1 == '\r' || escChar1 == '\n') // Unix newline escape sequence
             return 1;
 
         return 0;

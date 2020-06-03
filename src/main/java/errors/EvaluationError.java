@@ -8,7 +8,7 @@ public final class EvaluationError extends Error
 {
     public EvaluationError(SourceSpan span, String errorMessage)
     {
-        super(span, EVALUATE_ERROR, errorMessage);
+        super(EVALUATE_ERROR, span, errorMessage);
     }
 
     public static String exceptionOccurred(Exception exception)

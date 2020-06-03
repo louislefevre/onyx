@@ -13,7 +13,7 @@ public abstract class Error
     private final ErrorType errorType;
     private final String message;
 
-    public Error(SourceSpan span, ErrorType errorType, String message)
+    public Error(ErrorType errorType, SourceSpan span, String message)
     {
         this.span = span;
         this.errorType = errorType;

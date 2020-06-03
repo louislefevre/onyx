@@ -9,7 +9,7 @@ public final class SyntaxError extends Error
 {
     public SyntaxError(SourceSpan span, String errorMessage)
     {
-        super(span, SYNTAX_ERROR, errorMessage);
+        super(SYNTAX_ERROR, span, errorMessage);
     }
 
     public static SyntaxError invalidToken(SourceSpan span, TokenType type)
