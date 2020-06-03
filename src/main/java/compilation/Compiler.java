@@ -27,16 +27,6 @@ public final class Compiler
         this.replMode = false;
     }
 
-    public void printParseTree()
-    {
-        ParseTree.printParseTree();
-    }
-
-    public void printSymbolTable()
-    {
-        symbolTable.printSymbolTable();
-    }
-
     public SourceOutput compileInput(String input)
     {
         if(replMode)
@@ -77,5 +67,15 @@ public final class Compiler
         SourceOutput sourceOutput = new SourceOutput(evaluator, errorHandler);
 
         return sourceOutput;
+    }
+
+    public void printParseTree()
+    {
+        ParseTree.printParseTree();
+    }
+
+    public void printSymbolTable()
+    {
+        symbolTable.printSymbolTable();
     }
 }

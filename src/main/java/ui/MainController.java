@@ -18,20 +18,20 @@ public final class MainController
 
     private AlertManager alertManager;
     private FileManager fileManager;
-    private CodeManager codeManager;
+    private CodeAreaManager codeAreaManager;
 
     @FXML
     void initialize()
     {
         alertManager = new AlertManager();
         fileManager = new FileManager();
-        codeManager = new CodeManager(codeAreaInput, tabSizeField, 4);
+        codeAreaManager = new CodeAreaManager(codeAreaInput, tabSizeField, 4);
     }
 
     @FXML
     void runSource()
     {
-        TextFlow output = codeManager.compileInput();
+        TextFlow output = codeAreaManager.compileInput();
         textFlowOutput.getChildren().clear();
         textFlowOutput.getChildren().addAll(output);
     }
@@ -46,20 +46,20 @@ public final class MainController
     @FXML
     void updateLineInfo()
     {
-        String info = codeManager.getLineInfo();
+        String info = codeAreaManager.getCaretPosition();
         lineInfoLabel.setText(info);
     }
 
     @FXML
     void updateTabSize()
     {
-        codeManager.refreshTabSize();
+        codeAreaManager.refreshTabSize();
     }
 
     @FXML
     void limitInputSize()
     {
-        codeManager.limitTabSize();
+        codeAreaManager.limitTabSize(2);
     }
 
     @FXML

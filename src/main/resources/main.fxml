@@ -9,9 +9,9 @@
 <?import javafx.scene.text.TextFlow?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="ui.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
     <center>
         <SplitPane id="main-pane" dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
             <BorderPane.margin>
@@ -30,7 +30,7 @@
             <AnchorPane>
                 <ScrollPane id="output-pane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0"
                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <TextFlow fx:id="textFlowOutput" styleClass="text-flow" minWidth="-Infinity"/>
+                    <TextFlow fx:id="textFlowOutput" minWidth="-Infinity" styleClass="text-flow"/>
                 </ScrollPane>
             </AnchorPane>
         </SplitPane>
@@ -80,7 +80,7 @@
     <bottom>
         <HBox id="bottom-box" alignment="BASELINE_RIGHT" BorderPane.alignment="CENTER">
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="781.0" layoutY="15.0" text="Tab Size:"/>
-            <TextField alignment="TOP_LEFT" onAction="#updateTabSize" onKeyTyped="#limitInputSize"
+            <TextField fx:id="tabSizeField" alignment="TOP_LEFT" onAction="#updateTabSize" onKeyTyped="#limitInputSize"
                        prefHeight="27.0" prefWidth="47.0" promptText="Tab Size" text="4" HBox.hgrow="NEVER">
                 <HBox.margin>
                     <Insets right="10.0"/>
