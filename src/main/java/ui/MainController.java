@@ -41,7 +41,7 @@ public final class MainController
     void openRepl() throws IOException
     {
         StageManager stageManager = new StageManager();
-        stageManager.startReplStage(new Stage());
+        stageManager.startRepl(new Stage());
     }
 
     @FXML

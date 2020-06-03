@@ -6,7 +6,7 @@ import analysis.syntax.Parser;
 import compilation.Compiler;
 import errors.Error;
 import generation.Evaluator;
-import identifiers.TokenType;
+import types.TokenType;
 
 import java.util.HashMap;
 

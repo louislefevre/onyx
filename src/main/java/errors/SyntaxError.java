@@ -1,9 +1,9 @@
 package errors;
 
-import identifiers.TokenType;
 import source.SourceSpan;
+import types.TokenType;
 
-import static identifiers.ErrorType.SYNTAX_ERROR;
+import static types.ErrorType.SYNTAX_ERROR;
 
 public final class SyntaxError extends Error
 {

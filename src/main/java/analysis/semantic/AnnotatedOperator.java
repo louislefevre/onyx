@@ -1,8 +1,8 @@
 package analysis.semantic;
 
-import identifiers.ObjectType;
-import identifiers.OperatorType;
-import identifiers.TokenType;
+import types.ObjectType;
+import types.OperatorType;
+import types.TokenType;
 
 public interface AnnotatedOperator
 {

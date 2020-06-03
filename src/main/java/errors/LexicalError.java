@@ -2,7 +2,7 @@ package errors;
 
 import source.SourceSpan;
 
-import static identifiers.ErrorType.LEXICAL_ERROR;
+import static types.ErrorType.LEXICAL_ERROR;
 
 public final class LexicalError extends Error
 {

@@ -4,14 +4,14 @@ import errors.Error;
 import errors.LexicalError;
 import errors.SemanticError;
 import errors.SyntaxError;
-import identifiers.TokenType;
 import source.SourceSpan;
+import types.TokenType;
 
 import java.util.HashMap;
 
 import static analysis.lexical.Syntax.*;
-import static identifiers.ObjectType.*;
-import static identifiers.TokenType.*;
+import static types.ObjectType.*;
+import static types.TokenType.*;
 
 final class DataFactory
 {

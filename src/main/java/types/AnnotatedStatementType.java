@@ -1,4 +1,4 @@
-package identifiers;
+package types;
 
 public enum AnnotatedStatementType
 {

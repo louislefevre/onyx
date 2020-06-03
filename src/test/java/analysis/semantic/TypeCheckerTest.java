@@ -1,7 +1,7 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedExpressionType;
 import org.junit.jupiter.api.Test;
+import types.AnnotatedExpressionType;
 import utilities.TestFactory;
 
 import java.util.HashMap;

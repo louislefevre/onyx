@@ -1,8 +1,8 @@
 package symbols;
 
-import identifiers.ObjectType;
 import lombok.Getter;
 import lombok.Setter;
+import types.ObjectType;
 
 @Getter
 public final class Symbol

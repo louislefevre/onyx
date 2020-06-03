@@ -1,14 +1,14 @@
 package analysis.syntax;
 
-import identifiers.StatementType;
 import lombok.Getter;
 import source.SourceSpan;
+import types.StatementType;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static identifiers.StatementType.EXPRESSION_STATEMENT;
+import static types.StatementType.EXPRESSION_STATEMENT;
 
 @Getter
 public final class ExpressionStatement implements Statement

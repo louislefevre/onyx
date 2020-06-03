@@ -4,18 +4,18 @@ import analysis.lexical.Token;
 import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
-import identifiers.ObjectType;
-import identifiers.TokenType;
 import source.SourceSpan;
 import symbols.SymbolTable;
+import types.ObjectType;
+import types.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static identifiers.ObjectType.BOOLEAN_OBJECT;
-import static identifiers.ObjectType.DOUBLE_OBJECT;
-import static identifiers.ObjectType.INTEGER_OBJECT;
-import static identifiers.ObjectType.NULL_OBJECT;
+import static types.ObjectType.BOOLEAN_OBJECT;
+import static types.ObjectType.DOUBLE_OBJECT;
+import static types.ObjectType.INTEGER_OBJECT;
+import static types.ObjectType.NULL_OBJECT;
 
 public final class TypeChecker
 {
@@ -182,7 +182,7 @@ public final class TypeChecker
             SemanticError error = SemanticError.undefinedUnaryOperator(unaryExpression.getOperatorToken().getSpan(),
                                                                        unaryExpression.getOperatorToken().getSyntax(),
                                                                        operand.getObjectType());
-            errorHandler.addError(error);
+            errorHandler.add(error);
             return new AnnotatedLiteralExpression(null);
         }
 
@@ -199,10 +199,10 @@ public final class TypeChecker
 
         if (operator == null)
         {
-            errorHandler.addError(SemanticError.undefinedBinaryOperator(binaryExpression.getOperatorToken().getSpan(),
-                                                                        binaryExpression.getOperatorToken().getSyntax(),
-                                                                        leftOperand.getObjectType(),
-                                                                        rightOperand.getObjectType()));
+            errorHandler.add(SemanticError.undefinedBinaryOperator(binaryExpression.getOperatorToken().getSpan(),
+                                                                   binaryExpression.getOperatorToken().getSyntax(),
+                                                                   leftOperand.getObjectType(),
+                                                                   rightOperand.getObjectType()));
             return new AnnotatedLiteralExpression(null);
         }
 
@@ -213,13 +213,13 @@ public final class TypeChecker
     {
         String name = identifierExpression.getIdentifierToken().getSyntax();
 
-        if (!symbolTable.containsSymbol(name))
+        if (!symbolTable.contains(name))
         {
             SemanticError error = SemanticError.undefinedIdentifier(identifierExpression.getIdentifierToken().getSpan(), name);
-            errorHandler.addError(error);
+            errorHandler.add(error);
             return new AnnotatedLiteralExpression(null);
         }
-        ObjectType type = symbolTable.getSymbol(name).getType();
+        ObjectType type = symbolTable.get(name).getType();
 
         return new AnnotatedIdentifierExpression(name, type);
     }
@@ -230,7 +230,7 @@ public final class TypeChecker
         AnnotatedExpression expression = annotateExpression(assignmentExpression.getExpression());
         Token assignmentToken = assignmentExpression.getAssignmentToken();
         TokenType assignmentTokenType = assignmentToken.getType();
-        ObjectType symbolType = symbolTable.containsSymbol(name) ? symbolTable.getSymbol(name).getType() : NULL_OBJECT;
+        ObjectType symbolType = symbolTable.contains(name) ? symbolTable.get(name).getType() : NULL_OBJECT;
         ObjectType assignmentType = expression.getObjectType();
         AnnotatedAssignmentOperator operator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
 
@@ -239,7 +239,7 @@ public final class TypeChecker
             SemanticError error = SemanticError.undefinedAssignmentOperator(assignmentToken.getSpan(),
                                                                             assignmentToken.getSyntax(),
                                                                             symbolType, assignmentType);
-            errorHandler.addError(error);
+            errorHandler.add(error);
             return new AnnotatedLiteralExpression(null);
         }
 
@@ -253,6 +253,6 @@ public final class TypeChecker
                 return;
 
         SemanticError error = SemanticError.invalidExpressionTypes(span, actualType, targetTypes);
-        errorHandler.addError(error);
+        errorHandler.add(error);
     }
 }

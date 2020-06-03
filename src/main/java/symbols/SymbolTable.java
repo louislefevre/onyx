@@ -1,8 +1,8 @@
 package symbols;
 
-import identifiers.ObjectType;
 import lombok.Getter;
 import org.jetbrains.annotations.TestOnly;
+import types.ObjectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,21 +19,21 @@ public final class SymbolTable
         this.symbols = new HashMap<>();
     }
 
-    public boolean containsSymbol(String name)
+    public boolean contains(String name)
     {
         return symbols.containsKey(name);
     }
 
-    public Symbol getSymbol(String name)
+    public Symbol get(String name)
     {
         return symbols.get(name);
     }
 
-    public void addSymbol(String name, Object value, ObjectType type)
+    public void add(String name, Object value, ObjectType type)
     {
-        if (containsSymbol(name))
+        if (contains(name))
         {
-            Symbol symbol = getSymbol(name);
+            Symbol symbol = get(name);
             symbol.setValue(value);
             symbol.setType(type);
             return;
@@ -42,18 +42,18 @@ public final class SymbolTable
         symbols.put(name, symbol);
     }
 
-    public void removeSymbol(String name)
+    public void remove(String name)
     {
         symbols.remove(name);
     }
 
-    public void clearSymbolTable()
+    public void clear()
     {
         symbols.clear();
     }
 
     @TestOnly
-    public void printSymbolTable()
+    public void print()
     {
         List<List<String>> rows = new ArrayList<>();
         List<String> headers = Arrays.asList("Name", "Type", "Value");

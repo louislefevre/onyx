@@ -1,7 +1,7 @@
 package analysis.syntax;
 
-import identifiers.ExpressionType;
 import org.junit.jupiter.api.Test;
+import types.ExpressionType;
 import utilities.TestFactory;
 
 import java.util.HashMap;

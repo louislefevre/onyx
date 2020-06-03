@@ -1,7 +1,7 @@
 package analysis.lexical;
 
-import identifiers.TokenType;
 import org.junit.jupiter.api.Test;
+import types.TokenType;
 import utilities.TestFactory;
 
 import java.util.HashMap;

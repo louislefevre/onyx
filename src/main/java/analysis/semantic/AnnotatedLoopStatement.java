@@ -1,9 +1,9 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedStatementType;
 import lombok.Getter;
+import types.AnnotatedStatementType;
 
-import static identifiers.AnnotatedStatementType.ANNOTATED_LOOP_STATEMENT;
+import static types.AnnotatedStatementType.ANNOTATED_LOOP_STATEMENT;
 
 @Getter
 public final class AnnotatedLoopStatement implements AnnotatedStatement

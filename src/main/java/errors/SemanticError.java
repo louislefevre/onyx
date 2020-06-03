@@ -1,9 +1,9 @@
 package errors;
 
-import identifiers.ObjectType;
 import source.SourceSpan;
+import types.ObjectType;
 
-import static identifiers.ErrorType.SEMANTIC_ERROR;
+import static types.ErrorType.SEMANTIC_ERROR;
 
 public final class SemanticError extends Error
 {

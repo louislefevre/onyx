@@ -11,10 +11,12 @@ import symbols.SymbolTable;
 final class TableManager
 {
     private final TableView<SymbolElement> table;
+    private final SymbolTable symbolTable;
 
-    public TableManager(TableView<SymbolElement> table)
+    public TableManager(TableView<SymbolElement> table, SymbolTable symbolTable)
     {
         this.table = table;
+        this.symbolTable = symbolTable;
     }
 
     public void addColumn(TableColumn<SymbolElement, String> column, String fieldName)
@@ -22,7 +24,7 @@ final class TableManager
         column.setCellValueFactory(new PropertyValueFactory<>(fieldName));
     }
 
-    public void refreshTable(SymbolTable symbolTable)
+    public void refresh()
     {
         ObservableList<SymbolElement> symbols = FXCollections.observableArrayList();
         symbolTable.getSymbols().forEach((k, v) -> {
@@ -32,7 +34,7 @@ final class TableManager
         table.setItems(symbols);
     }
 
-    public void clearTable()
+    public void clear()
     {
         table.getItems().clear();
     }

@@ -1,16 +1,16 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.StatementType;
 import lombok.Getter;
 import source.SourceSpan;
+import types.StatementType;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static identifiers.StatementType.CONDITIONAL_STATEMENT;
-import static identifiers.StatementType.ELSE_STATEMENT;
+import static types.StatementType.CONDITIONAL_STATEMENT;
+import static types.StatementType.ELSE_STATEMENT;
 
 @Getter
 public final class ConditionalStatement implements Statement

@@ -1,12 +1,12 @@
 package analysis.semantic;
 
-import identifiers.ObjectType;
-import identifiers.TokenType;
 import org.jetbrains.annotations.Nullable;
+import types.ObjectType;
+import types.TokenType;
 
-import static identifiers.ObjectType.*;
-import static identifiers.OperatorType.*;
-import static identifiers.TokenType.*;
+import static types.ObjectType.*;
+import static types.OperatorType.*;
+import static types.TokenType.*;
 
 public final class TypeBinder
 {

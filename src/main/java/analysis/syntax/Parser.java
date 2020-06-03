@@ -4,14 +4,14 @@ import analysis.lexical.Lexer;
 import analysis.lexical.Token;
 import errors.ErrorHandler;
 import errors.SyntaxError;
-import identifiers.TokenType;
+import types.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static errors.SyntaxError.invalidToken;
 import static errors.SyntaxError.invalidTokenPair;
-import static identifiers.TokenType.*;
+import static types.TokenType.*;
 
 public final class Parser
 {
@@ -253,7 +253,7 @@ public final class Parser
                                            currentToken.getValue(), currentToken.getPosition());
 
         SyntaxError error = invalidToken(currentToken.getSpan(), currentToken.getType());
-        errorHandler.addError(error);
+        errorHandler.add(error);
 
         return new LiteralExpression(placeholderToken, null);
     }
@@ -265,7 +265,7 @@ public final class Parser
             return currentTokenThenNext();
 
         SyntaxError error = invalidTokenPair(currentToken.getSpan(), currentToken.getType(), type);
-        errorHandler.addError(error);
+        errorHandler.add(error);
 
         return new Token(BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
     }

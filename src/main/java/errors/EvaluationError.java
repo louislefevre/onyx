@@ -2,7 +2,7 @@ package errors;
 
 import source.SourceSpan;
 
-import static identifiers.ErrorType.EVALUATE_ERROR;
+import static types.ErrorType.EVALUATE_ERROR;
 
 public final class EvaluationError extends Error
 {

@@ -1,10 +1,10 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedExpressionType;
-import identifiers.ObjectType;
 import lombok.Getter;
+import types.AnnotatedExpressionType;
+import types.ObjectType;
 
-import static identifiers.AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
+import static types.AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
 
 @Getter
 public final class AnnotatedBinaryExpression implements AnnotatedExpression

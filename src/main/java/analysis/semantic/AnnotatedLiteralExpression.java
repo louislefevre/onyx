@@ -1,11 +1,11 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedExpressionType;
-import identifiers.ObjectType;
 import lombok.Getter;
+import types.AnnotatedExpressionType;
+import types.ObjectType;
 
-import static identifiers.AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
-import static identifiers.ObjectType.*;
+import static types.AnnotatedExpressionType.ANNOTATED_LITERAL_EXPRESSION;
+import static types.ObjectType.*;
 
 @Getter
 public final class AnnotatedLiteralExpression implements AnnotatedExpression

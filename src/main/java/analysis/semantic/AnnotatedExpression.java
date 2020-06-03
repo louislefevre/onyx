@@ -1,7 +1,7 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedExpressionType;
-import identifiers.ObjectType;
+import types.AnnotatedExpressionType;
+import types.ObjectType;
 
 public interface AnnotatedExpression
 {

@@ -30,7 +30,7 @@ public final class ReplController
         compiler.setReplMode(true);
 
         symbolTableView.setPlaceholder(new Label());
-        tableManager = new TableManager(symbolTableView);
+        tableManager = new TableManager(symbolTableView, compiler.getSymbolTable());
         tableManager.addColumn(symbolNamesColumn, "name");
         tableManager.addColumn(symbolTypesColumn, "type");
         tableManager.addColumn(symbolValuesColumn, "value");
@@ -47,7 +47,7 @@ public final class ReplController
         resultTextFlow.getChildren().add(0, sourceOutput.getOutput());
         resultTextFlow.getChildren().add(1, new Text(System.lineSeparator()));
 
-        tableManager.refreshTable(compiler.getSymbolTable());
+        tableManager.refresh();
         inputField.clear();
     }
 
@@ -55,8 +55,8 @@ public final class ReplController
     void clearFields()
     {
         inputField.clear();
-        tableManager.clearTable();
+        tableManager.clear();
         resultTextFlow.getChildren().clear();
-        compiler.getSymbolTable().clearSymbolTable();
+        compiler.getSymbolTable().clear();
     }
 }

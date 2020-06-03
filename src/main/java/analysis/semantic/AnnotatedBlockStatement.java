@@ -1,11 +1,11 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedStatementType;
 import lombok.Getter;
+import types.AnnotatedStatementType;
 
 import java.util.List;
 
-import static identifiers.AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
+import static types.AnnotatedStatementType.ANNOTATED_BLOCK_STATEMENT;
 
 @Getter
 public final class AnnotatedBlockStatement implements AnnotatedStatement

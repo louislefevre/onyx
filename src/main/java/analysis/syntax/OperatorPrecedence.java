@@ -1,6 +1,6 @@
 package analysis.syntax;
 
-import identifiers.TokenType;
+import types.TokenType;
 
 public final class OperatorPrecedence
 {

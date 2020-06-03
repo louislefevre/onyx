@@ -2,8 +2,8 @@ package analysis.lexical;
 
 import errors.ErrorHandler;
 import errors.LexicalError;
-import identifiers.TokenType;
 import source.SourceInput;
+import types.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import static errors.LexicalError.badCharacter;
 import static errors.LexicalError.incompleteString;
 import static errors.LexicalError.invalidDouble;
 import static errors.LexicalError.invalidInt;
-import static identifiers.TokenType.*;
+import static types.TokenType.*;
 
 public final class Lexer
 {
@@ -109,7 +109,7 @@ public final class Lexer
         else
         {
             LexicalError error = invalidInt(syntax, startPos, position - startPos);
-            errorHandler.addError(error);
+            errorHandler.add(error);
         }
 
 
@@ -134,7 +134,7 @@ public final class Lexer
         else
         {
             LexicalError error = invalidDouble(syntax, startPos, position - startPos);
-            errorHandler.addError(error);
+            errorHandler.add(error);
         }
 
         return new Token(DOUBLE_TOKEN, syntax, value, startPos);
@@ -196,7 +196,7 @@ public final class Lexer
             {
                 tokenType = BAD_TOKEN;
                 LexicalError error = incompleteString(syntaxBuilder.toString(), startPos, position - startPos);
-                errorHandler.addError(error);
+                errorHandler.add(error);
                 break;
             }
             else if (currentChar.equals("\""))
@@ -305,7 +305,7 @@ public final class Lexer
     {
         String syntax = sourceText.substring(minimumZero(position - 1));
         LexicalError error = badCharacter(currentChar(), position, 1);
-        errorHandler.addError(error);
+        errorHandler.add(error);
 
         return new Token(BAD_TOKEN, syntax, position, currentPositionThenNext(1));
     }

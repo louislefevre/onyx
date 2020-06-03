@@ -15,7 +15,7 @@ public class Main extends Application
     public void start(Stage primaryStage) throws IOException
     {
         StageManager stageManager = new StageManager();
-        stageManager.startMainStage(primaryStage);
+        stageManager.startMain(primaryStage);
     }
 }
 

@@ -1,15 +1,15 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.StatementType;
 import lombok.Getter;
 import source.SourceSpan;
+import types.StatementType;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static identifiers.StatementType.LOOP_STATEMENT;
+import static types.StatementType.LOOP_STATEMENT;
 
 @Getter
 public final class LoopStatement implements Statement

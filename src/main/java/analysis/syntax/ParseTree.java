@@ -23,12 +23,12 @@ public final class ParseTree
     }
 
     @TestOnly
-    public static void printParseTree()
+    public static void print()
     {
-        printTree(staticStatement, "", true);
+        printParseTree(staticStatement, "", true);
     }
 
-    private static void printTree(Object node, String indent, boolean isLast)
+    private static void printParseTree(Object node, String indent, boolean isLast)
     {
         String marker = ANSI.GREY;
         marker += isLast ? "└──" : "├──";
@@ -57,9 +57,9 @@ public final class ParseTree
             for (Object child : ((Statement) node).getChildren())
                 if (child instanceof List)
                     for (Object statement : (List) child)
-                        printTree(statement, indent, child == lastChild);
+                        printParseTree(statement, indent, child == lastChild);
                 else
-                    printTree(child, indent, child == lastChild);
+                    printParseTree(child, indent, child == lastChild);
         }
         else if (node instanceof Expression)
         {
@@ -68,7 +68,7 @@ public final class ParseTree
                 lastChild = child;
 
             for (Object child : ((Expression) node).getChildren())
-                printTree(child, indent, child == lastChild);
+                printParseTree(child, indent, child == lastChild);
         }
 
         System.out.print(ANSI.RESET);

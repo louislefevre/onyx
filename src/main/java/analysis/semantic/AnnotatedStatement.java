@@ -1,6 +1,6 @@
 package analysis.semantic;
 
-import identifiers.AnnotatedStatementType;
+import types.AnnotatedStatementType;
 
 public interface AnnotatedStatement
 {

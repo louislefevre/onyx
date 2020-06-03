@@ -1,7 +1,7 @@
 package analysis.syntax;
 
-import identifiers.StatementType;
 import source.SourceSpan;
+import types.StatementType;
 
 import java.util.Queue;
 

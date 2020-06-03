@@ -1,8 +1,8 @@
 package analysis.lexical;
 
-import identifiers.TokenType;
 import lombok.Getter;
 import source.SourceSpan;
+import types.TokenType;
 
 @Getter
 public final class Token

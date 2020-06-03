@@ -3,18 +3,18 @@ package generation;
 import analysis.semantic.*;
 import errors.ErrorHandler;
 import errors.EvaluationError;
-import identifiers.AnnotatedExpressionType;
-import identifiers.AnnotatedStatementType;
-import identifiers.ObjectType;
-import identifiers.OperatorType;
-import identifiers.TokenType;
 import symbols.Symbol;
 import symbols.SymbolTable;
+import types.AnnotatedExpressionType;
+import types.AnnotatedStatementType;
+import types.ObjectType;
+import types.OperatorType;
+import types.TokenType;
 
-import static identifiers.ObjectType.BOOLEAN_OBJECT;
-import static identifiers.ObjectType.DOUBLE_OBJECT;
-import static identifiers.ObjectType.INTEGER_OBJECT;
-import static identifiers.ObjectType.STRING_OBJECT;
+import static types.ObjectType.BOOLEAN_OBJECT;
+import static types.ObjectType.DOUBLE_OBJECT;
+import static types.ObjectType.INTEGER_OBJECT;
+import static types.ObjectType.STRING_OBJECT;
 
 public final class Evaluator
 {
@@ -122,7 +122,7 @@ public final class Evaluator
         Object upperValue = evaluateExpression(upperBound);
 
         AnnotatedAssignmentExpression assignment = (AnnotatedAssignmentExpression) lowerBound;
-        Symbol symbol = symbolTable.getSymbol(assignment.getName());
+        Symbol symbol = symbolTable.get(assignment.getName());
 
         if (lowerType == INTEGER_OBJECT && upperType == INTEGER_OBJECT)
         {
@@ -394,10 +394,10 @@ public final class Evaluator
         TokenType tokenType = annotatedAssignmentExpression.getOperator().getTokenType();
         OperatorType operatorType = annotatedAssignmentExpression.getOperator().getOperatorType();
 
-        if (symbolTable.containsSymbol(name) && tokenType != TokenType.EQUALS_TOKEN)
+        if (symbolTable.contains(name) && tokenType != TokenType.EQUALS_TOKEN)
         {
-            Object symbolValue = symbolTable.getSymbol(name).getValue();
-            ObjectType symbolType = symbolTable.getSymbol(name).getType();
+            Object symbolValue = symbolTable.get(name).getValue();
+            ObjectType symbolType = symbolTable.get(name).getType();
 
             switch (valueType)
             {
@@ -415,7 +415,7 @@ public final class Evaluator
                     throw new Exception(errorMessage);
             }
         }
-        symbolTable.addSymbol(name, value, valueType);
+        symbolTable.add(name, value, valueType);
 
         return value;
     }
@@ -492,8 +492,8 @@ public final class Evaluator
     private Object evaluateIdentifierExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws Exception
     {
         String name = annotatedIdentifierExpression.getName();
-        if (symbolTable.containsSymbol(name))
-            return symbolTable.getSymbol(name).getValue();
+        if (symbolTable.contains(name))
+            return symbolTable.get(name).getValue();
 
         String errorMessage = EvaluationError.missingSymbol(name);
         throw new Exception(errorMessage);

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public final class StageManager
 {
-    public void startMainStage(Stage stage) throws IOException
+    public void startMain(Stage stage) throws IOException
     {
         String title = "Onyx Compiler";
         String path = "/main.fxml";
@@ -17,7 +17,7 @@ public final class StageManager
         showStage(stage, title, path, styleSheet);
     }
 
-    public void startReplStage(Stage stage) throws IOException
+    public void startRepl(Stage stage) throws IOException
     {
         String title = "Onyx REPL";
         String path = "/repl.fxml";

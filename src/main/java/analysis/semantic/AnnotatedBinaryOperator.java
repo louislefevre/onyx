@@ -1,9 +1,9 @@
 package analysis.semantic;
 
-import identifiers.ObjectType;
-import identifiers.OperatorType;
-import identifiers.TokenType;
 import lombok.Getter;
+import types.ObjectType;
+import types.OperatorType;
+import types.TokenType;
 
 @Getter
 public final class AnnotatedBinaryOperator implements AnnotatedOperator

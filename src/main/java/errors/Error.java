@@ -1,10 +1,10 @@
 package errors;
 
-import identifiers.ErrorType;
 import lombok.Getter;
 import source.SourceInput;
 import source.SourceLine;
 import source.SourceSpan;
+import types.ErrorType;
 
 @Getter
 public abstract class Error

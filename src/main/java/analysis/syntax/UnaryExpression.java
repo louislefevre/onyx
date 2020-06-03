@@ -1,15 +1,15 @@
 package analysis.syntax;
 
 import analysis.lexical.Token;
-import identifiers.ExpressionType;
 import lombok.Getter;
 import source.SourceSpan;
+import types.ExpressionType;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static identifiers.ExpressionType.UNARY_EXPRESSION;
+import static types.ExpressionType.UNARY_EXPRESSION;
 
 @Getter
 public final class UnaryExpression implements Expression

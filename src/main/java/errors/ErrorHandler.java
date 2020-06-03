@@ -19,7 +19,7 @@ public final class ErrorHandler
         this.errorsLog = new LinkedList<>();
     }
 
-    public void addError(Error error)
+    public void add(Error error)
     {
         errorsLog.add(error);
     }

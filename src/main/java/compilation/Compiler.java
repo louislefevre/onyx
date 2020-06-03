@@ -71,11 +71,11 @@ public final class Compiler
 
     public void printParseTree()
     {
-        ParseTree.printParseTree();
+        ParseTree.print();
     }
 
     public void printSymbolTable()
     {
-        symbolTable.printSymbolTable();
+        symbolTable.print();
     }
 }
