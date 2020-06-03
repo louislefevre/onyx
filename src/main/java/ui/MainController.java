@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -131,6 +132,16 @@ public final class MainController
         {
             System.out.println(exception.getMessage());
         }
+    }
+
+    @FXML
+    void exitProgram()
+    {
+        String text = codeAreaInput.getText();
+        if (containsUnsavedWork(text))
+            return;
+
+        Platform.exit();
     }
 
     @FXML

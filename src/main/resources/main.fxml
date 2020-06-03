@@ -52,6 +52,7 @@
                     <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Open"/>
                     <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save"/>
                     <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save As"/>
+                    <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Exit"/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit"/>
                 <Menu mnemonicParsing="false" text="Run">
