@@ -9,6 +9,7 @@ import types.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static errors.SyntaxError.invalidStatement;
 import static errors.SyntaxError.invalidToken;
 import static errors.SyntaxError.invalidTokenPair;
 import static types.TokenType.*;
@@ -71,8 +72,13 @@ public final class Parser
                 return parseConditionalStatement();
             case LOOP_TOKEN:
                 return parseLoopStatement();
-            default:
+            case IDENTIFIER_TOKEN:
                 return parseExpressionStatement();
+            default:
+                ExpressionStatement statement = parseExpressionStatement();
+                SyntaxError error = invalidStatement(statement.getSpan());
+                errorHandler.add(error);
+                return statement;
         }
     }
 

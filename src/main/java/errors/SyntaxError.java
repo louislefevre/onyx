@@ -23,4 +23,10 @@ public final class SyntaxError extends Error
         String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
         return new SyntaxError(span, message);
     }
+
+    public static SyntaxError invalidStatement(SourceSpan span)
+    {
+        String message = "Not a statement.";
+        return new SyntaxError(span, message);
+    }
 }
