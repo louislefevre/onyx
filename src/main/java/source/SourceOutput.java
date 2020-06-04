@@ -38,14 +38,14 @@ public final class SourceOutput
         {
             Object[] outputArray = evaluator.getEvaluation();
             result = arrayToString(outputArray);
-
-            if (errorHandler.containsErrors())
-                return errorHandler.getPrimaryError();
         }
         catch (Exception exception)
         {
             result = exception.getMessage();
         }
+
+        if (errorHandler.containsErrors())
+            return errorHandler.getPrimaryError();
 
         Text text = new Text(result);
         text.setFill(Color.WHITE);
