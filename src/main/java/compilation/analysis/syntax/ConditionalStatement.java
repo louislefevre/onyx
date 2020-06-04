@@ -46,7 +46,7 @@ public final class ConditionalStatement implements Statement
     }
 
     @Getter
-    public class ElseStatement implements Statement
+    public static class ElseStatement implements Statement
     {
         private final Token elseToken;
         private final Statement statement;

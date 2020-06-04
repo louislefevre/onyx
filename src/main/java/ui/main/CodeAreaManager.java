@@ -37,9 +37,6 @@ final class CodeAreaManager
     {
         String input = codeArea.getText();
 
-        if (input.isBlank())
-            return new TextFlow();
-
         Compiler compiler = new Compiler();
         SourceOutput output = compiler.compileInput(input);
 

@@ -55,12 +55,20 @@ public final class SymbolTable
     @TestOnly
     public void print()
     {
+        if (symbols.isEmpty())
+            return;
+
         List<List<String>> rows = new ArrayList<>();
         List<String> headers = Arrays.asList("Name", "Type", "Value");
         rows.add(headers);
 
         for (Symbol symbol : symbols.values())
-            rows.add(Arrays.asList(symbol.getName(), symbol.getType().toString(), symbol.getValue().toString()));
+        {
+            String name = symbol.getName();
+            String type =symbol.getType().toString();
+            String value = symbol.getValue() == null ? "null" : symbol.getValue().toString();
+            rows.add(Arrays.asList(name, type, value));
+        }
 
         System.out.print(formatAsTable(rows));
     }
