@@ -50,6 +50,7 @@ public abstract class Error
             int character = errorStart - lineStart + 1;
 
             String lineBreak = System.lineSeparator();
+            String commentRegex = "#(?=([^\"]*\"[^\"]*\")*[^\"]*$)"; // Removes text occurring after a hash, but excludes hashes within quotes.
             String lineInfo = String.format(" (%1s,%2s): ", lineIndex + 1, character);
             String errorInfo = error.getErrorType() + lineInfo + error.getMessage();
             String prefixSyntax, errorSyntax, suffixSyntax;
@@ -59,16 +60,18 @@ public abstract class Error
                 prefixSyntax = sourceInput.substring(lineStart, lineEnd);
                 errorSyntax = "_";
                 suffixSyntax = "";
+                prefixSyntax = prefixSyntax.split(commentRegex)[0];
             }
             else // Handles all other errors
             {
                 prefixSyntax = sourceInput.substring(lineStart, errorStart);
                 errorSyntax = sourceInput.substring(errorStart, errorEnd);
                 suffixSyntax = sourceInput.substring(errorEnd, lineEnd);
+                suffixSyntax = suffixSyntax.split(commentRegex)[0];
             }
 
-            prefixSyntax = prefixSyntax.replaceFirst("^\\s+", "");
-            suffixSyntax = suffixSyntax.replaceFirst("\\s+$", "");
+            prefixSyntax = prefixSyntax.stripLeading();
+            suffixSyntax = suffixSyntax.stripTrailing();
 
             errorInfo += lineBreak;
             suffixSyntax += lineBreak;
