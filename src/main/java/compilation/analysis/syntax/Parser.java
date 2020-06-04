@@ -9,6 +9,7 @@ import types.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static errors.SyntaxError.expectedExpression;
 import static errors.SyntaxError.invalidStatement;
 import static errors.SyntaxError.invalidToken;
 import static errors.SyntaxError.invalidTokenPair;
@@ -246,6 +247,13 @@ public final class Parser
     private ParenthesizedExpression parseParenthesizedExpression()
     {
         Token openParenthesisToken = validateToken(OPEN_PARENTHESIS_TOKEN);
+
+        if (currentTokenType() == CLOSE_PARENTHESIS_TOKEN)
+        {
+            SyntaxError error = expectedExpression(openParenthesisToken.getSpan(), currentToken().getSpan());
+            errorHandler.add(error);
+        }
+
         Expression expression = parseExpression();
         Token closeParenthesisToken = validateToken(CLOSE_PARENTHESIS_TOKEN);
 
@@ -255,13 +263,13 @@ public final class Parser
     private LiteralExpression parseUnknownExpression()
     {
         Token currentToken = currentTokenThenNext();
-        Token placeholderToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
-                                           currentToken.getValue(), currentToken.getPosition());
+        Token badToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
+                                   currentToken.getValue(), currentToken.getPosition());
 
         SyntaxError error = invalidToken(currentToken.getSpan(), currentToken.getType());
         errorHandler.add(error);
 
-        return new LiteralExpression(placeholderToken, null);
+        return new LiteralExpression(badToken, null);
     }
 
     private Token validateToken(TokenType type)

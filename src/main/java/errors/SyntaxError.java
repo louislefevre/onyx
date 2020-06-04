@@ -29,4 +29,11 @@ public final class SyntaxError extends Error
         String message = "Not a statement.";
         return new SyntaxError(span, message);
     }
+
+    public static SyntaxError expectedExpression(SourceSpan openParenSpan, SourceSpan closeParenSpan)
+    {
+        SourceSpan span = SourceSpan.inRange(openParenSpan.getStart(), closeParenSpan.getEnd());
+        String message = "Expression expected.";
+        return new SyntaxError(span, message);
+    }
 }
