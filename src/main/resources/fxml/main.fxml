@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.TextFlow?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.main.MainController">
+    <center>
+        <SplitPane id="main-pane" dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <AnchorPane>
+                <VirtualizedScrollPane id="input-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                        <CodeArea fx:id="codeAreaInput" onKeyPressed="#updateLineInfo" onKeyTyped="#updateLineInfo"
+                                  onMouseClicked="#updateLineInfo" AnchorPane.bottomAnchor="0.0"
+                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                    </content>
+                </VirtualizedScrollPane>
+            </AnchorPane>
+            <AnchorPane>
+                <ScrollPane id="output-pane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <TextFlow fx:id="textFlowOutput" minWidth="-Infinity" styleClass="text-flow"/>
+                </ScrollPane>
+            </AnchorPane>
+        </SplitPane>
+    </center>
+    <top>
+        <HBox id="top-box" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <MenuBar id="menu-bar" HBox.hgrow="ALWAYS">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <HBox.margin>
+                    <Insets bottom="5.0" top="5.0"/>
+                </HBox.margin>
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem mnemonicParsing="false" onAction="#newFile" text="New"/>
+                    <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Open"/>
+                    <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save"/>
+                    <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save As"/>
+                    <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Exit"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit"/>
+                <Menu mnemonicParsing="false" text="Run">
+                    <MenuItem mnemonicParsing="false" onAction="#runSource" text="Run Code"/>
+                    <MenuItem mnemonicParsing="false" onAction="#openRepl" text="Run REPL"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem mnemonicParsing="false" onAction="#openHelpInfo" text="About"/>
+                </Menu>
+            </MenuBar>
+            <Button mnemonicParsing="false" onAction="#runSource" text="Run" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+                <HBox.margin>
+                    <Insets right="6.0" top="6.0"/>
+                </HBox.margin>
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/run-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </top>
+    <bottom>
+        <HBox id="bottom-box" alignment="BASELINE_RIGHT" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="781.0" layoutY="15.0" text="Tab Size:"/>
+            <TextField fx:id="tabSizeField" alignment="TOP_LEFT" onAction="#updateTabSize" onKeyTyped="#limitInputSize"
+                       prefHeight="27.0" prefWidth="47.0" promptText="Tab Size" text="4" HBox.hgrow="NEVER">
+                <HBox.margin>
+                    <Insets right="10.0"/>
+                </HBox.margin>
+            </TextField>
+            <Label fx:id="lineInfoLabel" alignment="CENTER" contentDisplay="CENTER" text="1:1">
+                <HBox.margin>
+                    <Insets right="5.0"/>
+                </HBox.margin>
+            </Label>
+        </HBox>
+    </bottom>
+</BorderPane>

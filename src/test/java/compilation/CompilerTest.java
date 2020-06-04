@@ -2,7 +2,7 @@ package compilation;
 
 import org.junit.jupiter.api.Test;
 import source.SourceOutput;
-import utilities.TestFactory;
+import util.TestFactory;
 
 import java.util.HashMap;
 

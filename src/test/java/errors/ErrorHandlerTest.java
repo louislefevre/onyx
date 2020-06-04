@@ -3,7 +3,7 @@ package errors;
 import org.junit.jupiter.api.Test;
 import source.SourceInput;
 import source.SourceOutput;
-import utilities.TestFactory;
+import util.TestFactory;
 
 import java.util.HashMap;
 

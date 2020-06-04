@@ -1,11 +1,11 @@
 package compilation;
 
-import analysis.lexical.Lexer;
-import analysis.semantic.TypeChecker;
-import analysis.syntax.ParseTree;
-import analysis.syntax.Parser;
+import compilation.analysis.lexical.Lexer;
+import compilation.analysis.semantic.TypeChecker;
+import compilation.analysis.syntax.ParseTree;
+import compilation.analysis.syntax.Parser;
+import compilation.generation.Evaluator;
 import errors.ErrorHandler;
-import generation.Evaluator;
 import lombok.Getter;
 import lombok.Setter;
 import source.SourceInput;

@@ -1,8 +1,8 @@
 package source;
 
+import compilation.generation.Evaluator;
 import errors.ErrorHandler;
 import exceptions.Exception;
-import generation.Evaluator;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;

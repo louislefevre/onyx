@@ -12,15 +12,15 @@ public final class StageManager
     public void startMain(Stage stage) throws IOException
     {
         String title = "Onyx Compiler";
-        String path = "/main.fxml";
-        String styleSheet = "/syntax.css";
+        String path = "/fxml/main.fxml";
+        String styleSheet = "/css/syntax.css";
         showStage(stage, title, path, styleSheet);
     }
 
     public void startRepl(Stage stage) throws IOException
     {
         String title = "Onyx REPL";
-        String path = "/repl.fxml";
+        String path = "/fxml/repl.fxml";
         showStage(stage, title, path, null);
     }
 
