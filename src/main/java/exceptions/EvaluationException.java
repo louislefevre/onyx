@@ -1,26 +1,12 @@
-package errors;
+package exceptions;
 
-import source.SourceSpan;
+import static types.ExceptionType.EVALUATION_EXCEPTION;
 
-import static types.ErrorType.EVALUATE_ERROR;
-
-public final class EvaluationError extends Error
+public final class EvaluationException extends Exception
 {
-    public EvaluationError(SourceSpan span, String errorMessage)
+    public EvaluationException(String message)
     {
-        super(EVALUATE_ERROR, span, errorMessage);
-    }
-
-    public static String exceptionOccurred(Exception exception)
-    {
-        StackTraceElement stackTraceElement = exception.getStackTrace()[0];
-        int lineNumber = stackTraceElement.getLineNumber();
-        String className = stackTraceElement.getClassName();
-
-        String location = String.format("Line %1s: Evaluation exception occurred at %2s.", lineNumber, className);
-        String message = exception.getMessage();
-
-        return location + "\n" + message;
+        super(EVALUATION_EXCEPTION, message);
     }
 
     public static String unexpectedExpression(String expression)

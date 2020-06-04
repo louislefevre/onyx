@@ -63,7 +63,7 @@ public final class Compiler
         Lexer lexer = new Lexer(sourceInput, errorHandler);
         Parser parser = new Parser(lexer, errorHandler, replMode);
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
-        Evaluator evaluator = new Evaluator(typeChecker, errorHandler, symbolTable);
+        Evaluator evaluator = new Evaluator(typeChecker, symbolTable);
         SourceOutput sourceOutput = new SourceOutput(evaluator, errorHandler);
 
         return sourceOutput;

@@ -4,6 +4,8 @@ import analysis.lexical.Token;
 import analysis.syntax.*;
 import errors.ErrorHandler;
 import errors.SemanticError;
+import exceptions.Exception;
+import exceptions.SemanticException;
 import source.SourceSpan;
 import symbols.SymbolTable;
 import types.ObjectType;
@@ -19,34 +21,23 @@ import static types.ObjectType.NULL_OBJECT;
 
 public final class TypeChecker
 {
-    private final ParseTree parseTree;
+    private final Parser parser;
     private final ErrorHandler errorHandler;
     private final SymbolTable symbolTable;
 
     public TypeChecker(Parser parser, ErrorHandler errorHandler, SymbolTable symbolTable)
     {
-        this.parseTree = parser.getParseTree();
+        this.parser = parser;
         this.errorHandler = errorHandler;
         this.symbolTable = symbolTable;
     }
 
-    public AnnotatedParseTree getAnnotatedParseTree()
+    public AnnotatedParseTree getAnnotatedParseTree() throws Exception
     {
-        return new AnnotatedParseTree(getAnnotatedStatement());
-    }
-
-    private AnnotatedStatement getAnnotatedStatement()
-    {
-        try
-        {
-            return annotateStatement(parseTree.getStatement());
-        }
-        catch (Exception exception)
-        {
-            String errorMessage = SemanticError.exceptionOccurred(exception);
-            System.out.println(errorMessage);
-            return null;
-        }
+        ParseTree parseTree = parser.getParseTree();
+        Statement statement = parseTree.getStatement();
+        AnnotatedStatement annotatedStatement = annotateStatement(statement);
+        return new AnnotatedParseTree(annotatedStatement);
     }
 
     private AnnotatedStatement annotateStatement(Statement statement) throws Exception
@@ -64,8 +55,8 @@ public final class TypeChecker
             case LOOP_STATEMENT:
                 return annotateLoopStatement((LoopStatement) statement);
             default:
-                String errorMessage = SemanticError.undefinedStatement(statement.getStatementType().toString());
-                throw new Exception(errorMessage);
+                String errorMessage = SemanticException.undefinedStatement(statement.getStatementType().toString());
+                throw new SemanticException(errorMessage);
         }
     }
 
@@ -154,8 +145,8 @@ public final class TypeChecker
             case PARENTHESIZED_EXPRESSION:
                 return annotateParenthesizedExpression((ParenthesizedExpression) expression);
             default:
-                String errorMessage = SemanticError.undefinedExpression(expression.getExpressionType().toString());
-                throw new Exception(errorMessage);
+                String errorMessage = SemanticException.undefinedExpression(expression.getExpressionType().toString());
+                throw new SemanticException(errorMessage);
         }
     }
 

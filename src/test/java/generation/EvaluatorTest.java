@@ -1,5 +1,6 @@
 package generation;
 
+import exceptions.Exception;
 import org.junit.jupiter.api.Test;
 import utilities.TestFactory;
 
@@ -72,6 +73,13 @@ class EvaluatorTest
     private static Object evaluationOf(String input)
     {
         Evaluator evaluator = TestFactory.createEvaluator(input);
-        return evaluator.getEvaluation();
+        try
+        {
+            return evaluator.getEvaluation();
+        }
+        catch (Exception exception)
+        {
+            return exception.getMessage();
+        }
     }
 }

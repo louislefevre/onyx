@@ -44,7 +44,7 @@ final class CompilerFactory
         Parser parser = new Parser(lexer, errorHandler, false);
         SymbolTable symbolTable = new SymbolTable();
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
-        return new Evaluator(typeChecker, errorHandler, symbolTable);
+        return new Evaluator(typeChecker, symbolTable);
     }
 
     static Compiler createCompiler()

@@ -1,5 +1,6 @@
 package analysis.semantic;
 
+import exceptions.Exception;
 import org.junit.jupiter.api.Test;
 import types.AnnotatedExpressionType;
 import utilities.TestFactory;
@@ -65,9 +66,16 @@ class TypeCheckerTest
     private static AnnotatedExpressionType annotatedExpressionTypeOf(String input)
     {
         TypeChecker typeChecker = TestFactory.createTypeChecker(input);
-        AnnotatedSourceStatement statement = (AnnotatedSourceStatement) typeChecker.getAnnotatedParseTree().getStatement();
-        AnnotatedExpressionStatement expression = (AnnotatedExpressionStatement) statement.getStatements().get(0);
-
-        return expression.getExpression().getExpressionType();
+        try
+        {
+            AnnotatedSourceStatement statement = (AnnotatedSourceStatement) typeChecker.getAnnotatedParseTree().getStatement();
+            AnnotatedExpressionStatement expression = (AnnotatedExpressionStatement) statement.getStatements().get(0);
+            return expression.getExpression().getExpressionType();
+        }
+        catch (Exception exception)
+        {
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 }

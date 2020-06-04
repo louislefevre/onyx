@@ -22,6 +22,16 @@ public final class SourceInput
         return sourceText.length();
     }
 
+    public char charAt(int index)
+    {
+        return sourceText.charAt(index);
+    }
+
+    public String substring(int beginIndex)
+    {
+        return sourceText.substring(beginIndex);
+    }
+
     public String substring(int beginIndex, int endIndex)
     {
         return sourceText.substring(beginIndex, endIndex);

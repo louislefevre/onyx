@@ -1,8 +1,8 @@
 package generation;
 
 import analysis.semantic.*;
-import errors.ErrorHandler;
-import errors.EvaluationError;
+import exceptions.EvaluationException;
+import exceptions.Exception;
 import symbols.Symbol;
 import symbols.SymbolTable;
 import types.AnnotatedExpressionType;
@@ -18,37 +18,30 @@ import static types.ObjectType.STRING_OBJECT;
 
 public final class Evaluator
 {
-    private final AnnotatedParseTree annotatedParseTree;
-    private final ErrorHandler errorHandler;
+    private final TypeChecker typeChecker;
     private final SymbolTable symbolTable;
     private Object lastValue;
 
-    public Evaluator(TypeChecker typeChecker, ErrorHandler errorHandler, SymbolTable symbolTable)
+    public Evaluator(TypeChecker typeChecker, SymbolTable symbolTable)
     {
-        this.annotatedParseTree = typeChecker.getAnnotatedParseTree();
-        this.errorHandler = errorHandler;
+        this.typeChecker = typeChecker;
         this.symbolTable = symbolTable;
     }
 
-    public Object getEvaluation()
+    public Object getEvaluation() throws Exception
     {
-        return evaluate();
+        AnnotatedParseTree parseTree = typeChecker.getAnnotatedParseTree();
+        return evaluate(parseTree);
     }
 
-    private Object evaluate()
+    private Object evaluate(AnnotatedParseTree parseTree) throws Exception
     {
-        try
-        {
-            evaluateStatement(annotatedParseTree.getStatement());
-            return lastValue;
-        }
-        catch (Exception exception)
-        {
-            return EvaluationError.exceptionOccurred(exception);
-        }
+        AnnotatedStatement statement = parseTree.getStatement();
+        evaluateStatement(statement);
+        return lastValue;
     }
 
-    private void evaluateStatement(AnnotatedStatement statement) throws Exception
+    private void evaluateStatement(AnnotatedStatement statement) throws EvaluationException
     {
         AnnotatedStatementType statementType = statement.getStatementType();
 
@@ -70,30 +63,30 @@ public final class Evaluator
                 evaluateLoopStatement((AnnotatedLoopStatement) statement);
                 break;
             default:
-                String errorMessage = EvaluationError.unexpectedStatement(statement.getStatementType().toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedStatement(statement.getStatementType().toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private void evaluateSourceStatement(AnnotatedSourceStatement sourceStatement) throws Exception
+    private void evaluateSourceStatement(AnnotatedSourceStatement sourceStatement) throws EvaluationException
     {
         for (AnnotatedStatement statement : sourceStatement.getStatements())
             evaluateStatement(statement);
     }
 
-    private void evaluateExpressionStatement(AnnotatedExpressionStatement expressionStatement) throws Exception
+    private void evaluateExpressionStatement(AnnotatedExpressionStatement expressionStatement) throws EvaluationException
     {
         AnnotatedExpression expression = expressionStatement.getExpression();
         lastValue = evaluateExpression(expression);
     }
 
-    private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws Exception
+    private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws EvaluationException
     {
         for (AnnotatedStatement statement : blockStatement.getStatements())
             evaluateStatement(statement);
     }
 
-    private void evaluateConditionalStatement(AnnotatedConditionalStatement conditionalStatement) throws Exception
+    private void evaluateConditionalStatement(AnnotatedConditionalStatement conditionalStatement) throws EvaluationException
     {
         AnnotatedExpression condition = conditionalStatement.getCondition();
         ObjectType conditionType = condition.getObjectType();
@@ -108,11 +101,11 @@ public final class Evaluator
             return;
         }
 
-        String errorMessage = EvaluationError.invalidConditionalType(conditionType.toString());
-        throw new Exception(errorMessage);
+        String errorMessage = EvaluationException.invalidConditionalType(conditionType.toString());
+        throw new EvaluationException(errorMessage);
     }
 
-    private void evaluateLoopStatement(AnnotatedLoopStatement loopStatement) throws Exception
+    private void evaluateLoopStatement(AnnotatedLoopStatement loopStatement) throws EvaluationException
     {
         AnnotatedExpression lowerBound = loopStatement.getLowerBound();
         AnnotatedExpression upperBound = loopStatement.getUpperBound();
@@ -143,11 +136,11 @@ public final class Evaluator
             return;
         }
 
-        String errorMessage = EvaluationError.invalidLoopTypes(lowerType.toString(), upperType.toString());
-        throw new Exception(errorMessage);
+        String errorMessage = EvaluationException.invalidLoopTypes(lowerType.toString(), upperType.toString());
+        throw new EvaluationException(errorMessage);
     }
 
-    private Object evaluateExpression(AnnotatedExpression expression) throws Exception
+    private Object evaluateExpression(AnnotatedExpression expression) throws EvaluationException
     {
         AnnotatedExpressionType expressionType = expression.getExpressionType();
 
@@ -164,8 +157,8 @@ public final class Evaluator
             case ANNOTATED_ASSIGNMENT_EXPRESSION:
                 return evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
             default:
-                String errorMessage = EvaluationError.unexpectedExpression(expression.getExpressionType().toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedExpression(expression.getExpressionType().toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
@@ -174,7 +167,7 @@ public final class Evaluator
         return literalExpression.getValue();
     }
 
-    private Object evaluateUnaryExpression(AnnotatedUnaryExpression unaryExpression) throws Exception
+    private Object evaluateUnaryExpression(AnnotatedUnaryExpression unaryExpression) throws EvaluationException
     {
         Object operand = evaluateExpression(unaryExpression.getOperand());
         ObjectType operandType = unaryExpression.getObjectType();
@@ -189,12 +182,12 @@ public final class Evaluator
             case BOOLEAN_OBJECT:
                 return evaluateUnaryBooleanExpression(operand, operatorType);
             default:
-                String errorMessage = EvaluationError.unexpectedUnaryObjectType(operandType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedUnaryObjectType(operandType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws Exception
+    private Object evaluateUnaryIntegerExpression(Object operand, OperatorType operatorType) throws EvaluationException
     {
         int operandInteger = (int) operand;
 
@@ -207,12 +200,12 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateUnaryDoubleExpression(Object operand, OperatorType operatorType) throws Exception
+    private Object evaluateUnaryDoubleExpression(Object operand, OperatorType operatorType) throws EvaluationException
     {
         double operandDouble = (double) operand;
 
@@ -225,12 +218,12 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateUnaryBooleanExpression(Object operand, OperatorType operatorType) throws Exception
+    private Object evaluateUnaryBooleanExpression(Object operand, OperatorType operatorType) throws EvaluationException
     {
         boolean operandBoolean = (boolean) operand;
 
@@ -239,12 +232,12 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !operandBoolean;
             default:
-                String errorMessage = EvaluationError.unexpectedUnaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateBinaryExpression(AnnotatedBinaryExpression binaryExpression) throws Exception
+    private Object evaluateBinaryExpression(AnnotatedBinaryExpression binaryExpression) throws EvaluationException
     {
         Object leftOperand = evaluateExpression(binaryExpression.getLeftOperand());
         Object rightOperand = evaluateExpression(binaryExpression.getRightOperand());
@@ -264,11 +257,11 @@ public final class Evaluator
         if (leftOperandType == STRING_OBJECT && rightOperandType == STRING_OBJECT)
             return evaluateBinaryStringExpression(leftOperand, rightOperand, operatorType);
 
-        String errorMessage = EvaluationError.unexpectedBinaryObjectTypes(leftOperandType.toString(), rightOperandType.toString());
-        throw new Exception(errorMessage);
+        String errorMessage = EvaluationException.unexpectedBinaryObjectTypes(leftOperandType.toString(), rightOperandType.toString());
+        throw new EvaluationException(errorMessage);
     }
 
-    private Object evaluateBinaryIntegerExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
+    private Object evaluateBinaryIntegerExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws EvaluationException
     {
         int leftInteger = (int) leftOperand;
         int rightInteger = (int) rightOperand;
@@ -302,12 +295,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftInteger != rightInteger;
             default:
-                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateBinaryDoubleExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
+    private Object evaluateBinaryDoubleExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws EvaluationException
     {
         double leftDouble = (double) leftOperand;
         double rightDouble = (double) rightOperand;
@@ -341,12 +334,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftDouble != rightDouble;
             default:
-                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateBinaryBooleanExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
+    private Object evaluateBinaryBooleanExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws EvaluationException
     {
         boolean leftBool = (boolean) leftOperand;
         boolean rightBool = (boolean) rightOperand;
@@ -362,12 +355,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftBool != rightBool;
             default:
-                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateBinaryStringExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws Exception
+    private Object evaluateBinaryStringExpression(Object leftOperand, Object rightOperand, OperatorType operatorType) throws EvaluationException
     {
         String leftString = leftOperand.toString();
         String rightString = rightOperand.toString();
@@ -381,12 +374,12 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return !leftString.equals(rightString);
             default:
-                String errorMessage = EvaluationError.unexpectedBinaryOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws Exception
+    private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws EvaluationException
     {
         String name = annotatedAssignmentExpression.getName();
         Object value = evaluateExpression(annotatedAssignmentExpression.getExpression());
@@ -411,8 +404,8 @@ public final class Evaluator
                     value = evaluateAssignmentStringExpression(operatorType, symbolValue, value);
                     break;
                 default:
-                    String errorMessage = EvaluationError.unexpectedAssignmentObjectTypes(symbolType.toString(), valueType.toString());
-                    throw new Exception(errorMessage);
+                    String errorMessage = EvaluationException.unexpectedAssignmentObjectTypes(symbolType.toString(), valueType.toString());
+                    throw new EvaluationException(errorMessage);
             }
         }
         symbolTable.add(name, value, valueType);
@@ -420,7 +413,7 @@ public final class Evaluator
         return value;
     }
 
-    private Object evaluateAssignmentIntegerExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    private Object evaluateAssignmentIntegerExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         int symbolInteger = (int) symbolValue;
         int valueInteger = (int) value;
@@ -442,12 +435,12 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return (int) Math.pow(symbolInteger, valueInteger);
             default:
-                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateAssignmentDoubleExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    private Object evaluateAssignmentDoubleExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         double symbolDouble = (double) symbolValue;
         double valueDouble = (double) value;
@@ -469,12 +462,12 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return Math.pow(symbolDouble, valueDouble);
             default:
-                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateAssignmentStringExpression(OperatorType operatorType, Object symbolValue, Object value) throws Exception
+    private Object evaluateAssignmentStringExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         String symbolString = (String) symbolValue;
         String valueString = (String) value;
@@ -484,18 +477,18 @@ public final class Evaluator
             case ADDITION_OPERATOR:
                 return symbolString + valueString;
             default:
-                String errorMessage = EvaluationError.unexpectedAssignmentOperator(operatorType.toString());
-                throw new Exception(errorMessage);
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                throw new EvaluationException(errorMessage);
         }
     }
 
-    private Object evaluateIdentifierExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws Exception
+    private Object evaluateIdentifierExpression(AnnotatedIdentifierExpression annotatedIdentifierExpression) throws EvaluationException
     {
         String name = annotatedIdentifierExpression.getName();
         if (symbolTable.contains(name))
             return symbolTable.get(name).getValue();
 
-        String errorMessage = EvaluationError.missingSymbol(name);
-        throw new Exception(errorMessage);
+        String errorMessage = EvaluationException.missingSymbol(name);
+        throw new EvaluationException(errorMessage);
     }
 }

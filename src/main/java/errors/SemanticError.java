@@ -12,18 +12,6 @@ public final class SemanticError extends Error
         super(SEMANTIC_ERROR, span, errorMessage);
     }
 
-    public static String exceptionOccurred(Exception exception)
-    {
-        StackTraceElement stackTraceElement = exception.getStackTrace()[0];
-        int lineNumber = stackTraceElement.getLineNumber();
-        String className = stackTraceElement.getClassName();
-
-        String location = String.format("Line %1s: Semantic exception occurred at %2s.", lineNumber, className);
-        String message = exception.getMessage();
-
-        return location + "\n" + message;
-    }
-
     public static SemanticError undefinedUnaryOperator(SourceSpan span, String syntax, ObjectType type)
     {
         String message = String.format("Unary operator '%1s' is not defined for type '%2s'.", syntax, type);
@@ -56,16 +44,6 @@ public final class SemanticError extends Error
     {
         String message = String.format("Invalid expression type '%1s', expected '%2s'.", actualType, typesToString(targetTypes));
         return new SemanticError(span, message);
-    }
-
-    public static String undefinedExpression(String syntax)
-    {
-        return String.format("Unexpected expression '%s'", syntax);
-    }
-
-    public static String undefinedStatement(String syntax)
-    {
-        return String.format("Unexpected statement '%s'", syntax);
     }
 
     private static String typesToString(ObjectType[] types)

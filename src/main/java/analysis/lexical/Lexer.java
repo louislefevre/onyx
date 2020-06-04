@@ -17,13 +17,13 @@ import static types.TokenType.*;
 
 public final class Lexer
 {
-    private final String sourceText;
+    private final SourceInput sourceInput;
     private final ErrorHandler errorHandler;
     private int position;
 
     public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
     {
-        this.sourceText = sourceInput.getSourceText();
+        this.sourceInput = sourceInput;
         this.errorHandler = errorHandler;
         this.position = 0;
     }
@@ -54,7 +54,7 @@ public final class Lexer
 
     private Token nextToken()
     {
-        if (position >= sourceText.length())
+        if (position >= sourceInput.length())
             return endToken();
         else if (isLineBreak(currentChar()))
             return lineBreakToken();
@@ -84,7 +84,7 @@ public final class Lexer
         while (isWhitespace(currentChar()) && !isLineBreak(currentChar()))
             nextPosition();
 
-        String syntax = sourceText.substring(startPos, position);
+        String syntax = sourceInput.substring(startPos, position);
 
         return new Token(WHITE_SPACE_TOKEN, syntax, startPos);
     }
@@ -99,7 +99,7 @@ public final class Lexer
         if (currentChar().equals(DECIMAL_POINT_SYNTAX))
             return doubleToken(startPos);
 
-        String syntax = sourceText.substring(startPos, position);
+        String syntax = sourceInput.substring(startPos, position);
         int value = 0;
 
         if (isIntegerParsable(syntax))
@@ -124,7 +124,7 @@ public final class Lexer
         }
         while (isDigit(currentChar()));
 
-        String syntax = sourceText.substring(startPos, position);
+        String syntax = sourceInput.substring(startPos, position);
         double value = 0;
 
         if (isDoubleParsable(syntax))
@@ -147,7 +147,7 @@ public final class Lexer
         while (isLetter(currentChar()))
             nextPosition();
 
-        String syntax = sourceText.substring(startPos, position).toLowerCase();
+        String syntax = sourceInput.substring(startPos, position).toLowerCase();
 
         return getKeywordToken(syntax, startPos);
     }
@@ -303,7 +303,7 @@ public final class Lexer
 
     private Token badToken()
     {
-        String syntax = sourceText.substring(minimumZero(position - 1));
+        String syntax = sourceInput.substring(minimumZero(position - 1));
         LexicalError error = badCharacter(currentChar(), position, 1);
         errorHandler.add(error);
 
@@ -323,10 +323,10 @@ public final class Lexer
     private String peek(int offset)
     {
         int index = position + offset;
-        if (index >= sourceText.length() || index < 0)
+        if (index >= sourceInput.length() || index < 0)
             return EOF_SYNTAX;
 
-        return Character.toString(sourceText.charAt(index));
+        return Character.toString(sourceInput.charAt(index));
     }
 
     private void nextPosition()
