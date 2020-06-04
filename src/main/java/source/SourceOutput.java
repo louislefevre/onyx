@@ -10,15 +10,11 @@ import javafx.scene.text.TextFlow;
 
 public final class SourceOutput
 {
-    private final Evaluator evaluator;
-    private final ErrorHandler errorHandler;
     private final TextFlow output;
 
     public SourceOutput(Evaluator evaluator, ErrorHandler errorHandler)
     {
-        this.evaluator = evaluator;
-        this.errorHandler = errorHandler;
-        this.output = evaluateResult();
+        this.output = evaluateResult(evaluator, errorHandler);
     }
 
     public TextFlow getOutput()
@@ -28,21 +24,21 @@ public final class SourceOutput
 
     public String getRawOutput()
     {
-        TextFlow textFlow = getOutput();
         StringBuilder builder = new StringBuilder();
-
-        for (Node child : textFlow.getChildren())
+        for (Node child : output.getChildren())
             builder.append(((Text) child).getText());
 
         return builder.toString();
     }
 
-    private TextFlow evaluateResult()
+    private static TextFlow evaluateResult(Evaluator evaluator, ErrorHandler errorHandler)
     {
-        Object result;
+        String result;
         try
         {
-            result = evaluator.getEvaluation();
+            Object[] outputArray = evaluator.getEvaluation();
+            result = arrayToString(outputArray);
+
             if (errorHandler.containsErrors())
                 return errorHandler.getPrimaryError();
         }
@@ -51,9 +47,23 @@ public final class SourceOutput
             result = exception.getMessage();
         }
 
-        Text text = new Text(result.toString());
+        Text text = new Text(result);
         text.setFill(Color.WHITE);
 
         return new TextFlow(text);
+    }
+
+    private static String arrayToString(Object[] array)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < array.length; i++)
+        {
+            builder.append(array[i]);
+            if (i != array.length - 1)
+                builder.append(System.lineSeparator());
+        }
+
+        return builder.toString();
     }
 }

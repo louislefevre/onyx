@@ -11,6 +11,11 @@ import types.ObjectType;
 import types.OperatorType;
 import types.TokenType;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static types.AnnotatedExpressionType.ANNOTATED_BINARY_EXPRESSION;
+import static types.AnnotatedExpressionType.ANNOTATED_IDENTIFIER_EXPRESSION;
 import static types.ObjectType.BOOLEAN_OBJECT;
 import static types.ObjectType.DOUBLE_OBJECT;
 import static types.ObjectType.INTEGER_OBJECT;
@@ -20,25 +25,28 @@ public final class Evaluator
 {
     private final TypeChecker typeChecker;
     private final SymbolTable symbolTable;
-    private Object lastValue;
+    private final boolean replMode;
+    private final List<Object> output;
 
-    public Evaluator(TypeChecker typeChecker, SymbolTable symbolTable)
+    public Evaluator(TypeChecker typeChecker, SymbolTable symbolTable, boolean replMode)
     {
         this.typeChecker = typeChecker;
         this.symbolTable = symbolTable;
+        this.replMode = replMode;
+        this.output = new ArrayList<>();
     }
 
-    public Object getEvaluation() throws Exception
+    public Object[] getEvaluation() throws Exception
     {
         AnnotatedParseTree parseTree = typeChecker.getAnnotatedParseTree();
-        return evaluate(parseTree);
+        evaluateParseTree(parseTree);
+        return output.toArray();
     }
 
-    private Object evaluate(AnnotatedParseTree parseTree) throws Exception
+    private void evaluateParseTree(AnnotatedParseTree parseTree) throws Exception
     {
         AnnotatedStatement statement = parseTree.getStatement();
         evaluateStatement(statement);
-        return lastValue;
     }
 
     private void evaluateStatement(AnnotatedStatement statement) throws EvaluationException
@@ -77,7 +85,11 @@ public final class Evaluator
     private void evaluateExpressionStatement(AnnotatedExpressionStatement expressionStatement) throws EvaluationException
     {
         AnnotatedExpression expression = expressionStatement.getExpression();
-        lastValue = evaluateExpression(expression);
+        AnnotatedExpressionType type = expression.getExpressionType();
+        Object value = evaluateExpression(expression);
+
+        if (replMode || type == ANNOTATED_IDENTIFIER_EXPRESSION || type == ANNOTATED_BINARY_EXPRESSION)
+            output.add(value);
     }
 
     private void evaluateBlockStatement(AnnotatedBlockStatement blockStatement) throws EvaluationException
