@@ -2,11 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" id="main-pane" dividerPositions="0.58" maxHeight="-Infinity"
-           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0"
-           stylesheets="@../css/repl.css" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="ui.repl.ReplController">
+<SplitPane id="main-pane" dividerPositions="0.58" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" stylesheets="@../css/repl.css"
+           xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="ui.repl.ReplController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
@@ -15,15 +17,22 @@
             </padding>
             <ButtonBar id="button-bar" nodeOrientation="RIGHT_TO_LEFT">
                 <buttons>
-                    <Button layoutX="384.0" layoutY="10.0" mnemonicParsing="false" onAction="#clearFields"
-                            text="Clear"/>
-                    <Button mnemonicParsing="false" onAction="#evaluateInput" text="Run"/>
+                    <Button layoutX="384.0" layoutY="10.0" mnemonicParsing="false" onAction="#clearFields" text="Clear">
+                        <cursor>
+                            <Cursor fx:constant="HAND"/>
+                        </cursor>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#evaluateInput" text="Run">
+                        <cursor>
+                            <Cursor fx:constant="HAND"/>
+                        </cursor>
+                    </Button>
                 </buttons>
                 <VBox.margin>
                     <Insets/>
                 </VBox.margin>
             </ButtonBar>
-            <TextField fx:id="inputField" id="input-field" onAction="#evaluateInput">
+            <TextField id="input-field" fx:id="inputField" onAction="#evaluateInput">
                 <VBox.margin>
                     <Insets bottom="5.0" top="5.0"/>
                 </VBox.margin>
@@ -34,7 +43,7 @@
         </VBox>
     </AnchorPane>
     <AnchorPane>
-        <TableView fx:id="symbolTableView" id="table" prefHeight="400.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0"
+        <TableView id="table" fx:id="symbolTableView" prefHeight="400.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0"
                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
                 <TableColumn fx:id="symbolNamesColumn" minWidth="-1.0" prefWidth="-1.0" text="Name"/>

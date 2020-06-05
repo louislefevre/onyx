@@ -146,12 +146,17 @@ public final class MainController
     }
 
     @FXML
-    void openHelpInfo() throws IOException
+    void openWikiPage() throws IOException
     {
-        // Only works on Linux
+        String url = "https://github.com/louislefevre/onyx-compiler/wiki";
+        openHyperlink(url);
+    }
+
+    @FXML
+    void openHomePage() throws IOException
+    {
         String url = "https://github.com/louislefevre/onyx-compiler";
-        Runtime runtime = Runtime.getRuntime();
-        runtime.exec("xdg-open " + url);
+        openHyperlink(url);
     }
 
     private void openPopupAlert(String message)
@@ -176,5 +181,12 @@ public final class MainController
         boolean confirmation = openConfirmationAlert(message);
 
         return !confirmation;
+    }
+
+    private void openHyperlink(String url) throws IOException
+    {
+        // Only works on Linux
+        Runtime runtime = Runtime.getRuntime();
+        runtime.exec("xdg-open " + url);
     }
 }
