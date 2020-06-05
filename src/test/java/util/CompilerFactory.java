@@ -18,37 +18,39 @@ final class CompilerFactory
         return new Lexer(sourceInput, errorHandler);
     }
 
-    static Parser createParser(String input)
+    static Parser createParser(String input, boolean replMode)
     {
         SourceInput sourceInput = new SourceInput(input);
         ErrorHandler errorHandler = new ErrorHandler(sourceInput);
         Lexer lexer = new Lexer(sourceInput, errorHandler);
-        return new Parser(lexer, errorHandler, false);
+        return new Parser(lexer, errorHandler, replMode);
     }
 
-    static TypeChecker createTypeChecker(String input)
+    static TypeChecker createTypeChecker(String input, boolean replMode)
     {
         SourceInput sourceInput = new SourceInput(input);
         ErrorHandler errorHandler = new ErrorHandler(sourceInput);
         Lexer lexer = new Lexer(sourceInput, errorHandler);
-        Parser parser = new Parser(lexer, errorHandler, false);
+        Parser parser = new Parser(lexer, errorHandler, replMode);
         SymbolTable symbolTable = new SymbolTable();
         return new TypeChecker(parser, errorHandler, symbolTable);
     }
 
-    static Evaluator createEvaluator(String input)
+    static Evaluator createEvaluator(String input, boolean replMode)
     {
         SourceInput sourceInput = new SourceInput(input);
         ErrorHandler errorHandler = new ErrorHandler(sourceInput);
         Lexer lexer = new Lexer(sourceInput, errorHandler);
-        Parser parser = new Parser(lexer, errorHandler, false);
+        Parser parser = new Parser(lexer, errorHandler, replMode);
         SymbolTable symbolTable = new SymbolTable();
         TypeChecker typeChecker = new TypeChecker(parser, errorHandler, symbolTable);
-        return new Evaluator(typeChecker, symbolTable, false);
+        return new Evaluator(typeChecker, symbolTable, replMode);
     }
 
-    static Compiler createCompiler()
+    static Compiler createCompiler(boolean replMode)
     {
-        return new Compiler();
+        Compiler compiler = new Compiler();
+        compiler.setReplMode(replMode);
+        return compiler;
     }
 }

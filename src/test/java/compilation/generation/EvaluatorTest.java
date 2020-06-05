@@ -72,10 +72,11 @@ class EvaluatorTest
 
     private static Object evaluationOf(String input)
     {
-        Evaluator evaluator = TestFactory.createEvaluator(input);
+        Evaluator evaluator = TestFactory.createEvaluator(input, true);
         try
         {
-            return evaluator.getEvaluation();
+            Object[] result = evaluator.getEvaluation();
+            return result[0];
         }
         catch (Exception exception)
         {

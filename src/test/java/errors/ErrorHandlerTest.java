@@ -1,5 +1,6 @@
 package errors;
 
+import compilation.Compiler;
 import org.junit.jupiter.api.Test;
 import source.SourceInput;
 import source.SourceOutput;
@@ -52,7 +53,8 @@ class ErrorHandlerTest
 
     private String compile(String input)
     {
-        SourceOutput sourceOutput = TestFactory.createCompiler().compileInput(input);
+        Compiler compiler = TestFactory.createCompiler(true);
+        SourceOutput sourceOutput = compiler.compileInput(input);
         return sourceOutput.getRawOutput();
     }
 

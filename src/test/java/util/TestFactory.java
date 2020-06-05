@@ -17,24 +17,24 @@ public final class TestFactory
         return CompilerFactory.createLexer(input);
     }
 
-    public static Parser createParser(String input)
+    public static Parser createParser(String input, boolean replMode)
     {
-        return CompilerFactory.createParser(input);
+        return CompilerFactory.createParser(input, replMode);
     }
 
-    public static TypeChecker createTypeChecker(String input)
+    public static TypeChecker createTypeChecker(String input, boolean replMode)
     {
-        return CompilerFactory.createTypeChecker(input);
+        return CompilerFactory.createTypeChecker(input, replMode);
     }
 
-    public static Evaluator createEvaluator(String input)
+    public static Evaluator createEvaluator(String input, boolean replMode)
     {
-        return CompilerFactory.createEvaluator(input);
+        return CompilerFactory.createEvaluator(input, replMode);
     }
 
-    public static Compiler createCompiler()
+    public static Compiler createCompiler(boolean replMode)
     {
-        return CompilerFactory.createCompiler();
+        return CompilerFactory.createCompiler(replMode);
     }
 
     public static HashMap<String, Object> literalCollection()

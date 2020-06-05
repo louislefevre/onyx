@@ -184,19 +184,19 @@ final class DataFactory
     static HashMap<String, Object> assignmentOperatorsCollection()
     {
         HashMap<String, Object> assignmentOperators = new HashMap<>();
-        assignmentOperators.put("a=20\na+=10", 30);
-        assignmentOperators.put("a=20\na-=10", 10);
-        assignmentOperators.put("a=20\na*=10", 200);
-        assignmentOperators.put("a=20\na/=10", 2);
-        assignmentOperators.put("a=20\na%=12", 8);
-        assignmentOperators.put("a=10\na^=2", 100);
-        assignmentOperators.put("a=20.5\na+=10.5", 31.0);
-        assignmentOperators.put("a=20.5\na-=10.5", 10.0);
-        assignmentOperators.put("a=20.0\na*=10.0", 200.0);
-        assignmentOperators.put("a=20.0\na/=10.0", 2.0);
-        assignmentOperators.put("a=20.0\na%=12.0", 8.0);
-        assignmentOperators.put("a=10.0\na^=2.0", 100.0);
-        assignmentOperators.put("a=\"string\"\na+=\" string\"", "string string");
+        assignmentOperators.put("a=20\na+=10\na", 30);
+        assignmentOperators.put("a=20\na-=10\na", 10);
+        assignmentOperators.put("a=20\na*=10\na", 200);
+        assignmentOperators.put("a=20\na/=10\na", 2);
+        assignmentOperators.put("a=20\na%=12\na", 8);
+        assignmentOperators.put("a=10\na^=2\na", 100);
+        assignmentOperators.put("a=20.5\na+=10.5\na", 31.0);
+        assignmentOperators.put("a=20.5\na-=10.5\na", 10.0);
+        assignmentOperators.put("a=20.0\na*=10.0\na", 200.0);
+        assignmentOperators.put("a=20.0\na/=10.0\na", 2.0);
+        assignmentOperators.put("a=20.0\na%=12.0\na", 8.0);
+        assignmentOperators.put("a=10.0\na^=2.0\na", 100.0);
+        assignmentOperators.put("a=\"string\"\na+=\" string\"\na", "string string");
 
         return assignmentOperators;
     }
@@ -204,22 +204,22 @@ final class DataFactory
     static HashMap<String, Object> reassignmentCollection()
     {
         HashMap<String, Object> reassignmentCollection = new HashMap<>();
-        reassignmentCollection.put("a=20\na=10", 10);
-        reassignmentCollection.put("a=20\na=10.0", 10.0);
-        reassignmentCollection.put("a=20\na=false", false);
-        reassignmentCollection.put("a=20\na=\"string\"", "string");
-        reassignmentCollection.put("a=20.0\na=10", 10);
-        reassignmentCollection.put("a=20.0\na=10.0", 10.0);
-        reassignmentCollection.put("a=20.0\na=false", false);
-        reassignmentCollection.put("a=20.0\na=\"string\"", "string");
-        reassignmentCollection.put("a=true\na=10", 10);
-        reassignmentCollection.put("a=true\na=10.0", 10.0);
-        reassignmentCollection.put("a=true\na=false", false);
-        reassignmentCollection.put("a=true\na=\"string\"", "string");
-        reassignmentCollection.put("a=\"string\"\na=10", 10);
-        reassignmentCollection.put("a=\"string\"\na=10.0", 10.0);
-        reassignmentCollection.put("a=\"string\"\na=false", false);
-        reassignmentCollection.put("a=\"string\"\na=\"string\"", "string");
+        reassignmentCollection.put("a=20\na=10\na", 10);
+        reassignmentCollection.put("a=20\na=10.0\na", 10.0);
+        reassignmentCollection.put("a=20\na=false\na", false);
+        reassignmentCollection.put("a=20\na=\"string\"\na", "string");
+        reassignmentCollection.put("a=20.0\na=10\na", 10);
+        reassignmentCollection.put("a=20.0\na=10.0\na", 10.0);
+        reassignmentCollection.put("a=20.0\na=false\na", false);
+        reassignmentCollection.put("a=20.0\na=\"string\"\na", "string");
+        reassignmentCollection.put("a=true\na=10\na", 10);
+        reassignmentCollection.put("a=true\na=10.0\na", 10.0);
+        reassignmentCollection.put("a=true\na=false\na", false);
+        reassignmentCollection.put("a=true\na=\"string\"\na", "string");
+        reassignmentCollection.put("a=\"string\"\na=10\na", 10);
+        reassignmentCollection.put("a=\"string\"\na=10.0\na", 10.0);
+        reassignmentCollection.put("a=\"string\"\na=false\na", false);
+        reassignmentCollection.put("a=\"string\"\na=\"string\"\na", "string");
 
         return reassignmentCollection;
     }
@@ -287,12 +287,12 @@ final class DataFactory
 
         input = "(";
         span = new SourceSpan(1, 1);
-        error = SyntaxError.invalidTokenPair(span, EOF_TOKEN, CLOSE_PARENTHESIS_TOKEN);
+        error = SyntaxError.invalidToken(span, EOF_TOKEN);
         syntaxErrors.put(input, error);
 
         input = "{";
-        span = new SourceSpan(1, 1);
-        error = SyntaxError.invalidTokenPair(span, EOF_TOKEN, CLOSE_BRACE_TOKEN);
+        span = new SourceSpan(0, 1);
+        error = SyntaxError.invalidToken(span, OPEN_BRACE_TOKEN);
         syntaxErrors.put(input, error);
 
         return syntaxErrors;

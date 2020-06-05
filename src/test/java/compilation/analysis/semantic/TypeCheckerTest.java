@@ -65,7 +65,7 @@ class TypeCheckerTest
 
     private static AnnotatedExpressionType annotatedExpressionTypeOf(String input)
     {
-        TypeChecker typeChecker = TestFactory.createTypeChecker(input);
+        TypeChecker typeChecker = TestFactory.createTypeChecker(input, true);
         try
         {
             AnnotatedSourceStatement statement = (AnnotatedSourceStatement) typeChecker.getAnnotatedParseTree().getStatement();
