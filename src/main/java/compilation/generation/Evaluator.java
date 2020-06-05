@@ -407,13 +407,13 @@ public final class Evaluator
             switch (valueType)
             {
                 case INTEGER_OBJECT:
-                    value = evaluateAssignmentIntegerExpression(operatorType, symbolValue, value);
+                    value = evaluateIntegerAssignmentExpression(operatorType, symbolValue, value);
                     break;
                 case DOUBLE_OBJECT:
-                    value = evaluateAssignmentDoubleExpression(operatorType, symbolValue, value);
+                    value = evaluateDoubleAssignmentExpression(operatorType, symbolValue, value);
                     break;
                 case STRING_OBJECT:
-                    value = evaluateAssignmentStringExpression(operatorType, symbolValue, value);
+                    value = evaluateStringAssignmentExpression(operatorType, symbolValue, value);
                     break;
                 default:
                     String errorMessage = EvaluationException.unexpectedAssignmentObjectTypes(symbolType.toString(), valueType.toString());
@@ -425,7 +425,7 @@ public final class Evaluator
         return value;
     }
 
-    private Object evaluateAssignmentIntegerExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
+    private Object evaluateIntegerAssignmentExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         int symbolInteger = (int) symbolValue;
         int valueInteger = (int) value;
@@ -452,7 +452,7 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateAssignmentDoubleExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
+    private Object evaluateDoubleAssignmentExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         double symbolDouble = (double) symbolValue;
         double valueDouble = (double) value;
@@ -479,7 +479,7 @@ public final class Evaluator
         }
     }
 
-    private Object evaluateAssignmentStringExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
+    private Object evaluateStringAssignmentExpression(OperatorType operatorType, Object symbolValue, Object value) throws EvaluationException
     {
         String symbolString = (String) symbolValue;
         String valueString = (String) value;
