@@ -242,7 +242,9 @@ public final class TypeChecker
             return new AnnotatedLiteralExpression(null);
         }
 
-        return new AnnotatedAssignmentExpression(name, operator, expression);
+        AnnotatedIdentifierExpression identifier = new AnnotatedIdentifierExpression(name, symbolType);
+
+        return new AnnotatedAssignmentExpression(identifier, operator, expression);
     }
 
     private void validateExpressionType(SourceSpan span, ObjectType actualType, ObjectType... targetTypes)

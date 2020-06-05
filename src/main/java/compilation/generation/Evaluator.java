@@ -127,7 +127,8 @@ public final class Evaluator
         Object upperValue = evaluateExpression(upperBound);
 
         AnnotatedAssignmentExpression assignment = (AnnotatedAssignmentExpression) lowerBound;
-        Symbol symbol = symbolTable.get(assignment.getName());
+        String name = assignment.getIdentifier().getName();
+        Symbol symbol = symbolTable.get(name);
 
         if (lowerType == INTEGER_OBJECT && upperType == INTEGER_OBJECT)
         {
@@ -393,7 +394,7 @@ public final class Evaluator
 
     private Object evaluateAssignmentExpression(AnnotatedAssignmentExpression annotatedAssignmentExpression) throws EvaluationException
     {
-        String name = annotatedAssignmentExpression.getName();
+        String name = annotatedAssignmentExpression.getIdentifier().getName();
         Object value = evaluateExpression(annotatedAssignmentExpression.getExpression());
         ObjectType valueType = annotatedAssignmentExpression.getObjectType();
         TokenType tokenType = annotatedAssignmentExpression.getOperator().getTokenType();
