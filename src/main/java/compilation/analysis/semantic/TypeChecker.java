@@ -212,10 +212,6 @@ public final class TypeChecker
         }
         ObjectType type = symbolTable.get(name).getType();
 
-        // Temporary fix for issue #51. See annotateAssignmentExpression for further implementation.
-        if(symbolTable.get(name).getValue() == null)
-            symbolTable.remove(name);
-
         return new AnnotatedIdentifierExpression(name, type);
     }
 
@@ -228,10 +224,6 @@ public final class TypeChecker
         ObjectType symbolType = symbolTable.contains(name) ? symbolTable.get(name).getType() : NULL_OBJECT;
         ObjectType assignmentType = expression.getObjectType();
         AnnotatedAssignmentOperator operator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
-
-        // Temporary fix for issue #51. See annotateIdentifierExpression for further implementation.
-        if (!symbolTable.contains(name))
-            symbolTable.add(name, null, assignmentType);
 
         if (operator == null)
         {
