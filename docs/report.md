@@ -81,7 +81,7 @@ A great deal of time and effort was required during the development of this proj
 	&nbsp;	8.2.2 [GUI Cleanup](#8.2.2)  
 	&nbsp;	8.2.3 [Implementing Functions](#8.2.3)  
 	8.3 [Self Evaluation](#8.3)  
-9. [References](#references)  
+9. [Bibliography](#bibliography)  
 10. [Appendices](#appendices)  
 11. [Glossary of Terms](#terms)  
 
@@ -389,24 +389,24 @@ The implementation portion of the project involved completing both a compiler an
 Implementation of the compiler meant following the design from the previous chapter and finding a way to apply it in Java. It has been built in a way where the components are as modular as possible, with each stage feeding into the next. This structure made it rather trivial to isolate each aspect and then implement the functionality individually, so exploring the source code isn't too challenging.
 
 #### 5.1.1 Lexer <a name="5.1.1"></a>
-The lexer loops through the source text and analyses each character individually, with the goal of producing a token to represent it. The character is checked to see if its a line break, whitespace, digit, letter, or operator symbol, with the first one that matches calling its corresponding method, which deconstructs the character to discover more information. A token object is produced that contains data regarding its type, syntax, value, and position in the text. The token is then placed in the tokens list, and the next character is reviewed in the same manner. If a character fails to fall into any of the defined categories it is deemed invalid and a error is returned, with a 'bad token' being produced in its place. The purpose of this filler token is to prevent issues with parsing in future stages, as the compiler is designed to be capable of continuing execution despite mistakes in the code.
+The lexer loops through the source text and analyses each character individually, with the goal of producing a token to represent it. The character is checked to see if its a line break, whitespace, digit, letter, or operator symbol, with the first one that matches calling its corresponding method, which deconstructs the character to discover more information. A token object is produced that contains data regarding its type, syntax, value, and position in the text. The token is then placed in the tokens list, and the next character is reviewed in the same manner. If a character fails to fall into any of the defined categories it is deemed invalid and a error is returned, with a 'bad token' being produced in its place. The purpose of this filler token is to prevent issues with parsing in future stages, as the compiler is designed to be capable of continuing execution despite mistakes in the code. The final output of the lexer is a list of token objects.
 
 #### 5.1.2 Parser <a name="5.1.2"></a>
-Parser execution changes depending on whether the compiler is in REPL mode, which allows expressions to be written as statements but disallows the user of loops and conditionals. If REPL mode is not activated, then the opposite occurs. In the case of the latter, each line is parsed individually by using line breaks; the presence of a break indicates that the end of the line has been reached. When a line is parsed it is first checked to see if it begins with any particular keywords that can only be found at the start of a line, such as 'if', 'loop', open braces, and identifiers (those at the start of a line are unique as they act as the programs print functionality, so when a line begins with solely an identifiers name its value is printed). Should there be a match the corresponding method will be called, otherwise the line is deemed an invalid statement and an error is returned.
+The parser retrieves the list of tokens produced by the lexer and scans over them, identifying the structure they form to see if it is valid. Parser execution changes depending on whether the compiler is in REPL mode, which allows expressions to be written as statements but disallows the user of loops and conditionals. If REPL mode is not activated, then the opposite occurs. In the case of the latter, each line is parsed individually by using line breaks; the presence of a break indicates that the end of the line has been reached. When a line is parsed it is first checked to see if it begins with any particular keywords that can only be found at the start of a line, such as 'if', 'loop', open braces, and identifiers (those at the start of a line are unique as they act as the programs print functionality, so when a line begins with solely an identifiers name its value is printed). Should there be a match the corresponding method will be called, otherwise the line is deemed an invalid statement and an error is returned.
 
 If the statement is valid however, its expressions are parsed recursively by looking at each token and matching it with whats expected. For example, if a statement begins with an identifier token, it looks at the next token to see if it is an assignment operator. If true then its deemed the code must be assigning a value to a variable, and a object is produced that contains all the information about that statement. If false then it continues to check for valid syntax combinations, such as a binary expression where the code is performing a mathematical operation on the identifier. The parser works its way down the series of possibilities, attempting to find a valid match for the syntax. If no match is found in the end then the statement must contain invalid syntax and an error is reported, with a dummy expression being produced in its place to allow parsing to continue. This process repeats for each statement, with the final output being a parse tree that contains all the information detailing how the program is structured.
 
 #### 5.1.3 Type Checker <a name="5.1.3"></a>
+Using the parse tree from the parser, the purpose of the type checker is to identify the data types being used and see if their use is valid (e.g. ensuring only values of the same type are used together in expressions). Similar to the parser, it recursively scans over the tree nodes, examining each statement individually and then producing an 'annotated' statement to hold all the information about it. When a statement is parsed the first check is to see what type of statement it is: source (holds the entire program code), expression (a single basic expression), block (a series of multiple statements), conditional (statements that should only run under a certain condition), and loop (statements to be run a specific amount of times). If a statement is source or block, a list of their contained statements is retrieved and the process is repeated for each individual one. The final output is an annotated parse tree, which is the same as the original except it contains extra information about data types and symbols.
 
+In the same of conditionals, loops, and expressions, the program flow begins to move further down and starts analysing specific portions of the statements (e.g. the condition expression of a conditional statement), determining whether they are of the correct type (e.g. conditions must be of type boolean). This includes checking that values used as left and right operands for binary operators are of the same type, and the unary operators are being applied to valid types (e.g. a not-operator cannot be used on a string).
+
+Furthermore, this is where the symbol table is first consulted; if the user attempts to access a variable that does not exist, an error is returned. If they try to assign a value to a variable, then a symbol object is created and added to the symbol table. Its worth noting that the type checker also validates the types of variables, so the type checking previously discussed applies here. The only exception to this is when assigning variables new values, as the type of a variable can change freely and the new value does not have to be the same type as the old value. However, assignment operators that employ binary operators (e.g. '+=') do not allow type changing and will return an error should the user attempt to use incompatible types.
 
 #### 5.1.4 Evaluator <a name="5.1.4"></a>
+The final stage of compilation is performed by the evaluator, which has the responsibility of calculating the results for every expression, running loops and conditionals according to their conditions, and assigning values to the previously declared symbols. The parsing process for statements is done the same way as it is in the type checker; by checking the statements type and evaluating each expression individually. The only difference is that the evaluator only returns information that the user has printed, and any other values are lost.
 
-
-#### 5.1.5 Symbol Table <a name="5.1.5"></a>
-
-
-#### 5.1.6 Error Handler <a name="5.1.6"></a>
-
+When an expression is evaluated, there is a filtering process which determines program flow by reviewing an expressions type; each type has a method specifically designed for it (e.g. 'evaluateBinaryExpression', 'evaluateUnaryExpression'), which examines the values used within that expression. Depending on the data types of the values, program flow is then directed to another method designed for a specific type combination. At this point a final check is made to see what type of operation is being performed on the values (e.g. addition, multiplication), and when theres a match the expression is computed accordingly by Java, with the result being returned. This is also where symbols are given their values, as the type checker only creates the symbols with their name and type, but doesn't have enough information to assign a value.
 
 ### 5.2 Graphical User Interface <a name="5.2"></a>
 The GUI has also been built entirely separate from the compiler, with the only link between them being the user input and the resulting output. Whilst technically being implemented in Java, the GUI was made using JavaFX - a software platform for creating desktop applications. This was further assisted through the use of the JavaFX tool Scene Builder that provides a visual layout for designing user interfaces without the need for coding, instead creating the interface with FXML, which is a XML format used specifically for designing JavaFX GUI's.
@@ -518,43 +518,53 @@ If I were to do the project again with the knowledge I now have, I would have sp
 
 Going into this project I had no knowledge or experience working with compilers, but was fascinated by their complexity and felt confident in my ability to learn. I've learned a great deal about compiler construction and each of the individual components that going into building them, and have improved my skills in programming greatly throughout development. Though what I am most proud of is the level to which I completed the project; I'm satisfied that its met the criteria and standards I originally set for myself, and that I've been able to produce a strong piece of software that I'll be able to use as a demonstration for my talents in the future.
 
-## References <a name="references"></a>
-1. https://www.guru99.com/compiler-design-phases-of-compiler.html
-2. https://www.tutorialspoint.com/compiler_design/compiler_design_phases_of_compiler.htm
-3. https://www.kttpro.com/2017/02/09/six-phases-of-the-compilation-process
-4. https://www.geeksforgeeks.org/recursive-descent-parser/
-5. https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)
-6. https://en.wikipedia.org/wiki/Compiler
-7. https://ieeexplore.ieee.org/document/5937011
-8. https://www.computerhope.com/jargon.htm
-9. https://www.webopedia.com/Programming
-10. https://en.wikipedia.org/wiki/Indentation_style
-11. https://www.geeksforgeeks.org/compiler-design-syntax-directed-definition/
-12. https://en.wikipedia.org/wiki/Data-driven
-13. https://www.sitepoint.com/typing-versus-dynamic-typing/
-14. https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
-15. https://en.wikipedia.org/wiki/Pipeline_(software)
-16. https://en.wikibooks.org/wiki/Compiler_Construction/Glossary
-17. https://www.cs.utexas.edu/users/novak/cs375vocab.html
-18. https://github.com/rsumner31/awesome-compilers#compilers-and-interpreters
-19. https://insights.stackoverflow.com/survey/2019
-20. https://www.simplilearn.com/best-programming-languages-start-learning-today-article
-21. https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
-22. https://en.wikipedia.org/wiki/Compiler_correctness
+## Bibliography <a name="bibliography"></a>
+[1]: https://www.guru99.com/compiler-design-phases-of-compiler.html
+[2]: https://www.tutorialspoint.com/compiler_design/compiler_design_phases_of_compiler.htm
+[3]: https://www.kttpro.com/2017/02/09/six-phases-of-the-compilation-process
+[4]:. https://www.geeksforgeeks.org/recursive-descent-parser/
+[5]: https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)
+[6]: https://en.wikipedia.org/wiki/Compiler
+[7]: https://ieeexplore.ieee.org/document/5937011
+[8]: 
+[9]: 
+[10]: 
+[11]: 
+[12]:
+[13]: 
+[14]: 
+[15]: https://www.computerhope.com/jargon.htm
+[16]: https://en.wikibooks.org/wiki/Compiler_Construction/Glossary
+[17]: https://www.cs.utexas.edu/users/novak/cs375vocab.html
+[18]: https://github.com/rsumner31/awesome-compilers#compilers-and-interpreters
+[19]: https://insights.stackoverflow.com/survey/2019
+[20]: https://www.simplilearn.com/best-programming-languages-start-learning-today-article
+[21]: https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
+[22]: https://en.wikipedia.org/wiki/Compiler_correctness
 
 ## Appendices <a name="appendices"></a>
+### Resources <a name="a.1"></a>
+- [Source Code](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/java) - Contains the source code for the compiler.
+- [GUI Resources](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/resources) - GUI layout and styling resources, including FXML, CSS, and image files.
+- [Weekly Log Reports](https://llefe001.tumblr.com/) - Tumblr blog consisting of weekly logs written throughout development.
+- [Proposals](https://github.com/louislefevre/onyx-compiler/tree/master/docs) - Includes copies of the ideation, specification, and interim reports. Also includes a markdown version of this report.
+
+### UML Diagrams <a name="a.2"></a>
+
+
+### Screenshots <a name="a.3"></a>
 
 
 ## Glossary of Terms <a name="terms"></a>
 <dl>
   <dt>Annotated parse tree</dt>
-  <dd>The parse tree containing the values of attributes at each node for given input string is called annotated or decorated parse tree.[11]</dd>
+  <dd>A parse tree that is annotated with additional type information.[17]</dd>
   <dt>Block statement</dt>
-  <dd>A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop.[8]</dd>
+  <dd>A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop.[15]</dd>
   <dt>Expression</dt>
-  <dd>A combination of letters, numbers, or symbols used to represent a value.[8]</dd>
+  <dd>A combination of letters, numbers, or symbols used to represent a value.[15]</dd>
   <dt>Identifier</dt>
-  <dd>Identifier means the same as name. The term identifier is usually used for variable names.[8]</dd>
+  <dd>Identifier means the same as name. The term identifier is usually used for variable names.[15]</dd>
   <dt>Keyword</dt>
   <dd>Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code.[16]</dd>
   <dt>Lexeme</dt>
@@ -566,7 +576,7 @@ Going into this project I had no knowledge or experience working with compilers,
   <dt>Parsing</dt>
   <dd>The process of reading a source language, determining its structure, and producing intermediate code for it.[17]</dd>
   <dt>Real evaluate print loop</dt>
-  <dd>Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result.[8]</dd>
+  <dd>Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result.[15]</dd>
   <dt>Recursive Descent Parser</dt>
   <dd>A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output.[17]</dd>
   <dt>Scope</dt>
@@ -574,7 +584,7 @@ Going into this project I had no knowledge or experience working with compilers,
   <dt>Semantic information</dt>
   <dd>The meaning of a statement in a language.[17]</dd>
   <dt>Statement</dt>
-  <dd>A statement is a single line of code that is used to perform a specific task.[8]</dd>
+  <dd>A statement is a single line of code that is used to perform a specific task.[15]</dd>
   <dt>Symbol</dt>
   <dd>Refers to a variable stored within the symbol table.</dd>
   <dt>Symbol table</dt>
