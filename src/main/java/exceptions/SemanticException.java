@@ -2,7 +2,7 @@ package exceptions;
 
 import static types.ExceptionType.SEMANTIC_EXCEPTION;
 
-public class SemanticException extends Exception
+public final class SemanticException extends Exception
 {
     public SemanticException(String message)
     {
