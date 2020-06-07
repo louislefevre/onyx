@@ -38,8 +38,7 @@ public final class Parser
 
     private Statement replTree()
     {
-        Expression expression = parseExpression();
-        Statement statement = new ExpressionStatement(expression);
+        Statement statement = parseExpressionStatement();
         Token endToken = parseToken(EOF_TOKEN);
         return new SourceStatement(statement, endToken);
     }
