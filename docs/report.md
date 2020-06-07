@@ -383,16 +383,18 @@ The main portion of the GUI would be the IDE, which houses the main components f
 An extra feature that comes with the IDE is the REPL; a simple program that reads input one line at a time and returns a result. It contains a system for tracking variables, including information about their type, value, and name. The purpose is to provide a simpler, more visual method for understanding the basics of writing mathematical expressions and declaring variables. It essentially acts a simplified version of the compiler and is provided for learners who are struggling to take in entire programs at once, since instead it gives them the opportunity to do things one line of code at a time. Its also worth noting that the REPL doesn't include the use of conditionals or loops, as it is intended for single-line statements rather than multi-line ones.
 
 ## Chapter 5 - Implementation <a name="5"></a>
-The implementation portion of the project involved completing both a compiler and a GUI individually, the details for which is discussed in the following sections.
+The implementation portion of the project involved completing both a compiler and a GUI individually, the details for which is discussed in the following sections. Its worth noting that only the primary components will be discussed and at best in a general sense, as the codebase is too large and complex to fit into this report. For more information about the specific workings of each individual method, its best to refer to the code comments.
 
 ### 5.1 Compiler Implementation <a name="5.1"></a>
 Implementation of the compiler meant following the design from the previous chapter and finding a way to apply it in Java. It has been built in a way where the components are as modular as possible, with each stage feeding into the next. This structure made it rather trivial to isolate each aspect and then implement the functionality individually, so exploring the source code isn't too challenging.
 
 #### 5.1.1 Lexer <a name="5.1.1"></a>
-
+The lexer loops through the source text and analyses each character individually, with the goal of producing a token to represent it. The character is checked to see if its a line break, whitespace, digit, letter, or operator symbol, with the first one that matches calling its corresponding method, which deconstructs the character to discover more information. A token object is produced that contains data regarding its type, syntax, value, and position in the text. The token is then placed in the tokens list, and the next character is reviewed in the same manner. If a character fails to fall into any of the defined categories it is deemed invalid and a error is returned, with a 'bad token' being produced in its place. The purpose of this filler token is to prevent issues with parsing in future stages, as the compiler is designed to be capable of continuing execution despite mistakes in the code.
 
 #### 5.1.2 Parser <a name="5.1.2"></a>
+Parser execution changes depending on whether the compiler is in REPL mode, which allows expressions to be written as statements but disallows the user of loops and conditionals. If REPL mode is not activated, then the opposite occurs. In the case of the latter, each line is parsed individually by using line breaks; the presence of a break indicates that the end of the line has been reached. When a line is parsed it is first checked to see if it begins with any particular keywords that can only be found at the start of a line, such as 'if', 'loop', open braces, and identifiers (those at the start of a line are unique as they act as the programs print functionality, so when a line begins with solely an identifiers name its value is printed). Should there be a match the corresponding method will be called, otherwise the line is deemed an invalid statement and an error is returned.
 
+If the statement is valid however, its expressions are parsed recursively by looking at each token and matching it with whats expected. For example, if a statement begins with an identifier token, it looks at the next token to see if it is an assignment operator. If true then its deemed the code must be assigning a value to a variable, and a object is produced that contains all the information about that statement. If false then it continues to check for valid syntax combinations, such as a binary expression where the code is performing a mathematical operation on the identifier. The parser works its way down the series of possibilities, attempting to find a valid match for the syntax. If no match is found in the end then the statement must contain invalid syntax and an error is reported, with a dummy expression being produced in its place to allow parsing to continue. This process repeats for each statement, with the final output being a parse tree that contains all the information detailing how the program is structured.
 
 #### 5.1.3 Type Checker <a name="5.1.3"></a>
 
@@ -545,64 +547,24 @@ Going into this project I had no knowledge or experience working with compilers,
 
 ## Glossary of Terms <a name="terms"></a>
 <dl>
-  <dt>Abstraction</dt>
-  <dd>Show only the essentials to reduce the abstract of change.[8]</dd>
-  <dt>Allman style</dt>
-  <dd>An indentation style that puts the brace associated with a control statement on the next line, indented to the same level as the control statement. Statements within the braces are indented to the next level.[10]</dd>
   <dt>Annotated parse tree</dt>
   <dd>The parse tree containing the values of attributes at each node for given input string is called annotated or decorated parse tree.[11]</dd>
   <dt>Block statement</dt>
   <dd>A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop.[8]</dd>
-  <dt>Compile</dt>
-  <dd>The process of creating an executable program from code written in a compiled programming language. Compiling allows the computer to run and understand the program without the need of the programming software used to create it.[8]</dd>
-  <dt>Data driven</dt>
-  <dd>Data-driven means that progress in an activity is compelled by data, rather than by intuition or by personal experience.[12]</dd>
-  <dt>Data structure</dt>
-  <dd>A predefined format for efficiently storing, accessing, and processing data in a computer program.[8]</dd>
-  <dt>Data type</dt>
-  <dd>A classification that dictates what a variable or object can hold in computer programming.[8]</dd>
-  <dt>Dynamic typing</dt>
-  <dd>Dynamic typed programming languages are those languages in which variables must necessarily be defined before they are used. This implies that dynamic typed languages do not require the explicit declaration of the variables before they’re used.[13]</dd>
-  <dt>Error</dt>
-  <dd>An error describes any issue that arises unexpectedly that cause a computer to not function properly.</dd>
-  <dt>Exception</dt>
-  <dd>An exception is a special condition encountered during program execution that is unexpected or anomalous. For example, if a program tries to open a file that doesn't exist or gets a read error, this condition is an exception.[8]</dd>
   <dt>Expression</dt>
   <dd>A combination of letters, numbers, or symbols used to represent a value.[8]</dd>
-  <dt>Hash map</dt>
-  <dd>A Map based collection class that is used for storing Key and value pairs.[14]</dd>
   <dt>Identifier</dt>
   <dd>Identifier means the same as name. The term identifier is usually used for variable names.[8]</dd>
-  <dt>Integer</dt>
-  <dd>An integer is a positive or negative whole number.[8]</dd>
-  <dt>Integrated development environment</dt>
-  <dd>IDE is short for integrated development environment, and are visual tools that allow programmers to develop programs more efficiently.[8]</dd>
-  <dt>Java</dt>
-  <dd>Java is an object-oriented programming language.[8]</dd>
-  <dt>JavaScript</dt>
-  <dd>JavaScript is an interpreted client-side scripting language that allows a web designer the ability to insert code into their web page. JavaScript is commonly placed into an HTML or ASP file and runs directly from the web page and today is the most popular programming language.[8]</dd>
-  <dt>Java Virtual Machine</dt>
-  <dd>JVM is short for Java Virtual Machine. JVM is an abstract computing machine, or virtual machine. It is a platform-independent execution environment that converts Java bytecode into machine language and executes it.[9]</dd>
   <dt>Keyword</dt>
   <dd>Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code.[16]</dd>
   <dt>Lexeme</dt>
   <dd>A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language.[17]</dd>
-  <dt>Machine language</dt>
-  <dd>This is the lowest level language. It consists of just binary digits. It was only ever used when computers were first invented to create the first compilers.[16]</dd>
   <dt>Object binding</dt>
   <dd>The association of a name with a variable or value.[17]</dd>
-  <dt>Objected oriented programming</dt>
-  <dd>Object-oriented programming (OOP) refers to a type of computer programming (software design) in which programmers define the data type of a data structure, and also the types of operations (functions) that can be applied to the data structure.[9]</dd>
-  <dt>Parse</dt>
-  <dd>To parse data or information means to break it down into component parts so that its syntax can be analyzed, categorized, and understood.[8]</dd>
   <dt>Parse tree</dt>
   <dd>A data structure that shows how a statement in a language is derived from the context-free grammar of the language.[17]</dd>
   <dt>Parsing</dt>
   <dd>The process of reading a source language, determining its structure, and producing intermediate code for it.[17]</dd>
-  <dt>Pipeline</dt>
-  <dd>A pipeline consists of a chain of processing elements, arranged so that the output of each element is the input of the next.[15]</dd>
-  <dt>Python</dt>
-  <dd>An interpreted, object-oriented programming language.[9]</dd>
   <dt>Real evaluate print loop</dt>
   <dd>Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result.[8]</dd>
   <dt>Recursive Descent Parser</dt>
@@ -611,24 +573,14 @@ Going into this project I had no knowledge or experience working with compilers,
   <dd>The region of program text over which a name can be referenced.[17]</dd>
   <dt>Semantic information</dt>
   <dd>The meaning of a statement in a language.[17]</dd>
-  <dt>Source code/program</dt>
-  <dd>When referring to computer programming or software, source or source code refers to the code used to create the program.[8]</dd>
   <dt>Statement</dt>
   <dd>A statement is a single line of code that is used to perform a specific task.[8]</dd>
-  <dt>Static typing</dt>
-  <dd>Static typed programming languages are those in which variables need not be defined before they’re used. This implies that static typing has to do with the explicit declaration (or initialization) of variables before they’re employed.[13]</dd>
   <dt>Symbol</dt>
   <dd>Refers to a variable stored within the symbol table.</dd>
   <dt>Symbol table</dt>
   <dd>A data structure that associates a name (symbol) with information about the named object.[17]</dd>
-  <dt>Syntax</dt>
-  <dd>The rules by which legitimate statements can be constructed.[17]</dd>
   <dt>Token</dt>
   <dd>A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character.[16]</dd>
   <dt>Type checking</dt>
   <dd>Tests performed by the compiler to ensure that types of data involved in an operation are compatible.[17]</dd>
-  <dt>Unit test</dt>
-  <dd>A unit test is performed on sections of code in computer programs to make sure they are functioning properly.[8]</dd>
-  <dt>Variable</dt>
-  <dd>A named unit of data that may be assigned a value. If the value is modified, the name does not change.[8]</dd>
 </dl>
