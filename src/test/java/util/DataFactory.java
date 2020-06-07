@@ -1,5 +1,6 @@
 package util;
 
+import compilation.analysis.lexical.Token;
 import errors.Error;
 import errors.LexicalError;
 import errors.SemanticError;
@@ -282,17 +283,17 @@ final class DataFactory
     {
         HashMap<String, Error> syntaxErrors = new HashMap<>();
         String input;
-        SourceSpan span;
+        Token token;
         SyntaxError error;
 
         input = "(";
-        span = new SourceSpan(1, 1);
-        error = SyntaxError.invalidToken(span, EOF_TOKEN);
+        token = new Token(EOF_TOKEN, EOF_SYNTAX, 1);
+        error = SyntaxError.invalidToken(token.getSpan(), token);
         syntaxErrors.put(input, error);
 
         input = "{";
-        span = new SourceSpan(0, 1);
-        error = SyntaxError.invalidToken(span, OPEN_BRACE_TOKEN);
+        token = new Token(OPEN_BRACE_TOKEN, OPEN_BRACE_SYNTAX, 0);
+        error = SyntaxError.invalidToken(token.getSpan(), token);
         syntaxErrors.put(input, error);
 
         return syntaxErrors;

@@ -34,16 +34,20 @@ public final class ErrorHandler
         Error error = errorsLog.element();
         Error.ErrorMessage errorMessage = error.getErrorMessage(sourceInput);
 
-        Text messageText = new Text(errorMessage.getErrorInfo());
+        Text infoText = new Text(errorMessage.getErrorInfo());
         Text prefixText = new Text(errorMessage.getPrefixSyntax());
         Text errorText = new Text(errorMessage.getErrorSyntax());
         Text suffixText = new Text(errorMessage.getSuffixSyntax());
+        Text problemText = new Text(errorMessage.getProblem());
+        Text solutionText = new Text(errorMessage.getSolution());
 
-        messageText.setFill(Color.RED);
+        infoText.setFill(Color.RED);
         prefixText.setFill(Color.GREY);
         errorText.setFill(Color.RED);
         suffixText.setFill(Color.GREY);
+        problemText.setFill(Color.TOMATO);
+        solutionText.setFill(Color.CHARTREUSE);
 
-        return new TextFlow(messageText, prefixText, errorText, suffixText);
+        return new TextFlow(infoText, prefixText, errorText, suffixText, problemText, solutionText);
     }
 }

@@ -1,5 +1,6 @@
 package errors;
 
+import compilation.analysis.lexical.Token;
 import source.SourceSpan;
 import types.TokenType;
 
@@ -7,33 +8,61 @@ import static types.ErrorType.SYNTAX_ERROR;
 
 public final class SyntaxError extends Error
 {
-    public SyntaxError(SourceSpan span, String errorMessage)
+    public SyntaxError(SourceSpan span, String problem, String solution)
     {
-        super(SYNTAX_ERROR, span, errorMessage);
+        super(SYNTAX_ERROR, span, problem, solution);
     }
 
-    public static SyntaxError invalidToken(SourceSpan span, TokenType type)
+    public static SyntaxError invalidToken(SourceSpan span, Token token)
     {
-        String message = String.format("Unexpected token '%s'.", type);
-        return new SyntaxError(span, message);
+        String problem = String.format("The text '%s' is invalid.", token.getSyntax());
+        String solution = "Refer to the wiki.";
+        return new SyntaxError(span, problem, solution);
     }
 
-    public static SyntaxError invalidTokenPair(SourceSpan span, TokenType actualType, TokenType expectedType)
+    public static SyntaxError invalidTokenPair(SourceSpan span, Token token, TokenType expectedType)
     {
-        String message = String.format("Unexpected token '%1s', expected '%2s'.", actualType, expectedType);
-        return new SyntaxError(span, message);
+        String syntax = token.getSyntax();
+
+        String problem, solution;
+        switch (expectedType)
+        {
+            case LINE_BREAK_TOKEN:
+                problem = "The end of the line should be here.";
+                solution = String.format("Move the text '%s' and beyond down to the next line.", syntax);
+                break;
+            case CLOSE_PARENTHESIS_TOKEN:
+                problem = "A close parenthesis character should be here.";
+                solution = "Add a close parenthesis character (\")\") here, or remove the opening parenthesis character.";
+                break;
+            case TO_TOKEN:
+                problem = "The \"to\" keyword is missing from the loop statement.";
+                solution = "Add the \"to\" keyword where the error is marked.";
+                break;
+            case CLOSE_BRACE_TOKEN:
+                problem = "A close brace character should be here.";
+                solution = "Add a close brace character (\"}\") here, or remove the opening brace character.";
+                break;
+            default:
+                return invalidToken(span, token);
+        }
+
+        return new SyntaxError(span, problem, solution);
     }
 
     public static SyntaxError invalidStatement(SourceSpan span)
     {
-        String message = "Not a statement.";
-        return new SyntaxError(span, message);
+        String problem = "Expressions cannot be written on their own.";
+        String solution = "Try assigning this expression to a variable first. " + System.lineSeparator() +
+                          "If you are trying to print a variable, begin the expression with the variable name (e.g. \"var + 5\").";
+        return new SyntaxError(span, problem, solution);
     }
 
     public static SyntaxError expectedExpression(SourceSpan openParenSpan, SourceSpan closeParenSpan)
     {
         SourceSpan span = SourceSpan.inRange(openParenSpan.getStart(), closeParenSpan.getEnd());
-        String message = "Expression expected.";
-        return new SyntaxError(span, message);
+        String problem = "Parenthesis cannot be empty.";
+        String solution = "Write an expression within the parenthesis, or remove them entirely.";
+        return new SyntaxError(span, problem, solution);
     }
 }

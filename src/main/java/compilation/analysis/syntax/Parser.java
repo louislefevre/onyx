@@ -266,7 +266,7 @@ public final class Parser
         Token badToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
                                    currentToken.getValue(), currentToken.getPosition());
 
-        SyntaxError error = invalidToken(currentToken.getSpan(), currentToken.getType());
+        SyntaxError error = invalidToken(currentToken.getSpan(), currentToken);
         errorHandler.add(error);
 
         return new LiteralExpression(badToken, null);
@@ -274,14 +274,22 @@ public final class Parser
 
     private Token parseToken(TokenType type)
     {
-        Token currentToken = currentToken();
-        if (currentToken.getType() == type)
+        if (isCurrentTokenType(type))
             return currentTokenThenNext();
 
-        SyntaxError error = invalidTokenPair(currentToken.getSpan(), currentToken.getType(), type);
-        errorHandler.add(error);
-
+        Token currentToken = currentToken();
         return new Token(BAD_TOKEN, currentToken.getSyntax(), currentToken.getValue(), currentToken.getPosition());
+    }
+
+    private boolean isCurrentTokenType(TokenType type)
+    {
+        Token currentToken = currentToken();
+        if (currentToken.getType() == type)
+            return true;
+
+        SyntaxError error = invalidTokenPair(currentToken.getSpan(), currentToken, type);
+        errorHandler.add(error);
+        return false;
     }
 
     private TokenType currentTokenType()
