@@ -7,6 +7,7 @@ import errors.SemanticError;
 import exceptions.Exception;
 import exceptions.SemanticException;
 import source.SourceSpan;
+import symbols.Symbol;
 import symbols.SymbolTable;
 import types.ObjectType;
 import types.TokenType;
@@ -224,6 +225,12 @@ public final class TypeChecker
         ObjectType symbolType = symbolTable.contains(name) ? symbolTable.get(name).getType() : NULL_OBJECT;
         ObjectType assignmentType = expression.getObjectType();
         AnnotatedAssignmentOperator operator = TypeBinder.bindAssignmentOperators(assignmentTokenType, symbolType, assignmentType);
+
+        if(!symbolTable.contains(name))
+        {
+            Symbol symbol = new Symbol(name, assignmentType);
+            symbolTable.add(symbol);
+        }
 
         if (operator == null)
         {

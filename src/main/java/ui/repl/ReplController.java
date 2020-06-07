@@ -43,7 +43,7 @@ public final class ReplController
         if (input.isBlank())
             return;
 
-        SourceOutput sourceOutput = compiler.compileInput(input);
+        SourceOutput sourceOutput = compiler.compile(input);
         resultTextFlow.getChildren().add(0, sourceOutput.getOutput());
         resultTextFlow.getChildren().add(1, new Text(System.lineSeparator()));
 

@@ -37,7 +37,7 @@ class CompilerTest
     private Object compile(String input)
     {
         Compiler compiler = TestFactory.createCompiler(false);
-        SourceOutput output = compiler.compileInput(input);
+        SourceOutput output = compiler.compile(input);
         return output.getRawOutput();
     }
 }

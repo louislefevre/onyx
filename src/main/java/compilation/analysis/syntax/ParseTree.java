@@ -1,7 +1,6 @@
 package compilation.analysis.syntax;
 
 import compilation.analysis.lexical.Token;
-import org.jetbrains.annotations.TestOnly;
 import util.ANSI;
 
 import java.util.List;
@@ -22,7 +21,6 @@ public final class ParseTree
         return statement;
     }
 
-    @TestOnly
     public static void print()
     {
         printParseTree(staticStatement, "", true);

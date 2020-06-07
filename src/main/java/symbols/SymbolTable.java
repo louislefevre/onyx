@@ -1,7 +1,6 @@
 package symbols;
 
 import lombok.Getter;
-import org.jetbrains.annotations.TestOnly;
 import types.ObjectType;
 
 import java.util.ArrayList;
@@ -29,6 +28,11 @@ public final class SymbolTable
         return symbols.get(name);
     }
 
+    public void add(Symbol symbol)
+    {
+        add(symbol.getName(), symbol.getValue(), symbol.getType());
+    }
+
     public void add(String name, Object value, ObjectType type)
     {
         if (contains(name))
@@ -42,6 +46,11 @@ public final class SymbolTable
         symbols.put(name, symbol);
     }
 
+    public void remove(Symbol symbol)
+    {
+        remove(symbol.getName());
+    }
+
     public void remove(String name)
     {
         symbols.remove(name);
@@ -52,7 +61,6 @@ public final class SymbolTable
         symbols.clear();
     }
 
-    @TestOnly
     public void print()
     {
         if (symbols.isEmpty())
@@ -65,7 +73,7 @@ public final class SymbolTable
         for (Symbol symbol : symbols.values())
         {
             String name = symbol.getName();
-            String type =symbol.getType().toString();
+            String type = symbol.getType().name();
             String value = symbol.getValue() == null ? "null" : symbol.getValue().toString();
             rows.add(Arrays.asList(name, type, value));
         }

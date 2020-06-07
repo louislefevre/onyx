@@ -38,7 +38,7 @@ final class CodeAreaManager
         String input = codeArea.getText();
 
         Compiler compiler = new Compiler();
-        SourceOutput output = compiler.compileInput(input);
+        SourceOutput output = compiler.compile(input);
 
         compiler.printParseTree();
         compiler.printSymbolTable();

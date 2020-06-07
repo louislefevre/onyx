@@ -13,7 +13,7 @@ public final class SourceInput
 
     public SourceInput(String sourceText)
     {
-        this.sourceText = sourceText;
+        this.sourceText = cleanText(sourceText);
         this.sourceLines = parseLines(sourceText);
     }
 
@@ -40,6 +40,14 @@ public final class SourceInput
     public int getLineIndex(int position)
     {
         return searchLineList(sourceLines, 0, sourceLines.size() - 1, position);
+    }
+
+    private static String cleanText(String text)
+    {
+        String lastChar = text.substring(text.length() - 1);
+        if(!lastChar.equals(System.lineSeparator()))
+            text += System.lineSeparator();
+        return text;
     }
 
     private static List<SourceLine> parseLines(String text)

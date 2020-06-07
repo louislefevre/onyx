@@ -54,7 +54,7 @@ class ErrorHandlerTest
     private String compile(String input)
     {
         Compiler compiler = TestFactory.createCompiler(true);
-        SourceOutput sourceOutput = compiler.compileInput(input);
+        SourceOutput sourceOutput = compiler.compile(input);
         return sourceOutput.getRawOutput();
     }
 
