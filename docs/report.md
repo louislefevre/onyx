@@ -547,20 +547,25 @@ Going into this project I had no knowledge or experience working with compilers,
 22. https://en.wikipedia.org/wiki/Compiler_correctness
 
 ## Appendices <a name="appendices"></a>
-### Source Code <a name="a"></a>
+### Appendix A <a name="a"></a>
+#### Source Code
 - [Source Code](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/java) - Contains the source code for the compiler.
 - [GUI Resources](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/resources) - GUI layout and styling resources, including FXML, CSS, and image files.
 
-### Weekly Logs <a name="b"></a>
+### Appendix B <a name="b"></a>
+#### Weekly Logs 
 - [Weekly Logs](https://llefe001.tumblr.com/) - Tumblr blog consisting of weekly logs written throughout development.
 
-### Proposals <a name="c"></a>
+### Appendix C <a name="c"></a>
+#### Proposals 
 - [Proposals](https://github.com/louislefevre/onyx-compiler/tree/master/docs) - Includes copies of the ideation, specification, and interim reports. Also includes a markdown version of this report.
 
-### UML Diagrams <a name="d"></a>
+### Appendix D <a name="d"></a>
+#### UML Diagrams 
 
 
-### Screenshots <a name="e"></a>
+### Appendix E <a name="e"></a>
+#### Screenshots 
 
 
 ## Glossary of Terms <a name="terms"></a>
