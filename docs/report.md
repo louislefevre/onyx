@@ -53,8 +53,6 @@ A great deal of time and effort was required during the development of this proj
 	&nbsp;	5.1.2 [Parser](#5.1.2)  
 	&nbsp;	5.1.3 [Type Checker](#5.1.3)  
 	&nbsp;	5.1.4 [Evaluator](#5.1.4)  
-	&nbsp;	5.1.5 [Symbol Table](#5.1.5)  
-	&nbsp;	5.1.6 [Error Handler](#5.1.6)  
 	5.2 [Graphical User Interface](#5.2)  
 	&nbsp;	5.2.1 [Visual Layout](#5.2.1)  
 	&nbsp;	5.2.2 [Controllers](#5.2.2)  
@@ -83,15 +81,18 @@ A great deal of time and effort was required during the development of this proj
 	8.3 [Self Evaluation](#8.3)  
 9. [Bibliography](#bibliography)  
 10. [Appendices](#appendices)  
+	A. [Source Code](#a)  
+	B. [Weekly Logs](#b)  
+	C. [Proposals](#c)  
+	D. [UML Diagrams](#d)  
+	E. [Screenshots](#e)  
 11. [Glossary of Terms](#terms)  
 
 ## Chapter 1 - Introduction <a name="1"></a>
-Onyx is a programming language designed to be used by beginners in attempt to simplify the foundations of writing code, allowing for a more straightforward learning experience. Coupled with the language is the Onyx Compiler, a written from scratch program that compiles source code written in unique Onyx syntax down into Java.
-
-This report serves as a deeper explanation into the development of Onyx, providing insight into the inner workings of the program and the steps taken throughout its progression. Whilst  the more complex aspects of compilers and how they work will be explained in detail, it is assumed that the reader has a substantial level of knowledge with computers and in computer science as a whole.
+This report serves as a deeper explanation into the development of the Onyx Compiler - a written from scratch program that compiles Onyx source code down into Java, and aims to provide insight into the inner workings of the program and the steps taken throughout its development. Whilst the more complex aspects of compilers and how they work will be explained in detail, it is assumed that the reader has a substantial level of knowledge with computers and in computer science as a whole. Also, keep in mind that whilst there are different types of language processors (e.g. interpreters), the term 'compiler' will be used as a blanket term throughout this report.
 
 ### Aims & Objectives <a name="1.1"></a>
-The primary aim of this project is to develop a compiler and programming language specifically designed for minimalism and simplicity, targeted towards beginners who are learning programming for the first time. The language will contain only the bare minimum amount of features required to teach basic coding skills, with the objective being to reduce complexity and encourage a straightforward learning experience. Users will be capable of understanding syntax quickly and intuitively, while also being able to diagnose issues independently through the use of informative, coherent, and insightful error messages. They will also be provided with detailed documentation that avoids the use of jargon and allows for simple navigation when searching for relevant information. To compliment the compiler, a graphical user interface will also be provided that allows various tasks to be performed easily and quickly, improving work efficiency.
+The primary aim of this project is to develop a compiler and programming language specifically designed for minimalism and simplicity, targeted towards beginners who are learning programming for the first time. The language will contain only the bare minimum amount of features required to teach basic coding skills, with the objective being to reduce complexity and encourage a straightforward learning experience. Users will be capable of understanding syntax quickly and intuitively, while also being able to diagnose issues independently through the use of informative, coherent, and insightful error messages. They will also be provided with detailed documentation that avoids the use of jargon, and a structure which allows for simple navigation when searching for relevant information. To compliment the compiler, a graphical user interface will also be provided that allows various tasks to be performed easily and quickly, improving work efficiency. These points are discussed in more detail in chapter 3.
 
 ### Stakeholders <a name="1.2"></a>
 Stakeholders include clients and users: the former could be a school or personal tutoring business, whilst the latter is simply anyone who is looking to learn programming themselves. The project is aimed at people of all ages, though young children are specifically accounted for by reducing the complexity of language used in error messages, documentation, and syntax. The compiler is designed so that it can be used either by an organisation or an individual, but either way independent problem solving is encouraged.
@@ -125,54 +126,58 @@ Appraises the overall system, analysing how well it achieves its aims & objectiv
 The field of compilers is large and complex, with lots of different projects being developed for various purposes. However, it has become clear that despite this, there is a void to be filled which arguably appeals to every programmer that's ever existed.
 
 ### 2.1 The Problem <a name="2.1"></a>
-The issue is that there are a lack of languages designed purely for learning, and therefore fail to keep beginners in mind. Whilst there are thousands of guides and tutorials dedicated to teaching those with no experience in the field, its become evident that there is seemingly an absence of languages built purely for the job.
+The issue is that there are a lack of languages designed purely for learning, and therefore fail to keep beginners in mind. Whilst there are thousands of guides and tutorials dedicated to teaching those with no experience in the field, its become evident that there is seemingly an absence of languages built purely for the purpose of education.
 
-There are a number of problems that present themselves exclusively with beginners, the main one being the lack of intelligible error messages. Many languages spit out a verbose string of jargon and numbers whenever an error occurs, which while useful to experienced programmers, are completely incoherent to the uninitiated. This is a distinct example of where a language has favoured complexity at the expense of simplicity, making it significantly more difficult to understand where a program went wrong. Its also worth noting that its rare for a language to even indicate to the user how to solve a problem clearly, and instead of telling them how to solve a problem it merely just states the problem itself, with the rest being up to the user to figure out. 
+There are a number of problems that present themselves exclusively with beginners, the main one being the lack of intelligible error messages. Many languages spit out a verbose string of jargon and numbers whenever an error occurs, which while useful to experienced programmers, are completely incoherent to the uninitiated. This is a distinct example of where a language has favoured complexity at the expense of simplicity, making it significantly more difficult to understand where a program went wrong for a novice user. Its also worth noting that its rare for a language to even indicate to the user how to solve a problem clearly, and instead of telling them how to solve a problem it merely just states the problem itself, with the rest being up to the user to figure out. 
 
-Though perhaps the greatest issue faced is syntax complexity. Whilst Python solves this issue for the most part, the majority of other languages arguably have complex syntax that is completely unintuitive. They aren't designed to be read as plain English, and as such it can be extremely difficult for newcomers to understand what a program is doing simply by reading over the source code. Also due to the scale and power of modern day compilers, there is myriad of keywords and in-built functions in the users hands. Whilst useful for developing large projects, the abundance of tools can be overwhelming for users and result in an information overload.
+Though perhaps the greatest issue faced is syntax complexity. Whilst Python solves this issue for the most part, the majority of other languages arguably have complex syntax that is completely unintuitive. They aren't designed to read like plain English, and as such it can be extremely difficult for newcomers to understand what a program is doing simply by reading over the source code. Also, due to the scale and power of modern day compilers, there is myriad of keywords and in-built functions presented to the user. Whilst useful for developing large projects, the abundance of tools can be overwhelming for some and result in an information overload. This can have the effect of putting people off learning programming soon after they begin.
+
+There is already a big problem with students quitting learning early, as according to a study by the University of Pennsylvania, on average only 4% of students successfully complete online courses they've started [8]. It was also found that "roughly 40 percent of students planning engineering and science majors end up switching to other subjects or failing to get any degree" [9]. In both of these situations students drop out early or before they have even begun, possibily in part due them finding it too difficult to learn the content, and the frustration of failing early on can result in many simply giving up.
 
 ### 2.2 Existing Compilers <a name="2.2"></a>
-It's no secret that there are an abundance of compilers and languages, so it would be infeasible to go through and review each one. Instead, it would be more productive to instead focus on languages commonly used by learners.
+There are an abundance of compilers and languages, so it would be infeasible to go through and review each one. Instead, it would be more productive to instead focus on languages commonly used by learners.
 
 #### 2.2.1 Python <a name="2.2.1"></a>
-The most popular language among beginners is Python due to its flexibility, simple syntax, and abundance of tutorials[20]. In terms of tackling the problems put forward, it perhaps does the best job out of the available options. It has intuitive and naturally readable syntax, an uncommon trait amongst modern languages, whilst also being rather easy to setup. However, its error messages tend to be verbose, confusing, and fail to provide a solution. It also contains a large amount of inbuilt tools and documentation, causing it to appear daunting at the mere sight of its complexity. Whilst currently being the best tool for the job, there is vast room for improvement as Python fails to tackle a large portion of these issues.
+The most popular language among beginners is Python due to its flexibility, simple syntax, and abundance of tutorials [20]. In terms of tackling the problems put forward, it perhaps does the best job out of the available options. It has intuitive and naturally readable syntax, an uncommon trait amongst modern languages, whilst also being rather easy to setup. However, its error messages tend to be verbose, confusing, and fail to provide a solution. It also contains a large amount of inbuilt tools and documentation, causing it to appear daunting at the mere sight of its complexity. Whilst currently being the best tool for the job, there is vast room for improvement as Python fails to tackle a large portion of these issues.
 
 #### 2.2.2 JavaScript <a name="2.2.2"></a>
-JavaScript is another common choice, particularly when it comes to web development, as a 2019 survey by Stack Overflow found it to be the most popular language being used by developers[19]. It has relatively flexible and forgiving syntax compared to other object-oriented languages, whilst also being compatible with all major browsers[21]. However, it can be more difficult to setup and work with due to the fact its primarily used for front-end web development, which will also require the use of HTML/CSS. This means that users will also have to contend with learning those on top of JavaScript and having them work together, which adds an unessential extra layer of complexity. The error messages are again wordy and lack explanation, offering no insight for the inexperienced. Naturally, its clear that JavaScript fails to produce solutions for the presented problems.
+JavaScript is another common choice, particularly when it comes to web development, as a 2019 survey by Stack Overflow found it to be the most popular language being used by developers [19]. It has relatively flexible and forgiving syntax compared to other object-oriented languages, whilst also being compatible with all major browsers [21]. However, it can be more difficult to setup and work with due to the fact its primarily used for front-end web development, which will also require the use of HTML/CSS. This means that users will also have to contend with learning those on top of JavaScript and having them work together, which adds an unessential extra layer of complexity. The error messages are again wordy and lack explanation, offering no insight for the inexperienced. Naturally, its clear that JavaScript fails to produce solutions for the presented problems.
 
 #### 2.2.3 GitHub Projects <a name="2.2.3"></a>
-The GitHub repository known as [Awesome Compilers](https://github.com/rsumner31/awesome-compilers) includes a list of compilers and interpreters composed by various users[18], making it useful to review a large selection of projects all at once. Based on the descriptions and features lists for the 36 repositories included, not a single one was designed to target an audience of beginners nor specifically solve the discussed issues.
+The GitHub repository known as [Awesome Compilers](https://github.com/rsumner31/awesome-compilers) includes a list of compilers and interpreters composed by various users[18], making it useful to review a large selection of projects all at once. Based on the descriptions and features lists for the 36 repositories included, none were designed to target an audience of beginners nor specifically solve the discussed issues.
 
 ## Chapter 3 - Requirements <a name="3"></a>
-The primary purpose of The Onyx Compiler is to fill the void caused by the lack of learning-based languages, and is designed solely with beginners in mind. The compiler is not meant to be complex, and is instead designed to be as simple as possible in order to teach the foundations of programming. This project aims to solve each of the problems previously discussed, with the following detailing the main goals hoped to be achieved.
+The primary purpose of the Onyx Compiler is to fill the void caused by the lack of learning-based languages, and is designed solely with beginners in mind. The compiler is not meant to be complex, and is instead designed to be as simple as possible in order to teach the foundations of programming. This project aims to solve each of the problems previously discussed, with the following detailing the main goals hoped to be achieved.
 
 ### 3.1 Basic Functionality <a name="3.1"></a>
-The original goal was to keep the language simple with only the bare minimum amount of features, typically those taught in introductory programming courses. After reviewing such courses and consulting with tutors, there were five main features to be included: variables, operators, conditionals, loops, and functions. Given that the compiler is aimed solely at learners, the amount of functionality required is not great. The intention is to only focus on the basics, and so it will only include as much. These are the five main concepts that Onyx intends to teach its users about, and is essentially the ultimate goal for users to meet. The purpose of only including the core components is that it reduces the amount of information users are presented with, preventing information overload and stopping them from feeling overwhelmed.
+The original goal was to keep the language simple with only the bare minimum amount of features, typically those taught in introductory programming courses. A study exploring pedagogical content for introductory programming courses included a list of topics commonly taught[10], and from that as well as courses and consulting with tutors, it was found there were five main features to be included: variables, operators, conditionals, loops, and functions. Given that the compiler is aimed solely at learners, the amount of functionality required is not great. The intention is to only focus on the basics, and so it will only include as much. These are the five main concepts that Onyx intends to teach its users about, and is essentially the ultimate goal for users to meet. The purpose of only including the core components is that it reduces the amount of information users are presented with, preventing information overload and stopping them from feeling overwhelmed.
 
 ### 3.2 Data Types, Variables, & Scope <a name="3.2"></a>
-Data types to be included are: integers, doubles, booleans and strings. The purpose of this selection is provide the common data types only for a wide selection of use cases, whilst avoiding the more niche types that rarely see use and would not typically be used by beginners. To also avoid unexpected results and remove the need for understanding type compatibility, only values of the same type can be used together in expressions or an error will be returned.
+The study previously mentioned also found that students often have difficulty with initializing variables as they "do not know if it is necessary to initialize and with what value", and that students often had trouble detecting incorrect results due to data type issues [10]. Scope was also identified as an issue, as students sometimes failed to realise the difference between variables with identical names but different scopes [10]. The requirements defined below keep this in mind, and tries to deal with the issues appropriately.
+
+Data types to be included are: integers, doubles, booleans and strings. The purpose of this selection is provide the common data types which cover a wide selection of use cases, whilst avoiding the more niche types that rarely see use and would not typically be used by beginners. To also avoid unexpected results and remove the need for understanding type compatibility, only values of the same type can be used together in expressions or an error will be returned.
 
 Originally the goal was to only allow explicit variable declarations, where the user would have to define the type of a variable during declaration before it could be used. However, this idea was abandoned as providing the user with another thing to be concerned with was outside the boundaries of the projects goal of minimalism. Instead variables are implicit and do not need to be declared or given a type, only assigned. It would be possible for variables to be assigned values of different data types regardless of the type the previous value was, though it would not be possible to use variables containing contradictory data types with one another.
 
-The compiler also removes a number of features typically found in languages, such as that of scope. All variables can be accessed globally, with no such thing as local variables. Whilst this would be an issue in a more large scale language, the simple nature of Onyx makes this viable whilst removing the need for the user to learn about scoping at this level. 
+The compiler also removes a number of features typically found in languages, such as that of scope. All variables can be accessed globally, with no such thing as local variables. Whilst this would be an issue in a more large scale language, the simple nature of Onyx makes this viable whilst removing the need for the user to learn about scoping at this level.
 
 ### 3.3 Intuitive Syntax <a name="3.3"></a>
 Syntax will be designed so it reads similarly to regular English, uses intuitive mathematical expressions, and reduces the amount of characters required for certain expressions (e.g. dynamic typing to remove the need to declare data types). The objective is to make it at easy as possible for users to understand what each line is doing just by reading through the source code. For example, a loop would be written as ```loop myVar from 0 to 100 (inclusive)```. 
 
 ### 3.4 Insightful Error Messages <a name="3.4"></a>
-One of the greatest pitfalls among novice programmers is their inability to read and understand error messages, often due to their verbose and jargon-filled nature. It is common among popular languages for error messages to be returned as a long and confusing mess, which while useful for experienced users, can be devastatingly difficult to decipher for learners. Its a goal of Onyx to instead provide detailed, easy to read error messages for the user. Information will be presented in plain English without the use of jargon, and show where the error occurred using coloured markings, syntax returns, and line numbers. The simple yet explanatory error messages are intended to give a clear indication for where the errors location, what caused it, and a possible explanation for how to fix it.
+One of the greatest pitfalls among novice programmers is their inability to read and understand error messages, often due to their verbose and jargon-filled nature, and is one of the biggest difficulties with students [10]. It is common among popular languages for error messages to be returned as a long and confusing mess, which while useful for experienced users, can be devastatingly difficult to decipher for learners. Its a goal of Onyx to instead provide detailed, easy to read error messages for the user. Information will be presented in plain English without the use of jargon, and show where the error occurred using coloured markings, syntax returns, and line numbers. The simple yet explanatory error messages are intended to give a clear indication for where the errors location, what caused it, and a possible explanation for how to fix it.
 
 ### 3.5 Simple Setup <a name="3.5"></a>
 An unfortunate truth is that there are a portion of users, particularly non tech-savvy ones, who get stuck on the setup and that alone can be enough to dissuade someone from continuing. That is why Onyx aims to make setup as easy as possible through the use of Java, as the JVM provides the opportunity for cross-compatibility amongst platforms to remove the need for using a specific operating system. Its even feasible that it could run on phones, reducing the technological requirement away from computers. Furthermore, Onyx will be capable of running from an executable file without any installation, only requiring the user to download the program to begin.
 
 ## Chapter 4 - Design <a name="4"></a>
-Designing of the project involved planning in three areas: the layout and structure of the compilers source code, the syntax of the language (also known as the language specification), and the graphical user interface (the GUI). Its important that each of these aspects were targetted individually, as it made objectives far clearer and removed the need for consistent revisions during development.
+Designing of the project involved planning in three areas: the layout and structure of the compilers source code, the syntax of the language (also known as the language specification), and the graphical user interface (GUI).
 
 ### 4.1 Compiler Design <a name="4.1"></a>
-The goal of the compiler is to translate between the original syntax and Java, which means primarily focusing on front-end compiler construction. The middle-end and back-end portions are instead handled by Java, with such a design allowing the development of a language with unique syntax and functionality, without having to worry about the tricky implementation of close-to-machine-level aspects. A compiler goes through various stages when processing syntax, with each stage transforming the source programs representation in some way. In the form of a pipeline, each component takes input from its predecessor, transforms it, and feeds the output forward to the next component [1]. The amount of stages within a compiler can vary, but in the case of Onyx contains the following.
+The goal of the compiler is to translate the original Onyx syntax into Java, which means primarily focusing on front-end compiler construction. The middle-end and back-end portions are instead handled by Java, allowing for the development of a language with unique syntax and functionality without having to worry about the tricky implementation of close-to-machine-level aspects. A compiler goes through various stages when processing syntax, with each stage transforming the source programs representation in some way. In the form of a pipeline, each component takes input from its predecessor, transforms it, and feeds the output forward to the next component [1]. The amount of stages within a compiler can vary, but in the case of Onyx contains the following.
 
 #### 4.1.1 Lexical Analysis <a name="4.1.1"></a>
-Any compiler will always start with lexical analysis, which is performed by the lexer. It takes the source code as input and scans over it, typically left to right, and groups the characters into lexemes [1]. The lexer represents these lexemes in the form of tokens [2], with each token containing information about the type of data it holds. For example, given the input of an integer, the lexer would output a token that identifies the characters location in the text, its type (e.g. an integer token), and its value. This process is performed for all the characters in a given text, and the lexer outputs a stream of tokens [3]. During this phase, the lexer would also be responsible for reporting any invalid characters located in the source code.
+A compiler will typically always start with lexical analysis, which is performed by the lexer. It takes the source code as input and scans over it, typically left to right, and groups the characters into lexemes [1]. The lexer represents these lexemes in the form of tokens [2], with each token containing information about the type of data it holds. For example, given the input of an integer, the lexer would output a token that identifies the characters location in the text, its type (e.g. an integer token), and its value. This process is performed for all the characters in a given text, and the lexer outputs a stream of tokens [3]. During this phase, the lexer would also be responsible for reporting any invalid characters located in the source code.
 
 The lexer was designed to be capable of handling all types of characters, whilst also taking into account their context. It had to be capable of consistently taking in new characters and identifying them correctly, whilst also adapting to deal with characters found within particular boundaries. For example, recognising that a number occurring after quotations is a part of a string, rather than a token in its own right. The handling of invalid characters must also be considered, as otherwise the lexer would become stuck and be unable to finish, and having a robust design means never failing to take in characters and output valid tokens.
 
@@ -194,9 +199,9 @@ In summary, the primary functions of this phase is to:
 #### 4.1.2 Syntax Analysis <a name="4.1.2"></a>
 The second stage of compilation is syntax analysis, also known as parsing, and is performed by the parser. Its role is to take the list of tokens produced by the lexer as input, validate the arrangement of tokens against the programming languages grammatical rules, and from that generate a parse tree that represents the structure of the source program. The primary purpose of this component is to ensure the expressions made by the arrangement of tokens is syntactically correct, following a format defined by the language being used [2]. From this a parse tree can be generated, which demonstrates how each token is grouped together in each individual statement. The parser would also identify any syntactical errors found within the source code.
 
-The parser is designed as a recursive descent parser, which adopts a top-down parsing strategy where it begins at the highest level of the parse tree and works its way down, building the parse tree as it goes [4]. The input is read from left to right, taking in tokens until it reaches the end of the file. Each token would be identified by its type, sending the parser flow in a different direction depending on the result. The following tokens would then be checked to ensure they appear as expected, such as an equals operator token appearing after an identifier token, and an expression would be returned. This expression would contain all its relevant tokens, such as in the case of the previous example: an identifier, an equals operator, and the assignment. In the original design the parser was only able to handle expressions, but this was later extended to also process statements so that full programs could be written all at once since the former only allowed REPL-like behaviour.
+The parser is designed as a recursive descent parser, which adopts a top-down parsing strategy where it begins at the highest level and works its way down, building the parse tree as it goes [4]. The input is read from left to right, taking in tokens until it reaches the end of the file. Each token would be identified by its type, sending the parser flow in a different direction depending on the result. The following tokens would then be checked to ensure they appear as expected, such as an equals operator token appearing after an identifier token, and an expression would be returned. This expression would contain all its relevant tokens, such as in the case of the previous example: an identifier, an equals operator, and the assignment. In the original design the parser was only able to handle expressions, but this was later extended to also process statements so that full programs could be written all at once since the former only allowed REPL-like behaviour.
 
-Another aspect that had to be considered is precedence for operators. Parsers sometimes define a priority value for each operator, and during parsing they are shuffled around with the parser being data driven by those priorities, providing an indicator for which expressions to parse next. This makes the adding of additional operators much easier, as it provides the ability to view operators and see their priority order.
+Another aspect that had to be considered was precedence for operators. Parsers sometimes define a priority value for each operator, and during parsing they are shuffled around with the parser being data driven by those priorities, providing an indicator for which expressions to parse next. This makes the adding of additional operators much easier, as it provides the ability to view operators and see their priority order.
 
 In summary, the primary functions of this phase is to:
 - Retrieve the tokens from the lexer.
@@ -237,7 +242,9 @@ This will result in a type-mismatch error as integers and booleans are not compa
 #### 4.1.4 Evaluation <a name="4.1.4"></a>
 The final stage is the evaluation, performed by the aptly named evaluator. The purpose of this phase is to calculate the final outputs of each statement, revealing the final result. It reviews the annotated parse tree and with the extra information gathered by the type checker, is able to execute each expression in Java and return their values. The output is the final value of the statement being evaluated. Its also worth noting that this is where Onyx diverges when compared to other compilers, as they often instead follow semantic analysis with: intermediate code generation, code optimisation, and code generator. However, these stages are instead handled by Java and are not implemented by Onyx directly, and therefore will not be discussed here.
 
-The design of the evaluator is opposite to the parser in regards to the fact that it works through the tree bottom-up; searching the tree by beginning at the furthest nodes, carrying their results up the tree as it works through to the larger expressions, using the newly found values to do so. The result returned is only ever stored either within another statement, or if its a top level statement within a variable. Any expressions that fails to store or use its result in one form or another is discarded. Also, a unique aspect of this stage is the fact no errors occur here, as all the necessary error identification should've happened in the prior stages. However, there are fail-safe exceptions thrown should an error slip through the cracks, as it helps catch out unhandled issues during development.
+The design of the evaluator is similar to the parser in regards to the fact that it works through the tree top-down; searching the tree by beginning at the closest nodes, working its way down each branch and then carrying the result back up the tree as it works through each expression. The result is either used in a larger encompassing expression or stored within a variable, from which the value can be printed as output. Any statements or expressions that fail to store or use its result in one form or another is discarded.
+
+Also, a unique aspect of this stage is the fact no errors occur here, as all the necessary error identification should've happened in the prior stages. However, there are fail-safe exceptions thrown should an error slip through the cracks, as it helps catch unhandled issues during development. These are primarily intended to be seen only by developers, and should not occur in stable versions of the program.
 
 In summary, the primary functions of this phase is to:
 - Obtain the annotated parse tree from the type checker.
@@ -258,7 +265,7 @@ The symbol table is a data structure that is maintained throughout every phase o
 
 The symbol table is designed to be implemented in the form of a hash map, with the name of the identifier as the key and the value and type as the value. Each of the previous stages has access to the symbol table, and are able to use it to check whether or not a symbol is contained within the table, as well as retrieve any information about a particular one. This is most prominent during the type checker and evaluator, as during these two stages is when types begin to become relevant for the reasons previously described.
 
-In summary, the primary functions of this phase is to:
+In summary, the primary functions of this component is to:
 - Store the names of identifiers, along with their value and type.
 - Provide a method for adding and removing symbols.
 - Allow retrieval of information on symbols contained within the symbol table.
@@ -286,7 +293,7 @@ The error handler is responsible for handling errors before continuing with the 
 
 In order to prevent interruption, Onyx is designed so that it may continue should an error occur. While this makes no difference in terms of the output (as only the error message is returned rather than any calculated result), it allows certain processes to continue being performed. For example during the generation of the parse tree, when an error occurs the invalid element is replaced by a placeholder (holding a null value), allowing the parse tree to still be built despite the invalid syntax. This means the compiler can still provide information regarding the tree for the rest of the syntax, as well as things like data types. By not having the compiler quit dead in its tracks during compilation it opens up the possibility to gather more information, as well as potentially provide tooling in the future.
 
-In summary, the primary functions of this phase is to:
+In summary, the primary functions of this component is to:
 - Receive errors from each stage of compilation.
 - Format those errors and generate a detailed message.
 - Output the error message to the user.
@@ -300,10 +307,10 @@ Error (2, 2): Binary operator '*' is not defined for type 'boolean' and 'integer
 ```
 
 ### 4.2 Language Specification <a name="4.2"></a>
-The language specification is what defines a programming language, detailing what valid syntax is and the behaviour comes from it. Onyx was designed with simplicity in mind, so the requirement for maintaining a simple specification was perhaps the most vital aspect during design. The main idea was to ensure each piece of functionality would be written and work as intuitively as possible, in order to leave little room for the user to be confused as to why something was working the way it was.
+The language specification is what defines a programming language, detailing what valid syntax is and the behaviour that comes from it. Onyx was designed with simplicity in mind, so the requirement for maintaining a simple specification was perhaps the most vital aspect during design. The main idea was to ensure each piece of functionality would be written and work as intuitively as possible, in order to leave little room for the user to be confused as to why something was working the way it was. The full specification can be found in the [Onyx documentation wiki](https://github.com/louislefevre/onyx-compiler/wiki).
 
 #### 4.2.1 Data Types <a name="4.2.1"></a>
-Onyx was designed to use only the most basic and necessary data types. Languages such as Java include a large amount of variations for essentially what is the same data type, except with varying amounts of memory. For example, integers along with bytes, shorts, and longs. It was prudent to not consider these redundancies for use, due to the fact that their benefit of using less memory would not prove useful in the context of learning. Instead the compiler only contains the following types: integer, double, boolean, string. This allows the compiler to still provide all the necessary functionality typically found in most languages, except without the extra cruft that would do nothing except make learning more difficult.
+Onyx was designed to use only the most basic and necessary data types. Languages such as Java include a large amount of variations for essentially what is the same data type, except with varying amounts of memory. For example, integers along with bytes, shorts, and longs. It was prudent to not consider these redundancies for use, due to the fact that their benefit of using less memory would not prove useful in the context of learning. Instead the compiler only contains the following types: integer, double, boolean, string. This still provides all the necessary functionality typically found in most languages, except without the extra cruft that would do nothing except make learning more difficult.
 
 Its worth noting that the compiler does not allow different data types to be used together. For example, an integer cannot be used with a double in any operations. The purpose of this is to help provide a clear distinction between data types and avoid unexpected results that are difficult to debug for novices, since type errors are not always obvious particularly when used with variables.
 
@@ -316,7 +323,7 @@ d = "text" (string)
 ```
 
 #### 4.2.2 Variables <a name="4.2.2"></a>
-In the original design it was thought that the language would be statically typed, requiring all variables to have their data types declared before use. This was later changed, however, so that the language was dynamically typed. The reason for this is that it made things far more simple from a user perspective, as variables could be reassigned at will without having to be concerned about the declared type, whilst also avoiding the worry of unexpected results due to the fact different types are incompatible with one enough when operated on. Not requiring users to declare variables before use was a good method of simplifying the language even further, since it removed the need to understand why declaring is necessary.
+In the original design it was thought that the language would be statically typed, requiring all variables to have their data types declared before use. This was later changed, however, so that the language was dynamically typed. The reason for this is that it made things far more simple from a user perspective, as variables could be reassigned at will without having to be concerned about the declared type, whilst also avoiding the worry of unexpected results due to the fact different types are incompatible with one another when operated on. Not requiring users to declare variables before use was a good method of simplifying the language even further, since it removed the need to understand why declaring is necessary.
 
 Variable scope in Onyx is also always kept global, no matter where a variable is declared. This design choice was primarily made due to the fact it removed the need for users to learn about scoping, and thus avoiding issues related to variables being out of bounds. In a much larger language this would of course be a major issue, but due to the fact programs written in Onyx will typically be very short in length and its purpose is simply to learn basic programming functionality, its not expected to cause problems.
 
@@ -339,7 +346,7 @@ a += 15    (shorthand form using plus-assignment operator)
 ```
 
 #### 4.2.4 Conditionals <a name="4.2.4"></a>
-Conditional statements in Onyx are not too different from traditional languages and combines attributes from both Python and Java. For example, the specification doesn't require the use of parentheses for the condition but still allows them, giving the user the opportunity to use whichever they feel most comfortable with. However, a more imperative property is the presence of braces; they are required when declaring a block statement (code greater than 1 line), but can be avoided when encompassing only a single statement. In the former case the entire block will be executed, but in the latter only the next statement is executed. It was made a point that Onyx would not feature block statements that lack the use of braces, which is allowed in Python. The reason for this is that it can become very unclear which code belongs where, particularly when block groupings depend solely on indentation as in indicator. Whilst this is not an issue when only a single statement is involved, more than that can become confusing for users and thus has been disallowed entirely.
+Conditional statements in Onyx are not too different from traditional languages and combines attributes from both Python and Java. For example, the specification doesn't require the use of parentheses for the condition but still allows them, giving the user the opportunity to use whichever they feel most comfortable with. However, a more imperative property is the presence of braces; they are required when declaring a block statement (code greater than 1 line), but can be avoided when encompassing only a single statement. In the former case the entire block will be executed, but in the latter only the next statement is executed. It was made a point that Onyx would not feature block statements that lack the use of braces, as is allowed in Python. The reason for this is that it can become very unclear which code belongs where, particularly when block groupings depend solely on indentation as in indicator. Whilst this is not an issue when only a single statement is involved, more than that can become confusing for users and thus has been disallowed entirely.
 
 Another notable design feature is the enforcement of Allman style indentation, which means open braces must begin on a new line and the use of single-line conditional statements is disallowed. This is intended to encourage the use of writing clearer, more modular code, whilst also providing the additional benefit of having all code written in Onyx look the same, allowing for easier reviewing of other users work.
 
@@ -360,33 +367,30 @@ if a < 20
 ```
 
 #### 4.2.5 Loops <a name="4.2.5"></a>
-Loops are designed with intuition in mind, and attempts to adopt Pythons style of looping by having the syntax read more as a sentence. The purpose is to have loops be clearer in their functionality just by reading the syntax, unlike in Java where its not easily understandable to the untrained eye how loops are working without a detailed explanation. Many of the other properties of loops are the same as conditionals, such as the enforcement of Allman style indentation and the use of braces in block statements, the reasons for which were explained in the previous section. Though a feat unique to Onyx loops is the inclusion of the upper bound value, which is uncommon in traditional language specifications. When looping it is often the case that the final upper bound value is not executed in the loops body, which is one of the more unintuitive aspects of programming. However, the compiler remedies this by always including the upper value in the execution of the code.
+Loops are designed with intuition in mind, and attempts to adopt Python's style of looping by having the syntax read more as a sentence. The purpose is to have loops be clearer in their functionality just by reading them, unlike in Java where its not easily understandable to the untrained eye how loops are working without a detailed explanation. Many of the other properties of loops are the same as conditionals, such as the enforcement of Allman style indentation and the use of braces in block statements, the reasons for which were explained in the previous section. Though a feat unique to Onyx loops is the inclusion of the upper bound value, which is uncommon in traditional language specifications. When looping it is often the case that the final upper bound value is not executed in the loops body, which is one of the more unintuitive aspects of programming. However, the compiler remedies this by always including the upper value in the execution of the code.
 
 ##### Example
 ```
 var = 0
 
 loop i from 1 to 10
-{
     var += i
-    var *= 2
-}
 ```
 
 ### 4.3 Graphical User Interface <a name="4.3"></a>
-The GUI was designed with minimalism in mind as it had to be clear how to use immediately on first use, whilst also not being too daunting for beginners. The main tools needed for regular use also had to be in clear sight all the time, whilst extra functionality would be somewhat hidden out the way until required. Essentially, a sort of abstraction was kept in mind during its planning.
+The GUI was designed with minimalism in mind as it had to be clear how to use immediately on first use, whilst also not being too daunting for beginners. The main tools needed for regular use also had to be in clear sight all the time, with extra functionality being somewhat hidden until required. Essentially, a sort of abstraction was kept in mind during its planning.
 
 #### 4.3.1 Integrated Development Environment <a name="4.3.1"></a>
-The main portion of the GUI would be the IDE, which houses the main components for entering code, running the program, and examining the output. Aside from a menu, these three things are the only elements found within the main interface. The purpose of this is to keep it simple, with only the most necessary components found in plain sight. As previously mentioned the design will also include a menu bar at the top of the IDE, which will be responsible for housing an array of extra functionality. Some of this extra functionality included in the menu bar is file management (e.g. opening and saving files), links for help documentation, and opening the REPL (discussed in the next section). The IDE also has its own syntax highlighting, designed with complimentary colours in mind that make it easy to distinguish between syntax and their associated functionality.
+The main portion of the GUI would be the IDE, which houses the components for entering code, running the program, and printing the output. Aside from a menu, these three things are the only elements found within the main interface. The purpose of this is to keep it simple, with only the most necessary components found in plain sight. As previously mentioned the design will also include a menu bar at the top, which will be responsible for housing an array of extra functionality. Some of this extra functionality includes file management (e.g. opening and saving files), links for help documentation, and opening the REPL (discussed in the next section). The IDE also has its own syntax highlighting, designed with complimentary colours in mind that make it easy to distinguish between syntax and their associated functionality.
 
 #### 4.3.2 Read Evaluate Print Loop <a name="4.3.2"></a>
-An extra feature that comes with the IDE is the REPL; a simple program that reads input one line at a time and returns a result. It contains a system for tracking variables, including information about their type, value, and name. The purpose is to provide a simpler, more visual method for understanding the basics of writing mathematical expressions and declaring variables. It essentially acts a simplified version of the compiler and is provided for learners who are struggling to take in entire programs at once, since instead it gives them the opportunity to do things one line of code at a time. Its also worth noting that the REPL doesn't include the use of conditionals or loops, as it is intended for single-line statements rather than multi-line ones.
+An extra feature that comes with the IDE is the REPL; a simple program that reads input one line at a time and returns a result. It contains a system for tracking variables, including information about their type, value, and name. The purpose is to provide a simpler, more visual method for understanding the basics of writing mathematical expressions and declaring variables. It essentially acts a simplified version of the compiler and is provided for learners who are struggling to take in entire programs at once, since instead it gives them the opportunity to do things one line of code at a time. Its also worth noting that the REPL doesn't include the use of conditionals or loops, as it is intended for single-line statements only rather than multi-line ones.
 
 ## Chapter 5 - Implementation <a name="5"></a>
-The implementation portion of the project involved completing both a compiler and a GUI individually, the details for which is discussed in the following sections. Its worth noting that only the primary components will be discussed and at best in a general sense, as the codebase is too large and complex to fit into this report. For more information about the specific workings of each individual method, its best to refer to the code comments.
+The implementation portion of the project involved completing both a compiler and a GUI individually, the details for which is discussed in the following sections. Its worth noting that only the primary components will be discussed and at best in a general sense, as the codebase is too large and complex to fit into this report. For more information about the specific workings of each individual method, its best to refer to the code itself and review the comments.
 
 ### 5.1 Compiler Implementation <a name="5.1"></a>
-Implementation of the compiler meant following the design from the previous chapter and finding a way to apply it in Java. It has been built in a way where the components are as modular as possible, with each stage feeding into the next. This structure made it rather trivial to isolate each aspect and then implement the functionality individually, so exploring the source code isn't too challenging.
+Implementation of the compiler meant following the design from the previous chapter and finding a way to apply it in Java. It has been built in a way where the components are as modular as possible, with each stage feeding into the next in the form of a pipeline. This structure made it rather trivial to isolate each aspect and then implement the functionality individually, so exploring the source code isn't too challenging.
 
 #### 5.1.1 Lexer <a name="5.1.1"></a>
 The lexer loops through the source text and analyses each character individually, with the goal of producing a token to represent it. The character is checked to see if its a line break, whitespace, digit, letter, or operator symbol, with the first one that matches calling its corresponding method, which deconstructs the character to discover more information. A token object is produced that contains data regarding its type, syntax, value, and position in the text. The token is then placed in the tokens list, and the next character is reviewed in the same manner. If a character fails to fall into any of the defined categories it is deemed invalid and a error is returned, with a 'bad token' being produced in its place. The purpose of this filler token is to prevent issues with parsing in future stages, as the compiler is designed to be capable of continuing execution despite mistakes in the code. The final output of the lexer is a list of token objects.
@@ -435,7 +439,7 @@ To test that Onyx successfully meets the requirements and specifications origina
 The objective of this procedure is to discover whether or not the compiler is successfully able to meet the needs and requirements previously defined, in order to prove itself as a useful product amongst its stakeholders.
 
 ### 6.1.1 User Testing <a name="6.1.1"></a>
-At the time of writing it is currently difficult for user testing to take place due to the fact the country is currently experiencing a lock-down due to the ensuing pandemic. As a result, gathering people for testing has proved difficult and resulted in a limited sample. However, despite not being able to test users directly it has been possible to get in touch with Atikah, a coding tutor who works for the computer training school Spark4Kids and has experience in helping young children to learn basic programming skills.
+At the time of writing it is currently difficult for user testing to take place due to the fact the country is currently experiencing a lock-down due to the ensuing pandemic. As a result, gathering and contacting people who are available for testing has proved difficult and resulted in a limited sample. However, despite not being able to test users directly it has been possible to get in touch with Atikah, a coding tutor who works for the computer training school Spark4Kids and has experience in helping young children to learn basic programming skills.
 
 **Question 1: How do you feel about the scope of the compiler? Does it have too many or too little features for its intended purpose?**  
 Atikah explained that she felt the scope of the compiler was just right; it covered all the basics without going into too much of the more complex features, which she often found were confusing for beginners to deal with. By keeping it limited it made it easier to focus on each individual aspect and create clearer goals in terms of learning. 
@@ -466,7 +470,7 @@ In order to expand these test cases they were also used in conjunction with one 
 Validating the type checker was rather similar to the parser in terms of how it was implemented, as not much changes outside of data types. Again each test was compartmentalised into various categories, with the result being compared against the expected expression type. Though since the role of the type checker is to validate type compatibility between operands and operators, the successful return of the correct expression type meant that type validation was achieved and its function was performed correctly.
 
 #### 6.2.4 Evaluator Testing <a name="6.2.4"></a>
-The evaluators main job is to evaluate each expression and statement, returning the resulting values. This was particularly simple to test since it only required surveying the final result. Each unit test would take expressions of a particular type, same as previously, and evaluate the results by running them through the evaluator. The values returned were then compared against the expected outcome, and if they matched the tests passed. It was again rather imperative that this stage used a large pool of inputs for testing, as the amount of possibilities is extremely large and would potentially reveal a significant number of edge case issues.
+The evaluators main job is to evaluate each expression and statement, returning the resulting values. This was particularly simple to test since it only required surveying the final result. Each unit test would take expressions of a particular type, same as previously, and evaluate the results by running them through the evaluator. The values returned were then compared against the expected outcome, and if they matched then the tests passed. It was again rather imperative that this stage used a substantial pool of inputs for testing, as the amount of possibilities is extremely large and would potentially reveal a significant number of edge case issues.
 
 #### 6.2.5 Error Handler Testing <a name="6.2.5"></a>
 The final stage of unit testing takes place within the error handler, whose primary responsibility is to receive errors and output them to the user. Up until this point the unit tests have focused on correct inputs rather than incorrect ones, so this is where invalid syntax is purposely passed to see if the expected error message is returned. This was broken down into three categories: lexical errors occurring in the lexer, syntax errors occurring in the parser, and semantic errors occurring in the type checker. If the broken syntax resulted in the expected error occurring, it can be verified that the compiler successfully handles errors should they transpire.
@@ -475,7 +479,7 @@ The final stage of unit testing takes place within the error handler, whose prim
 The success of the project is largely based on whether or not the requirements previously discussed in chapter 3 have been met, with each of the primary pieces of functionality from the original plans being reviewed.
 
 ### 7.1 Basic Functionality <a name="7.1"></a>
-The goal for implementing only the bare minimum amount of features was successful, with variables, operators, conditionals, and loops being include. Each of these is kept simple and they are capable of working together in order to form an overall working compiler. The only missing piece is functions, as they were not prioritised and ended up not being complete. However, this is not of great concern since they are not vital in regards to overall functionality and in some regards could begin to complicate the system unnecessarily as it may be seen as out of scope. As previously discussed with users, it was also clarified that they agreed the scope was on point and avoided being too simple or too complex.
+The goal for implementing only the bare minimum amount of features was successful, with variables, operators, conditionals, and loops being include. Each of these is kept simple and they are capable of working together in order to form a functioning compiler. The only missing component is functions, as they were not prioritised and ended up not being completed. However, they are not vital in regards to overall functionality and in some regards could begin to complicate the system unnecessarily as it may be seen as out of scope. As previously discussed with users, it was also clarified that they agreed the scope was on point and avoided being too simple or too complex.
 
 ### 7.2 Data Types, Variables, & Scope <a name="7.2"></a>
 The four data types originally planned were integers, doubles, booleans and strings, with each one being added successfully. Whilst none of the types are compatible, there was a plan during development to allow the use of doubles and integers together. However, it was deemed that this would be too inconsistent and raise confusion with users over type compatibility, whilst also producing unexpected results. The main limitation is that users can only store integer values up to a maximum of 2^31-1, though this is unlikely to be a common problem as they will typically be working with smaller numbers for learning. In any case, its possible this will be changed so that integers are automatically converted to longs whenever a number exceeds the limit (with this process being hidden from the user).
@@ -483,7 +487,7 @@ The four data types originally planned were integers, doubles, booleans and stri
 Variables are implicitly defined, not requiring any kind of type declaration. Whenever a variable is assigned with a new value of a different type, this conversion is allowed so long as no other operation is being performed at the same (e.g. adding, subtracting, etc). All variables are also accessible on the global scope, making it possible to declare them within loops and conditionals.
 
 ### 7.3 Intuitive Syntax <a name="7.3"></a>
-For the syntax there was a plan to use English words for nearly everything in order to make it as intuitive as possible, an example being ```var equals 10```. Though from user testing it became apparent that the main audience this was thought to benefit (young children) would not find it very helpful, and were perfectly capable of understanding regular mathematical syntax. As a result the language is written to use English for variables, conditionals and loops, and operators for any kind of data manipulation. This is essentially a good middle ground where any written code is not complex and easy to understand, whilst also not being too verbose.
+For the syntax there was a plan to use English words for nearly everything in order to make it as intuitive as possible, an example being ```var equals 10```. Though from user testing it became apparent that the main audience this was thought to benefit (young children) would not find it very helpful, and were perfectly capable of understanding regular mathematical syntax. As a result the language is written to use English for variables, conditionals and loops, and operators for any kind of data manipulation. This was a good middle ground where any written code is not complex and easy to understand, whilst also not being too verbose.
 
 ### 7.4 Insightful Error Messages <a name="7.4"></a>
 Error messages have been made as simple as possible, and include line numbers, coloured markings, description of the error, and a possible solution. An effort was made to remove use of any jargon and have the problem explained in a clear manner that keeps beginners in mind; an attempt to remove confusion and frustration during learning experiences.
@@ -511,86 +515,90 @@ Improving the compiler correctness, which is a a branch of computer science that
 Cleaning up the code base for the GUI portion is also planned for the future, as currently its rather messy and isn't easy to understand. The reason for this is that it was built without prior knowledge of common practices or conventions, and was just configured until it worked. Whilst this isn't much of an issue now considering everything functions as expected, over time it will become more difficult to implement more features if the foundations are shaky, likely leading to unexpected results and hard to track down bugs. The sooner the issue is dealt with, the easier it will be to fix. Extending the GUI with extra features is also a prospect, as currently it only contains the most basic functionality. Filling in the 'Edit' menu would be priority since it is currently empty, and would include options for searching for text, replacing text, undo/redo changes, copy/pasting, and formatting. 
 
 #### 8.2.3 Implementing Functions <a name="8.2.3"></a>
-Functions were included in the original requirements but never added, though implementing them in the future may be useful. Whilst its a concern that functions may be out of scope for Onyx, this issue could be avoided if built in such a way that its not too intrusive or complex. Plus its possible they could be seen as optional to use rather than required, in which case the extra layer of complexity may be avoided by users if they wish. 
+Functions were included in the original requirements but never added, though implementing them in the future may be useful. Whilst its a concern that functions may be out of scope for Onyx, this issue could be avoided if built in such a way that its not too intrusive or complex. Plus its possible they could be seen as optional to use rather than required, in which case the extra layer of complexity may be avoided by users if they wish. However, in-built functions that users could call would prove useful, and could provide functionality for certain processes such as type conversion.
 
 ### 8.3 Self Evaluation <a name="8.3"></a>
-If I were to do the project again with the knowledge I now have, I would have spent more time planning the structure of the program out beforehand; too much time was spent changing things around, redoing functionality, and cleaning up code. If strict and well thought out planning for the class structure was done, it could've been avoided and a lot of time would have been saved. I would also spend more time researching technologies that could be used to help build the project, such as Scene Builder. Originally, I was unaware of its existence and wasted a lot of time trying to build the GUI using raw JavaFX code. If I spent more time investigating other methods, I would have quickly discovered alternative methods and sped up development dramatically.
+If I were to do the project again with the knowledge I now have, I would have spent more time planning the structure of the program out beforehand; too much time was wasted changing things around, redoing functionality, and cleaning up code. If strict and well thought-out planning for the class structure was done, it could've been avoided and a lot of time would have been saved. I would also spend more time researching technologies that could be used to help build the project, such as Scene Builder. Originally, I was unaware of its existence and wasted a lot of time trying to build the GUI using raw JavaFX code. If I spent more time investigating other methods, I would have quickly discovered alternative methods and sped up development dramatically.
 
 Going into this project I had no knowledge or experience working with compilers, but was fascinated by their complexity and felt confident in my ability to learn. I've learned a great deal about compiler construction and each of the individual components that going into building them, and have improved my skills in programming greatly throughout development. Though what I am most proud of is the level to which I completed the project; I'm satisfied that its met the criteria and standards I originally set for myself, and that I've been able to produce a strong piece of software that I'll be able to use as a demonstration for my talents in the future.
 
 ## Bibliography <a name="bibliography"></a>
-[1]: https://www.guru99.com/compiler-design-phases-of-compiler.html
-[2]: https://www.tutorialspoint.com/compiler_design/compiler_design_phases_of_compiler.htm
-[3]: https://www.kttpro.com/2017/02/09/six-phases-of-the-compilation-process
-[4]:. https://www.geeksforgeeks.org/recursive-descent-parser/
-[5]: https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)
-[6]: https://en.wikipedia.org/wiki/Compiler
-[7]: https://ieeexplore.ieee.org/document/5937011
-[8]: 
-[9]: 
-[10]: 
-[11]: 
-[12]:
-[13]: 
-[14]: 
-[15]: https://www.computerhope.com/jargon.htm
-[16]: https://en.wikibooks.org/wiki/Compiler_Construction/Glossary
-[17]: https://www.cs.utexas.edu/users/novak/cs375vocab.html
-[18]: https://github.com/rsumner31/awesome-compilers#compilers-and-interpreters
-[19]: https://insights.stackoverflow.com/survey/2019
-[20]: https://www.simplilearn.com/best-programming-languages-start-learning-today-article
-[21]: https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
-[22]: https://en.wikipedia.org/wiki/Compiler_correctness
+1. https://www.guru99.com/compiler-design-phases-of-compiler.html
+2. https://www.tutorialspoint.com/compiler_design/compiler_design_phases_of_compiler.htm
+3. https://www.kttpro.com/2017/02/09/six-phases-of-the-compilation-process
+4.. https://www.geeksforgeeks.org/recursive-descent-parser/
+5. https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)
+6. https://en.wikipedia.org/wiki/Compiler
+7. https://ieeexplore.ieee.org/document/5937011
+8. https://www.gse.upenn.edu/news/press-releases/penn-gse-study-shows-moocs-have-relatively-few-active-users-only-few-persisting-
+9. https://www.nytimes.com/2011/11/06/education/edlife/why-science-majors-change-their-mind-its-just-so-darn-hard.html
+10. https://www.researchgate.net/publication/332299729_Pedagogical_Content_for_Professors_of_Introductory_Programming_Courses
+11. 
+12.
+13.
+14.
+15. https://www.computerhope.com/jargon.htm
+16. https://en.wikibooks.org/wiki/Compiler_Construction/Glossary
+17. https://www.cs.utexas.edu/users/novak/cs375vocab.html
+18. https://github.com/rsumner31/awesome-compilers#compilers-and-interpreters
+19. https://insights.stackoverflow.com/survey/2019
+20. https://www.simplilearn.com/best-programming-languages-start-learning-today-article
+21. https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
+22. https://en.wikipedia.org/wiki/Compiler_correctness
 
 ## Appendices <a name="appendices"></a>
-### Resources <a name="a.1"></a>
+### Source Code <a name="a"></a>
 - [Source Code](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/java) - Contains the source code for the compiler.
 - [GUI Resources](https://github.com/louislefevre/onyx-compiler/tree/master/src/main/resources) - GUI layout and styling resources, including FXML, CSS, and image files.
-- [Weekly Log Reports](https://llefe001.tumblr.com/) - Tumblr blog consisting of weekly logs written throughout development.
+
+### Weekly Logs <a name="b"></a>
+- [Weekly Logs](https://llefe001.tumblr.com/) - Tumblr blog consisting of weekly logs written throughout development.
+
+### Proposals <a name="c"></a>
 - [Proposals](https://github.com/louislefevre/onyx-compiler/tree/master/docs) - Includes copies of the ideation, specification, and interim reports. Also includes a markdown version of this report.
 
-### UML Diagrams <a name="a.2"></a>
+### UML Diagrams <a name="d"></a>
 
 
-### Screenshots <a name="a.3"></a>
+### Screenshots <a name="e"></a>
 
 
 ## Glossary of Terms <a name="terms"></a>
 <dl>
   <dt>Annotated parse tree</dt>
-  <dd>A parse tree that is annotated with additional type information.[17]</dd>
+  <dd>"A parse tree that is annotated with additional type information."[17]</dd>
   <dt>Block statement</dt>
-  <dd>A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop.[15]</dd>
+  <dd>"A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop."[15]</dd>
   <dt>Expression</dt>
-  <dd>A combination of letters, numbers, or symbols used to represent a value.[15]</dd>
+  <dd>"A combination of letters, numbers, or symbols used to represent a value."[15]</dd>
   <dt>Identifier</dt>
-  <dd>Identifier means the same as name. The term identifier is usually used for variable names.[15]</dd>
+  <dd>"Identifier means the same as name. The term identifier is usually used for variable names."[15]</dd>
   <dt>Keyword</dt>
-  <dd>Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code.[16]</dd>
+  <dd>"Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code."[16]</dd>
   <dt>Lexeme</dt>
-  <dd>A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language.[17]</dd>
+  <dd>"A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language."[17]</dd>
   <dt>Object binding</dt>
-  <dd>The association of a name with a variable or value.[17]</dd>
+  <dd>"The association of a name with a variable or value."[17]</dd>
   <dt>Parse tree</dt>
-  <dd>A data structure that shows how a statement in a language is derived from the context-free grammar of the language.[17]</dd>
+  <dd>"A data structure that shows how a statement in a language is derived from the context-free grammar of the language."[17]</dd>
   <dt>Parsing</dt>
-  <dd>The process of reading a source language, determining its structure, and producing intermediate code for it.[17]</dd>
+  <dd>"The process of reading a source language, determining its structure, and producing intermediate code for it."[17]</dd>
   <dt>Real evaluate print loop</dt>
-  <dd>Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result.[15]</dd>
+  <dd>"Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result."[15]</dd>
   <dt>Recursive Descent Parser</dt>
-  <dd>A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output.[17]</dd>
+  <dd>"A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output."[17]</dd>
   <dt>Scope</dt>
-  <dd>The region of program text over which a name can be referenced.[17]</dd>
+  <dd>"The region of program text over which a name can be referenced."[17]</dd>
   <dt>Semantic information</dt>
-  <dd>The meaning of a statement in a language.[17]</dd>
+  <dd>"The meaning of a statement in a language."[17]</dd>
   <dt>Statement</dt>
-  <dd>A statement is a single line of code that is used to perform a specific task.[15]</dd>
+  <dd>"A statement is a single line of code that is used to perform a specific task."[15]</dd>
   <dt>Symbol</dt>
-  <dd>Refers to a variable stored within the symbol table.</dd>
+  <dd>"Refers to a variable stored within the symbol table."</dd>
   <dt>Symbol table</dt>
-  <dd>A data structure that associates a name (symbol) with information about the named object.[17]</dd>
+  <dd>"A data structure that associates a name (symbol) with information about the named object."[17]</dd>
   <dt>Token</dt>
-  <dd>A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character.[16]</dd>
+  <dd>"A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character."[16]</dd>
   <dt>Type checking</dt>
-  <dd>Tests performed by the compiler to ensure that types of data involved in an operation are compatible.[17]</dd>
+  <dd>"Tests performed by the compiler to ensure that types of data involved in an operation are compatible."[17]</dd>
 </dl>
