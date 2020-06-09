@@ -8,6 +8,7 @@
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage[titletoc]{appendix}
+\usepackage[nottoc]{tocbibind}
 \usepackage{graphicx}
 \graphicspath{{./images/}}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
@@ -54,49 +55,55 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%%% Links %%%%%%%%%%%%%%%%%%%%%
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,
 	filecolor=black,
 	urlcolor=cyan,
 }
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Glossary %%%%%%%%%%%%%%%%%%
 \usepackage[toc]{glossaries}
 \makeglossaries
 
 \newacronym{repl}{REPL}{Read Evaluate Print Loop}
 \newacronym{gui}{GUI}{Graphical User Interface}
 
-\newglossaryentry{annotated-parse-tree}{name=annotated parse tree,description={A parse tree that is annotated with additional type information [17]}}
-\newglossaryentry{block-statement}{name=block statement, description={A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop [15]}}
-\newglossaryentry{expression}{name=expression, description={A combination of letters, numbers, or symbols used to represent a value [15]}}
-\newglossaryentry{identifier}{name=identifier, description={Identifier means the same as name. The term identifier is usually used for variable names [15]}}
-\newglossaryentry{keyword}{name=keyword, description={Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code [16]}}
-\newglossaryentry{lexeme}{name=lexeme, description={A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language [17]}}
-\newglossaryentry{object-binding}{name=object binding, description={The association of a name with a variable or value [17]}}
-\newglossaryentry{parse-tree}{name=parse tree, description={A data structure that shows how a statement in a language is derived from the context-free grammar of the language [17]}}
-\newglossaryentry{parsing}{name=parsing, description={"The process of reading a source language, determining its structure, and producing intermediate code for it [17]}}
-\newglossaryentry{read-evaluate-print-loop}{name=read evaluate print loop, description={Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result [15]}}
-\newglossaryentry{recursive-descent parser}{name=recursive descent parser, description={A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output [17]}}
-\newglossaryentry{semantic-information}{name=semantic information, description={The meaning of a statement in a language [17]}}
-\newglossaryentry{statement}{name=statement, description={A statement is a single line of code that is used to perform a specific task [15]}}
+\newglossaryentry{annotated-parse-tree}{name=annotated parse tree,description={A parse tree that is annotated with additional type information \cite{utexas-website}}}
+\newglossaryentry{block-statement}{name=block statement, description={A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop \cite{computerhope-website}}}
+\newglossaryentry{expression}{name=expression, description={A combination of letters, numbers, or symbols used to represent a value \cite{computerhope-website}}}
+\newglossaryentry{identifier}{name=identifier, description={Identifier means the same as name. The term identifier is usually used for variable names \cite{computerhope-website}}}
+\newglossaryentry{keyword}{name=keyword, description={Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code \cite{compiler-wikibook}}}
+\newglossaryentry{lexeme}{name=lexeme, description={A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language \cite{utexas-website}}}
+\newglossaryentry{object-binding}{name=object binding, description={The association of a name with a variable or value \cite{utexas-website}}}
+\newglossaryentry{parse-tree}{name=parse tree, description={A data structure that shows how a statement in a language is derived from the context-free grammar of the language \cite{utexas-website}}}
+\newglossaryentry{parsing}{name=parsing, description={"The process of reading a source language, determining its structure, and producing intermediate code for it \cite{utexas-website}}}
+\newglossaryentry{read-evaluate-print-loop}{name=read evaluate print loop, description={Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result \cite{computerhope-website}}}
+\newglossaryentry{recursive-descent parser}{name=recursive descent parser, description={A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output \cite{utexas-website}}}
+\newglossaryentry{semantic-information}{name=semantic information, description={The meaning of a statement in a language \cite{utexas-website}}}
+\newglossaryentry{statement}{name=statement, description={A statement is a single line of code that is used to perform a specific task \cite{computerhope-website}}}
 \newglossaryentry{symbol}{name=symbol, description={Refers to a variable stored within the symbol table}}
-\newglossaryentry{symbol-table}{name=symbol table, description={A data structure that associates a name (symbol) with information about the named object [17]}}
-\newglossaryentry{token}{name=token, description={"A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character [16]}}
-\newglossaryentry{type-checking}{name=type checking, description={Tests performed by the compiler to ensure that types of data involved in an operation are compatible [17]}}
-%%%%%%%%%%%%%%%%%%%%
+\newglossaryentry{symbol-table}{name=symbol table, description={A data structure that associates a name (symbol) with information about the named object \cite{utexas-website}}}
+\newglossaryentry{token}{name=token, description={A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character \cite{compiler-wikibook}}}
+\newglossaryentry{type-checking}{name=type checking, description={Tests performed by the compiler to ensure that types of data involved in an operation are compatible \cite{utexas-website}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% General %%%%%%%%%%%%%%%%%%%
 \title{The Onyx Compiler}
 \author{Louis Lefevre\\BSc Computer Science}
 \date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-\thispagestyle{empty}
-
 \begin{figure}
 	\includegraphics[scale=0.6]{goldsmiths-logo}
 	\centering
 	\maketitle
 \end{figure}
+\thispagestyle{empty}
 
 \chapter*{Abstract}
 \pagenumbering{roman}
@@ -245,9 +252,9 @@ off learning programming soon after they begin.
 There is already a big problem with students quitting learning early, as
 according to a study by the University of Pennsylvania, on average only
 4\% of students successfully complete online courses they've started
-{[}8{]}. It was also found that ``roughly 40 percent of students
+\cite{upenn-report}. It was also found that ``roughly 40 percent of students
 planning engineering and science majors end up switching to other
-subjects or failing to get any degree'' {[}9{]}. In both of these
+subjects or failing to get any degree'' \cite{nytimes-article}. In both of these
 situations students drop out early or before they have even begun,
 possibly in part due them finding it too difficult to learn the
 content, and the frustration of failing early on can result in many
@@ -260,7 +267,7 @@ productive to instead focus on languages commonly used by learners.
 
 \subsection{Python}
 The most popular language among beginners is Python due to its
-flexibility, simple syntax, and abundance of tutorials {[}20{]}. In
+flexibility, simple syntax, and abundance of tutorials \cite{simplilearn-article}. In
 terms of tackling the problems put forward, it perhaps does the best job
 out of the available options. It has intuitive and naturally readable
 syntax, an uncommon trait amongst modern languages, whilst also being
@@ -274,10 +281,10 @@ tackle a large portion of these issues.
 \subsection{JavaScript}
 JavaScript is another common choice, particularly when it comes to web
 development, as a 2019 survey by Stack Overflow found it to be the most
-popular language being used by developers {[}19{]}. It has relatively
+popular language being used by developers \cite{survey-stackoverflow}. It has relatively
 flexible and forgiving syntax compared to other object-oriented
 languages, whilst also being compatible with all major browsers
-{[}21{]}. However, it can be more difficult to setup and work with due
+\cite{fullstack-article}. However, it can be more difficult to setup and work with due
 to the fact its primarily used for front-end web development, which will
 also require the use of HTML/CSS. This means that users will also have
 to contend with learning those on top of JavaScript and having them work
@@ -287,13 +294,12 @@ the inexperienced. Naturally, its clear that JavaScript fails to produce
 solutions for the presented problems.
 
 \subsection{GitHub Projects}
-The GitHub repository known as
-\href{https://github.com/rsumner31/awesome-compilers}{Awesome Compilers}
-includes a list of compilers and interpreters composed by various
-users{[}18{]}, making it useful to review a large selection of projects
-all at once. Based on the descriptions and features lists for the 36
-repositories included, none were designed to target an audience of
-beginners nor specifically solve the discussed issues.
+The GitHub repository known as Awesome Compilers includes a list of 
+compilers and interpreters composed by various users \cite{compilers-github}, 
+making it useful to review a large selection of projects all at once. 
+Based on the descriptions and features lists for the 36 repositories 
+included, none were designed to target an audience of beginners nor 
+specifically solve the discussed issues.
 
 \chapter{Requirements}
 The primary purpose of the Onyx Compiler is to fill the void caused by
@@ -309,7 +315,7 @@ The original goal was to keep the language simple with only the bare
 minimum amount of features, typically those taught in introductory
 programming courses. A study exploring pedagogical content for
 introductory programming courses included a list of topics commonly
-taught{[}10{]}, and from that as well as courses and consulting with
+taught \cite{pedagogical-report}, and from that as well as courses and consulting with
 tutors, it was found there were five main features to be included:
 variables, operators, conditionals, loops, and functions. Given that the
 compiler is aimed solely at learners, the amount of functionality
@@ -326,9 +332,9 @@ The study previously mentioned also found that students often have
 difficulty with initializing variables as they ``do not know if it is
 necessary to initialize and with what value'', and that students often
 had trouble detecting incorrect results due to data type issues
-{[}10{]}. Scope was also identified as an issue, as students sometimes
+\cite{pedagogical-report}. Scope was also identified as an issue, as students sometimes
 failed to realise the difference between variables with identical names
-but different scopes {[}10{]}. The requirements defined below keep this
+but different scopes \cite{pedagogical-report}. The requirements defined below keep this
 in mind, and tries to deal with the issues appropriately.
 
 Data types to be included are: integers, doubles, booleans and strings.
@@ -370,7 +376,7 @@ the source code. For example, a loop would be written as
 One of the greatest pitfalls among novice programmers is their inability
 to read and understand error messages, often due to their verbose and
 jargon-filled nature, and is one of the biggest difficulties with
-students {[}10{]}. It is common among popular languages for error
+students \cite{pedagogical-report}. It is common among popular languages for error
 messages to be returned as a long and confusing mess, which while useful
 for experienced users, can be devastatingly difficult to decipher for
 learners. Its a goal of Onyx to instead provide detailed, easy to read
@@ -409,20 +415,20 @@ close-to-machine-level aspects. A compiler goes through various stages
 when processing syntax, with each stage transforming the source programs
 representation in some way. In the form of a pipeline, each component
 takes input from its predecessor, transforms it, and feeds the output
-forward to the next component {[}1{]}. The amount of stages within a
+forward to the next component \cite{guru99-website}. The amount of stages within a
 compiler can vary, but in the case of Onyx contains the following.
 
 \subsection{Lexical Analysis}
 A compiler will typically always start with lexical analysis, which is
 performed by the lexer. It takes the source code as input and scans over
 it, typically left to right, and groups the characters into \glspl{lexeme}
-{[}1{]}. The lexer represents these \glspl{lexeme} in the form of \glspl{token}
-{[}2{]}, with each \gls{token} containing information about the type of data
+\cite{guru99-website}. The lexer represents these \glspl{lexeme} in the form of \glspl{token}
+\cite{tutorials-guide}, with each \gls{token} containing information about the type of data
 it holds. For example, given the input of an integer, the lexer would
 output a \gls{token} that identifies the characters location in the text, its
 type (e.g.~an integer \gls{token}), and its value. This process is performed
 for all the characters in a given text, and the lexer outputs a stream
-of \glspl{token} {[}3{]}. During this phase, the lexer would also be
+of \glspl{token} \cite{kttpro-website}. During this phase, the lexer would also be
 responsible for reporting any invalid characters located in the source
 code.
 
@@ -465,14 +471,14 @@ The second stage of compilation is syntax analysis, also known as
 that generate a \gls{parse-tree} that represents the structure of the source
 program. The primary purpose of this component is to ensure the
 \glspl{expression} made by the arrangement of \glspl{token} is syntactically correct,
-following a format defined by the language being used {[}2{]}. From this
+following a format defined by the language being used \cite{tutorials-guide}. From this
 a \gls{parse-tree} can be generated, which demonstrates how each \gls{token} is
 grouped together in each individual \gls{statement}. The parser would also
 identify any syntactical errors found within the source code.
 
 The parser is designed as a \gls{recursive-descent parser}, which adopts a
 top-down \gls{parsing} strategy where it begins at the highest level and works
-its way down, building the \gls{parse-tree} as it goes {[}4{]}. The input is
+its way down, building the \gls{parse-tree} as it goes \cite{geeks-website}. The input is
 read from left to right, taking in \glspl{token} until it reaches the end of
 the file. Each \gls{token} would be identified by its type, sending the parser
 flow in a different direction depending on the result. The following
@@ -513,12 +519,12 @@ and \glspl{statement}.
 \subsection{Semantic Analysis}
 Next comes semantic analysis, which is another stage of \gls{parsing}.
 Directly after syntax analysis, semantic analysis takes place as a means
-of gathering \gls{semantic-information} about the source code {[}5{]}, with
+of gathering \gls{semantic-information} about the source code \cite{semantics-wiki}, with
 this phase being performed by the type checker in the case of Onyx. It
 receives the \gls{parse-tree} from the previous stage and adds extra
 information to it, such as: \gls{type-checking} to ensure type conversions are
 valid, and \gls{object-binding} for associating variable and function
-references with their definitions {[}6{]}. This is also where the \gls{symbol}
+references with their definitions \cite{compiler-wiki}. This is also where the \gls{symbol}
 table is built; adding variables coupled with their values and types. An
 \gls{annotated-parse-tree} is output as a result (annotated referring to the
 extra data having been added to the tree). It is during this phase that
@@ -550,7 +556,8 @@ mismatched data types, incompatible operands, and undeclared variables.
 x = 30
 y = true
 x * y
-This will result in a type-mismatch error as integers and booleans are not compatible.
+This will result in a type-mismatch error as integers and 
+booleans are not compatible.
 \end{verbatim}
 
 \subsection{Evaluation}
@@ -598,7 +605,7 @@ x * y
 \subsection{Symbol Table}
 The \gls{symbol-table} is a data structure that is maintained throughout every
 phase of a compilers life-cycle, responsible for storing the names of
-\glspl{identifier}, as well as their respective values and data types {[}2{]}.
+\glspl{identifier}, as well as their respective values and data types \cite{tutorials-guide}.
 It is also often used for scope management, but this is not present in
 Onyx due to the fact it only implements global variables.
 
@@ -664,7 +671,8 @@ generate a detailed message. - Output the error message to the user.
 \begin{verbatim}
 x = true
 x * 10
-Error (2, 2): Binary operator '*' is not defined for type 'boolean' and 'integer'.
+Error (2, 2): Binary operator '*' is not defined for type 
+'boolean' and 'integer'.
     x * 10
 \end{verbatim}
 
@@ -881,7 +889,9 @@ built in a way where the components are as modular as possible, with
 each stage feeding into the next in the form of a pipeline. This
 structure made it rather trivial to isolate each aspect and then
 implement the functionality individually, so exploring the source code
-isn't too challenging.
+isn't too challenging. For assistance in building the foundational classes
+and understanding the basics of compiler construction, Immo Landwerth's "Building
+a Compiler" video series \cite{compiler-video} was used.
 
 \subsection{Lexer}
 The lexer loops through the source text and analyses each character
@@ -1087,7 +1097,7 @@ validation were used as a means of quality assurance.
 ``Validation. The assurance that a product, service, or system meets the
 needs of the customer and other identified stakeholders. It often
 involves acceptance and suitability with external customers. Contrast
-with verification.'' - Project Management Body of Knowledge {[}7{]}
+with verification.'' - Project Management Body of Knowledge \cite{pmbok-book}
 
 The objective of this procedure is to discover whether or not the
 compiler is successfully able to meet the needs and requirements
@@ -1152,7 +1162,7 @@ it would be suppressed by the excess use of characters.
 ``Verification. The evaluation of whether or not a product, service, or
 system complies with a regulation, requirement, specification, or
 imposed condition. It is often an internal process. Contrast with
-validation.'' - Project Management Body of Knowledge {[}7{]}
+validation.'' - Project Management Body of Knowledge \cite{pmbok-book}
 
 The objective of this procedure is to discover whether or not the
 compiler successfully meets the requirements set in terms of
@@ -1348,7 +1358,7 @@ what the future may hold for Onyx.
 \subsection{Compiler Correctness}
 Improving the compiler correctness, which is a a branch of computer
 science that deals with attempting to show that a compiler behaves
-according to its language specification{[}22{]}, would be the primary
+according to its language specification \cite{correctness-wiki}, would be the primary
 improvement prospect. Given that the project was undertaken alone, its
 difficult to test and fix every possible scenario within the time-frame,
 particularly in the case of compilers where testing is rigorous and
@@ -1406,52 +1416,132 @@ and standards I originally set for myself, and that I've been able to
 produce a strong piece of software that I'll be able to use as a
 demonstration for my talents in the future.
 
-\chapter{Bibliography}
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  https://www.guru99.com/compiler-design-phases-of-compiler.html
-\item
-  https://www.tutorialspoint.com/compiler\_design/compiler\_design\_phases\_of\_compiler.htm
-\item
-  https://www.kttpro.com/2017/02/09/six-phases-of-the-compilation-process
-  4.. https://www.geeksforgeeks.org/recursive-descent-parser/
-\item
-  https://en.wikipedia.org/wiki/Semantic\_analysis\_(compilers)
-\item
-  https://en.wikipedia.org/wiki/Compiler
-\item
-  https://ieeexplore.ieee.org/document/5937011
-\item
-  https://www.gse.upenn.edu/news/press-releases/penn-gse-study-shows-moocs-have-relatively-few-active-users-only-few-persisting-
-\item
-  https://www.nytimes.com/2011/11/06/education/edlife/why-science-majors-change-their-mind-its-just-so-darn-hard.html
-\item
-  https://www.researchgate.net/publication/332299729\_Pedagogical\_Content\_for\_Professors\_of\_Introductory\_Programming\_Courses
-\item
-\item
-\item
-\item
-\item
-  https://www.computerhope.com/jargon.htm
-\item
-  https://en.wikibooks.org/wiki/Compiler\_Construction/Glossary
-\item
-  https://www.cs.utexas.edu/users/novak/cs375vocab.html
-\item
-  https://github.com/rsumner31/awesome-compilers\#compilers-and-interpreters
-\item
-  https://insights.stackoverflow.com/survey/2019
-\item
-  https://www.simplilearn.com/best-programming-languages-start-learning-today-article
-\item
-  https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn
-\item
-  https://en.wikipedia.org/wiki/Compiler\_correctness
-\end{enumerate}
+\begin{thebibliography}{9}
+	\bibitem{dragon-book} 
+	Aho, A.V., Sethi, R. and Ullman, J.D. (2006).
+	\textit{Compilers: Principles, Techniques, and Tools (2nd ed)}. 
+	Addison-Wesley.
+	
+	\bibitem{pedagogical-report} 
+	Bosse, Y., Redmiles, D. and Gerosa, M. (2019).
+	\textit{Pedagogical Content for Professors of Introductory Programming Courses}.
+	[online] Association for Computing Machinery. Available at:
+	\\\texttt{https://dl.acm.org/doi/10.1145/3304221.3319776}
+	
+	\bibitem{computerhope-website} 
+	ComputerHope (2019).
+	\textit{Computer Terms, Dictionary, and Glossary}.
+	[online] ComputerHope. Available at:
+	\\\texttt{https://www.computerhope.com/jargon.htm}
+	
+	\bibitem{nytimes-article} 
+	Drew, C. (2011).
+	\textit{Why Science Majors Change Their Minds}.
+	[online] The New York Times. Available at:
+	\\\texttt{https://www.kttpro.com/six-phases-of-the-compilation-process/}
+	
+	\bibitem{compiler-video} 
+	Landwerth, I. (2018).
+	\textit{Building a Compiler}.
+	[online] YouTube. Available at:
+	\\\texttt{https://www.youtube.com/playlist?list=PLRAdsfhKI4OWNOSfS7EUu5GRAVmze1t2y}
+	
+	\bibitem{compiler-design-book} 
+	Mogensen, T. (2010).
+	\textit{Basics of Compiler Design (2nd ed)}.
+	Springer.
+	
+	\bibitem{kttpro-website} 
+	Munonye, K. (2017).
+	\textit{Six Phases of the Compilation Process}.
+	[online] The Tech Pro. Available at:
+	\\\texttt{https://www.kttpro.com/six-phases-of-the-compilation-process/}
+	
+	\bibitem{utexas-website} 
+	Novak, G. (2019).
+	\textit{Compilers: Vocabulary}.
+	[online] University of Texas. Available at:
+	\\\texttt{https://www.cs.utexas.edu/users/novak/cs375vocab.html}
+	
+	\bibitem{geeks-website} 
+	Pal, R. (2019).
+	\textit{Recursive Descent Parser}.
+	[online] GeeksforGeeks. Available at:
+	\\\texttt{https://www.geeksforgeeks.org/recursive-descent-parser/}
+	
+	\bibitem{upenn-report} 
+	Perna, L., Ruby, A., Boruch, R., Wang, N., Scull, J., Evans, C. and Ahmad, S. (2013).
+	\textit{The Life Cycle of a Million MOOC Users}.
+	[online] University of Pennsylvania. Available at:
+	\\\texttt{https://www.ahead-penn.org/research-projects/life-cycle-mooc-users}
+	
+	\bibitem{pmbok-book} 
+	Project Management Institute (2008).
+	\textit{Project Management Body of Knowledge (4th ed)}.
+	Institute of Electrical and Electronics Engineers.
+	
+	\bibitem{guru99-website} 
+	Rungta, K. (2019).
+	\textit{Phases of Compilers}.
+	[online] Guru99. Available at:
+	\\\texttt{https://www.guru99.com/compiler-design-phases-of-compiler.html}
+	
+	\bibitem{survey-stackoverflow} 
+	StackOverflow (2019).
+	\textit{Developer Survey Results 2019}.
+	[online] StackOverflow. Available at:
+	\\\texttt{https://insights.stackoverflow.com/survey/2019}
+	
+	\bibitem{compilers-github} 
+	Sumner, R. (2018).
+	\textit{Awesome Compilers}.
+	[online] GitHub. Available at:
+	\\\texttt{https://github.com/rsumner31/awesome-compilers\#compilers-and-interpreters}
+	
+	\bibitem{tutorials-guide} 
+	TutorialsPoint (2020).
+	\textit{Compiler Design - Phases of Compiler}.
+	[online] TutorialsPoint. Available at:
+	\\\texttt{https://www.tutorialspoint.com/compiler\_design/compiler\_design\_phases\_of\_compiler.htm}
+	
+	\bibitem{compiler-wikibook} 
+	Wikibooks Contributors (2020).
+	\textit{Compiler Construction}.
+	[online] Wikibooks. Available at:
+	\\\texttt{https://en.wikibooks.org/wiki/Compiler\_Construction/Glossary}
+	
+	\bibitem{semantics-wiki} 
+	Wikipedia Contributors (2019).
+	\textit{Semantics}.
+	[online] Wikipedia. Available at:
+	\\\texttt{https://en.wikipedia.org/wiki/Semantic}
+	
+	\bibitem{compiler-wiki} 
+	Wikipedia Contributors (2019).
+	\textit{Compiler}.
+	[online] Wikipedia. Available at:
+	\\\texttt{https://en.wikipedia.org/wiki/Compiler}
+	
+	\bibitem{correctness-wiki} 
+	Wikipedia Contributors (2019).
+	\textit{Compiler Correctness}.
+	[online] Wikipedia. Available at:
+	\\\texttt{https://en.wikipedia.org/wiki/Compiler\_correctness}
+	
+	\bibitem{simplilearn-article} 
+	Veeraraghavan, S. (2020).
+	\textit{Best Programming Languages to Learn}.
+	[online] Simplilearn. Available at:
+	\\\texttt{https://www.simplilearn.com/best-programming-languages-start-learning-today-article}
+	
+	\bibitem{fullstack-article} 
+	Yang, D. (2020).
+	\textit{The 9 Best Programming Languages to Learn in 2020}.
+	[online] FullStackAcademy. Available at:
+	\\\texttt{https://www.fullstackacademy.com/blog/nine-best-programming-languages-to-learn}
 
-\glossarystyle{list}
+\end{thebibliography}
+
 \printglossary
 
 \begin{appendices}
