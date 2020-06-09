@@ -1,5 +1,5 @@
-*
-
+report.*
+*.log
 !.gitignore
 !report.md
 !report.tex

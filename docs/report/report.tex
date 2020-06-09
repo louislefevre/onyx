@@ -137,6 +137,8 @@ wouldn't be where I am today.
 \setcounter{tocdepth}{2}
 \tableofcontents
 
+\listoffigures
+
 \chapter{Introduction}
 \pagenumbering{arabic}
 This report serves as a deeper explanation into the development of the
@@ -1555,15 +1557,191 @@ demonstration for my talents in the future.
 
 	\chapter{Documentation}
 	\section{Weekly Logs}
-	Tumblr blog consisting of weekly logs written throughout development.
+	Tumblr blog consisting of weekly logs written throughout development.\\
 	\url{https://llefe001.tumblr.com/}
 	\section{Proposals}
-	Includes copies of the ideation, specification, and interim reports.
+	Includes copies of the ideation, specification, and interim reports.\\
 	\url{https://github.com/louislefevre/onyx-compiler/tree/master/docs}
 	
 	\chapter{Screenshots}
-	\section{UML Diagrams}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{top-package-diagram}
+		\caption{Top-level Package}
+		\label{fig:top-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{compilation-package-diagram}
+		\caption{Compilation Package}
+		\label{fig:compilation-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{lexical-package-diagram}
+		\caption{Lexical Package}
+		\label{fig:lexical-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{syntax-package-diagram}
+		\caption{Syntax Package}
+		\label{fig:syntax-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{semantic-package-diagram}
+		\caption{Semantic Package}
+		\label{fig:semantic-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{generation-package-diagram}
+		\caption{Generation Package}
+		\label{fig:generation-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{source-package-diagram}
+		\caption{Source Package}
+		\label{fig:source-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{symbols-package-diagram}
+		\caption{Symbols Package}
+		\label{fig:symbols-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{errors-package-diagram}
+		\caption{Errors Package}
+		\label{fig:errors-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{exceptions-package-diagram}
+		\caption{Exceptions Package}
+		\label{fig:exceptions-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{types-package-diagram}
+		\caption{Types Package}
+		\label{fig:types-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{ui-package-diagram}
+		\caption{UI Package}
+		\label{fig:ui-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{main-package-diagram}
+		\caption{Main Package}
+		\label{fig:main-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{repl-package-diagram}
+		\caption{REPL Package}
+		\label{fig:repl-package-diagram}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{util-package-diagram}
+		\caption{Util Package}
+		\label{fig:util-package-diagram}
+	\end{figure}
 
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{ide-overview}
+		\caption{IDE Overview}
+		\label{fig:ide-overview}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{repl-overview}
+		\caption{REPL Overview}
+		\label{fig:repl-overview}
+	\end{figure}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.45\textwidth]{expression-code}
+		\includegraphics[width=0.45\textwidth]{expression-tree}
+		\caption{Expression Statement}
+		\label{fig:expression-statement}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.45\textwidth]{block-code}
+		\includegraphics[width=0.45\textwidth]{block-tree}
+		\caption{Block Statement}
+		\label{fig:block-statement}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.45\textwidth]{conditional-code}
+		\includegraphics[width=0.45\textwidth]{conditional-tree}
+		\caption{Conditional Statement}
+		\label{fig:conditional-statement}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.45\textwidth]{loop-code}
+		\includegraphics[width=0.45\textwidth]{loop-tree}
+		\caption{Loop Statement}
+		\label{fig:loop-statement}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.45\textwidth]{symbol-table-code}
+		\includegraphics[width=0.45\textwidth]{symbol-table}
+		\caption{Symbol Table}
+		\label{fig:symbol-table}
+	\end{figure}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{lexical-error}
+		\caption{Lexical Error}
+		\label{fig:lexical-error}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{syntax-error}
+		\caption{Syntax Error}
+		\label{fig:syntax-error}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{semantic-error}
+		\caption{Semantic Error}
+		\label{fig:semantic-error}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{evaluation-exception}
+		\caption{Evaluation Exception}
+		\label{fig:evaluation-exception}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{semantic-exception}
+		\caption{Semantic Exception}
+		\label{fig:semantic-exception}
+	\end{figure}
 \end{appendices}
 
 \end{document}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{}
+	\includegraphics[width=\textwidth]{}
+	\caption{}
+	\label{fig:}
+\end{figure}
