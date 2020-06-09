@@ -1,6 +1,6 @@
 <div style="text-align: center; margin-bottom: 100px;">
   <p align="center"> 
-	  <img src="../assets/goldsmiths-logo.png" alt="Goldsmiths logo" />
+	  <img src="./images/goldsmiths-logo.png" alt="Goldsmiths logo" />
     <h3 align="center" style="border-bottom: none;">The Onyx Compiler</h3>
     <h4 align="center">Louis Lefevre</h4>
     <h4 align="center">BSc Computer Science</h4>

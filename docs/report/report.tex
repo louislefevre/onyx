@@ -7,8 +7,9 @@
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
+\usepackage[titletoc]{appendix}
 \usepackage{graphicx}
-\graphicspath{ {../assets/} }
+\graphicspath{{./images/}}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -53,17 +54,52 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=black,
+	urlcolor=cyan,
+}
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage[toc]{glossaries}
+\makeglossaries
 
+\newacronym{repl}{REPL}{Read Evaluate Print Loop}
+\newacronym{gui}{GUI}{Graphical User Interface}
+
+\newglossaryentry{annotated-parse-tree}{name=annotated parse tree,description={A parse tree that is annotated with additional type information [17]}}
+\newglossaryentry{block-statement}{name=block statement, description={A code block is a group of declarations and statements that operates as a unit, usually with its own level of lexical scope. For instance, a block of code may be used to define a function, a conditional statement, or a loop [15]}}
+\newglossaryentry{expression}{name=expression, description={A combination of letters, numbers, or symbols used to represent a value [15]}}
+\newglossaryentry{identifier}{name=identifier, description={Identifier means the same as name. The term identifier is usually used for variable names [15]}}
+\newglossaryentry{keyword}{name=keyword, description={Many programming languages reserve some identifiers as keywords for use when indicating the structure of a program, e.g. if is often used to indicate some conditional code [16]}}
+\newglossaryentry{lexeme}{name=lexeme, description={A word or basic symbol in a language; e.g., a variable name would be a lexeme for a grammar of a programming language [17]}}
+\newglossaryentry{object-binding}{name=object binding, description={The association of a name with a variable or value [17]}}
+\newglossaryentry{parse-tree}{name=parse tree, description={A data structure that shows how a statement in a language is derived from the context-free grammar of the language [17]}}
+\newglossaryentry{parsing}{name=parsing, description={"The process of reading a source language, determining its structure, and producing intermediate code for it [17]}}
+\newglossaryentry{read-evaluate-print-loop}{name=read evaluate print loop, description={Short for read-eval-print loop, REPL is the interactive top level of a programming language interpreter or command line shell. It offers the user a simple prompt, accepts expressions, evaluates them, and prints the result [15]}}
+\newglossaryentry{recursive-descent parser}{name=recursive descent parser, description={A method of writing a parser in which a grammar rule is written as a procedure that recognizes that phrase, calling subroutines as needed for sub-phrases and producing a parse tree or other data structure as output [17]}}
+\newglossaryentry{semantic-information}{name=semantic information, description={The meaning of a statement in a language [17]}}
+\newglossaryentry{statement}{name=statement, description={A statement is a single line of code that is used to perform a specific task [15]}}
+\newglossaryentry{symbol}{name=symbol, description={Refers to a variable stored within the symbol table}}
+\newglossaryentry{symbol-table}{name=symbol table, description={A data structure that associates a name (symbol) with information about the named object [17]}}
+\newglossaryentry{token}{name=token, description={"A fundamental symbol as processed by syntax analysis. A token may be an identifier, a reserved keyword, a compound symbol, or a single character [16]}}
+\newglossaryentry{type-checking}{name=type checking, description={Tests performed by the compiler to ensure that types of data involved in an operation are compatible [17]}}
+%%%%%%%%%%%%%%%%%%%%
 \title{The Onyx Compiler}
 \author{Louis Lefevre\\BSc Computer Science}
 \date{}
 
 \begin{document}
 \thispagestyle{empty}
-\maketitle
-\pagenumbering{roman}
+
+\begin{figure}
+	\includegraphics[scale=0.6]{goldsmiths-logo}
+	\centering
+	\maketitle
+\end{figure}
 
 \chapter*{Abstract}
+\pagenumbering{roman}
 The Onyx Compiler is a program designed with simplicity in mind,
 targeted towards learners and novices in the field of programming.
 Modern programming languages are not designed for educational purposes,
@@ -200,7 +236,7 @@ languages arguably have complex syntax that is completely unintuitive.
 They aren't designed to read like plain English, and as such it can be
 extremely difficult for newcomers to understand what a program is doing
 simply by reading over the source code. Also, due to the scale and power
-of modern day compilers, there is myriad of keywords and in-built
+of modern day compilers, there is myriad of \glspl{keyword} and in-built
 functions presented to the user. Whilst useful for developing large
 projects, the abundance of tools can be overwhelming for some and result
 in an information overload. This can have the effect of putting people
@@ -301,7 +337,7 @@ cover a wide selection of use cases, whilst avoiding the more niche
 types that rarely see use and would not typically be used by beginners.
 To also avoid unexpected results and remove the need for understanding
 type compatibility, only values of the same type can be used together in
-expressions or an error will be returned.
+\glspl{expression} or an error will be returned.
 
 Originally the goal was to only allow explicit variable declarations,
 where the user would have to define the type of a variable during
@@ -323,8 +359,8 @@ at this level.
 
 \section{Intuitive Syntax}
 Syntax will be designed so it reads similarly to regular English, uses
-intuitive mathematical expressions, and reduces the amount of characters
-required for certain expressions (e.g.~dynamic typing to remove the need
+intuitive mathematical \glspl{expression}, and reduces the amount of characters
+required for certain \glspl{expression} (e.g.~dynamic typing to remove the need
 to declare data types). The objective is to make it at easy as possible
 for users to understand what each line is doing just by reading through
 the source code. For example, a loop would be written as
@@ -361,7 +397,7 @@ download the program to begin.
 Designing of the project involved planning in three areas: the layout
 and structure of the compilers source code, the syntax of the language
 (also known as the language specification), and the graphical user
-interface (GUI).
+interface (\acrshort{gui}).
 
 \section{Compiler Design}
 The goal of the compiler is to translate the original Onyx syntax into
@@ -379,14 +415,14 @@ compiler can vary, but in the case of Onyx contains the following.
 \subsection{Lexical Analysis}
 A compiler will typically always start with lexical analysis, which is
 performed by the lexer. It takes the source code as input and scans over
-it, typically left to right, and groups the characters into lexemes
-{[}1{]}. The lexer represents these lexemes in the form of tokens
-{[}2{]}, with each token containing information about the type of data
+it, typically left to right, and groups the characters into \glspl{lexeme}
+{[}1{]}. The lexer represents these \glspl{lexeme} in the form of \glspl{token}
+{[}2{]}, with each \gls{token} containing information about the type of data
 it holds. For example, given the input of an integer, the lexer would
-output a token that identifies the characters location in the text, its
-type (e.g.~an integer token), and its value. This process is performed
+output a \gls{token} that identifies the characters location in the text, its
+type (e.g.~an integer \gls{token}), and its value. This process is performed
 for all the characters in a given text, and the lexer outputs a stream
-of tokens {[}3{]}. During this phase, the lexer would also be
+of \glspl{token} {[}3{]}. During this phase, the lexer would also be
 responsible for reporting any invalid characters located in the source
 code.
 
@@ -395,16 +431,16 @@ characters, whilst also taking into account their context. It had to be
 capable of consistently taking in new characters and identifying them
 correctly, whilst also adapting to deal with characters found within
 particular boundaries. For example, recognising that a number occurring
-after quotations is a part of a string, rather than a token in its own
+after quotations is a part of a string, rather than a \gls{token} in its own
 right. The handling of invalid characters must also be considered, as
 otherwise the lexer would become stuck and be unable to finish, and
 having a robust design means never failing to take in characters and
-output valid tokens.
+output valid \glspl{token}.
 
 In summary, the primary functions of this phase is to: - Take a string
 of text as input. - Inspect each individual character, classifying each
-token with its corresponding type, whilst also recognising invalid
-characters. - Output a stream of tokens, often in the form of a list. -
+\gls{token} with its corresponding type, whilst also recognising invalid
+characters. - Output a stream of \glspl{token}, often in the form of a list. -
 Identify invalid characters.
 
 \subsubsection{Example}
@@ -423,45 +459,45 @@ var & Identifier\tabularnewline
 
 \subsection{Syntax Analysis}
 The second stage of compilation is syntax analysis, also known as
-parsing, and is performed by the parser. Its role is to take the list of
-tokens produced by the lexer as input, validate the arrangement of
-tokens against the programming languages grammatical rules, and from
-that generate a parse tree that represents the structure of the source
+\gls{parsing}, and is performed by the parser. Its role is to take the list of
+\glspl{token} produced by the lexer as input, validate the arrangement of
+\glspl{token} against the programming languages grammatical rules, and from
+that generate a \gls{parse-tree} that represents the structure of the source
 program. The primary purpose of this component is to ensure the
-expressions made by the arrangement of tokens is syntactically correct,
+\glspl{expression} made by the arrangement of \glspl{token} is syntactically correct,
 following a format defined by the language being used {[}2{]}. From this
-a parse tree can be generated, which demonstrates how each token is
-grouped together in each individual statement. The parser would also
+a \gls{parse-tree} can be generated, which demonstrates how each \gls{token} is
+grouped together in each individual \gls{statement}. The parser would also
 identify any syntactical errors found within the source code.
 
-The parser is designed as a recursive descent parser, which adopts a
-top-down parsing strategy where it begins at the highest level and works
-its way down, building the parse tree as it goes {[}4{]}. The input is
-read from left to right, taking in tokens until it reaches the end of
-the file. Each token would be identified by its type, sending the parser
+The parser is designed as a \gls{recursive-descent parser}, which adopts a
+top-down \gls{parsing} strategy where it begins at the highest level and works
+its way down, building the \gls{parse-tree} as it goes {[}4{]}. The input is
+read from left to right, taking in \glspl{token} until it reaches the end of
+the file. Each \gls{token} would be identified by its type, sending the parser
 flow in a different direction depending on the result. The following
-tokens would then be checked to ensure they appear as expected, such as
-an equals operator token appearing after an identifier token, and an
-expression would be returned. This expression would contain all its
-relevant tokens, such as in the case of the previous example: an
-identifier, an equals operator, and the assignment. In the original
-design the parser was only able to handle expressions, but this was
-later extended to also process statements so that full programs could be
-written all at once since the former only allowed REPL-like behaviour.
+\glspl{token} would then be checked to ensure they appear as expected, such as
+an equals operator \gls{token} appearing after an \gls{identifier} \gls{token}, and an
+\gls{expression} would be returned. This \gls{expression} would contain all its
+relevant \glspl{token}, such as in the case of the previous example: an
+\gls{identifier}, an equals operator, and the assignment. In the original
+design the parser was only able to handle \glspl{expression}, but this was
+later extended to also process \glspl{statement} so that full programs could be
+written all at once since the former only allowed \acrshort{repl}-like behaviour.
 
 Another aspect that had to be considered was precedence for operators.
 Parsers sometimes define a priority value for each operator, and during
-parsing they are shuffled around with the parser being data driven by
-those priorities, providing an indicator for which expressions to parse
+\gls{parsing} they are shuffled around with the parser being data driven by
+those priorities, providing an indicator for which \glspl{expression} to parse
 next. This makes the adding of additional operators much easier, as it
 provides the ability to view operators and see their priority order.
 
 In summary, the primary functions of this phase is to: - Retrieve the
-tokens from the lexer. - Checks if the source code is syntactically
+\glspl{token} from the lexer. - Checks if the source code is syntactically
 correct or not by comparing it against the grammatical rules of the
-programming language. - Construct and output a parse tree representing
-the syntactic structure of the program. - Identify invalid expressions
-and statements.
+programming language. - Construct and output a \gls{parse-tree} representing
+the syntactic structure of the program. - Identify invalid \glspl{expression}
+and \glspl{statement}.
 
 \subparagraph{Example}
 \begin{verbatim}
@@ -475,38 +511,38 @@ and statements.
 \end{verbatim}
 
 \subsection{Semantic Analysis}
-Next comes semantic analysis, which is another stage of parsing.
+Next comes semantic analysis, which is another stage of \gls{parsing}.
 Directly after syntax analysis, semantic analysis takes place as a means
-of gathering semantic information about the source code {[}5{]}, with
+of gathering \gls{semantic-information} about the source code {[}5{]}, with
 this phase being performed by the type checker in the case of Onyx. It
-receives the parse tree from the previous stage and adds extra
-information to it, such as: type checking to ensure type conversions are
-valid, and object binding for associating variable and function
-references with their definitions {[}6{]}. This is also where the symbol
+receives the \gls{parse-tree} from the previous stage and adds extra
+information to it, such as: \gls{type-checking} to ensure type conversions are
+valid, and \gls{object-binding} for associating variable and function
+references with their definitions {[}6{]}. This is also where the \gls{symbol}
 table is built; adding variables coupled with their values and types. An
-annotated parse tree is output as a result (annotated referring to the
+\gls{annotated-parse-tree} is output as a result (annotated referring to the
 extra data having been added to the tree). It is during this phase that
 any errors relating to type incompatibility are identified.
 
 Initially, it was designed so that semantic analysis would be performed
 within the parser alongside syntax analysis. It was soon found that this
-would be implausible since it typically requires a complete parse tree
+would be implausible since it typically requires a complete \gls{parse-tree}
 before being able to add annotations properly, so it was instead moved
 to the type checker as an individual component. The type checker
-functions by reviewing the type of expression or statement that is being
+functions by reviewing the type of \gls{expression} or \gls{statement} that is being
 executed and comparing the data types of each operand, as well as
 reviewing whether the operator being used is compatible. It contains a
 series of defined compatibility rules which must be adhered to, the
 prevailing rule of which is that only values of the same type can be
 used with one another. An error will be returned should there be an
-expression that fails to meet these rules. Any undeclared variables will
+\gls{expression} that fails to meet these rules. Any undeclared variables will
 also be identified during this stage, and be returned as errors.
 
 In summary, the primary functions of this phase is to: - Get the parse
 tree from the parser. - Validate data type compatibility for operands
 and operators, ensure variables have been declared, and store variable
-information within the symbol table. - Annotate the parse tree with data
-type information, producing an annotated parse tree. - Identify
+information within the \gls{symbol-table}. - Annotate the \gls{parse-tree} with data
+type information, producing an \gls{annotated-parse-tree}. - Identify
 mismatched data types, incompatible operands, and undeclared variables.
 
 \subsubsection{Example}
@@ -520,10 +556,10 @@ This will result in a type-mismatch error as integers and booleans are not compa
 \subsection{Evaluation}
 The final stage is the evaluation, performed by the aptly named
 evaluator. The purpose of this phase is to calculate the final outputs
-of each statement, revealing the final result. It reviews the annotated
-parse tree and with the extra information gathered by the type checker,
-is able to execute each expression in Java and return their values. The
-output is the final value of the statement being evaluated. Its also
+of each \gls{statement}, revealing the final result. It reviews the annotated
+\gls{parse-tree} and with the extra information gathered by the type checker,
+is able to execute each \gls{expression} in Java and return their values. The
+output is the final value of the \gls{statement} being evaluated. Its also
 worth noting that this is where Onyx diverges when compared to other
 compilers, as they often instead follow semantic analysis with:
 intermediate code generation, code optimisation, and code generator.
@@ -534,9 +570,9 @@ The design of the evaluator is similar to the parser in regards to the
 fact that it works through the tree top-down; searching the tree by
 beginning at the closest nodes, working its way down each branch and
 then carrying the result back up the tree as it works through each
-expression. The result is either used in a larger encompassing
-expression or stored within a variable, from which the value can be
-printed as output. Any statements or expressions that fail to store or
+\gls{expression}. The result is either used in a larger encompassing
+\gls{expression} or stored within a variable, from which the value can be
+printed as output. Any \glspl{statement} or \glspl{expression} that fail to store or
 use its result in one form or another is discarded.
 
 Also, a unique aspect of this stage is the fact no errors occur here, as
@@ -547,8 +583,8 @@ development. These are primarily intended to be seen only by developers,
 and should not occur in stable versions of the program.
 
 In summary, the primary functions of this phase is to: - Obtain the
-annotated parse tree from the type checker. - Evaluate each expression
-and statement. - Return the resulting value(s). - Identify any unhandled
+\gls{annotated-parse-tree} from the type checker. - Evaluate each \gls{expression}
+and \gls{statement}. - Return the resulting value(s). - Identify any unhandled
 issues that have gone undetected during the previous stages.
 
 \subsubsection{Example}
@@ -560,25 +596,25 @@ x * y
 \end{verbatim}
 
 \subsection{Symbol Table}
-The symbol table is a data structure that is maintained throughout every
+The \gls{symbol-table} is a data structure that is maintained throughout every
 phase of a compilers life-cycle, responsible for storing the names of
-identifiers, as well as their respective values and data types {[}2{]}.
+\glspl{identifier}, as well as their respective values and data types {[}2{]}.
 It is also often used for scope management, but this is not present in
 Onyx due to the fact it only implements global variables.
 
-The symbol table is designed to be implemented in the form of a hash
-map, with the name of the identifier as the key and the value and type
+The \gls{symbol-table} is designed to be implemented in the form of a hash
+map, with the name of the \gls{identifier} as the key and the value and type
 as the value. Each of the previous stages has access to the symbol
-table, and are able to use it to check whether or not a symbol is
+table, and are able to use it to check whether or not a \gls{symbol} is
 contained within the table, as well as retrieve any information about a
 particular one. This is most prominent during the type checker and
 evaluator, as during these two stages is when types begin to become
 relevant for the reasons previously described.
 
 In summary, the primary functions of this component is to: - Store the
-names of identifiers, along with their value and type. - Provide a
-method for adding and removing symbols. - Allow retrieval of information
-on symbols contained within the symbol table.
+names of \glspl{identifier}, along with their value and type. - Provide a
+method for adding and removing \glspl{symbol}. - Allow retrieval of information
+on \glspl{symbol} contained within the \gls{symbol-table}.
 
 \subsubsection{Example}
 \begin{verbatim}
@@ -600,7 +636,7 @@ y = {
 
 \subsection{Error Handling}
 The error handler is responsible for handling errors before continuing
-with the compilation process, and like the symbol table is also
+with the compilation process, and like the \gls{symbol-table} is also
 accessible to every stage. Throughout each phase should an error occur,
 it is reported to the error handler and reported to the user in the form
 of an appropriately formatted error message. Errors are capable of
@@ -611,9 +647,9 @@ In order to prevent interruption, Onyx is designed so that it may
 continue should an error occur. While this makes no difference in terms
 of the output (as only the error message is returned rather than any
 calculated result), it allows certain processes to continue being
-performed. For example during the generation of the parse tree, when an
+performed. For example during the generation of the \gls{parse-tree}, when an
 error occurs the invalid element is replaced by a placeholder (holding a
-null value), allowing the parse tree to still be built despite the
+null value), allowing the \gls{parse-tree} to still be built despite the
 invalid syntax. This means the compiler can still provide information
 regarding the tree for the rest of the syntax, as well as things like
 data types. By not having the compiler quit dead in its tracks during
@@ -702,7 +738,7 @@ b = true (a is now a boolean)
 
 \subsection{Operators}
 The compiler specifies use for all the standard mathematical operators
-you would typically require to write expressions, but also includes some
+you would typically require to write \glspl{expression}, but also includes some
 extra ones such as modulo and power. These two were not going to be
 provided initially, but was later added since they could provide
 significantly more functionality without being too overbearing for the
@@ -716,8 +752,8 @@ would likely lead to confusion all round.
 As a slight remedy for the lack of the previously mentioned, various
 assignment operators were specified instead. These would allow variables
 to use operators on themselves, providing a shorthand form to prevent
-users being required to write out the full expression that includes the
-identifier name. It was originally unclear whether this would be added
+users being required to write out the full \gls{expression} that includes the
+\gls{identifier} name. It was originally unclear whether this would be added
 at all since the same operation is still possible with the longhand
 form, but it was decided to be intuitive enough to keep in.
 
@@ -729,26 +765,26 @@ a += 15    (shorthand form using plus-assignment operator)
 \end{verbatim}
 
 \subsection{Conditionals}
-Conditional statements in Onyx are not too different from traditional
+Conditional \glspl{statement} in Onyx are not too different from traditional
 languages and combines attributes from both Python and Java. For
 example, the specification doesn't require the use of parentheses for
 the condition but still allows them, giving the user the opportunity to
 use whichever they feel most comfortable with. However, a more
 imperative property is the presence of braces; they are required when
-declaring a block statement (code greater than 1 line), but can be
-avoided when encompassing only a single statement. In the former case
+declaring a \gls{block-statement} (code greater than 1 line), but can be
+avoided when encompassing only a single \gls{statement}. In the former case
 the entire block will be executed, but in the latter only the next
-statement is executed. It was made a point that Onyx would not feature
-block statements that lack the use of braces, as is allowed in Python.
+\gls{statement} is executed. It was made a point that Onyx would not feature
+\glspl{block-statement} that lack the use of braces, as is allowed in Python.
 The reason for this is that it can become very unclear which code
 belongs where, particularly when block groupings depend solely on
 indentation as in indicator. Whilst this is not an issue when only a
-single statement is involved, more than that can become confusing for
+single \gls{statement} is involved, more than that can become confusing for
 users and thus has been disallowed entirely.
 
 Another notable design feature is the enforcement of Allman style
 indentation, which means open braces must begin on a new line and the
-use of single-line conditional statements is disallowed. This is
+use of single-line conditional \glspl{statement} is disallowed. This is
 intended to encourage the use of writing clearer, more modular code,
 whilst also providing the additional benefit of having all code written
 in Onyx look the same, allowing for easier reviewing of other users
@@ -778,7 +814,7 @@ reading them, unlike in Java where its not easily understandable to the
 untrained eye how loops are working without a detailed explanation. Many
 of the other properties of loops are the same as conditionals, such as
 the enforcement of Allman style indentation and the use of braces in
-block statements, the reasons for which were explained in the previous
+\glspl{block-statement}, the reasons for which were explained in the previous
 section. Though a feat unique to Onyx loops is the inclusion of the
 upper bound value, which is uncommon in traditional language
 specifications. When looping it is often the case that the final upper
@@ -795,7 +831,7 @@ loop i from 1 to 10
 \end{verbatim}
 
 \section{Graphical User Interface}
-The GUI was designed with minimalism in mind as it had to be clear how
+The \acrshort{gui} was designed with minimalism in mind as it had to be clear how
 to use immediately on first use, whilst also not being too daunting for
 beginners. The main tools needed for regular use also had to be in clear
 sight all the time, with extra functionality being somewhat hidden until
@@ -803,7 +839,7 @@ required. Essentially, a sort of abstraction was kept in mind during its
 planning.
 
 \subsection{Integrated Development Environment}
-The main portion of the GUI would be the IDE, which houses the
+The main portion of the \acrshort{gui} would be the IDE, which houses the
 components for entering code, running the program, and printing the
 output. Aside from a menu, these three things are the only elements
 found within the main interface. The purpose of this is to keep it
@@ -811,27 +847,27 @@ simple, with only the most necessary components found in plain sight. As
 previously mentioned the design will also include a menu bar at the top,
 which will be responsible for housing an array of extra functionality.
 Some of this extra functionality includes file management (e.g.~opening
-and saving files), links for help documentation, and opening the REPL
+and saving files), links for help documentation, and opening the \acrshort{repl}
 (discussed in the next section). The IDE also has its own syntax
 highlighting, designed with complimentary colours in mind that make it
 easy to distinguish between syntax and their associated functionality.
 
 \subsection{Read Evaluate Print Loop}
-An extra feature that comes with the IDE is the REPL; a simple program
+An extra feature that comes with the IDE is the \acrshort{repl}; a simple program
 that reads input one line at a time and returns a result. It contains a
 system for tracking variables, including information about their type,
 value, and name. The purpose is to provide a simpler, more visual method
-for understanding the basics of writing mathematical expressions and
+for understanding the basics of writing mathematical \glspl{expression} and
 declaring variables. It essentially acts a simplified version of the
 compiler and is provided for learners who are struggling to take in
 entire programs at once, since instead it gives them the opportunity to
 do things one line of code at a time. Its also worth noting that the
-REPL doesn't include the use of conditionals or loops, as it is intended
-for single-line statements only rather than multi-line ones.
+\acrshort{repl} doesn't include the use of conditionals or loops, as it is intended
+for single-line \glspl{statement} only rather than multi-line ones.
 
 \chapter{Implementation}
 The implementation portion of the project involved completing both a
-compiler and a GUI individually, the details for which is discussed in
+compiler and a \acrshort{gui} individually, the details for which is discussed in
 the following sections. Its worth noting that only the primary
 components will be discussed and at best in a general sense, as the
 codebase is too large and complex to fit into this report. For more
@@ -849,83 +885,83 @@ isn't too challenging.
 
 \subsection{Lexer}
 The lexer loops through the source text and analyses each character
-individually, with the goal of producing a token to represent it. The
+individually, with the goal of producing a \gls{token} to represent it. The
 character is checked to see if its a line break, white space, digit,
-letter, or operator symbol, with the first one that matches calling its
+letter, or operator \gls{symbol}, with the first one that matches calling its
 corresponding method, which deconstructs the character to discover more
-information. A token object is produced that contains data regarding its
-type, syntax, value, and position in the text. The token is then placed
-in the tokens list, and the next character is reviewed in the same
+information. A \gls{token} object is produced that contains data regarding its
+type, syntax, value, and position in the text. The \gls{token} is then placed
+in the \glspl{token} list, and the next character is reviewed in the same
 manner. If a character fails to fall into any of the defined categories
-it is deemed invalid and a error is returned, with a `bad token' being
-produced in its place. The purpose of this filler token is to prevent
-issues with parsing in future stages, as the compiler is designed to be
+it is deemed invalid and a error is returned, with a `bad \gls{token}' being
+produced in its place. The purpose of this filler \gls{token} is to prevent
+issues with \gls{parsing} in future stages, as the compiler is designed to be
 capable of continuing execution despite mistakes in the code. The final
-output of the lexer is a list of token objects.
+output of the lexer is a list of \gls{token} objects.
 
 \subsection{Parser}
-The parser retrieves the list of tokens produced by the lexer and scans
+The parser retrieves the list of \glspl{token} produced by the lexer and scans
 over them, identifying the structure they form to see if it is valid.
-Parser execution changes depending on whether the compiler is in REPL
-mode, which allows expressions to be written as statements but disallows
-the user of loops and conditionals. If REPL mode is not activated, then
+Parser execution changes depending on whether the compiler is in \acrshort{repl}
+mode, which allows \glspl{expression} to be written as \glspl{statement} but disallows
+the user of loops and conditionals. If \acrshort{repl} mode is not activated, then
 the opposite occurs. In the case of the latter, each line is parsed
 individually by using line breaks; the presence of a break indicates
 that the end of the line has been reached. When a line is parsed it is
-first checked to see if it begins with any particular keywords that can
+first checked to see if it begins with any particular \glspl{keyword} that can
 only be found at the start of a line, such as `if', `loop', open braces,
-and identifiers (those at the start of a line are unique as they act as
+and \glspl{identifier} (those at the start of a line are unique as they act as
 the programs print functionality, so when a line begins with solely an
-identifiers name its value is printed). Should there be a match the
+\glspl{identifier} name its value is printed). Should there be a match the
 corresponding method will be called, otherwise the line is deemed an
-invalid statement and an error is returned.
+invalid \gls{statement} and an error is returned.
 
-If the statement is valid however, its expressions are parsed
-recursively by looking at each token and matching it with whats
-expected. For example, if a statement begins with an identifier token,
-it looks at the next token to see if it is an assignment operator. If
+If the \gls{statement} is valid however, its \glspl{expression} are parsed
+recursively by looking at each \gls{token} and matching it with whats
+expected. For example, if a \gls{statement} begins with an \gls{identifier} \gls{token},
+it looks at the next \gls{token} to see if it is an assignment operator. If
 true then its deemed the code must be assigning a value to a variable,
 and a object is produced that contains all the information about that
-statement. If false then it continues to check for valid syntax
-combinations, such as a binary expression where the code is performing a
-mathematical operation on the identifier. The parser works its way down
+\gls{statement}. If false then it continues to check for valid syntax
+combinations, such as a binary \gls{expression} where the code is performing a
+mathematical operation on the \gls{identifier}. The parser works its way down
 the series of possibilities, attempting to find a valid match for the
-syntax. If no match is found in the end then the statement must contain
-invalid syntax and an error is reported, with a dummy expression being
-produced in its place to allow parsing to continue. This process repeats
-for each statement, with the final output being a parse tree that
+syntax. If no match is found in the end then the \gls{statement} must contain
+invalid syntax and an error is reported, with a dummy \gls{expression} being
+produced in its place to allow \gls{parsing} to continue. This process repeats
+for each \gls{statement}, with the final output being a \gls{parse-tree} that
 contains all the information detailing how the program is structured.
 
 \subsection{Type Checker}
-Using the parse tree from the parser, the purpose of the type checker is
+Using the \gls{parse-tree} from the parser, the purpose of the type checker is
 to identify the data types being used and see if their use is valid
 (e.g.~ensuring only values of the same type are used together in
-expressions). Similar to the parser, it recursively scans over the tree
-nodes, examining each statement individually and then producing an
-`annotated' statement to hold all the information about it. When a
-statement is parsed the first check is to see what type of statement it
-is: source (holds the entire program code), expression (a single basic
-expression), block (a series of multiple statements), conditional
-(statements that should only run under a certain condition), and loop
-(statements to be run a specific amount of times). If a statement is
-source or block, a list of their contained statements is retrieved and
+\glspl{expression}). Similar to the parser, it recursively scans over the tree
+nodes, examining each \gls{statement} individually and then producing an
+`annotated' \gls{statement} to hold all the information about it. When a
+\gls{statement} is parsed the first check is to see what type of \gls{statement} it
+is: source (holds the entire program code), \gls{expression} (a single basic
+\gls{expression}), block (a series of multiple \glspl{statement}), conditional
+(\glspl{statement} that should only run under a certain condition), and loop
+(\glspl{statement} to be run a specific amount of times). If a \gls{statement} is
+source or block, a list of their contained \glspl{statement} is retrieved and
 the process is repeated for each individual one. The final output is an
-annotated parse tree, which is the same as the original except it
-contains extra information about data types and symbols.
+\gls{annotated-parse-tree}, which is the same as the original except it
+contains extra information about data types and \glspl{symbol}.
 
-In the same of conditionals, loops, and expressions, the program flow
+In the same of conditionals, loops, and \glspl{expression}, the program flow
 begins to move further down and starts analysing specific portions of
-the statements (e.g.~the condition expression of a conditional
-statement), determining whether they are of the correct type
+the \glspl{statement} (e.g.~the condition \gls{expression} of a conditional
+\gls{statement}), determining whether they are of the correct type
 (e.g.~conditions must be of type boolean). This includes checking that
 values used as left and right operands for binary operators are of the
 same type, and the unary operators are being applied to valid types
 (e.g.~a not-operator cannot be used on a string).
 
-Furthermore, this is where the symbol table is first consulted; if the
+Furthermore, this is where the \gls{symbol-table} is first consulted; if the
 user attempts to access a variable that does not exist, an error is
-returned. If they try to assign a value to a variable, then a symbol
-object is created and added to the symbol table. Its worth noting that
+returned. If they try to assign a value to a variable, then a \gls{symbol}
+object is created and added to the \gls{symbol-table}. Its worth noting that
 the type checker also validates the types of variables, so the type
 checking previously discussed applies here. The only exception to this
 is when assigning variables new values, as the type of a variable can
@@ -936,37 +972,37 @@ the user attempt to use incompatible types.
 
 \subsection{Evaluator}
 The final stage of compilation is performed by the evaluator, which has
-the responsibility of calculating the results for every expression,
+the responsibility of calculating the results for every \gls{expression},
 running loops and conditionals according to their conditions, and
-assigning values to the previously declared symbols. The parsing process
-for statements is done the same way as it is in the type checker; by
-checking the statements type and evaluating each expression
+assigning values to the previously declared \glspl{symbol}. The \gls{parsing} process
+for \glspl{statement} is done the same way as it is in the type checker; by
+checking the \glspl{statement} type and evaluating each \gls{expression}
 individually. The only difference is that the evaluator only returns
 information that the user has printed, and any other values are lost.
 
-When an expression is evaluated, there is a filtering process which
-determines program flow by reviewing an expressions type; each type has
+When an \gls{expression} is evaluated, there is a filtering process which
+determines program flow by reviewing its type; each type has
 a method specifically designed for it (e.g.~`evaluateBinaryExpression',
 `evaluateUnaryExpression'), which examines the values used within that
-expression. Depending on the data types of the values, program flow is
+\gls{expression}. Depending on the data types of the values, program flow is
 then directed to another method designed for a specific type
 combination. At this point a final check is made to see what type of
 operation is being performed on the values (e.g.~addition,
-multiplication), and when theres a match the expression is computed
+multiplication), and when theres a match the \gls{expression} is computed
 accordingly by Java, with the result being returned. This is also where
-symbols are given their values, as the type checker only creates the
-symbols with their name and type, but doesn't have enough information to
+\glspl{symbol} are given their values, as the type checker only creates the
+\glspl{symbol} with their name and type, but doesn't have enough information to
 assign a value.
 
 \section{Graphical User Interface}
-The GUI has also been built entirely separate from the compiler, with
+The \acrshort{gui} has also been built entirely separate from the compiler, with
 the only link between them being the user input and the resulting
-output. Whilst technically being implemented in Java, the GUI was made
+output. Whilst technically being implemented in Java, the \acrshort{gui} was made
 using JavaFX - a software platform for creating desktop applications.
 This was further assisted through the use of the JavaFX tool Scene
 Builder that provides a visual layout for designing user interfaces
 without the need for coding, instead creating the interface with FXML,
-which is a XML format used specifically for designing JavaFX GUI's.
+which is a XML format used specifically for designing JavaFX \acrshort{gui}'s.
 
 The original draft of the IDE was developed using solely JavaFX and only
 contained a handful of features: a menu bar, code area, and output
@@ -987,15 +1023,15 @@ imperative that the interface was adaptable and wouldn't break when
 manipulated, as was the problem with the first draft. Fortunately there
 were options menus available built to avoid this where each individual
 aspect could be told to adapts its size if needed, allowing the entire
-GUI to fit into a given space.
+\acrshort{gui} to fit into a given space.
 
 \subsection{Controllers}
 Next was implementing the functionality for interactions with the
 interface, such as when a button is pressed or code is typed. To manage
 this FXML uses a `controller' - a class it utilises for initialising and
-managing the GUI's elements. Within this class all the methods to be run
+managing the \acrshort{gui}'s elements. Within this class all the methods to be run
 are stored, and are called upon by FXML when their corresponding
-component is interacted with. Once this link is made between the GUI and
+component is interacted with. Once this link is made between the \acrshort{gui} and
 the controller, the rest of the implementation is plain Java code (with
 the exception of outputting information back to the interface, for which
 components have their own functionality to do so).
@@ -1105,7 +1141,7 @@ standpoint.
 
 \textbf{Question 4: Do you think having the syntax being written
 completely in English would be easier for students to understand, rather
-than using standard mathematical expressions?}\\
+than using standard mathematical \glspl{expression}?}\\
 She came to the conclusion that whilst it would still make sense,
 students of a young age wouldn't have any more difficultly understanding
 basic maths than they would English, and would only serve to making
@@ -1131,12 +1167,12 @@ ensures requirements have been met.
 \subsection{Lexer Testing}
 In the original design of the lexer its primary requirement was to be
 capable of taking a string as input, inspecting each character and
-categorising it into a token with the corresponding type, and then
-outputting a list of tokens. Since all of the tests assess by default
-the input of strings and output of tokens, the main focus becomes the
-categorising of tokens. This was rather trivial as it simply required
+categorising it into a \gls{token} with the corresponding type, and then
+outputting a list of \glspl{token}. Since all of the tests assess by default
+the input of strings and output of \glspl{token}, the main focus becomes the
+categorising of \glspl{token}. This was rather trivial as it simply required
 the input of single character or word, and then examining the type of
-the single token found within the returned list, seeing if it matched
+the single \gls{token} found within the returned list, seeing if it matched
 what was expected. This was repeated for every character that was
 defined within the language, and the tests passing successfully meant
 that they were all being identified correctly.
@@ -1145,18 +1181,18 @@ that they were all being identified correctly.
 The parsers function is to check if the source code is syntactically
 correct by comparing it against the grammatical rules of the language.
 Given the large amount of possibilities in terms of combinations of
-tokens, the first step was to break down the tests into different
-expression categories: literal, unary, binary, identifier, assignment,
-and parenthesised expressions. Each one would be responsible for
-implementing tests for its assigned expression type, making it easy to
-discover which expression failed and the location the issue occurred in
+\glspl{token}, the first step was to break down the tests into different
+\gls{expression} categories: literal, unary, binary, \gls{identifier}, assignment,
+and parenthesised \glspl{expression}. Each one would be responsible for
+implementing tests for its assigned \gls{expression} type, making it easy to
+discover which \gls{expression} failed and the location the issue occurred in
 the parser. The tests would simply run the input through the parser and
-examine the type of expression that was returned, and check that it
+examine the type of \gls{expression} that was returned, and check that it
 matched against the expected outcome.
 
 In order to expand these test cases they were also used in conjunction
 with one another, for example all the tests were wrapped in parentheses
-and then passed as parenthesised expressions, allowing the amount of
+and then passed as parenthesised \glspl{expression}, allowing the amount of
 inputs to expand massively without the need to manually add extra cases.
 This was rather vital to include, as otherwise it would have meant
 either a lot of boilerplate code or lack of edge case testing. In any
@@ -1168,17 +1204,17 @@ code.
 Validating the type checker was rather similar to the parser in terms of
 how it was implemented, as not much changes outside of data types. Again
 each test was compartmentalised into various categories, with the result
-being compared against the expected expression type. Though since the
+being compared against the expected \gls{expression} type. Though since the
 role of the type checker is to validate type compatibility between
-operands and operators, the successful return of the correct expression
+operands and operators, the successful return of the correct \gls{expression}
 type meant that type validation was achieved and its function was
 performed correctly.
 
 \subsection{Evaluator Testing}
-The evaluators main job is to evaluate each expression and statement,
+The evaluators main job is to evaluate each \gls{expression} and \gls{statement},
 returning the resulting values. This was particularly simple to test
 since it only required surveying the final result. Each unit test would
-take expressions of a particular type, same as previously, and evaluate
+take \glspl{expression} of a particular type, same as previously, and evaluate
 the results by running them through the evaluator. The values returned
 were then compared against the expected outcome, and if they matched
 then the tests passed. It was again rather imperative that this stage
@@ -1281,7 +1317,7 @@ requirements has been successfully implemented (with the exception of
 functions) and the compiler is capable of fulfilling its purpose as a
 learning tool. Its completely stable and doesn't crash at any known
 point, with a large unit testing infrastructure in place for maintaining
-integrity. The GUI has been completed with all the core features, and
+integrity. The \acrshort{gui} has been completed with all the core features, and
 has been fitted with a well designed appearance including colour coding
 for syntax and error messages. Users are capable of interfacing with the
 file system for opening or saving work, and program execution is very
@@ -1289,7 +1325,7 @@ quick. The compiler is compatible with multiple operating systems, and
 is able to run without an installation process.
 
 However as mentioned, functions were not implemented in the final
-version of the compiler. The GUI also lacks extra features non-essential
+version of the compiler. The \acrshort{gui} also lacks extra features non-essential
 features which users may find useful for editing code, and doesn't
 include a light theme. There are also some bugs still present for niche
 input cases, which would need to be fixed before it could be used by a
@@ -1321,7 +1357,7 @@ array of cases to be covered, with the intention being to reduce the
 amount of bugs present within the compilers functionality.
 
 \subsection{GUI Clean-up}
-Cleaning up the code base for the GUI portion is also planned for the
+Cleaning up the code base for the \acrshort{gui} portion is also planned for the
 future, as currently its rather messy and isn't easy to understand. The
 reason for this is that it was built without prior knowledge of common
 practices or conventions, and was just configured until it worked.
@@ -1329,7 +1365,7 @@ Whilst this isn't much of an issue now considering everything functions
 as expected, over time it will become more difficult to implement more
 features if the foundations are shaky, likely leading to unexpected
 results and hard to track down bugs. The sooner the issue is dealt with,
-the easier it will be to fix. Extending the GUI with extra features is
+the easier it will be to fix. Extending the \acrshort{gui} with extra features is
 also a prospect, as currently it only contains the most basic
 functionality. Filling in the `Edit' menu would be priority since it is
 currently empty, and would include options for searching for text,
@@ -1355,7 +1391,7 @@ planning for the class structure was done, it could've been avoided and
 a lot of time would have been saved. I would also spend more time
 researching technologies that could be used to help build the project,
 such as Scene Builder. Originally, I was unaware of its existence and
-wasted a lot of time trying to build the GUI using raw JavaFX code. If I
+wasted a lot of time trying to build the \acrshort{gui} using raw JavaFX code. If I
 spent more time investigating other methods, I would have quickly
 discovered alternative methods and sped up development dramatically.
 
@@ -1415,140 +1451,29 @@ demonstration for my talents in the future.
   https://en.wikipedia.org/wiki/Compiler\_correctness
 \end{enumerate}
 
-\chapter{Appendices}
+\glossarystyle{list}
+\printglossary
 
-\section{Appendix A}
-\subsection{Source Code}
-\begin{itemize}
-\tightlist
-\item
-  \href{https://github.com/louislefevre/onyx-compiler/tree/master/src/main/java}{Source
-  Code} - Contains the source code for the compiler.
-\item
-  \href{https://github.com/louislefevre/onyx-compiler/tree/master/src/main/resources}{GUI
-  Resources} - GUI layout and styling resources, including FXML, CSS,
-  and image files.
-\end{itemize}
+\begin{appendices}
+	\chapter{Source Code}
+	\section{Compiler Code}
+	Contains the source code for the compiler.\\
+	\url{https://github.com/louislefevre/onyx-compiler/tree/master/src/main/java}
+	\section{GUI Code}
+	GUI layout and styling resources, including FXML, CSS, and image files.\\
+	\url{https://github.com/louislefevre/onyx-compiler/tree/master/src/main/resources}
 
-\section{Appendix B}
-\subsection{Weekly Logs}
-\begin{itemize}
-\tightlist
-\item
-  \href{https://llefe001.tumblr.com/}{Weekly Logs} - Tumblr blog
-  consisting of weekly logs written throughout development.
-\end{itemize}
+	\chapter{Documentation}
+	\section{Weekly Logs}
+	Tumblr blog consisting of weekly logs written throughout development.
+	\url{https://llefe001.tumblr.com/}
+	\section{Proposals}
+	Includes copies of the ideation, specification, and interim reports.
+	\url{https://github.com/louislefevre/onyx-compiler/tree/master/docs}
+	
+	\chapter{Screenshots}
+	\section{UML Diagrams}
 
-\section{Appendix C}
-\subsection{Proposals}
-\begin{itemize}
-\tightlist
-\item
-  \href{https://github.com/louislefevre/onyx-compiler/tree/master/docs}{Proposals}
-  - Includes copies of the ideation, specification, and interim reports.
-  Also includes a markdown version of this report.
-\end{itemize}
-
-\section{Appendix D}
-\subsection{UML Diagrams}
-
-\section{Appendix E}
-\subsection{Screenshots}
-
-\chapter{Glossary of Terms}
-Annotated parse tree
-
-``A parse tree that is annotated with additional type
-information.''{[}17{]}
-
-Block statement
-
-``A code block is a group of declarations and statements that operates
-as a unit, usually with its own level of lexical scope. For instance, a
-block of code may be used to define a function, a conditional statement,
-or a loop.''{[}15{]}
-
-Expression
-
-``A combination of letters, numbers, or symbols used to represent a
-value.''{[}15{]}
-
-Identifier
-
-``Identifier means the same as name. The term identifier is usually used
-for variable names.''{[}15{]}
-
-Keyword
-
-``Many programming languages reserve some identifiers as keywords for
-use when indicating the structure of a program, e.g.~if is often used to
-indicate some conditional code.''{[}16{]}
-
-Lexeme
-
-``A word or basic symbol in a language; e.g., a variable name would be a
-lexeme for a grammar of a programming language.''{[}17{]}
-
-Object binding
-
-``The association of a name with a variable or value.''{[}17{]}
-
-Parse tree
-
-``A data structure that shows how a statement in a language is derived
-from the context-free grammar of the language.''{[}17{]}
-
-Parsing
-
-``The process of reading a source language, determining its structure,
-and producing intermediate code for it.''{[}17{]}
-
-Real evaluate print loop
-
-``Short for read-eval-print loop, REPL is the interactive top level of a
-programming language interpreter or command line shell. It offers the
-user a simple prompt, accepts expressions, evaluates them, and prints
-the result.''{[}15{]}
-
-Recursive Descent Parser
-
-``A method of writing a parser in which a grammar rule is written as a
-procedure that recognizes that phrase, calling subroutines as needed for
-sub-phrases and producing a parse tree or other data structure as
-output.''{[}17{]}
-
-Scope
-
-``The region of program text over which a name can be
-referenced.''{[}17{]}
-
-Semantic information
-
-``The meaning of a statement in a language.''{[}17{]}
-
-Statement
-
-``A statement is a single line of code that is used to perform a
-specific task.''{[}15{]}
-
-Symbol
-
-``Refers to a variable stored within the symbol table.''
-
-Symbol table
-
-``A data structure that associates a name (symbol) with information
-about the named object.''{[}17{]}
-
-Token
-
-``A fundamental symbol as processed by syntax analysis. A token may be
-an identifier, a reserved keyword, a compound symbol, or a single
-character.''{[}16{]}
-
-Type checking
-
-``Tests performed by the compiler to ensure that types of data involved
-in an operation are compatible.''{[}17{]}
+\end{appendices}
 
 \end{document}
