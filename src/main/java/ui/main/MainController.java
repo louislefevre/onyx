@@ -185,8 +185,16 @@ public final class MainController
 
     private void openHyperlink(String url) throws IOException
     {
-        // Only works on Linux
+        String systemName = System.getProperty("os.name").toLowerCase();
         Runtime runtime = Runtime.getRuntime();
-        runtime.exec("xdg-open " + url);
+
+        if (systemName.contains("win"))
+            runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
+        else if (systemName.contains("mac"))
+            runtime.exec("open " + url);
+        else if (systemName.contains("nix") || systemName.contains("nux"))
+            runtime.exec("xdg-open " + url);
+        else
+            openPopupAlert("Failed to open browser: unrecognised operating system.");
     }
 }

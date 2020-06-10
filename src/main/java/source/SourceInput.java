@@ -45,7 +45,7 @@ public final class SourceInput
     private static String cleanText(String text)
     {
         String lastChar = text.substring(text.length() - 1);
-        if(!lastChar.equals(System.lineSeparator()))
+        if (!(lastChar.equals(System.lineSeparator()) || lastChar.equals("\n")))
             text += System.lineSeparator();
         return text;
     }

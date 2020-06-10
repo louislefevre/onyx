@@ -18,5 +18,7 @@ public class Main extends Application
         stageManager.startMain(primaryStage);
     }
 }
-
-// VM Options: --module-path lib/openjfx-11.0.2_linux-x64_bin-sdk/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml
+/* ** VM Options **
+ * Linux: --module-path lib/openjfx-11.0.2_linux-x64_bin-sdk/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml
+ * Windows: --module-path "lib\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
+ */

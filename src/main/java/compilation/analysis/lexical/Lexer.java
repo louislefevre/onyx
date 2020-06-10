@@ -74,6 +74,8 @@ public final class Lexer
 
     private Token lineBreakToken()
     {
+        if (currentChar().equals("\r") && nextChar().equals("\n")) // Handles Windows line breaks
+            return new Token(LINE_BREAK_TOKEN, LINE_BREAK_SYNTAX, currentPositionThenNext(2));
         return new Token(LINE_BREAK_TOKEN, LINE_BREAK_SYNTAX, currentPositionThenNext(1));
     }
 
@@ -343,7 +345,7 @@ public final class Lexer
 
     private static boolean isLineBreak(String str)
     {
-        return str.equals(LINE_BREAK_SYNTAX);
+        return str.equals(LINE_BREAK_SYNTAX) || str.equals("\r") || str.equals("\n");
     }
 
     private static boolean isWhitespace(String str)
