@@ -56,15 +56,6 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-%%% Links %%%%%%%%%%%%%%%%%%%%%
-\hypersetup{
-	colorlinks=true,
-	linkcolor=black,
-	filecolor=black,
-	urlcolor=cyan,
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%% Glossary %%%%%%%%%%%%%%%%%%
 \usepackage[toc]{glossaries}
 \makeglossaries
@@ -425,10 +416,22 @@ close-to-machine-level aspects. A compiler goes through various stages
 when processing syntax, with each stage transforming the program
 representation in some way. In the form of a pipeline, each component
 takes input from its predecessor, transforms it, and feeds the output
-forward to the next component \cite{guru99-website}. The amount of stages within a
-compiler can vary, but in the case of Onyx contains the following.
+forward to the next component \cite{guru99-website}. These stages are
+shown in figure \ref{fig:compiler-phases}.
+
+Throughout design the famous text Compilers: Principles, Techniques, and Tools \cite{dragon-book},
+also known as the 'Dragon Book', was consulted to help better understand 
+the structure of a compiler and the science behind building one.
 
 The top-level package structure can be found in figure \ref{fig:top-package-diagram}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{compiler-phases}
+	\caption{Phases of a compiler \cite{dragon-book}}
+	\label{fig:compiler-phases}
+\end{figure}
+\newpage
 
 \subsection{Lexical Analysis}
 A compiler will typically always start with \gls{lexical-analysis}, which is
@@ -485,34 +488,54 @@ The second stage of compilation is \gls{syntax-analysis}, also known as
 \glspl{token} produced by the lexer as input, validate the arrangement of
 \glspl{token} against the programming languages grammatical rules, and from
 that generate a \gls{parse-tree} that represents the structure of the source
-program. The primary purpose of this component is to ensure the
-\glspl{expression} made by the arrangement of \glspl{token} is syntactically correct,
-following a format defined by the language being used \cite{tutorials-guide}. From this
-a \gls{parse-tree} can be generated, which demonstrates how each \gls{token} is
-grouped together in each individual \gls{statement}. The parser would also
-identify any syntactical errors found within the source code.
+program, as shown in figure \ref{fig:parse-tree}. However, some information
+is lost during this process, such as comments and grouping symbols
+(e.g. parenthesis) \cite{parsing-tools}. The primary purpose of this component
+is to ensure the \glspl{expression} made by the arrangement of \glspl{token}
+is syntactically correct, following a format defined by the language being
+used \cite{tutorials-guide}. The parser would also identify any syntactical
+errors found within the source code.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{parse-tree}
+	\caption{Parse tree for a conditional statement \cite{dragon-book}}
+	\label{fig:parse-tree}
+\end{figure}
 
 The parser is designed as a \gls{recursive-descent parser}, which adopts a
 top-down \gls{parsing} strategy where it begins at the highest level and works
-its way down, building the \gls{parse-tree} as it goes \cite{geeks-website}. The input is
-read from left to right, taking in \glspl{token} until it reaches the end of
-the file. Each \gls{token} would be identified by its type, sending the parser
-flow in a different direction depending on the result. The following
-\glspl{token} would then be checked to ensure they appear as expected, such as
-an equals operator \gls{token} appearing after an \gls{identifier} \gls{token}, and an
-\gls{expression} would be returned. This \gls{expression} would contain all its
-relevant \glspl{token}, such as in the case of the previous example: an
-\gls{identifier}, an equals operator, and the assignment. In the original
-design the parser was only able to handle \glspl{expression}, but this was
-later extended to also process \glspl{statement} so that full programs could be
+its way down, building the \gls{parse-tree} as it goes \cite{geeks-website}.
+It works with a set of mutually recursive procedures, with one being defined
+for each grammatical rule, the parsers structure mirrors the structure of
+the grammar \cite{parsing-algorithms}. The input is read from left to right,
+taking in \glspl{token} until it reaches the end of the file. Each \gls{token}
+would be identified by its type, sending the parser flow in a different direction
+depending on the result. The following \glspl{token} would then be checked to
+ensure they appear as expected, such as an equals operator \gls{token} appearing
+after an \gls{identifier} \gls{token}, and an \gls{expression} would be returned.
+This \gls{expression} would contain all its relevant \glspl{token}, such as in
+the case of the previous example: an \gls{identifier}, an equals operator, and
+the assignment. In the original design the parser was only able to handle \glspl{expression},
+but this was later extended to also process \glspl{statement} so that full programs could be
 written all at once since the former only allowed \acrshort{repl}-like behaviour.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{operator-precedence}
+	\caption{Parse tree for the expression 2+3*4 \cite{compiler-design-book}}
+	\label{fig:operator-precedence}
+\end{figure}
+
 Another aspect that had to be considered was precedence for operators.
-Parsers sometimes define a priority value for each operator, and during
-\gls{parsing} they are shuffled around with the parser being data driven by
-those priorities, providing an indicator for which \glspl{expression} to parse
-next. This makes the adding of additional operators much easier, as it
-provides the ability to view operators and see their priority order.
+Its common for programming languages to use a hierarchy of operator precedences
+to decide what will be calculated first in an expression, such as product before
+the sum) \cite{compiler-design-book}. A parser may define a priority value for
+each operator, and during \gls{parsing} they are shuffled around with the parser
+being data driven by those priorities, providing an indicator for which \glspl{expression}
+to parse next. This makes the adding of additional operators much easier, as it
+provides the ability to view operators and see their priority order. An example
+of a parse tree produced from the expression \texttt{2+3*4} can be seen in figure \ref{fig:operator-precedence}.
 
 The package structure for \gls{syntax-analysis} can be found in figure \ref{fig:syntax-package-diagram}.
 
@@ -936,7 +959,8 @@ structure made it rather trivial to isolate each aspect and then
 implement the functionality individually, so exploring the source code
 isn't too challenging. For assistance in building the foundational classes
 and understanding the basics of compiler construction, Immo Landwerth's "Building
-a Compiler" video series \cite{compiler-video} was used.
+a Compiler" video series \cite{compiler-video} was used, as well as the online
+book 'Crafting Interpreters' \cite{crafting-interpreters}.
 
 The compilers code can be found in appendix \ref{appendix:compiler-code}.
 
@@ -1048,7 +1072,7 @@ a method specifically designed for it (e.g.~`evaluateBinaryExpression',
 then directed to another method designed for a specific type
 combination. At this point a final check is made to see what type of
 operation is being performed on the values (e.g.~addition,
-multiplication), and when theres a match the \gls{expression} is computed
+multiplication), and when there's a match the \gls{expression} is computed
 accordingly by Java, with the result being returned. This is also where
 \glspl{symbol} are given their values, as the type checker only creates the
 \glspl{symbol} with their name and type, but doesn't have enough information to
@@ -1114,7 +1138,7 @@ individual errors it in the proper way, and avoid unexpected results if
 something goes wrong.
 
 For opening and saving files most of the heavy lifting is performed by
-the `FileChooser'; a JavaFX class that provides a dialog window for
+the `FileChooser'; a JavaFX class that provides a dialogue window for
 selecting files and directories. Returned from this is a `File' object
 pointing to the users choice, which is then checked for validation. In
 the case of opening a file, it is checked to see if it is null (a result
@@ -1336,7 +1360,7 @@ automatically converted to longs whenever a number exceeds the limit
 Variables are implicitly defined, not requiring any kind of type
 declaration. Whenever a variable is assigned with a new value of a
 different type, this conversion is allowed so long as no other operation
-is being performed at the same (e.g.~adding, subtracting, etc). All
+is being performed at the same (e.g.~adding, subtracting, etc.). All
 variables are also accessible on the global scope, making it possible to
 declare them within loops and conditionals.
 
@@ -1363,7 +1387,7 @@ an attempt to remove confusion and frustration during learning experiences.
 \section{Simple Setup}
 To satisfy the objectives for having a program compatible with all
 operating systems whilst also being easy to run, the project was
-developed with Java and built as a JAR artifact using IntelliJ IDEA.
+developed with Java and built as a JAR artefact using IntelliJ IDEA.
 Since Java runs within the JVM the project only requires Java 11 to be
 installed for compatibility, and requires no installation as only the
 JAR/EXE file needs to be run. Furthermore, Onyx does not have its own
