@@ -288,12 +288,12 @@ final class DataFactory
 
         input = "(";
         token = new Token(EOF_TOKEN, EOF_SYNTAX, 1);
-        error = SyntaxError.invalidToken(token.getSpan(), token);
+        error = SyntaxError.incompleteExpression(token.getSpan());
         syntaxErrors.put(input, error);
 
         input = "{";
-        token = new Token(OPEN_BRACE_TOKEN, OPEN_BRACE_SYNTAX, 0);
-        error = SyntaxError.invalidToken(token.getSpan(), token);
+        token = new Token(OPEN_BRACE_TOKEN, OPEN_BRACE_SYNTAX, 1);
+        error = SyntaxError.unexpectedToken(token, CLOSE_BRACE_TOKEN);
         syntaxErrors.put(input, error);
 
         return syntaxErrors;

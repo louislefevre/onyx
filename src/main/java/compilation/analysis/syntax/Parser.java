@@ -9,10 +9,10 @@ import types.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static errors.SyntaxError.expectedExpression;
+import static errors.SyntaxError.emptyParenthesis;
+import static errors.SyntaxError.incompleteExpression;
 import static errors.SyntaxError.invalidStatement;
-import static errors.SyntaxError.invalidToken;
-import static errors.SyntaxError.invalidTokenPair;
+import static errors.SyntaxError.unexpectedToken;
 import static types.TokenType.*;
 
 public final class Parser
@@ -249,7 +249,7 @@ public final class Parser
 
         if (currentTokenType() == CLOSE_PARENTHESIS_TOKEN)
         {
-            SyntaxError error = expectedExpression(openParenthesisToken.getSpan(), currentToken().getSpan());
+            SyntaxError error = emptyParenthesis(openParenthesisToken.getSpan(), currentToken().getSpan());
             errorHandler.add(error);
         }
 
@@ -265,7 +265,7 @@ public final class Parser
         Token badToken = new Token(BAD_TOKEN, currentToken.getSyntax(),
                                    currentToken.getValue(), currentToken.getPosition());
 
-        SyntaxError error = invalidToken(currentToken.getSpan(), currentToken);
+        SyntaxError error = incompleteExpression(currentToken.getSpan());
         errorHandler.add(error);
 
         return new LiteralExpression(badToken, null);
@@ -286,7 +286,7 @@ public final class Parser
         if (currentToken.getType() == type)
             return true;
 
-        SyntaxError error = invalidTokenPair(currentToken.getSpan(), currentToken, type);
+        SyntaxError error = unexpectedToken(currentToken, type);
         errorHandler.add(error);
         return false;
     }

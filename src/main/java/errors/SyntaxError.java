@@ -13,15 +13,16 @@ public final class SyntaxError extends Error
         super(SYNTAX_ERROR, span, problem, solution);
     }
 
-    public static SyntaxError invalidToken(SourceSpan span, Token token)
+    public static SyntaxError incompleteExpression(SourceSpan span)
     {
-        String problem = String.format("The text '%s' is invalid.", token.getSyntax());
-        String solution = "Refer to the wiki.";
+        String problem = "This line is incomplete and ends unexpectedly.";
+        String solution = "Refer to the wiki and read the section related to what you are trying to do.";
         return new SyntaxError(span, problem, solution);
     }
 
-    public static SyntaxError invalidTokenPair(SourceSpan span, Token token, TokenType expectedType)
+    public static SyntaxError unexpectedToken(Token token, TokenType expectedType)
     {
+        SourceSpan span = token.getSpan();
         String syntax = token.getSyntax();
 
         String problem, solution;
@@ -44,7 +45,7 @@ public final class SyntaxError extends Error
                 solution = "Add a close brace character (\"}\") here, or remove the opening brace character.";
                 break;
             default:
-                return invalidToken(span, token);
+                return incompleteExpression(span);
         }
 
         return new SyntaxError(span, problem, solution);
@@ -58,7 +59,7 @@ public final class SyntaxError extends Error
         return new SyntaxError(span, problem, solution);
     }
 
-    public static SyntaxError expectedExpression(SourceSpan openParenSpan, SourceSpan closeParenSpan)
+    public static SyntaxError emptyParenthesis(SourceSpan openParenSpan, SourceSpan closeParenSpan)
     {
         SourceSpan span = SourceSpan.inRange(openParenSpan.getStart(), closeParenSpan.getEnd());
         String problem = "Parenthesis cannot be empty.";
