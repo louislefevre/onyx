@@ -12,7 +12,7 @@ It is aimed towards beginners who are looking to learn the foundational aspects 
 - [assets/](assets) - Images for markdown use
 
 ## Documentation
-- [JavaDocs](https://github.com/louislefevre/onyx-docs) - Java class documentation
+- [JavaDocs](https://louislefevre.github.io/onyx-docs/) - Java class documentation
 - [Wiki](https://github.com/louislefevre/onyx-compiler/wiki) - User and developer guides
 - [Video Demonstration](https://vimeo.com/427916405) - Explains and demonstrates each of the compilers features
 - [Log Reports](https://llefe001.tumblr.com/) - Weekly log reports written throughout development
