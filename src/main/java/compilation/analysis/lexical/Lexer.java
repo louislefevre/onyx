@@ -15,12 +15,41 @@ import static errors.LexicalError.invalidDouble;
 import static errors.LexicalError.invalidInt;
 import static types.TokenType.*;
 
+/**
+ * The Lexer class is responsible for performing lexical analysis on a string of text, identifying each character
+ * one by one.
+ * <p>
+ * It creates Tokens that represent each individual character, ultimately producing a List of Token objects
+ * ordered sequentially. During this stage any characters that are unrecognised by source language are identified
+ * and reported as an error.
+ * <p>
+ * The contents of the String contained within SourceInput are parsed character by character, with each one
+ * being examined individually in order to gather information about its general characteristics (e.g. syntax, value,
+ * type, and position in the text). A Token object is then generated to store this data, with a new instance being
+ * created to represent every character. These are incrementally and sequentially added to a List, which is the
+ * single output of this class.
+ * <p>
+ * Any compilation errors that occur during this stage are passed to the ErrorHandler in the form of LexicalError
+ * objects.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class Lexer
 {
     private final SourceInput sourceInput;
     private final ErrorHandler errorHandler;
     private int position;
 
+    /**
+     * Constructs a Lexer object initialised with contents of sourceInput.
+     * <p>
+     * The Lexer always begins at position 0 in the text, and adds any errors to the errorHandler.
+     *
+     * @param sourceInput The source code input by the user
+     * @param errorHandler The ErrorHandler to store any errors that occur
+     */
     public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)
     {
         this.sourceInput = sourceInput;
@@ -28,6 +57,13 @@ public final class Lexer
         this.position = 0;
     }
 
+    /**
+     * Returns a List of Token objects generated from sourceInput.
+     * <p>
+     * The contents of sourceInput are lexed into Token objects, and added sequentially into a List.
+     *
+     * @return A List of Token objects
+     */
     public List<Token> getTokens()
     {
         return lexTokens();

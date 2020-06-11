@@ -15,6 +15,26 @@ import static errors.SyntaxError.invalidStatement;
 import static errors.SyntaxError.unexpectedToken;
 import static types.TokenType.*;
 
+/**
+ * The Parser class is responsible for performing syntax analysis on a List of Tokens, discovering whether or not
+ * the structure of the program conforms to the rules of the source languages grammar.
+ * <p>
+ * It creates a ParseTree that holds the Statements and Expressions which make up the structure of the input code.
+ * During this stage any Expressions that are unrecognised by the source language are identified and reported
+ * as an error.
+ * <p>
+ * The List of Tokens produced by the Lexer is retrieved, with its contents being parsed sequentially. Each individual
+ * Token is inspected and recursively analysed in an attempt to discover the structure of its parent expression
+ * or statement, with the result being added to a List of Statements held by a SourceStatement object. This
+ * represents the entire program.
+ * <p>
+ * Any compilation errors that occur during this stage are passed to the ErrorHandler in the form of SyntaxError
+ * objects.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class Parser
 {
     private final List<Token> tokens;
@@ -22,6 +42,20 @@ public final class Parser
     private final boolean replMode;
     private int position;
 
+    /**
+     * Constructs a Parser object initialised with the tokens from the Lexer.
+     * <p>
+     * The Lexer always begins at position 0 in List of Tokens, and adds any errors to the errorHandler.
+     * <p>
+     * If REPL mode is true, the Parser will only parse a single line and disallow the use of multiline
+     * Statements (e.g. conditionals, loops, blocks). If REPL mode is false, the Parser will parse multiple
+     * lines and allow the use of multiline Statements. In summary, the former is for single-line parsing,
+     * whilst the latter is for multiline parsing.
+     *
+     * @param lexer The Lexer used to generate the List of Tokens
+     * @param errorHandler The ErrorHandler to store any errors that occur
+     * @param replMode The boolean indicating the Parser should run in REPL mode
+     */
     public Parser(Lexer lexer, ErrorHandler errorHandler, boolean replMode)
     {
         this.tokens = lexer.getTokens();
@@ -30,6 +64,15 @@ public final class Parser
         this.position = 0;
     }
 
+    /**
+     * Returns a ParseTree object generated from the Lexer.
+     * <p>
+     * The List of Token objects is retrieved from the Lexer, parsed into a series of Statements and
+     * Expressions that represent the structure of the input code, and then returned in the form
+     * of a ParseTree.
+     *
+     * @return A ParseTree containing the root Statement
+     */
     public ParseTree getParseTree()
     {
         Statement statement = replMode ? replTree() : ideTree();
