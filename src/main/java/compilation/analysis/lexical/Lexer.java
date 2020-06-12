@@ -47,7 +47,7 @@ public final class Lexer
      * <p>
      * The Lexer always begins at position 0 in the text, and adds any errors to the errorHandler.
      *
-     * @param sourceInput The source code input by the user
+     * @param sourceInput The source code input to be lexed
      * @param errorHandler The ErrorHandler to store any errors that occur
      */
     public Lexer(SourceInput sourceInput, ErrorHandler errorHandler)

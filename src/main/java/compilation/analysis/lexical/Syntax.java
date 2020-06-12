@@ -1,5 +1,16 @@
 package compilation.analysis.lexical;
 
+/**
+ * The Syntax class is used to hold constant String variables that identify valid Onyx syntax.
+ * <p>
+ * This class is solely used for the purpose of storing recognised Onyx syntax as constants. Other classes which
+ * need to refer to the syntax for each keyword or symbol may do so here, as it ensures all code remains
+ * consistent by using variables from the same location.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class Syntax
 {
     // Data Type Characters
