@@ -6,6 +6,16 @@ import source.SourceLine;
 import source.SourceSpan;
 import types.ErrorType;
 
+/**
+ * The Error class is an abstract class used to represent errors that occur during compilation.
+ * <p>
+ * Children classes of Error call the parent constructor when initialised, and the majority of object generation is
+ * performed here, which stores information about the error that occurred.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 @Getter
 public abstract class Error
 {
@@ -14,6 +24,17 @@ public abstract class Error
     private final String problem;
     private final String solution;
 
+    /**
+     * Constructs an Error object for storing information about an error that occurred during compilation.
+     * <p>
+     * To generate an Error, it is required to provide a description of the problem and a solution. These must be
+     * clear, detailed, and jargon-free. The type of error and location in the text must also be provided.
+     *
+     * @param errorType The type of error, which is based on where in the compilation process it occurred
+     * @param span The location in the text that the error occurred
+     * @param problem A description of the problem which caused the error
+     * @param solution A description of a possible solution to solve the error
+     */
     public Error(ErrorType errorType, SourceSpan span, String problem, String solution)
     {
         this.errorType = errorType;
@@ -22,11 +43,31 @@ public abstract class Error
         this.solution = solution;
     }
 
+    /**
+     * Returns an ErrorMessage object, containing formatted information about the error that occurred.
+     * <p>
+     * The same SourceInput object used during compilation is required in order to identify and visualised where
+     * in the text the error occurred.
+     *
+     * @param sourceInput The original SourceInput used during compilation
+     * @return An ErrorMessage object containing information about the error
+     */
     public ErrorMessage getErrorMessage(SourceInput sourceInput)
     {
         return new ErrorMessage(this, sourceInput);
     }
 
+    /**
+     * The ErrorMessage class is used to store information about an error.
+     * <p>
+     * Extracts information from an Error object, retrieving data regarding the problem, solution, and location of
+     * the error. This information is then formatted and split into various String objects, each of which hold a
+     * particular portion of the overall error message.
+     *
+     * @author Louis Lefevre
+     * @version 1.0
+     * @since 1.0
+     */
     @Getter
     public static class ErrorMessage
     {
@@ -89,6 +130,11 @@ public abstract class Error
             solution = lineBreak + "Solution:" + lineBreak + error.getSolution() + lineBreak;
         }
 
+        /**
+         * Concatenates each of the Strings held by this object, and returns them as a single formatted String.
+         *
+         * @return A String containing the entire error message
+         */
         @Override
         public String toString()
         {

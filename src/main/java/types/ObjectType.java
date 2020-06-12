@@ -1,5 +1,12 @@
 package types;
 
+/**
+ * The ObjectType enum is used to store constants related to an Objects data type.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public enum ObjectType
 {
     INTEGER_OBJECT,
@@ -8,6 +15,14 @@ public enum ObjectType
     STRING_OBJECT,
     NULL_OBJECT;
 
+    /**
+     * Returns a user friendly version of the data types name.
+     * <p>
+     * The name of the ObjectType enum is split by its underscore, with the left portion being retrieved and
+     * converted to lowercase.
+     *
+     * @return The name of the data type
+     */
     @Override
     public String toString()
     {

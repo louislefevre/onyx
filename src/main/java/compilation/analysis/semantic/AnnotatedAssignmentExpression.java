@@ -6,6 +6,14 @@ import types.ObjectType;
 
 import static types.AnnotatedExpressionType.ANNOTATED_ASSIGNMENT_EXPRESSION;
 
+/**
+ * The AnnotatedAssignmentExpression class is used to store information about annotated assignment expressions declared
+ * during compilation.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 @Getter
 public final class AnnotatedAssignmentExpression implements AnnotatedExpression
 {
@@ -15,6 +23,15 @@ public final class AnnotatedAssignmentExpression implements AnnotatedExpression
     private final ObjectType objectType;
     private final AnnotatedExpressionType expressionType;
 
+    /**
+     * Constructs an AnnotatedAssignmentExpression object, initialised with the expressions contents.
+     * <p>
+     * The ObjectType is automatically added based on the type of the assigned Expression.
+     *
+     * @param identifier The identifier being assigned to
+     * @param operator The operator being used
+     * @param expression The expression being assigned
+     */
     public AnnotatedAssignmentExpression(AnnotatedIdentifierExpression identifier, AnnotatedAssignmentOperator operator, AnnotatedExpression expression)
     {
         this.identifier = identifier;

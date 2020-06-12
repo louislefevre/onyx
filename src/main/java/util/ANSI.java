@@ -1,5 +1,12 @@
 package util;
 
+/**
+ * The ANSI class is used to hold constant String variables that represent ASCII colour codes.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class ANSI
 {
     public static final String RESET = "\u001B[0m";

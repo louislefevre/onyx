@@ -8,6 +8,17 @@ import static types.ObjectType.*;
 import static types.OperatorType.*;
 import static types.TokenType.*;
 
+/**
+ * The TypeBinder class is used to identify if an operator and operand(s) are compatible with one another.
+ * <p>
+ * Using pre-defined operator combinations, the class takes an operator and operand(s) and compares them against the
+ * corresponding pre-defined set. For example, to check whether an addition operator is valid to use between an integer
+ * and double. If true, an AnnotatedOperator object is returned. If false, null is returned.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class TypeBinder
 {
     private static final AnnotatedUnaryOperator[] unaryOperators =
@@ -110,6 +121,15 @@ public final class TypeBinder
         new AnnotatedAssignmentOperator(PLUS_EQUALS_TOKEN, ADDITION_OPERATOR, STRING_OBJECT)
     };
 
+    /**
+     * Attempts to bind an operator to an operand, returning an AnnotatedUnaryOperator object if they are compatible.
+     * <p>
+     * If the operator and operand are not compatible, null is returned.
+     *
+     * @param operatorType The TokenType of the operator
+     * @param operandType The ObjectType of the operand
+     * @return An AnnotatedUnaryOperator object containing the expressions type enums
+     */
     @Nullable
     public static AnnotatedUnaryOperator bindUnaryOperators(TokenType operatorType, ObjectType operandType)
     {
@@ -121,6 +141,17 @@ public final class TypeBinder
         return null;
     }
 
+    /**
+     * Attempts to bind a two operands with an operator, returning an AnnotatedBinaryOperator object if they are
+     * compatible.
+     * <p>
+     * If the operator and operands are not compatible, null is returned.
+     *
+     * @param operatorType The TokenType of the operator
+     * @param leftOperandType The ObjectType of the left operand
+     * @param rightOperandType The ObjectType of the right operand
+     * @return An AnnotatedBinaryOperator object containing the expressions type enums
+     */
     @Nullable
     public static AnnotatedBinaryOperator bindBinaryOperators(TokenType operatorType, ObjectType leftOperandType,
                                                               ObjectType rightOperandType)
@@ -134,6 +165,17 @@ public final class TypeBinder
         return null;
     }
 
+    /**
+     * Attempts to bind an assignment operator to a symbol and assignment, returning an AnnotatedAssignmentOperator
+     * object if they are compatible.
+     * <p>
+     * If the operator, symbol, and assignment are not compatible, null is returned.
+     *
+     * @param operatorType The TokenType of the operator
+     * @param symbolType The ObjectType of the symbol
+     * @param assignmentType The ObjectType of the assignment
+     * @return An AnnotatedAssignmentOperator object containing the expressions type enums
+     */
     @Nullable
     public static AnnotatedAssignmentOperator bindAssignmentOperators(TokenType operatorType, ObjectType symbolType,
                                                                       ObjectType assignmentType)

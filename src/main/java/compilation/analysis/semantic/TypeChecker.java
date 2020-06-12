@@ -61,7 +61,7 @@ public final class TypeChecker
     }
 
     /**
-     * Returns an AnnotatedParseTree objected generated from the Parser.
+     * Returns an AnnotatedParseTree object generated from the Parser.
      * <p>
      * The Statements contained within the ParseTree retrieved from the Parser are annotated with information
      * regarding the data types used, and then returned in the form of an AnnotatedParseTree.
@@ -92,7 +92,7 @@ public final class TypeChecker
             case LOOP_STATEMENT:
                 return annotateLoopStatement((LoopStatement) statement);
             default:
-                String errorMessage = SemanticException.undefinedStatement(statement.getStatementType().toString());
+                String errorMessage = SemanticException.unexpectedStatement(statement.getStatementType());
                 throw new SemanticException(errorMessage);
         }
     }
@@ -182,7 +182,7 @@ public final class TypeChecker
             case PARENTHESIZED_EXPRESSION:
                 return annotateParenthesizedExpression((ParenthesizedExpression) expression);
             default:
-                String errorMessage = SemanticException.undefinedExpression(expression.getExpressionType().toString());
+                String errorMessage = SemanticException.unexpectedExpression(expression.getExpressionType());
                 throw new SemanticException(errorMessage);
         }
     }

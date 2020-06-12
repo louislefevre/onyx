@@ -19,12 +19,29 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The CodeAreaManager class is used manage the CodeArea where the user inputs their code.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 final class CodeAreaManager
 {
     private final CodeArea codeArea;
     private final TextField tabSizeField;
     private int tabSize;
 
+    /**
+     * Constructs a CodeAreaManager for managing a CodeArea object.
+     * <p>
+     * The TextField containing the size of the tabs, as defined by the user, is read every time the user makes
+     * changes to it. These changes are reflected in tabSize.
+     *
+     * @param codeArea The CodeArea to be managed
+     * @param tabSizeField The TextField defining the size of tabs
+     * @param tabSize The initial tab size
+     */
     public CodeAreaManager(CodeArea codeArea, TextField tabSizeField, int tabSize)
     {
         this.codeArea = codeArea;
@@ -33,6 +50,16 @@ final class CodeAreaManager
         initialiseCodeArea();
     }
 
+    /**
+     * Compiles the code currently in the CodeArea, and outputs the result.
+     * <p>
+     * The code is retrieved from the CodeArea and converted into a String, which is then compiled by the Compiler,
+     * and the output being returned in the form of a TextFlow object.
+     * <p>
+     * The parse tree and symbol table are printed to the console when ever this method runs.
+     *
+     * @return A TextFlow object containing the output
+     */
     public TextFlow compileInput()
     {
         String input = codeArea.getText();
@@ -47,6 +74,11 @@ final class CodeAreaManager
         return output.getOutput();
     }
 
+    /**
+     * Returns the current line and column of the caret, formatted as a String.
+     *
+     * @return The current position of the caret
+     */
     public String getCaretPosition()
     {
         int lineNum = codeArea.getCurrentParagraph() + 1;
@@ -54,7 +86,14 @@ final class CodeAreaManager
         return String.format("%s:%s", lineNum, columnNum);
     }
 
-    public void refreshTabSize()
+    /**
+     * Updates the tab size to reflect the contents of the tabSizeField.
+     * <p>
+     * The text is retrieved from the Label containing the user-defined tab size. If the input is not an integer,
+     * or is larger than 99/less than 1, the tab size is not updated and the tabSizeField text is reset back to its
+     * last value.
+     */
+    public void updateTabSize()
     {
         String text = tabSizeField.getText();
         int size;
@@ -77,6 +116,13 @@ final class CodeAreaManager
         tabSizeField.positionCaret(sizeText.length());
     }
 
+    /**
+     * Limits how many characters can be displayed in the tab size Label.
+     * <p>
+     * If the users input is greater than the specified limit, the excess text is removed from the Label.
+     *
+     * @param charLimit the maximum amount of characters allowed
+     */
     public void limitTabSize(int charLimit)
     {
         if (tabSizeField.getText().length() > charLimit)

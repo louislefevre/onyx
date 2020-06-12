@@ -6,6 +6,15 @@ import types.TokenType;
 
 import static types.ErrorType.SYNTAX_ERROR;
 
+/**
+ * The SyntaxError class is used to represent an error that occurred during the syntax analysis stage of compilation.
+ * <p>
+ * Static methods for generating SyntaxErrors are stored here, each of which uses a set of pre-defined input Strings.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class SyntaxError extends Error
 {
     public SyntaxError(SourceSpan span, String problem, String solution)
@@ -13,6 +22,12 @@ public final class SyntaxError extends Error
         super(SYNTAX_ERROR, span, problem, solution);
     }
 
+    /**
+     * Generate and return a SyntaxError for an incomplete expression.
+     *
+     * @param span The location information for where an error occurred
+     * @return A SyntaxError containing information about an error that occurred
+     */
     public static SyntaxError incompleteExpression(SourceSpan span)
     {
         String problem = "This line is incomplete and ends unexpectedly.";
@@ -20,6 +35,13 @@ public final class SyntaxError extends Error
         return new SyntaxError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SyntaxError for an unexpected token.
+     *
+     * @param token The Token which caused the error
+     * @param expectedType The TokenType that was expected
+     * @return A SyntaxError containing information about an error that occurred
+     */
     public static SyntaxError unexpectedToken(Token token, TokenType expectedType)
     {
         SourceSpan span = token.getSpan();
@@ -51,6 +73,12 @@ public final class SyntaxError extends Error
         return new SyntaxError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SyntaxError for an invalid statement.
+     *
+     * @param span The location information for where an error occurred
+     * @return A SyntaxError containing information about an error that occurred
+     */
     public static SyntaxError invalidStatement(SourceSpan span)
     {
         String problem = "Expressions cannot be written on their own.";
@@ -59,6 +87,13 @@ public final class SyntaxError extends Error
         return new SyntaxError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SyntaxError for a set of empty parenthesis.
+     *
+     * @param openParenSpan The location information for the open parenthesis token
+     * @param closeParenSpan The location information for the close parenthesis token
+     * @return A SyntaxError containing information about an error that occurred
+     */
     public static SyntaxError emptyParenthesis(SourceSpan openParenSpan, SourceSpan closeParenSpan)
     {
         SourceSpan span = SourceSpan.inRange(openParenSpan.getStart(), closeParenSpan.getEnd());

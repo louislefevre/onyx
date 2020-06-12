@@ -5,6 +5,15 @@ import types.ObjectType;
 
 import static types.ErrorType.SEMANTIC_ERROR;
 
+/**
+ * The SemanticError class is used to represent an error that occurred during the semantic analysis stage of compilation.
+ * <p>
+ * Static methods for generating SemanticErrors are stored here, each of which uses a set of pre-defined input Strings.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class SemanticError extends Error
 {
     public SemanticError(SourceSpan span, String problem, String solution)
@@ -12,6 +21,14 @@ public final class SemanticError extends Error
         super(SEMANTIC_ERROR, span, problem, solution);
     }
 
+    /**
+     * Generate and return a SemanticError for an incompatible unary operator.
+     *
+     * @param span The location information for where an error occurred
+     * @param syntax The syntax of the operator
+     * @param type The ObjectType of the operand
+     * @return A SemanticError containing information about an error that occurred
+     */
     public static SemanticError undefinedUnaryOperator(SourceSpan span, String syntax, ObjectType type)
     {
         String problem = String.format("The operator '%s' cannot be used with a %s.", syntax, type.toString());
@@ -20,6 +37,15 @@ public final class SemanticError extends Error
         return new SemanticError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SemanticError for an incompatible binary operator.
+     *
+     * @param span The location information for where an error occurred
+     * @param syntax The syntax of the operator
+     * @param leftType The ObjectType of the left operand
+     * @param rightType The ObjectType of the right operand
+     * @return A SemanticError containing information about an error that occurred
+     */
     public static SemanticError undefinedBinaryOperator(SourceSpan span, String syntax, ObjectType leftType,
                                                         ObjectType rightType)
     {
@@ -31,6 +57,15 @@ public final class SemanticError extends Error
         return new SemanticError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SemanticError for an incompatible assignment operator.
+     *
+     * @param span The location information for where an error occurred
+     * @param syntax The syntax of the operator
+     * @param symbolType The ObjectType of the symbol
+     * @param assignmentType The ObjectType of the assignment
+     * @return A SemanticError containing information about an error that occurred
+     */
     public static SemanticError undefinedAssignmentOperator(SourceSpan span, String syntax, ObjectType symbolType,
                                                             ObjectType assignmentType)
     {
@@ -42,6 +77,13 @@ public final class SemanticError extends Error
         return new SemanticError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SemanticError for an undeclared symbol.
+     *
+     * @param span The location information for where an error occurred
+     * @param syntax The syntax of the identifier
+     * @return A SemanticError containing information about an error that occurred
+     */
     public static SemanticError undefinedIdentifier(SourceSpan span, String syntax)
     {
         String problem = String.format("The variable '%s' does not exist. This may be because you are creating it inside a false if statement.", syntax);
@@ -50,6 +92,14 @@ public final class SemanticError extends Error
         return new SemanticError(span, problem, solution);
     }
 
+    /**
+     * Generate and return a SemanticError for invalid expression type(s).
+     *
+     * @param span The location information for where an error occurred
+     * @param actualType The actual ObjectType of the expression
+     * @param targetTypes The expected ObjectType of the expression
+     * @return A SemanticError containing information about an error that occurred
+     */
     public static SemanticError invalidExpressionTypes(SourceSpan span, ObjectType actualType, ObjectType[] targetTypes)
     {
         String problem = String.format("This expression is a %s type, and cannot be used here.", actualType.toString());

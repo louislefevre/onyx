@@ -10,6 +10,15 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import source.SourceOutput;
 
+/**
+ * The ReplController class is used communicate with and control the REPL GUI.
+ * <p>
+ * Communication is done through FXML, through the use of labels in the FXML file and annotations in this Java class.
+ *
+ * @author Louis Lefevre
+ * @version 1.0
+ * @since 1.0
+ */
 public final class ReplController
 {
     @FXML private TableView<TableManager.SymbolElement> symbolTableView;
@@ -23,6 +32,11 @@ public final class ReplController
     private Compiler compiler;
     private TableManager tableManager;
 
+    /**
+     * Runs when the REPL is started up.
+     * <p>
+     * Is used to initialise the Compiler and TableView so that they are ready for use.
+     */
     @FXML
     void initialize()
     {
@@ -36,6 +50,12 @@ public final class ReplController
         tableManager.addColumn(symbolValuesColumn, "value");
     }
 
+    /**
+     * Evaluates the users input and displays the output.
+     * <p>
+     * The input given by the user is extracted from the TextField, and then compiled by the Compiler. The result
+     * is then added to the TextFlow to be displayed.
+     */
     @FXML
     void evaluateInput()
     {
@@ -51,6 +71,11 @@ public final class ReplController
         inputField.clear();
     }
 
+    /**
+     * Resets the REPL to its start state.
+     * <p>
+     * The input TextField, TableView, output TextFlow, and SymbolTable are all reset.
+     */
     @FXML
     void clearFields()
     {

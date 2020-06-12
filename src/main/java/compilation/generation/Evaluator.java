@@ -110,7 +110,7 @@ public final class Evaluator
                 evaluateLoopStatement((AnnotatedLoopStatement) statement);
                 break;
             default:
-                String errorMessage = EvaluationException.unexpectedStatement(statement.getStatementType().toString());
+                String errorMessage = EvaluationException.unexpectedAnnotatedStatement(statement.getStatementType());
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -152,7 +152,7 @@ public final class Evaluator
             return;
         }
 
-        String errorMessage = EvaluationException.invalidConditionalType(conditionType.toString());
+        String errorMessage = EvaluationException.invalidConditionalType(conditionType);
         throw new EvaluationException(errorMessage);
     }
 
@@ -188,7 +188,7 @@ public final class Evaluator
             return;
         }
 
-        String errorMessage = EvaluationException.invalidLoopTypes(lowerType.toString(), upperType.toString());
+        String errorMessage = EvaluationException.invalidLoopTypes(lowerType, upperType);
         throw new EvaluationException(errorMessage);
     }
 
@@ -209,7 +209,7 @@ public final class Evaluator
             case ANNOTATED_ASSIGNMENT_EXPRESSION:
                 return evaluateAssignmentExpression((AnnotatedAssignmentExpression) expression);
             default:
-                String errorMessage = EvaluationException.unexpectedExpression(expression.getExpressionType().toString());
+                String errorMessage = EvaluationException.unexpectedAnnotatedExpression(expression.getExpressionType());
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -234,7 +234,7 @@ public final class Evaluator
             case BOOLEAN_OBJECT:
                 return evaluateUnaryBooleanExpression(operand, operatorType);
             default:
-                String errorMessage = EvaluationException.unexpectedUnaryObjectType(operandType.toString());
+                String errorMessage = EvaluationException.unexpectedUnaryObjectType(operandType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -252,7 +252,7 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -270,7 +270,7 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !(boolean) operand;
             default:
-                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -284,7 +284,7 @@ public final class Evaluator
             case NEGATION_OPERATOR:
                 return !operandBoolean;
             default:
-                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedUnaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -309,7 +309,7 @@ public final class Evaluator
         if (leftOperandType == STRING_OBJECT && rightOperandType == STRING_OBJECT)
             return evaluateBinaryStringExpression(leftOperand, rightOperand, operatorType);
 
-        String errorMessage = EvaluationException.unexpectedBinaryObjectTypes(leftOperandType.toString(), rightOperandType.toString());
+        String errorMessage = EvaluationException.unexpectedBinaryObjectTypes(leftOperandType, rightOperandType);
         throw new EvaluationException(errorMessage);
     }
 
@@ -347,7 +347,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftInteger != rightInteger;
             default:
-                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -386,7 +386,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftDouble != rightDouble;
             default:
-                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -407,7 +407,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return leftBool != rightBool;
             default:
-                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -426,7 +426,7 @@ public final class Evaluator
             case NOT_EQUALS_OPERATOR:
                 return !leftString.equals(rightString);
             default:
-                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedBinaryOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -456,7 +456,7 @@ public final class Evaluator
                     value = evaluateStringAssignmentExpression(operatorType, symbolValue, value);
                     break;
                 default:
-                    String errorMessage = EvaluationException.unexpectedAssignmentObjectTypes(symbolType.toString(), valueType.toString());
+                    String errorMessage = EvaluationException.unexpectedAssignmentObjectTypes(symbolType, valueType);
                     throw new EvaluationException(errorMessage);
             }
         }
@@ -487,7 +487,7 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return (int) Math.pow(symbolInteger, valueInteger);
             default:
-                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -514,7 +514,7 @@ public final class Evaluator
             case POWER_OPERATOR:
                 return Math.pow(symbolDouble, valueDouble);
             default:
-                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
@@ -529,7 +529,7 @@ public final class Evaluator
             case ADDITION_OPERATOR:
                 return symbolString + valueString;
             default:
-                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType.toString());
+                String errorMessage = EvaluationException.unexpectedAssignmentOperator(operatorType);
                 throw new EvaluationException(errorMessage);
         }
     }
