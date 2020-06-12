@@ -141,7 +141,7 @@ wouldn't be where I am today.
 \chapter{Introduction}
 \pagenumbering{arabic}
 This report serves as a deeper explanation into the development of the
-Onyx Compiler - a written from scratch program that compiles Onyx \gls{source-language}
+Onyx Compiler - a program written from scratch that compiles Onyx \gls{source-language}
 code down into Java, and aims to provide insight into the inner workings
 of the program and the steps taken throughout its development. Whilst
 the more complex aspects of compilers and how they work will be
@@ -163,10 +163,10 @@ also being able to diagnose issues independently through the use of
 informative, coherent, and insightful error messages. They will also be
 provided with detailed documentation that avoids the use of jargon, and
 a structure which allows for simple navigation when searching for
-relevant information. To compliment the compiler, a graphical user
+relevant information. To complement the compiler, a graphical user
 interface will also be provided that allows various tasks to be
 performed easily and quickly, improving work efficiency. These points
-are discussed in more detail in chapter 3.
+are discussed in more detail in Chapter 3.
 
 \section{Stakeholders}
 Stakeholders include clients and users: the former could be a school or
@@ -196,7 +196,7 @@ Explains how the compiler will be designed, detailing each of the stages
 individually.
 
 \textbf{Chapter 5 - Implementation}\\
-Demonstrates the methods performed for implementing the compilers code
+Demonstrates the methods performed for implementing the compiler's code
 base.
 
 \textbf{Chapter 6 - Testing}\\
@@ -204,39 +204,37 @@ Describes testing that took place for validating and verifying the
 project.
 
 \textbf{Chapter 7 - Evaluation}\\
-Evaluates the project based on the requirements defined in chapter 3,
+Evaluates the project based on the requirements defined in Chapter 3,
 assessing how successful their implementation was.
 
 \textbf{Chapter 8 - Conclusion}\\
 Appraises the overall system, analysing how well it achieves its aims \&
-objectives defined in chapter 1, and reviewing its place in existing
-works in the field that were outlined in chapter 2.
+objectives defined in Chapter 1, and reviewing its place in existing
+works in the field that were outlined in Chapter 2.
 
 
 \chapter{Background Study}
-The field of compilers is large and complex, with lots of different
-projects being developed for various purposes. However, it has become
-clear that despite this, there is a void to be filled which arguably
-appeals to every programmer that's ever existed.
+The field of compilers is large and complex, with lots of projects
+being developed for various purposes. However, it has become
+clear that despite this, there is still a void to potentially be
+filled.
 
 \section{The Problem}
-The issue is that there are a lack of languages designed purely for
-learning, and therefore fail to keep beginners in mind. Whilst there are
-thousands of guides and tutorials dedicated to teaching those with no
-experience in the field, its become evident that there is seemingly an
-absence of languages built purely for the purpose of education.
-
-There are a number of problems that present themselves exclusively with
+The issue is that there is a lack of languages designed purely for
+learning, and therefore fail to keep beginners in mind. This is important
+as there are a number of problems that present themselves exclusively to
 beginners, the main one being the lack of intelligible error messages.
-Many languages spit out a verbose string of jargon and numbers whenever
+Many languages display a verbose string of jargon and numbers whenever
 an error occurs, which while useful to experienced programmers, are
-completely incoherent to the uninitiated. This is a distinct example of
-where a language has favoured complexity at the expense of simplicity,
-making it significantly more difficult to understand where a program
-went wrong for a novice user. Its also worth noting that its rare for a
-language to even indicate to the user how to solve a problem clearly,
-and instead of telling them how to solve a problem it merely just states
-the problem itself, with the rest being up to the user to figure out.
+completely incoherent to the uninitiated. An example of this can be
+seen in Figure \ref{fig:python-error-example}, which demonstrates a
+long stack trace coupled with an un-descriptive error message in Python,
+and is a distinct example of where the language has made it significantly
+more difficult for a novice user to understand where the program went wrong.
+Its also worth noting that its rare for a language to even indicate to
+the user how to solve a problem clearly, and instead of telling them how
+to solve a problem it merely just states the problem itself, with the
+rest being up to the user to figure out.
 
 Though perhaps the greatest issue faced is syntax complexity. Whilst
 Python solves this issue for the most part, the majority of other
@@ -247,19 +245,26 @@ simply by reading over the source code. Also, due to the scale and power
 of modern day compilers, there is myriad of \glspl{keyword} and in-built
 functions presented to the user. Whilst useful for developing large
 projects, the abundance of tools can be overwhelming for some and result
-in an information overload. This can have the effect of putting people
-off learning programming soon after they begin.
+in an information overload. This can have the effect of deterring people
+from learning programming soon after they begin.
 
 There is already a big problem with students quitting learning early, as
 according to a study by the University of Pennsylvania, on average only
 4\% of students successfully complete online courses they've started
 \cite{upenn-report}. It was also found that ``roughly 40 percent of students
-planning engineering and science majors end up switching to other
+planning [to undertake] engineering and science majors end up switching to other
 subjects or failing to get any degree'' \cite{nytimes-article}. In both of these
 situations students drop out early or before they have even begun,
 possibly in part due them finding it too difficult to learn the
 content, and the frustration of failing early on can result in many
 simply giving up.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{error-message}
+	\caption{Python error message \cite{hackernoon-article}}
+	\label{fig:python-error-example}
+\end{figure}
 
 \section{Existing Compilers}
 There are an abundance of compilers and languages, so it would be
@@ -289,15 +294,15 @@ languages, whilst also being compatible with all major browsers
 to the fact its primarily used for front-end web development, which will
 also require the use of HTML/CSS. This means that users will also have
 to contend with learning those on top of JavaScript and having them work
-together, which adds an unessential extra layer of complexity. The error
+together, which adds an extra layer of complexity. The error
 messages are again wordy and lack explanation, offering no insight for
-the inexperienced. Naturally, its clear that JavaScript fails to produce
+the inexperienced. It is clear that JavaScript fails to produce
 solutions for the presented problems.
 
 \subsection{GitHub Projects}
 The GitHub repository known as Awesome Compilers includes a list of 
 compilers and \glspl{interpreter} composed by various users \cite{compilers-github}, 
-making it useful to review a large selection of projects all at once. 
+making it useful for reviewing a large selection of projects all at once. 
 Based on the descriptions and features lists for the 36 repositories 
 included, none were designed to target an audience of beginners nor 
 specifically solve the discussed issues.
@@ -313,10 +318,10 @@ goals hoped to be achieved.
 
 \section{Basic Functionality}
 The original goal was to keep the language simple with only the bare
-minimum amount of features, typically those taught in introductory
+minimum number of features, typically those included when teaching introductory
 programming courses. A study exploring pedagogical content for
 introductory programming courses included a list of topics commonly
-taught \cite{pedagogical-report}, and from that as well as courses and consulting with
+taught \cite{pedagogical-report}, and from that, as well as courses and consulting with
 tutors, it was found there were five main features to be included:
 variables, operators, conditionals, loops, and functions. Given that the
 compiler is aimed solely at learners, the amount of functionality
@@ -325,8 +330,7 @@ so it will only include as much. These are the five main concepts that
 Onyx intends to teach its users about, and is essentially the ultimate
 goal for users to meet. The purpose of only including the core
 components is that it reduces the amount of information users are
-presented with, preventing information overload and stopping them from
-feeling overwhelmed.
+presented with, preventing them from feeling overwhelmed.
 
 \section{Data Types, Variables, \& Scope}
 The study previously mentioned also found that students often have
@@ -336,7 +340,7 @@ had trouble detecting incorrect results due to data type issues
 \cite{pedagogical-report}. Scope was also identified as an issue, as students sometimes
 failed to realise the difference between variables with identical names
 but different scopes \cite{pedagogical-report}. The requirements defined below keep this
-in mind, and tries to deal with the issues appropriately.
+in mind, and try to deal with the issues appropriately.
 
 Data types to be included are: integers, doubles, booleans and strings.
 The purpose of this selection is provide the common data types which
@@ -350,10 +354,10 @@ Originally the goal was to only allow explicit variable declarations,
 where the user would have to define the type of a variable during
 declaration before it could be used. However, this idea was abandoned as
 providing the user with another thing to be concerned with was outside
-the boundaries of the projects goal of minimalism. Instead variables are
+the boundaries of the projects goal of minimalism. Instead, variables are
 implicit and do not need to be declared or given a type, only assigned.
 It would be possible for variables to be assigned values of different
-data types regardless of the type the previous value was, though it
+data types, regardless of the type the previous value was, though it
 would not be possible to use variables containing contradictory data
 types with one another.
 
@@ -380,21 +384,21 @@ jargon-filled nature, and is one of the biggest difficulties with
 students \cite{pedagogical-report}. It is common among popular languages for error
 messages to be returned as a long and confusing mess, which while useful
 for experienced users, can be devastatingly difficult to decipher for
-learners. Its a goal of Onyx to instead provide detailed, easy to read
+learners. It is a goal of Onyx to instead provide detailed, easy to read
 error messages for the user. Information will be presented in plain
 English without the use of jargon, and show where the error occurred
 using coloured markings, syntax returns, and line numbers. The simple
 yet explanatory error messages are intended to give a clear indication
-for where the errors location, what caused it, and a possible
+for where the errors occur, what caused it, and a possible
 explanation for how to fix it.
 
 \section{Simple Setup}
 An unfortunate truth is that there are a portion of users, particularly
-non tech-savvy ones, who get stuck on the setup and that alone can be
+those who are less familiar with computers, who get stuck on the setup and that alone can be
 enough to dissuade someone from continuing. That is why Onyx aims to
-make setup as easy as possible through the use of its \gls{implementation-language} Java, 
+make setup as easy as possible through the use of its \gls{implementation-language}, Java, 
 as the JVM provides the opportunity for cross-compatibility amongst platforms to
-remove the need for using a specific operating system. Its even feasible
+remove the need for using a specific operating system. It's even feasible
 that it could run on phones, reducing the technological requirement away
 from computers. Furthermore, Onyx will be capable of running from an
 executable file without any installation, only requiring the user to
@@ -402,7 +406,7 @@ download the program to begin.
 
 \chapter{Design}
 Designing of the project involved planning in three areas: the layout
-and structure of the compilers source code, the syntax of the language
+and structure of the compiler's source code, the syntax of the language
 (also known as the language specification), and the graphical user
 interface (\acrshort{gui}).
 
@@ -417,13 +421,13 @@ when processing syntax, with each stage transforming the program
 representation in some way. In the form of a pipeline, each component
 takes input from its predecessor, transforms it, and feeds the output
 forward to the next component \cite{guru99-website}. These stages are
-shown in figure \ref{fig:compiler-phases}.
+shown in Figure \ref{fig:compiler-phases}.
 
-Throughout design the famous text Compilers: Principles, Techniques, and Tools \cite{dragon-book},
+Throughout the design process, the famous text \emph{Compilers: Principles, Techniques, and Tools} \cite{dragon-book},
 also known as the 'Dragon Book', was consulted to help better understand 
 the structure of a compiler and the science behind building one.
 
-The top-level package structure can be found in figure \ref{fig:top-package-diagram}.
+The top-level package structure can be found in Figure \ref{fig:top-package-diagram}.
 
 \begin{figure}
 	\centering
@@ -440,7 +444,7 @@ it, typically left to right, and groups the characters into \glspl{lexeme}
 \cite{guru99-website}. The lexer represents these \glspl{lexeme} in the form of \glspl{token}
 \cite{tutorials-guide}, with each \gls{token} containing information about the type of data
 it holds. For example, given the input of an integer, the lexer would
-output a \gls{token} that identifies the characters location in the text, its
+output a \gls{token} that identifies the character's location in the text, its
 type (e.g.~an integer \gls{token}), and its value. This process is performed
 for all the characters in a given text, and the lexer outputs a stream
 of \glspl{token} \cite{kttpro-website}. During this phase, the lexer would also be
@@ -451,14 +455,14 @@ The lexer was designed to be capable of handling all types of
 characters, whilst also taking into account their context. It had to be
 capable of consistently taking in new characters and identifying them
 correctly, whilst also adapting to deal with characters found within
-particular boundaries. For example, recognising that a number occurring
-after quotations is a part of a string, rather than a \gls{token} in its own
-right. The handling of invalid characters must also be considered, as
-otherwise the lexer would become stuck and be unable to finish, and
-having a robust design means never failing to take in characters and
-output valid \glspl{token}. 
+particular boundaries. For example, recognising that a number appearing
+after open quotations is a part of a string, rather than a \gls{token} in its own
+right. The handling of invalid characters must also be considered,
+otherwise the lexer would become stuck and be unable to finish.
+Having a robust design means never failing to take in characters, and
+output valid \glspl{token}.
 
-The package structure for \gls{lexical-analysis} can be found in figure \ref{fig:lexical-package-diagram}.
+The package structure for \gls{lexical-analysis} can be found in Figure \ref{fig:lexical-package-diagram}.
 
 In summary, the primary functions of this phase is to:
 \begin{itemize}
@@ -469,33 +473,23 @@ In summary, the primary functions of this phase is to:
 \end{itemize}
 
 \subsubsection{Example}
+\begin{verbatim}
+	var = 20 + 10
+\end{verbatim}
 \begin{longtable}[l]{@{}lc@{}}
-\toprule
-Token & Token Type\tabularnewline
-\midrule
-\endhead
-var & Identifier\tabularnewline
-= & Assignment operator\tabularnewline
-``my string'' & String\tabularnewline
-+ & Plus operator\tabularnewline
-10 & Integer\tabularnewline
-\bottomrule
+	\toprule
+	Token & Token Type\tabularnewline
+	\midrule
+	\endhead
+	var & Identifier\tabularnewline
+	= & Assignment operator\tabularnewline
+	20 & Integer\tabularnewline
+	+ & Plus operator\tabularnewline
+	10 & Integer\tabularnewline
+	\bottomrule
 \end{longtable}
 
 \subsection{Syntax Analysis}
-The second stage of compilation is \gls{syntax-analysis}, also known as
-\gls{parsing}, and is performed by the parser. Its role is to take the list of
-\glspl{token} produced by the lexer as input, validate the arrangement of
-\glspl{token} against the programming languages grammatical rules, and from
-that generate a \gls{parse-tree} that represents the structure of the source
-program, as shown in figure \ref{fig:parse-tree}. However, some information
-is lost during this process, such as comments and grouping symbols
-(e.g. parenthesis) \cite{parsing-tools}. The primary purpose of this component
-is to ensure the \glspl{expression} made by the arrangement of \glspl{token}
-is syntactically correct, following a format defined by the language being
-used \cite{tutorials-guide}. The parser would also identify any syntactical
-errors found within the source code.
-
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{parse-tree}
@@ -503,17 +497,30 @@ errors found within the source code.
 	\label{fig:parse-tree}
 \end{figure}
 
+The second stage of compilation is \gls{syntax-analysis}, also known as
+\gls{parsing}, and is performed by the parser. Its role is to take the list of
+\glspl{token} produced by the lexer as input, validate the arrangement of
+\glspl{token} against the programming languages grammatical rules, and from
+that generate a \gls{parse-tree} that represents the structure of the source
+program, as shown in Figure \ref{fig:parse-tree}. However, some information
+is lost during this process, such as comments and grouping symbols
+(e.g. parenthesis) \cite{parsing-tools}. The primary purpose of this component
+is to ensure the \glspl{expression} made by the arrangement of \glspl{token}
+is syntactically correct, following a format defined by the language being
+used \cite{tutorials-guide}. The parser would also identify any syntactical
+errors found within the source code.
+
 The parser is designed as a \gls{recursive-descent parser}, which adopts a
 top-down \gls{parsing} strategy where it begins at the highest level and works
 its way down, building the \gls{parse-tree} as it goes \cite{geeks-website}.
 It works with a set of mutually recursive procedures, with one being defined
-for each grammatical rule, the parsers structure mirrors the structure of
+for each grammatical rule, the parser's structure mirrors the structure of
 the grammar \cite{parsing-algorithms}. The input is read from left to right,
 taking in \glspl{token} until it reaches the end of the file. Each \gls{token}
 would be identified by its type, sending the parser flow in a different direction
 depending on the result. The following \glspl{token} would then be checked to
 ensure they appear as expected, such as an equals operator \gls{token} appearing
-after an \gls{identifier} \gls{token}, and an \gls{expression} would be returned.
+after an \gls{identifier} \gls{token}, and then an \gls{expression} would be returned.
 This \gls{expression} would contain all its relevant \glspl{token}, such as in
 the case of the previous example: an \gls{identifier}, an equals operator, and
 the assignment. In the original design the parser was only able to handle \glspl{expression},
@@ -528,34 +535,34 @@ written all at once since the former only allowed \acrshort{repl}-like behaviour
 \end{figure}
 
 Another aspect that had to be considered was precedence for operators.
-Its common for programming languages to use a hierarchy of operator precedences
+It is common for programming languages to use a hierarchy of operator precedences
 to decide what will be calculated first in an expression, such as product before
-the sum) \cite{compiler-design-book}. A parser may define a priority value for
+the sum \cite{compiler-design-book}. A parser may define a priority value for
 each operator, and during \gls{parsing} they are shuffled around with the parser
 being data driven by those priorities, providing an indicator for which \glspl{expression}
-to parse next. This makes the adding of additional operators much easier, as it
-provides the ability to view operators and see their priority order. An example
-of a parse tree produced from the expression \texttt{2+3*4} can be seen in figure \ref{fig:operator-precedence}.
+to parse next. This makes the inclusion of additional operators much easier, as it
+provides the ability to examine operators and see their priority order. An example
+of a parse tree produced from the expression \texttt{2+3*4} can be seen in Figure \ref{fig:operator-precedence}.
 
-The package structure for \gls{syntax-analysis} can be found in figure \ref{fig:syntax-package-diagram}.
+The package structure for \gls{syntax-analysis} can be found in Figure \ref{fig:syntax-package-diagram}.
 
 In summary, the primary functions of this phase is to:
 \begin{itemize}
-	\item Retrieve the \glspl{token} from the lexer.
-	\item Checks if the source code is syntactically correct or not by comparing it against the grammatical rules of the programming language.
-	\item Construct and output a \gls{parse-tree} representing the syntactic structure of the program.
-	\item Identify invalid \glspl{expression} and \glspl{statement}.
+	\item Retrieve the \glspl{token} from the lexer
+	\item Checks if the source code is syntactically correct or not by comparing it against the grammatical rules of the programming language
+	\item Construct and output a \gls{parse-tree} representing the syntactic structure of the program
+	\item Identify invalid \glspl{expression} and \glspl{statement}
 \end{itemize}
 
 \subparagraph{Example}
 \begin{verbatim}
-(10 + 20) * 5
-
-    *
-   / \
-  +   5
- / \  
-10 20
+	(10 + 20) * 5
+	
+	    *
+	   / \
+	  +   5
+	 / \  
+	10 20
 \end{verbatim}
 
 \subsection{Semantic Analysis}
@@ -567,8 +574,8 @@ receives the \gls{parse-tree} from the previous stage and adds extra
 information to it, such as: \gls{type-checking} to ensure type conversions are
 valid, and \gls{object-binding} for associating variable and function
 references with their definitions \cite{compiler-wiki}. This is also where the \gls{symbol}
-table is built; adding variables coupled with their values and types. An
-\gls{annotated-parse-tree} is output as a result (annotated referring to the
+table is built, adding variables coupled with their values and types. An
+\gls{annotated-parse-tree} is output as a result ("annotated" referring to the
 extra data having been added to the tree). It is during this phase that
 any errors relating to type incompatibility are identified.
 
@@ -586,24 +593,24 @@ used with one another. An error will be returned should there be an
 \gls{expression} that fails to meet these rules. Any undeclared variables will
 also be identified during this stage, and be returned as errors.
 
-The package structure for \gls{semantic-analysis} can be found in figure \ref{fig:semantic-package-diagram}.
+The package structure for \gls{semantic-analysis} can be found in Figure \ref{fig:semantic-package-diagram}.
 
 In summary, the primary functions of this phase is to: 
 \begin{itemize}
-	\item Get the parse tree from the parser.
-	\item Validate data type compatibility for operands and operators, ensure variables have been declared, and store variable information within the \gls{symbol-table}. 
-	\item Annotate the \gls{parse-tree} with data type information, producing an \gls{annotated-parse-tree}.
-	\item Identify mismatched data types, incompatible operands, and undeclared variables.
+	\item Get the parse tree from the parser
+	\item Validate data type compatibility for operands and operators, ensure variables have been declared, and store variable information within the \gls{symbol-table}
+	\item Annotate the \gls{parse-tree} with data type information, producing an \gls{annotated-parse-tree}
+	\item Identify mismatched data types, incompatible operands, and undeclared variables
 \end{itemize}
 
 \subsubsection{Example}
 \begin{verbatim}
-x = 30
-y = true
-x * y
+a = 30
+b = true
+c = a * b
+\end{verbatim}
 This will result in a type-mismatch error as integers and 
 booleans are not compatible.
-\end{verbatim}
 
 \subsection{Evaluation}
 The final stage is the evaluation, performed by the aptly named
@@ -613,14 +620,14 @@ of each \gls{statement}, revealing the final result. It reviews the annotated
 is able to execute each \gls{expression} in Java and return their values. The
 output is the final value of the \gls{statement} being evaluated. Its also
 worth noting that this is where Onyx diverges when compared to other
-compilers, as they often instead follow \gls{semantic-analysis} with:
+compilers, as they often instead follow \gls{semantic-analysis} with
 intermediate code generation, code optimisation, and code generator.
 However, these stages are instead handled by Java and are not
 implemented by Onyx directly, and therefore will not be discussed here.
 
 The design of the evaluator is similar to the parser in regards to the
-fact that it works through the tree top-down; searching the tree by
-beginning at the closest nodes, working its way down each branch and
+fact that it works through the tree top-down: searching the tree by
+beginning at the closest nodes, working its way down each branch, and
 then carrying the result back up the tree as it works through each
 \gls{expression}. The result is either used in a larger encompassing
 \gls{expression} or stored within a variable, from which the value can be
@@ -628,20 +635,20 @@ printed as output. Any \glspl{statement} or \glspl{expression} that fail to stor
 use its result in one form or another is discarded.
 
 Also, a unique aspect of this stage is the fact no errors occur here, as
-all the necessary error identification should've happened in the prior
+all the necessary error identification should have happened in the prior
 stages. However, there are fail-safe exceptions thrown should an error
 slip through the cracks, as it helps catch unhandled issues during
 development. These are primarily intended to be seen only by developers,
 and should not occur in stable versions of the program.
 
-The package structure for evaluation can be found in figure \ref{fig:generation-package-diagram}.
+The package structure for evaluation can be found in Figure \ref{fig:generation-package-diagram}.
 
 In summary, the primary functions of this phase is to: 
 \begin{itemize}
-	\item Obtain the \gls{annotated-parse-tree} from the type checker.
-	\item Evaluate each \gls{expression} and \gls{statement}.
-	\item Return the resulting value(s).
-	\item Identify any unhandled issues that have gone undetected during the previous stages.
+	\item Obtain the \gls{annotated-parse-tree} from the type checker
+	\item Evaluate each \gls{expression} and \gls{statement}
+	\item Return the resulting value(s)
+	\item Identify any unhandled issues that have gone undetected during the previous stages
 \end{itemize}
 
 \subsubsection{Example}
@@ -654,28 +661,28 @@ x * y
 
 \subsection{Symbol Table}
 The \gls{symbol-table} is a data structure that is maintained throughout every
-phase of a compilers life-cycle, responsible for storing the names of
+phase of a compiler's life-cycle, responsible for storing the names of
 \glspl{identifier}, as well as their respective values and data types \cite{tutorials-guide}.
 It is also often used for scope management, but this is not present in
 Onyx due to the fact it only implements global variables.
 
 The \gls{symbol-table} is designed to be implemented in the form of a hash
 map, with the name of the \gls{identifier} as the key and the value and type
-as the value. Each of the previous stages has access to the symbol
+as the value. Each of the previous stages have access to the symbol
 table, and are able to use it to check whether or not a \gls{symbol} is
 contained within the table, as well as retrieve any information about a
 particular one. This is most prominent during the type checker and
 evaluator, as during these two stages is when types begin to become
 relevant for the reasons previously described.
 
-The package structure for symbol management can be found in figure \ref{fig:symbols-package-diagram},
-whilst a working example is displayed in figure \ref{fig:symbol-table}.
+The package structure for symbol management can be found in Figure \ref{fig:symbols-package-diagram},
+whilst a working example is displayed in Figure \ref{fig:symbol-table}.
 
 In summary, the primary functions of this component is to: 
 \begin{itemize}
-	\item Store the names of \glspl{identifier}, along with their value and type.
-	\item Provide a method for adding and removing \glspl{symbol}.
-	\item Allow retrieval of information on \glspl{symbol} contained within the \gls{symbol-table}.
+	\item Store the names of \glspl{identifier}, along with their value and type
+	\item Provide a method for adding and removing \glspl{symbol}
+	\item Allow retrieval of information on \glspl{symbol} contained within the \gls{symbol-table}
 \end{itemize}
 
 \subsubsection{Example}
@@ -699,41 +706,41 @@ y = {
 \subsection{Error Handling}
 The error handler is responsible for handling errors before continuing
 with the compilation process, and like the \gls{symbol-table} is also
-accessible to every stage. Throughout each phase should an error occur,
-it is reported to the error handler and reported to the user in the form
+accessible to every stage. Throughout each phase, should an error occur,
+it is reported to the error handler and then shown to the user in the form
 of an appropriately formatted error message. Errors are capable of
 occurring in every stage of the compiler apart from the evaluator,
-where only exceptions (as seen in figure \ref{fig:evaluation-exception}) can occur.
+where only exceptions (as seen in Figure \ref{fig:evaluation-exception}) can occur.
 
 In order to prevent interruption, Onyx is designed so that it may
-continue should an error occur. While this makes no difference in terms
+continue compiling should an error occur. While this makes no difference in terms
 of the output (as only the error message is returned rather than any
 calculated result), it allows certain processes to continue being
 performed. For example during the generation of the \gls{parse-tree}, when an
-error occurs the invalid element is replaced by a placeholder (holding a
+error occurs, the invalid element is replaced by a placeholder (holding a
 null value), allowing the \gls{parse-tree} to still be built despite the
 invalid syntax. This means the compiler can still provide information
 regarding the tree for the rest of the syntax, as well as things like
-data types. By not having the compiler quit dead in its tracks during
-compilation it opens up the possibility to gather more information, as
+data types. By not having the compiler quit part way through
+compilation, it opens up the possibility of gathering more information, as
 well as potentially provide tooling in the future.
 
-The package structure for error handling can be found in figure \ref{fig:errors-package-diagram}.
+The package structure for error handling can be found in Figure \ref{fig:errors-package-diagram}.
 
 In summary, the primary functions of this component is to:
 \begin{itemize}
-	\item Receive errors from each stage of compilation.
-	\item Format those errors and generate a detailed message.
-	\item Output the error message to the user.
+	\item Receive errors from each stage of compilation
+	\item Format those errors and generate a detailed message
+	\item Output the error message to the user
 \end{itemize}
 
 \subsubsection{Example}
 \begin{verbatim}
-x = true
-x * 10
+a = true
+b = a * 10
 Error (2, 2): Binary operator '*' is not defined for type 
 'boolean' and 'integer'.
-    x * 10
+    b = a * 10
 \end{verbatim}
 
 \section{Language Specification}
@@ -745,7 +752,7 @@ during design. The main idea was to ensure each piece of functionality
 would be written and work as intuitively as possible, in order to leave
 little room for the user to be confused as to why something was working
 the way it was. The full specification can be found in the Onyx wiki
-documentation, found in figure \ref{appendix:user-guide}.
+documentation, found in Appendix \ref{appendix:user-guide}.
 
 \subsection{Data Types}
 Onyx was designed to use only the most basic and necessary data types.
@@ -757,22 +764,21 @@ that their benefit of using less memory would not prove useful in the
 context of learning. Instead the compiler only contains the following
 types: integer, double, boolean, string. This still provides all the
 necessary functionality typically found in most languages, except
-without the extra cruft that would do nothing except make learning more
-difficult.
+without the extra level of complexity which may confused new learners.
 
-Its worth noting that the compiler does not allow different data types
-to be used together, as seen in figure \ref{fig:semantic-error}. For example, 
+It is worth noting that the compiler does not allow different data types
+to be used together, as seen in Figure \ref{fig:semantic-error}. For example, 
 an integer cannot be used with a double in any operations. The purpose of 
 this is to help provide a clear distinction between data types and avoid 
 unexpected results that are difficult to debug for novices, since type errors 
-are not always obvious particularly when used with variables.
+are not always obvious, particularly when used with variables.
 
 \subsubsection{Example}
 \begin{verbatim}
-a = 10     (integer)
-b = 20.0   (double)
-c = true   (boolean)
-d = "text" (string)
+a = 10     # integer
+b = 20.0   # double
+c = true   # boolean
+d = "text" # string
 \end{verbatim}
 
 \subsection{Variables}
@@ -794,13 +800,13 @@ fact it removed the need for users to learn about scoping, and thus
 avoiding issues related to variables being out of bounds. In a much
 larger language this would of course be a major issue, but due to the
 fact programs written in Onyx will typically be very short in length and
-its purpose is simply to learn basic programming functionality, its not
+its purpose is simply to learn basic programming functionality, it is not
 expected to cause problems.
 
 \subsubsection{Example}
 \begin{verbatim}
-a = 10   (a is an integer)
-b = true (a is now a boolean)
+var = 10   # var is an integer)
+var = true # var is now a boolean)
 \end{verbatim}
 
 \subsection{Operators}
@@ -810,16 +816,16 @@ extra ones such as modulo and power. These two were not going to be
 provided initially, but was later added since they could provide
 significantly more functionality without being too overbearing for the
 user. What was not implemented, however, was the use of increment and
-decrements operators. This is mainly due to the difference between
+decrement operators. This is mainly due to the difference between
 having the unary operators as a prefix and post-fix, which changes the
-order in which a value is incremented and returned. Also it is not as
-intuitive to recognise for beginners unlike other operators, so its use
-would likely lead to confusion all round.
+order in which a value is incremented and returned. Also, it is not as
+intuitive for beginners to recognise, unlike other operators, so its use
+would likely lead to confusion.
 
-As a slight remedy for the lack of the previously mentioned, various
+As a slight remedy for the lack of the aforementioned issue, various
 assignment operators were specified instead. These would allow variables
 to use operators on themselves, providing a shorthand form to prevent
-users being required to write out the full \gls{expression} that includes the
+users from being required to write out the full \gls{expression} that includes the
 \gls{identifier} name. It was originally unclear whether this would be added
 at all since the same operation is still possible with the longhand
 form, but it was decided to be intuitive enough to keep in. Figure \ref{fig:loop-statement}
@@ -828,8 +834,8 @@ shows an example of an assignment operator being used in a loop.
 \subsubsection{Example}
 \begin{verbatim}
 a = 10
-a = a + 15 (longhand form)
-a += 15    (shorthand form using plus-assignment operator)
+a = a + 15  # longhand form
+a += 15     # shorthand form using plus-assignment operator
 \end{verbatim}
 
 \subsection{Conditionals}
@@ -855,7 +861,7 @@ indentation, which means open braces must begin on a new line and the
 use of single-line conditional \glspl{statement} is disallowed. This is
 intended to encourage the use of writing clearer, more modular code,
 whilst also providing the additional benefit of having all code written
-in Onyx look the same, allowing for easier reviewing of other users
+in Onyx look the same, allowing for easier reviewing of other user's
 work.
 
 \subsubsection{Example}
@@ -883,10 +889,10 @@ untrained eye how loops are working without a detailed explanation. Many
 of the other properties of loops are the same as conditionals, such as
 the enforcement of Allman style indentation and the use of braces in
 \glspl{block-statement}, the reasons for which were explained in the previous
-section. Though a feat unique to Onyx loops is the inclusion of the
+section. Though a feature unique to Onyx loops is the inclusion of the
 upper bound value, which is uncommon in traditional language
 specifications. When looping it is often the case that the final upper
-bound value is not executed in the loops body, which is one of the more
+bound value is not executed in the loop's body, which is one of the more
 unintuitive aspects of programming. However, the compiler remedies this
 by always including the upper value in the execution of the code.
 
@@ -917,13 +923,13 @@ which will be responsible for housing an array of extra functionality.
 Some of this extra functionality includes file management (e.g.~opening
 and saving files), links for help documentation, and opening the \acrshort{repl}
 (discussed in the next section). The IDE also has its own syntax
-highlighting, designed with complimentary colours in mind that make it
+highlighting, designed with complementary colours in mind that make it
 easy to distinguish between syntax and their associated functionality.
 
-The package structure for IDE can be found in figure \ref{fig:main-package-diagram}.
+The package structure for IDE can be found in Figure \ref{fig:main-package-diagram}.
 
 \subsection{Read Evaluate Print Loop}
-An extra feature that comes with the IDE is the \acrshort{repl}; a simple program
+An extra feature that comes with the IDE is the \acrshort{repl} - a simple program
 that reads input one line at a time and returns a result. It contains a
 system for tracking variables, including information about their type,
 value, and name. The purpose is to provide a simpler, more visual method
@@ -935,19 +941,19 @@ do things one line of code at a time. Its also worth noting that the
 \acrshort{repl} doesn't include the use of conditionals or loops, as it is intended
 for single-line \glspl{statement} only rather than multi-line ones.
 
-The package structure for REPL can be found in figure \ref{fig:repl-package-diagram}.
+The package structure for REPL can be found in Figure \ref{fig:repl-package-diagram}.
 
 \chapter{Implementation}
 The implementation portion of the project involved completing both a
 compiler and a \acrshort{gui} individually, the details for which is discussed in
-the following sections. Its worth noting that only the primary
+the following sections. It is worth noting that only the primary
 components will be discussed and at best in a general sense, as the
 codebase is too large and complex to fit into this report. For more
 information about the specific workings of each individual method, its
-best to refer to the class documentation found in appendices \ref{appendix:class-docs}.
+best to refer to the class documentation found in Appendix \ref{appendix:class-docs}.
 
-An image of the final result of the program, consisting of small code example, can
-be found in figure \ref{fig:ide-overview}.
+An image of the final result of the program, consisting of a small code example, can
+be found in Figure \ref{fig:ide-overview}.
 
 \section{Compiler Implementation}
 Implementation of the compiler meant following the design from the
@@ -957,17 +963,17 @@ each stage feeding into the next in the form of a pipeline. This
 structure made it rather trivial to isolate each aspect and then
 implement the functionality individually, so exploring the source code
 isn't too challenging. For assistance in building the foundational classes
-and understanding the basics of compiler construction, Immo Landwerth's "Building
-a Compiler" video series \cite{compiler-video} was used, as well as the online
-book 'Crafting Interpreters' \cite{crafting-interpreters}.
+and understanding the basics of compiler construction, Immo Landwerth's \emph{Building
+a Compiler} video series \cite{compiler-video} was used, as well as the online
+book \emph{Crafting Interpreters} \cite{crafting-interpreters}.
 
-The compilers code can be found in appendix \ref{appendix:compiler-code}, and a brief
-explanation of the core functionality in appendix \ref{appendix:implementation-video}.
+The compilers code can be found in Appendix \ref{appendix:compiler-code}, and a brief
+explanation of the core functionality in Appendix \ref{Appendix:implementation-video}.
 
 \subsection{Lexer}
 The lexer loops through the source text and analyses each character
 individually, with the goal of producing a \gls{token} to represent it. The
-character is checked to see if its a line break, white space, digit,
+character is checked to see if it is a line break, white space, digit,
 letter, or operator \gls{symbol}, with the first one that matches calling its
 corresponding method, which deconstructs the character to discover more
 information. In the case of a \gls{reserved-word}, such as 'if' or 'loop',
@@ -981,14 +987,14 @@ produced in its place. The purpose of this filler \gls{token} is to prevent
 issues with \gls{parsing} in future stages, as the compiler is designed to be
 capable of continuing execution despite mistakes in the code. The final
 output of the lexer is a list of \gls{token} objects. For a full list of token types,
-view the 'TokenType' package found in figure \ref{fig:types-package-diagram}.
+view the 'TokenType' package found in Figure \ref{fig:types-package-diagram}.
 
 \subsection{Parser}
 The parser retrieves the list of \glspl{token} produced by the lexer and scans
 over them, identifying the structure they form to see if it is valid.
 Parser execution changes depending on whether the compiler is in \acrshort{repl}
-mode, which allows \glspl{expression} to be written as \glspl{statement} but disallows
-the user of loops and conditionals. If \acrshort{repl} mode is not activated, then
+mode, which allows \glspl{expression} to be written as \glspl{statement}, but disallows
+the use of loops and conditionals. If \acrshort{repl} mode is not activated, then
 the opposite occurs. In the case of the latter, each line is parsed
 individually by using line breaks; the presence of a break indicates
 that the end of the line has been reached. When a line is parsed it is
@@ -996,17 +1002,17 @@ first checked to see if it begins with any particular \glspl{keyword} that can
 only be found at the start of a line, such as `if', `loop', open braces,
 and \glspl{identifier} (those at the start of a line are unique as they act as
 the programs print functionality, so when a line begins with solely an
-\glspl{identifier} name its value is printed). Should there be a match the
+\glspl{identifier} name, its value is printed). Should there be a match the
 corresponding method will be called, otherwise the line is deemed an
 invalid \gls{statement} and an error is returned.
 
 If the \gls{statement} is valid however, its \glspl{expression} are parsed
-recursively by looking at each \gls{token} and matching it with what's
+recursively by looking at each \gls{token} and matching it with what is
 expected. For example, if a \gls{statement} begins with an \gls{identifier} \gls{token},
 it looks at the next \gls{token} to see if it is an assignment operator. If
-true then its deemed the code must be assigning a value to a variable,
-and a object is produced that contains all the information about that
-\gls{statement}. If false then it continues to check for valid syntax
+true then it is deemed the code must be assigning a value to a variable,
+and an object is produced that contains all the information about that
+\gls{statement}. If false, then it continues to check for valid syntax
 combinations, such as a binary \gls{expression} where the code is performing a
 mathematical operation on the \gls{identifier}. The parser works its way down
 the series of possibilities, attempting to find a valid match for the
@@ -1042,13 +1048,13 @@ values used as left and right operands for binary operators are of the
 same type, and the unary operators are being applied to valid types
 (e.g.~a not-operator cannot be used on a string).
 
-Furthermore, this is where the \gls{symbol-table} is first consulted; if the
+Furthermore, this is where the \gls{symbol-table} is first consulted. If the
 user attempts to access a variable that does not exist, an error is
 returned. If they try to assign a value to a variable, then a \gls{symbol}
-object is created and added to the \gls{symbol-table}. Its worth noting that
+object is created and added to the \gls{symbol-table}. It is worth noting that
 the type checker also validates the types of variables, so the type
 checking previously discussed applies here. The only exception to this
-is when assigning variables new values, as the type of a variable can
+is when assigning new values to variables, as the type of a variable can
 change freely and the new value does not have to be the same type as the
 old value. However, assignment operators that employ binary operators
 (e.g.~`+=') do not allow type changing and will return an error should
@@ -1072,7 +1078,7 @@ a method specifically designed for it (e.g.~`evaluateBinaryExpression',
 then directed to another method designed for a specific type
 combination. At this point a final check is made to see what type of
 operation is being performed on the values (e.g.~addition,
-multiplication), and when there's a match the \gls{expression} is computed
+multiplication), and when there is a match the \gls{expression} is computed
 accordingly by Java, with the result being returned. This is also where
 \glspl{symbol} are given their values, as the type checker only creates the
 \glspl{symbol} with their name and type, but doesn't have enough information to
@@ -1097,26 +1103,26 @@ was completely overhauled and rebuilt using Scene Builder, which
 provided the opportunity to fill in all the gaps that were originally
 missed.
 
-The GUI code can be found in appendix \ref{appendix:gui-code}. A view of the
-main interface can also be seen in figure \ref{fig:ide-overview}, and the
-\acrshort{repl} in figure \ref{fig:repl-overview}.
+The GUI code can be found in Appendix \ref{appendix:gui-code}. A view of the
+main interface can also be seen in Figure \ref{fig:ide-overview}, and the
+\acrshort{repl} in Figure \ref{fig:repl-overview}.
 
 \subsection{Visual Layout}
-The first stage was to focus on designing the interface itself; figuring
+The first stage was to focus on designing the interface itself: figuring
 out what functionality would be included, where it would go and how it
 would look. This was rather trivial as Scene Builders drag-and-drop
 functionality, coupled with \acrshort{fxml}'s simplicity, made it extremely easy to
 change things and view the results instantly. During this it was
 imperative that the interface was adaptable and wouldn't break when
 manipulated, as was the problem with the first draft. Fortunately there
-were options menus available built to avoid this where each individual
-aspect could be told to adapts its size if needed, allowing the entire
+were option menus available built to avoid this where each individual
+aspect could be told to adapt its size if needed, allowing the entire
 \acrshort{gui} to fit into a given space.
 
 \subsection{Controllers}
 Next was implementing the functionality for interactions with the
 interface, such as when a button is pressed or code is typed. To manage
-this \acrshort{fxml} uses a `controller' - a class it utilises for initialising and
+this, \acrshort{fxml} uses a `controller' - a class it utilises for initialising and
 managing the \acrshort{gui}'s elements. Within this class all the methods to be run
 are stored, and are called upon by \acrshort{fxml} when their corresponding
 component is interacted with. Once this link is made between the \acrshort{gui} and
@@ -1209,7 +1215,7 @@ She explained that in her experience, students of a young age struggle
 to make much sense of error messages and often will simply ask for help
 rather than attempt to understand the meaning. This is mostly due to the
 verbose and confusing nature of the error messages, but also because
-they are younger in age and more unable or unwilling to figure out the
+they are younger in age and more unable or unwilling to solve the
 problem for themselves. As a result, despite the clearer error messages
 they may still not make use of them. However, she did explain that it
 would still be useful as it would make it easier for tutors to figure
@@ -1249,11 +1255,11 @@ been met and is capable of performing to a high standard. To help
 achieve this objective unit tests have been developed for the major
 components of the compilers pipeline, each one using specialised inputs
 that help identify errors specific to section being tested. An example of
-this can be seen in figure \ref{fig:test-example} and figure \ref{fig:test-data-example}.
+this can be seen in Figure \ref{fig:test-example} and Figure \ref{fig:test-data-example}.
 The following explains the testing that took place, and identifies how it
 ensures requirements have been met.
 
-The code used to perform unit testing can be found in appendix \ref{appendix:unit-test-code}.
+The code used to perform unit testing can be found in Appendix \ref{appendix:unit-test-code}.
 
 \subsection{Lexer Testing}
 In the original design of the lexer its primary requirement was to be
@@ -1433,7 +1439,7 @@ compared to existing compilers, and enhances the field by focusing on an
 aspect none others have.
 
 A video of the final product that demonstrates the compilers features
-in full can be seen in figure \ref{appendix:demo-video}.
+in full can be seen in Appendix \ref{appendix:demo-video}.
 
 \section{Future Development}
 While the majority of features were implemented successfully, not
@@ -1524,6 +1530,12 @@ demonstration for my talents in the future.
 	\textit{Why Science Majors Change Their Minds}.
 	[online] The New York Times. Available at:
 	\\\texttt{https://www.kttpro.com/six-phases-of-the-compilation-process/}
+	
+	\bibitem{hackernoon-article} 
+	Wengel, G. (2018).
+	\textit{How to Read Programming Error Messages}.
+	[online] Hackernoon. Available at:
+	\\\texttt{https://hackernoon.com/how-to-read-programming-error-messages-22795982c217}
 	
 	\bibitem{parsing-tools} 
 	Tomassetti, G. (2017).
@@ -1698,104 +1710,104 @@ demonstration for my talents in the future.
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{top-package-diagram}
-		\caption{Top-level Package}
+		\caption{Top-level package}
 		\label{fig:top-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{compilation-package-diagram}
-		\caption{Compilation Package}
+		\caption{Compilation package}
 		\label{fig:compilation-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{lexical-package-diagram}
-		\caption{Lexical Package}
+		\caption{Lexical package}
 		\label{fig:lexical-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{syntax-package-diagram}
-		\caption{Syntax Package}
+		\caption{Syntax package}
 		\label{fig:syntax-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{semantic-package-diagram}
-		\caption{Semantic Package}
+		\caption{Semantic package}
 		\label{fig:semantic-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{generation-package-diagram}
-		\caption{Generation Package}
+		\caption{Generation package}
 		\label{fig:generation-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{source-package-diagram}
-		\caption{Source Package}
+		\caption{Source package}
 		\label{fig:source-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{symbols-package-diagram}
-		\caption{Symbols Package}
+		\caption{Symbols package}
 		\label{fig:symbols-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{errors-package-diagram}
-		\caption{Errors Package}
+		\caption{Errors package}
 		\label{fig:errors-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{exceptions-package-diagram}
-		\caption{Exceptions Package}
+		\caption{Exceptions package}
 		\label{fig:exceptions-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{types-package-diagram}
-		\caption{Types Package}
+		\caption{Types package}
 		\label{fig:types-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{ui-package-diagram}
-		\caption{UI Package}
+		\caption{UI package}
 		\label{fig:ui-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{main-package-diagram}
-		\caption{Main Package}
+		\caption{Main package}
 		\label{fig:main-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{repl-package-diagram}
-		\caption{REPL Package}
+		\caption{REPL package}
 		\label{fig:repl-package-diagram}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{util-package-diagram}
-		\caption{Util Package}
+		\caption{Util package}
 		\label{fig:util-package-diagram}
 	\end{figure}
 
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{ide-overview}
-		\caption{IDE Overview}
+		\caption{IDE overview}
 		\label{fig:ide-overview}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{repl-overview}
-		\caption{REPL Overview}
+		\caption{REPL overview}
 		\label{fig:repl-overview}
 	\end{figure}
 
@@ -1803,78 +1815,78 @@ demonstration for my talents in the future.
 		\centering
 		\includegraphics[width=0.45\textwidth]{expression-code}
 		\includegraphics[width=0.45\textwidth]{expression-tree}
-		\caption{Expression Statement}
+		\caption{Expression statement}
 		\label{fig:expression-statement}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.45\textwidth]{block-code}
 		\includegraphics[width=0.45\textwidth]{block-tree}
-		\caption{Block Statement}
+		\caption{Block statement}
 		\label{fig:block-statement}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.45\textwidth]{conditional-code}
 		\includegraphics[width=0.45\textwidth]{conditional-tree}
-		\caption{Conditional Statement}
+		\caption{Conditional statement}
 		\label{fig:conditional-statement}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.45\textwidth]{loop-code}
 		\includegraphics[width=0.45\textwidth]{loop-tree}
-		\caption{Loop Statement}
+		\caption{Loop statement}
 		\label{fig:loop-statement}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.45\textwidth]{symbol-table-code}
 		\includegraphics[width=0.45\textwidth]{symbol-table}
-		\caption{Symbol Table}
+		\caption{Symbol table}
 		\label{fig:symbol-table}
 	\end{figure}
 	
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{lexical-error}
-		\caption{Lexical Error}
+		\caption{Lexical error}
 		\label{fig:lexical-error}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{syntax-error}
-		\caption{Syntax Error}
+		\caption{Syntax error}
 		\label{fig:syntax-error}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{semantic-error}
-		\caption{Semantic Error}
+		\caption{Semantic error}
 		\label{fig:semantic-error}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{evaluation-exception}
-		\caption{Evaluation Exception}
+		\caption{Evaluation exception}
 		\label{fig:evaluation-exception}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{semantic-exception}
-		\caption{Semantic Exception}
+		\caption{Semantic exception}
 		\label{fig:semantic-exception}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{test-data-example}
-		\caption{Unit Test Data Example}
+		\caption{Unit test data example}
 		\label{fig:test-data-example}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{test-example}
-		\caption{Unit Test Example}
+		\caption{Unit test example}
 		\label{fig:test-example}
 	\end{figure}
 
