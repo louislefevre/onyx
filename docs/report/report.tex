@@ -1136,29 +1136,29 @@ for opening and saving files. The main consideration taken here was
 exception handling - a lot can go wrong if a user opens an invalid file,
 doesn't select a file, or a file changes midway through handling. To
 deal with this each method returns an extensive amount of exceptions,
-each ones purpose being to identify what went wrong. For example, an
+each one's purpose being to identify what went wrong. For example, an
 invalid file extension error (IllegalArgumentException) is handled
 differently to a file not being selected (NullPointerException). This
 extra information gives implementing classes the opportunity to handle
 individual errors it in the proper way, and avoid unexpected results if
 something goes wrong.
 
-For opening and saving files most of the heavy lifting is performed by
-the `FileChooser'; a JavaFX class that provides a dialogue window for
+For opening and saving files, most of the heavy lifting is performed by
+the `FileChooser' - a JavaFX class that provides a dialogue window for
 selecting files and directories. Returned from this is a `File' object
-pointing to the users choice, which is then checked for validation. In
+pointing to the user's choice, which is then checked for validation. In
 the case of opening a file, it is checked to see if it is null (a result
 of not selecting a file), cannot be found (the file has been moved or
 deleted since being selected), has incorrect permissions (the user
 doesn't have read access to the file), or uses an invalid extension (the
 user selected a file type outside of the ones specified). If none of
-these are true, the file is read and its contents returned. For saving
-as the process is identical except for checking that the user has write
+these are true, the file is read and its contents returned. For saving,
+the process is identical except for checking that the user has write
 access instead, otherwise the contents of the code area are written to
-the file. The save method is used for quick saving a work in progress
+the file. The 'Save' method is used for quick saving a work in progress
 file, but is first checked to make sure that it hasn't changed in any
 way (moved, renamed, deleted). If it hasn't the contents are instantly
-written, and if not it defaults back to the save as functionality.
+written, and if not it defaults back to the 'Save As' functionality.
 
 The file manager also keeps a track of the current file being worked on
 and its contents using the variables `currentFile' and `originalText',
@@ -1178,10 +1178,11 @@ originally set, the independent procedures of verification and
 validation were used as a means of quality assurance.
 
 \section{Validation}
-``Validation. The assurance that a product, service, or system meets the
+\emph{``Validation. The assurance that a product, service, or system meets the
 needs of the customer and other identified stakeholders. It often
 involves acceptance and suitability with external customers. Contrast
-with verification.'' - Project Management Body of Knowledge \cite{pmbok-book}
+with verification.''} \\
+- Project Management Body of Knowledge \cite{pmbok-book}
 
 The objective of this procedure is to discover whether or not the
 compiler is successfully able to meet the needs and requirements
@@ -1189,12 +1190,12 @@ previously defined, in order to prove itself as a useful product amongst
 its stakeholders.
 
 \subsection{User Testing}
-At the time of writing it is currently difficult for user testing to
+At the time of writing, it is currently difficult for user testing to
 take place due to the fact the country is currently experiencing a
-lock-down due to the ensuing pandemic. As a result, gathering and
+lockdown due to the ensuing pandemic. As a result, gathering and
 contacting people who are available for testing has proved difficult and
 resulted in a limited sample. However, despite not being able to test
-users directly it has been possible to get in touch with Atikah, a
+users directly, it has been possible to get in touch with Nadirah, a
 coding tutor who works for the computer training school Spark4Kids and
 has experience in helping young children to learn basic programming
 skills.
@@ -1202,7 +1203,7 @@ skills.
 \textbf{Question 1: How do you feel about the scope of the compiler?
 Does it have too many or too little features for its intended
 purpose?}\\
-Atikah explained that she felt the scope of the compiler was just right;
+Nadirah explained that she felt the scope of the compiler was just right;
 it covered all the basics without going into too much of the more
 complex features, which she often found were confusing for beginners to
 deal with. By keeping it limited it made it easier to focus on each
@@ -1226,7 +1227,7 @@ capable of understanding the error messages themselves.
 \textbf{Question 3: Do you feel that the compiler would be a useful tool
 for students learning programming for the first time?}\\
 Due to the well-defined scope of functionality and insightful error
-messages, Atikah agreed that it would prove as a valuable learning tool
+messages, Nadirah agreed that it would prove as a valuable learning tool
 for novice programmers. Most modern languages aren't designed for
 learning and come with a lot of extra functionality that can be
 confusing for beginners to get around, so having a language designed
@@ -1243,26 +1244,27 @@ writing more verbose. If there was an improvement in code readability,
 it would be suppressed by the excess use of characters.
 
 \section{Verification}
-``Verification. The evaluation of whether or not a product, service, or
+\emph{``Verification. The evaluation of whether or not a product, service, or
 system complies with a regulation, requirement, specification, or
 imposed condition. It is often an internal process. Contrast with
-validation.'' - Project Management Body of Knowledge \cite{pmbok-book}
+validation.''}\\
+- Project Management Body of Knowledge \cite{pmbok-book}
 
 The objective of this procedure is to discover whether or not the
 compiler successfully meets the requirements set in terms of
 functionality, design and quality, demonstrating that its goals have
-been met and is capable of performing to a high standard. To help
-achieve this objective unit tests have been developed for the major
+been met and it is capable of performing to a high standard. To help
+achieve this objective, unit tests have been developed for the major
 components of the compilers pipeline, each one using specialised inputs
 that help identify errors specific to section being tested. An example of
-this can be seen in Figure \ref{fig:test-example} and Figure \ref{fig:test-data-example}.
+this can be seen in Figures \ref{fig:test-data-example} and \ref{fig:test-example}.
 The following explains the testing that took place, and identifies how it
 ensures requirements have been met.
 
 The code used to perform unit testing can be found in Appendix \ref{appendix:unit-test-code}.
 
 \subsection{Lexer Testing}
-In the original design of the lexer its primary requirement was to be
+In the original design of the lexer, its primary requirement was to be
 capable of taking a string as input, inspecting each character and
 categorising it into a \gls{token} with the corresponding type, and then
 outputting a list of \glspl{token}. Since all of the tests assess by default
@@ -1288,7 +1290,7 @@ examine the type of \gls{expression} that was returned, and check that it
 matched against the expected outcome.
 
 In order to expand these test cases they were also used in conjunction
-with one another, for example all the tests were wrapped in parentheses
+with one another, for example, all the tests were wrapped in parentheses
 and then passed as parenthesised \glspl{expression}, allowing the amount of
 inputs to expand massively without the need to manually add extra cases.
 This was rather vital to include, as otherwise it would have meant
@@ -1308,7 +1310,7 @@ type meant that type validation was achieved and its function was
 performed correctly.
 
 \subsection{Evaluator Testing}
-The evaluators main job is to evaluate each \gls{expression} and \gls{statement},
+The evaluator's main job is to evaluate each \gls{expression} and \gls{statement},
 returning the resulting values. This was particularly simple to test
 since it only required surveying the final result. Each unit test would
 take \glspl{expression} of a particular type, same as previously, and evaluate
@@ -1333,7 +1335,7 @@ errors should they transpire.
 
 \chapter{Evaluation}
 The success of the project is largely based on whether or not the
-requirements previously discussed in chapter 3 have been met, with each
+requirements previously discussed in Chapter 3 have been met, with each
 of the primary pieces of functionality from the original plans being
 reviewed.
 
@@ -1359,7 +1361,7 @@ compatibility, whilst also producing unexpected results. The main
 limitation is that users can only store integer values up to a maximum
 of 2\^{}31-1, though this is unlikely to be a common problem as they
 will typically be working with smaller numbers for learning. In any
-case, its possible this will be changed so that integers are
+case, it is possible this will be changed so that integers are
 automatically converted to longs whenever a number exceeds the limit
 (with this process being hidden from the user).
 
@@ -1371,7 +1373,7 @@ variables are also accessible on the global scope, making it possible to
 declare them within loops and conditionals.
 
 \section{Intuitive Syntax}
-For the syntax there was a plan to use English words for nearly
+For the syntax, there was a plan to use English words for nearly
 everything in order to make it as intuitive as possible, an example
 being \texttt{var\ equals\ 10}. Though from user testing it became
 apparent that the main audience this was thought to benefit (young
@@ -1394,11 +1396,11 @@ an attempt to remove confusion and frustration during learning experiences.
 To satisfy the objectives for having a program compatible with all
 operating systems whilst also being easy to run, the project was
 developed with Java and built as a JAR artefact using IntelliJ IDEA.
-Since Java runs within the JVM the project only requires Java 11 to be
+Since Java runs within the JVM, the project only requires Java 11 to be
 installed for compatibility, and requires no installation as only the
 JAR/EXE file needs to be run. Furthermore, Onyx does not have its own
 specific file type for opening files, and instead just uses basic text
-files. This further was to again improve compatibility (as all operating
+files. This was to again improve compatibility (as all operating
 systems use text files) and allow users to use a familiar file type
 instead of a new one.
 
@@ -1413,7 +1415,7 @@ Overall, the project has achieved the majority of its goals. As
 discussed in chapter 7, all of the functionality defined in the
 requirements has been successfully implemented (with the exception of
 functions) and the compiler is capable of fulfilling its purpose as a
-learning tool. Its completely stable and doesn't crash at any known
+learning tool. It is completely stable and doesn't crash at any known
 point, with a large unit testing infrastructure in place for maintaining
 integrity. The \acrshort{gui} has been completed with all the core features, and
 has been fitted with a well designed appearance including colour coding
@@ -1423,7 +1425,7 @@ quick. The compiler is compatible with multiple operating systems, and
 is able to run without an installation process.
 
 However as mentioned, functions were not implemented in the final
-version of the compiler. The \acrshort{gui} also lacks extra features non-essential
+version of the compiler. The \acrshort{gui} also lacks extra features
 features which users may find useful for editing code, and doesn't
 include a light theme. There are also some bugs still present for niche
 input cases, which would need to be fixed before it could be used by a
@@ -1431,7 +1433,7 @@ large user-base. More testing also needs to take place on alternative
 operating systems to verify that everything works on each platform.
 
 Furthermore, based on the background study in chapter 2, the compiler is
-successful in solving the initial problem presented; Onyx is a language
+successful in solving the initial problem presented; Onyx is a compiler
 designed purely for learning and keeps beginners in mind the entire
 time, adopting a minimalist attitude and presenting itself as a user
 friendly alternative to learners. It fills an unoccupied space when
@@ -1450,36 +1452,37 @@ what the future may hold for Onyx.
 Improving the compiler correctness, which is a a branch of computer
 science that deals with attempting to show that a compiler behaves
 according to its language specification \cite{correctness-wiki}, would be the primary
-improvement prospect. Given that the project was undertaken alone, its
+improvement prospect. Given that the project was undertaken alone, it is
 difficult to test and fix every possible scenario within the time-frame,
 particularly in the case of compilers where testing is rigorous and
 thorough. Nonetheless, more unit tests are to be added with a wider
 array of cases to be covered, with the intention being to reduce the
-amount of bugs present within the compilers functionality.
+number of bugs present within the compilers functionality.
 
 \subsection{GUI Clean-up}
 Cleaning up the code base for the \acrshort{gui} portion is also planned for the
-future, as currently its rather messy and isn't easy to understand. The
-reason for this is that it was built without prior knowledge of common
-practices or conventions, and was just configured until it worked.
+future, as currently it is rather messy and improvements can be made to improve readability. 
+The reason for this is that it was built without prior knowledge of common
+practices or conventions, and its design was built on a trial-and-error basis, 
+with little rudimentary knowledge of GUI implementation techniques.
 Whilst this isn't much of an issue now considering everything functions
 as expected, over time it will become more difficult to implement more
-features if the foundations are shaky, likely leading to unexpected
-results and hard to track down bugs. The sooner the issue is dealt with,
+features if the foundations are not well established, likely leading to unexpected
+results and deeply hidden bugs. The sooner the issue is dealt with,
 the easier it will be to fix. Extending the \acrshort{gui} with extra features is
 also a prospect, as currently it only contains the most basic
 functionality. Filling in the `Edit' menu would be priority since it is
 currently empty, and would include options for searching for text,
-replacing text, undo/redo changes, copy/pasting, and formatting.
+replacing text, undo/redo changes, copy/paste, and formatting.
 
 \subsection{Implementing Functions}
 Functions were included in the original requirements but never added,
-though implementing them in the future may be useful. Whilst its a
+though implementing them in the future may be useful. Whilst it is a
 concern that functions may be out of scope for Onyx, this issue could be
-avoided if built in such a way that its not too intrusive or complex.
-Plus its possible they could be seen as optional to use rather than
-required, in which case the extra layer of complexity may be avoided by
-users if they wish. However, in-built functions that users could call
+avoided if built in such a way that is not too intrusive or complex.
+In addition, it is possible that including functions may not be seen by 
+future users of Onyx as a necessity, in which case the extra layer of complexity 
+may be avoided by users if they wish. However, in-built functions that users could call
 would prove useful, and could provide functionality for certain
 processes such as type conversion.
 
@@ -1501,8 +1504,10 @@ compilers, but was fascinated by their complexity and felt confident in
 my ability to learn. I've learned a great deal about compiler
 construction and each of the individual components that going into
 building them, and have improved my skills in programming greatly
-throughout development. Though what I am most proud of is the level to
-which I completed the project; I'm satisfied that its met the criteria
+throughout development. I was particularly interested in the aspects of
+compiler construction, and discovered much more than I had initially
+anticipated. Though what I am most proud of is the level to which I 
+completed the project; I'm satisfied that it has met the criteria
 and standards I originally set for myself, and that I've been able to
 produce a strong piece of software that I'll be able to use as a
 demonstration for my talents in the future.
