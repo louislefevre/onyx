@@ -1,7 +1,0 @@
-report.*
-*.log
-!.gitignore
-!report.md
-!report.tex
-!report.pdf
-!images/
